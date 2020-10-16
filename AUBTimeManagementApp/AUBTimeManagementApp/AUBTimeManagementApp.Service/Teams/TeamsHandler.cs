@@ -25,7 +25,7 @@ namespace AUBTimeManagementApp.AUBTimeManagementApp.Service.Teams
             //Remove the teamID from each members' teams in the database
             //Notify online team members
         }
-
+               
         public bool AddMemberRequest(string userToAdd, int teamID)
         {
             //Checks that the username exists
