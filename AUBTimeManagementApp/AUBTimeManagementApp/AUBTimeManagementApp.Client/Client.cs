@@ -14,6 +14,7 @@ namespace AUBTimeManagementApp.AUBTimeManagementApp.Client
 
         void CreateAccount(string username, string password, string email)
         {
+            if(username == "Charbel"){return;}
             //TODO
             this.username = username;
         }
