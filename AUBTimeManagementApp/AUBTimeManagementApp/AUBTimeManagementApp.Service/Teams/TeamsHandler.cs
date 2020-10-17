@@ -16,6 +16,9 @@ namespace AUBTimeManagementApp.AUBTimeManagementApp.Service.Teams
             //Invalid usernames are stored in invalidUsernames
             //Create the team with the valid usernames/teamName/admin
             //Send the details for online users
+
+            invalidUsernames = new string[1];
+            return null;
         }
 
         public bool RemoveTeamRequest(int teamID)
@@ -24,6 +27,8 @@ namespace AUBTimeManagementApp.AUBTimeManagementApp.Service.Teams
             //Delete the team from the database
             //Remove the teamID from each members' teams in the database
             //Notify online team members
+
+            return false;
         }
                
         public bool AddMemberRequest(string userToAdd, int teamID)
@@ -32,6 +37,8 @@ namespace AUBTimeManagementApp.AUBTimeManagementApp.Service.Teams
             //Get the team members
             //Add username to the team
             //Send an add member flag to online users
+
+            return false;
         }
 
         public bool RemoveMemberRequest(string userToRemove, int teamID)
@@ -39,6 +46,8 @@ namespace AUBTimeManagementApp.AUBTimeManagementApp.Service.Teams
             //Get the team members
             //Remove the username from the team
             //Send a remove member flag to online users
+
+            return false;
         }
 
         public bool MakeAdminRequest(string newAdmin, int teamID)
@@ -46,6 +55,8 @@ namespace AUBTimeManagementApp.AUBTimeManagementApp.Service.Teams
             //Set the user as a new admin in the Teams Storage
             //Get the team members
             //Send a new admin flag to online users
+
+            return false;
         }
 
         public bool RemoveAdminRequest(string oldAdmin, int teamID)
@@ -53,18 +64,22 @@ namespace AUBTimeManagementApp.AUBTimeManagementApp.Service.Teams
             //Set the user as a normal member in the Teams Storage
             //Get the team members
             //Send a removed admin flag to online users
+
+            return false;
         }
 
         public Team[] GetPersonalTeams(string username)
         {
             //Gets all team IDs for the user
             //Then all the information for each team and send them back
+
+            return null;
         }
 
         //Same as remove member when the member is the user himself, used like this for readability
         public bool LeaveTeamRequest(string username, int teamID)
         {
-            RemoveMemberRequest(username, teamID);
+            return RemoveMemberRequest(username, teamID);
         }
         #endregion
 
