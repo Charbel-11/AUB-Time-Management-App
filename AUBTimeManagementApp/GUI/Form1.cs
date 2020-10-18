@@ -17,14 +17,26 @@ namespace GUI
             InitializeComponent();
         }
 
-        private void calendar1_LoadItems(object sender, System.Windows.Forms.Calendar.CalendarLoadEventArgs e)
+        public void addTeam(string newTeam, string newMembers)
         {
-
+            teams.Text = teams.Text + "\r\n" + newTeam + ": " + newMembers;
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        public void addEvents(string eventName, int priority)
         {
+            events.Text = events.Text + "\r\n" + eventName + ", " + priority;
+        }
 
+        private void AddTeamButton_Click(object sender, EventArgs e)
+        {
+            AddTeam addTeamWindow = new AddTeam(this);
+            addTeamWindow.Show();
+        }
+
+        private void addEvent_MouseClick(object sender, MouseEventArgs e)
+        {
+            AddEvent addEventWindow = new AddEvent(this);
+            addEventWindow.Show();
         }
     }
 }
