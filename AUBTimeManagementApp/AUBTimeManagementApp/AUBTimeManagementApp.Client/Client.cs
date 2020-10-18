@@ -12,25 +12,26 @@ namespace AUBTimeManagementApp.AUBTimeManagementApp.Client
         private Schedule schedule;
         private Team[] teams;
 
-        void CreateAccount(string username, string password, string email)
+        public void CreateAccount(string username, string password, string email)
         {
-            if(username == "Charbel"){return;}
+            if(username == "Charbel") { return; }
+            
             //TODO
             this.username = username;
         }
 
-        void LogIn(string username, string password)
+        public void LogIn(string username, string password)
         {
             //TODO
             this.username = username;
         }
 
-        void LogOut()
+        public void LogOut()
         {
 
         }
 
-        void ChangePassword(string oldPassword, string oldPasswordCheck, string newPassword)
+        public void ChangePassword(string oldPassword, string oldPasswordCheck, string newPassword)
         {
 
         }
