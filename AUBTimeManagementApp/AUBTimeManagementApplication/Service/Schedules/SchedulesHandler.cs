@@ -3,12 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using AUBTimeManagementApp.DataContracts;
 
-namespace AUBTimeManagementApp.Service.Schedules
-{
-    class SchedulesHandler
-    {
-        public Schedule getUserSchedule(string username)
-        {
+namespace AUBTimeManagementApp.Service.Schedules {
+    class SchedulesHandler {
+        public Schedule getUserSchedule(string username) {
             Schedule userSchedule = new Schedule(true, username);
 
             //Get a list of event IDs
@@ -17,8 +14,7 @@ namespace AUBTimeManagementApp.Service.Schedules
             return userSchedule;
         }
 
-        public Schedule getTeamSchedule(int teamID)
-        {
+        public Schedule getTeamSchedule(int teamID) {
             Schedule teamSchedule = new Schedule(false, "", teamID);
 
             //Get a list of event IDs
@@ -27,8 +23,7 @@ namespace AUBTimeManagementApp.Service.Schedules
             return teamSchedule;
         }
 
-        public Schedule getFilteredSchedule(string username, int priority)
-        {
+        public Schedule getFilteredSchedule(string username, int priority) {
             //Get list of event IDs from the schedule storage
             //Get event details from the event handler
             //Filter the events with the filtering handler
@@ -38,27 +33,22 @@ namespace AUBTimeManagementApp.Service.Schedules
         }
 
         public bool[,] mergeSchedule(List<Schedule> membersSchedule, DateTime startDate, DateTime endDate, 
-            DateTime startTime, DateTime endTime, int countThreshold, int priorityThreshold)
-        {
+            DateTime startTime, DateTime endTime, int countThreshold, int priorityThreshold) {
             int[,] mergedSchedule = new int[7, 24 * 60 + 1];
             bool[,] result = new bool[7, 24 * 60];
             for(int i = 0; i < 7; i++)
-                for(int j = 0; j < 24 * 60; j++)
-                {
+                for(int j = 0; j < 24 * 60; j++) {
                     mergedSchedule[i, j] = 0;
                     result[i, j] = false;
                 }
 
-            foreach(Schedule curSchedule in membersSchedule)
-            {
+            foreach(Schedule curSchedule in membersSchedule) {
                 int i = 0;
-                for(DateTime curDate = startDate; curDate.CompareTo(endDate) <= 0; curDate.AddDays(1), i++)
-                {
+                for(DateTime curDate = startDate; curDate.CompareTo(endDate) <= 0; curDate.AddDays(1), i++) {
                     int day = curDate.Day, month = curDate.Month, year = curDate.Year;
                     List<Event> events = curSchedule.getDailyEvent(day, month, year);
 
-                    foreach(Event curEvent in events)
-                    {
+                    foreach(Event curEvent in events) {
                         if(curEvent.getPriority() < priorityThreshold) { continue; }
                         DateTime eventStart = curEvent.getStart();
                         DateTime eventEnd = curEvent.getEnd();
@@ -80,11 +70,9 @@ namespace AUBTimeManagementApp.Service.Schedules
             int start = 60 * startTime.Hour + startTime.Minute;
             int end = 60 * endTime.Hour + endTime.Minute;
 
-            for(int i = 0; i < 7; i++)
-            {
+            for(int i = 0; i < 7; i++) {
                 int j = start, k = start;
-                while(k != end + 1)
-                {
+                while(k != end + 1) {
                     if(mergedSchedule[i, j] >= countThreshold) { j++; k++; continue; }
                     if(mergedSchedule[i, k] < countThreshold) { k++; continue; }
 
