@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using AUBTimeManagementApp.Service;
 
 namespace AUBTimeManagementApp.GUI
 {
@@ -21,6 +22,7 @@ namespace AUBTimeManagementApp.GUI
         private void createButton_Click(object sender, EventArgs e)
         {
             parent.displayEvent(eventName.Text, priority.Value, startDate.Value.ToString(), endDate.Value.ToString());
+            Close();
         }
     }
 }

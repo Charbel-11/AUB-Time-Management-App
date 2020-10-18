@@ -6,13 +6,30 @@ using AUBTimeManagementApp.Service;
 
 namespace AUBTimeManagementApp.Client
 {
-    class Client
+    public sealed class Client
     {
+        private static readonly Client instance = new Client(); //Singleton
         public string username;
         private Schedule schedule;
-        private Team[] teams;
+        private List<Team> teams;
 
-        public void CreateAccount(string username, string password, string email)
+        // Explicit static constructor to tell C# compiler not to mark type as beforefieldinit
+        static Client()
+        {
+        }
+        private Client()
+        {
+            teams = new List<Team>();
+        }
+        public static Client Instance
+        {
+            get
+            {
+                return instance;
+            }
+        }
+
+        public void createAccount(string username, string password, string email)
         {
             if(username == "Charbel") { return; }
             
@@ -20,20 +37,25 @@ namespace AUBTimeManagementApp.Client
             this.username = username;
         }
 
-        public void LogIn(string username, string password)
+        public void logIn(string username, string password)
         {
             //TODO
             this.username = username;
         }
 
-        public void LogOut()
+        public void logOut()
         {
 
         }
 
-        public void ChangePassword(string oldPassword, string oldPasswordCheck, string newPassword)
+        public void changePassword(string oldPassword, string oldPasswordCheck, string newPassword)
         {
 
+        }
+
+        public void addTeam(Team newTeam)
+        {
+            teams.Add(newTeam);
         }
     }
 }
