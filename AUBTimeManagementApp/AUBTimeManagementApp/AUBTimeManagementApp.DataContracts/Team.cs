@@ -6,5 +6,6 @@ namespace AUBTimeManagementApp.AUBTimeManagementApp.DataContracts
 {
     class Team
     {
+        
     }
 }

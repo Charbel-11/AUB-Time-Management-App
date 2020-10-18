@@ -10,14 +10,13 @@ namespace AUBTimeManagementApp.AUBTimeManagementApp.DataContracts
         private bool userSchedule;  //False if it is a team schedule
         private string usernameID;  //In case it is a user schedule
         private int teamID;         //In case it is a team schedule
-        private List<Event> events;
+        private List<Event>[,,] events = new List<Event>[50, 12, 31];
 
         public Schedule(bool _userSchedule, string _usernameID, int _teamID = 0)
         {
             userSchedule = _userSchedule;
             usernameID = _usernameID;
             teamID = _teamID;
-            events = new List<Event>();
         }
     }
 }
