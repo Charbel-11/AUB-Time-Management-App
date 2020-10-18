@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 
 namespace AUBTimeManagementApp.DataContracts
-{
-    class Team
+{   
+    public class Team
     {
         private int teamID;
         private List<bool> teamAdmin;

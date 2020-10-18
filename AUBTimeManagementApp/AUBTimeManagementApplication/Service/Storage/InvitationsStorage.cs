@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace AUBTimeManagementAp.Service.Storage
+namespace AUBTimeManagementApp.Service.Storage
 {
     class InvitationsStorage
     {
