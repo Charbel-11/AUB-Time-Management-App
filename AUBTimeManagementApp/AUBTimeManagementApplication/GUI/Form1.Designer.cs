@@ -64,7 +64,7 @@
             this.teams.ReadOnly = true;
             this.teams.Size = new System.Drawing.Size(253, 198);
             this.teams.TabIndex = 2;
-            this.teams.Text = "Teams:\r\n\r\n";
+            this.teams.Text = "Teams:";
             // 
             // events
             // 

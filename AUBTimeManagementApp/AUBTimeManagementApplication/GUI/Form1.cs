@@ -19,12 +19,12 @@ namespace AUBTimeManagementApp.GUI
 
         public void displayTeam(string newTeam, string newMembers)
         {
-            teams.Text = teams.Text + "\r\n" + newTeam + ": " + newMembers;
+            teams.Text += "\r\n" + newTeam + ": " + newMembers;
         }
 
         public void displayEvent(string eventName, int priority, string startDate, string endDate)
         {
-            events.Text = events.Text + "\r\n" + eventName + ", " + priority + "\r\n"
+            events.Text += "\r\n" + eventName + ", " + priority + "\r\n"
                 + startDate + " -> " + endDate;
         }
 

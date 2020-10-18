@@ -21,13 +21,11 @@ namespace AUBTimeManagementApp.GUI
             InitializeComponent();
         }
 
-        private void AddTeam_Load(object sender, EventArgs e)
-        {
+        private void AddTeam_Load(object sender, EventArgs e) {
 
         }
 
-        private void createButton_Click(object sender, EventArgs e)
-        {
+        private void createButton_Click(object sender, EventArgs e) {
             members.Text.Split(",");
             //TODO: Add the current user as admin
             TeamsHandler.createTeamRequest("me", teamName.Text, members.Text.Split(","), out string[] invalidUsernames);
