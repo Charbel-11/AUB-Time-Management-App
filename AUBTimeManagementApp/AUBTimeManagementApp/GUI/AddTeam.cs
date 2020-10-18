@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using AUBTimeManagementApp.Service.Teams;
+using AUBTimeManagementApp.Client;
 
 namespace AUBTimeManagementApp.GUI
 {
@@ -26,8 +26,7 @@ namespace AUBTimeManagementApp.GUI
         }
 
         private void createButton_Click(object sender, EventArgs e) {
-            //TODO: Add the current user as admin
-            TeamsHandler.createTeamRequest("me", teamName.Text, members.Text.Split(','), out string[] invalidUsernames);
+            Client.Client.Instance.createTeam(teamName.Text, members.Text.Split(','));
             parent.displayTeam(teamName.Text, members.Text);
             Close();
         }

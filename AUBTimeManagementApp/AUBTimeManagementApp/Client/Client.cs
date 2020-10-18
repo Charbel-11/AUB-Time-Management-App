@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using AUBTimeManagementApp.DataContracts;
 using AUBTimeManagementApp.Service;
+using AUBTimeManagementApp.Service.Teams;
 
 namespace AUBTimeManagementApp.Client
 {
@@ -51,6 +52,9 @@ namespace AUBTimeManagementApp.Client
         public void changePassword(string oldPassword, string oldPasswordCheck, string newPassword)
         {
 
+        }
+        public void createTeam(string teamName, string[] teamMembers) {
+            TeamsHandler.createTeamRequest(username, teamName, teamMembers, out string[] invalidUsernames);
         }
 
         public void addTeam(Team newTeam)

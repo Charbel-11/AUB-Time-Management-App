@@ -6,8 +6,7 @@ using System.Text;
 
 namespace AUBTimeManagementApp.DataContracts
 {
-    class Event
-    {
+    class Event {
         private int ID, priority;
         private string plannerUsername, eventName;
         private List<string> attendees;
