@@ -20,7 +20,7 @@ namespace GUI
         }
         private void createButton_Click(object sender, EventArgs e)
         {
-            parent.addEvents(eventName.text, priority.Value);
+            parent.addEvents(eventName.Text, priority.Value);
         }
     }
 }
