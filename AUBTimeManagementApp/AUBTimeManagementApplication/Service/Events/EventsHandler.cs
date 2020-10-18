@@ -5,11 +5,10 @@ using AUBTimeManagementApp.DataContracts;
 
 namespace AUBTimeManagementApp.Service.Events
 {
-    class EventsHandler
-    {
+    class EventsHandler    {
         public Event createEvent()
         {
-
+            return null;
         }
     }
 }
