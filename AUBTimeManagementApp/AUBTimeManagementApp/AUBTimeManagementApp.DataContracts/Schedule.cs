@@ -18,5 +18,10 @@ namespace AUBTimeManagementApp.AUBTimeManagementApp.DataContracts
             usernameID = _usernameID;
             teamID = _teamID;
         }
+
+        public List<Event> getDailyEvent(int day, int month, int year)
+        {
+            return events[year, month, day];
+        }
     }
 }
