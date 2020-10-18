@@ -32,6 +32,18 @@ namespace AUBTimeManagementApp.Service.Schedules {
             return null;
         }
 
+        /// <summary>
+        /// Merges schedules of more than one user
+        /// <para> </para>
+        /// </summary>
+        /// <param name="membersSchedule"> Schedules to be merge </param>
+        /// <param name="startDate"> Starting day of the week to be merged </param>
+        /// <param name="endDate"> Final day of the week to be merged </param>
+        /// <param name="startTime">Starting time to show results</param>
+        /// <param name="endTime"> Final time to show results </param>
+        /// <param name="countThreshold"></param>
+        /// <param name="priorityThreshold"></param>
+        /// <returns></returns>
         public bool[,] mergeSchedule(List<Schedule> membersSchedule, DateTime startDate, DateTime endDate, 
             DateTime startTime, DateTime endTime, int countThreshold, int priorityThreshold) {
             int[,] mergedSchedule = new int[7, 24 * 60 + 1];
