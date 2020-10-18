@@ -33,5 +33,9 @@ namespace AUBTimeManagementApp.AUBTimeManagementApp.DataContracts
         {
             return endTime;
         }
+        public int getPriority()
+        {
+            return priority;
+        }
     }
 }

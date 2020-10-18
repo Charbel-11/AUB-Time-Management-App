@@ -37,10 +37,17 @@ namespace AUBTimeManagementApp.AUBTimeManagementApp.Service.Schedules
             return null;
         }
 
-        public bool[,] mergeSchedule(List<Schedule> membersSchedule, DateTime startDate, DateTime endDate, int countThreshold, int priorityThreshold, int startTime, int endTime)
+        public bool[,] mergeSchedule(List<Schedule> membersSchedule, DateTime startDate, DateTime endDate, 
+            DateTime startTime, DateTime endTime, int countThreshold, int priorityThreshold)
         {
-            bool[,] result = new bool[7, 24 * 60]; //!!!make sure it is initialized to ZERO!!!   
             int[,] mergedSchedule = new int[7, 24 * 60 + 1];
+            bool[,] result = new bool[7, 24 * 60];
+            for(int i = 0; i < 7; i++)
+                for(int j = 0; j < 24 * 60; j++)
+                {
+                    mergedSchedule[i, j] = 0;
+                    result[i, j] = false;
+                }
 
             foreach(Schedule curSchedule in membersSchedule)
             {
@@ -52,10 +59,11 @@ namespace AUBTimeManagementApp.AUBTimeManagementApp.Service.Schedules
 
                     foreach(Event curEvent in events)
                     {
-                        DateTime start = curEvent.getStart();
-                        DateTime end = curEvent.getEnd();
-                        int startHour = start.Hour, startMinute = start.Minute;
-                        int endHour = end.Hour, endMinute = end.Minute;
+                        if(curEvent.getPriority() < priorityThreshold) { continue; }
+                        DateTime eventStart = curEvent.getStart();
+                        DateTime eventEnd = curEvent.getEnd();
+                        int startHour = eventStart.Hour, startMinute = eventStart.Minute;
+                        int endHour = eventEnd.Hour, endMinute = eventEnd.Minute;
 
                         int startIndex = 60 * startHour + startMinute;
                         int endIndex = 60 * endHour + endMinute;
@@ -69,7 +77,21 @@ namespace AUBTimeManagementApp.AUBTimeManagementApp.Service.Schedules
                 for (int j = 1; j < 24 * 60; j++)
                     mergedSchedule[i, j] += mergedSchedule[i, j - 1];
 
+            int start = 60 * startTime.Hour + startTime.Minute;
+            int end = 60 * endTime.Hour + endTime.Minute;
 
+            for(int i = 0; i < 7; i++)
+            {
+                int j = start, k = start;
+                while(k != end + 1)
+                {
+                    if(mergedSchedule[i, j] >= countThreshold) { j++; k++; continue; }
+                    if(mergedSchedule[i, k] < countThreshold) { k++; continue; }
+
+                    while(j != k) { result[i, j] = true; j++; }
+                }
+                while (j != k) { result[i, j] = true; j++; }
+            }
 
             return result;
         }
