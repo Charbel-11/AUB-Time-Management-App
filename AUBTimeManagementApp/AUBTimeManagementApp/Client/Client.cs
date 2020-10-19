@@ -12,13 +12,20 @@ namespace AUBTimeManagementApp.Client
     public sealed class Client
     {
         private static readonly Client instance = new Client(); //Singleton
+
+        private static readonly string serverIP = "127.0.0.1";
+        private static readonly int serverPort = 8020;
+
         public string username;
         private Schedule schedule;
         private List<Team> teams;
         // Explicit static constructor to tell C# compiler not to mark type as beforefieldinit
         static Client()
         {
+
         }
+    
+        //Constructor executed once the first time Client is used
         private Client()
         {
             teams = new List<Team>();
@@ -29,6 +36,11 @@ namespace AUBTimeManagementApp.Client
             {
                 return instance;
             }
+        }
+
+        public void initializeSocket() {
+            ClientHandleData.InitializePacketListener();
+            ClientTCP.InitializeClientSocket(serverIP, serverPort);
         }
 
         public void createAccount(string username, string password, string email)

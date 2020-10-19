@@ -46,7 +46,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ByteBuffer.cs" />
     <Compile Include="Client\Client.cs" />
+    <Compile Include="Client\ClientHandleData.cs" />
+    <Compile Include="Client\ClientTCP.cs" />
+    <Compile Include="Client\Packages.cs" />
     <Compile Include="DataContracts\Event.cs" />
     <Compile Include="DataContracts\Schedule.cs" />
     <Compile Include="DataContracts\Team.cs" />

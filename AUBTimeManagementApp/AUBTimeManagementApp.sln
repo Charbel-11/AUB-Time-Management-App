@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "System.Windows.Forms.Calend
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AUBTimeManagementApp", "AUBTimeManagementApp\AUBTimeManagementApp.csproj", "{DF40DA32-1BF4-4FBC-8CD4-68CA8F7F6317}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server", "Server\Server.csproj", "{C794421E-90D5-4612-9DDB-4518DB740059}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{DF40DA32-1BF4-4FBC-8CD4-68CA8F7F6317}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DF40DA32-1BF4-4FBC-8CD4-68CA8F7F6317}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DF40DA32-1BF4-4FBC-8CD4-68CA8F7F6317}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C794421E-90D5-4612-9DDB-4518DB740059}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C794421E-90D5-4612-9DDB-4518DB740059}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C794421E-90D5-4612-9DDB-4518DB740059}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C794421E-90D5-4612-9DDB-4518DB740059}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
