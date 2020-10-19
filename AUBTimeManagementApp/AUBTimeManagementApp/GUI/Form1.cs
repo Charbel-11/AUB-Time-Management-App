@@ -39,5 +39,11 @@ namespace AUBTimeManagementApp.GUI
             AddEvent addEventWindow = new AddEvent(this);
             addEventWindow.Show();
         }
+
+        private void findTime_Click(object sender, EventArgs e)
+        {
+            freeTime.Text = (Client.Client.Instance.findFreeTime());
+        }
+
     }
 }
