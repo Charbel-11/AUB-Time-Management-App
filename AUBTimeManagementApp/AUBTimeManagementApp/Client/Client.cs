@@ -19,6 +19,7 @@ namespace AUBTimeManagementApp.Client
         public string username;
         private Schedule schedule;
         private List<Team> teams;
+        private List<Event> events; 
         // Explicit static constructor to tell C# compiler not to mark type as beforefieldinit
         static Client()
         {
@@ -29,6 +30,7 @@ namespace AUBTimeManagementApp.Client
         private Client()
         {
             teams = new List<Team>();
+            events = new List<Event>();
         }
         public static Client Instance
         {
@@ -79,5 +81,23 @@ namespace AUBTimeManagementApp.Client
 		{
             EventsHandler.createPersonalEvent(eventname, priority, startDate, endDate);
 		}
+        public void addEvent(Event newEvent)
+        {
+            events.Add(newEvent);
+        }
+
+        public string findFreeTime()
+        {
+            string s = "Find free time: \r\n All the time except: \r\n";
+            foreach (Event e in events)
+            {
+                DateTime start, end;
+                start = e.getStart();
+                end = e.getEnd();
+                s += start + "->" + end + "\r\n";
+            }
+            return s;
+        }
     }
+
 }

@@ -33,33 +33,35 @@ namespace AUBTimeManagementApp.Service.Schedules {
             return null;
         }
 
-        public bool addEventToList(string username, int eventID)
-		{
+        public bool addEventToList(string username, int eventID) { 
             //gets username and event ID
             //when user creates an event add it to his schedule
             return false;
 		}
 
-        public bool removeEventFromList(string username, int eventID)
-		{
+        public bool removeEventFromList(string username, int eventID) {
             //gets username abd event ID
             //when user cancels event remove it from his schedule
             return false;
 		}
 
-        public int[,] mergeSchedules(List<Schedule> membersSchedule, DateTime startDate, DateTime endDate, int priorityThreshold)
-        {
+        /// <summary>
+        /// Merges many schedules over 1 week
+        /// </summary>
+        /// <param name="membersSchedule"> Schedules to merge </param>
+        /// <param name="startDate"> First Day of the week to be merged </param>
+        /// <param name="endDate"> Last Day of the week to be merged </param>
+        /// <param name="priorityThreshold">Threshold priority of events to be considered </param>
+        /// <returns> A table showing how many events overlap at any given time int that week </returns>
+        private int[,] mergeSchedules(List<Schedule> membersSchedule, DateTime startDate, DateTime endDate, int priorityThreshold) {
             int[,] mergedSchedule = new int[7, 24 * 60 + 1];
-            foreach (Schedule curSchedule in membersSchedule)
-            {
+            foreach (Schedule curSchedule in membersSchedule) {
                 int i = 0;
-                for (DateTime curDate = startDate; curDate.CompareTo(endDate) <= 0; curDate.AddDays(1), i++)
-                {
+                for (DateTime curDate = startDate; curDate.CompareTo(endDate) <= 0; curDate.AddDays(1), i++) {
                     int day = curDate.Day, month = curDate.Month, year = curDate.Year;
                     List<Event> events = curSchedule.getDailyEvent(day, month, year);
 
-                    foreach (Event curEvent in events)
-                    {
+                    foreach (Event curEvent in events) {
                         if (curEvent.getPriority() < priorityThreshold) { continue; }
                         DateTime eventStart = curEvent.getStart();
                         DateTime eventEnd = curEvent.getEnd();
@@ -82,17 +84,17 @@ namespace AUBTimeManagementApp.Service.Schedules {
         }
 
         /// <summary>
-        /// Merges schedules of more than one user
+        /// Finds free time slots in multiple schedules
         /// <para> </para>
         /// </summary>
         /// <param name="membersSchedule"> Schedules to be merge </param>
-        /// <param name="startDate"> Starting day of the week to be merged </param>
-        /// <param name="endDate"> Final day of the week to be merged </param>
-        /// <param name="startTime">Starting time to show results</param>
-        /// <param name="endTime"> Final time to show results </param>
-        /// <param name="countThreshold"></param>
-        /// <param name="priorityThreshold"></param>
-        /// <returns></returns>
+        /// <param name="startDate"> First day of the week to be considered </param>
+        /// <param name="endDate"> Last day of the week to be considered </param>
+        /// <param name="startTime">Starting time where results are needed </param>
+        /// <param name="endTime"> Final time where results are needed </param>
+        /// <param name="countThreshold"> Threshold count for a time slot to be considered occupied (not free)</param>
+        /// <param name="priorityThreshold"> Threshold priority of events to be considered when merging schedules </param>
+        /// <returns> A table showing the availability of each time slot (1->free; 0->notFree)</returns>
         public bool[,] getFreeTime(List<Schedule> membersSchedule, DateTime startDate, DateTime endDate, 
             DateTime startTime, DateTime endTime, int countThreshold, int priorityThreshold) {
             int[,] mergedSchedule = mergeSchedules(membersSchedule, startDate, endDate, priorityThreshold);
