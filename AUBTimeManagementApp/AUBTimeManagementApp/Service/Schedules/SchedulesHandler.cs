@@ -47,36 +47,20 @@ namespace AUBTimeManagementApp.Service.Schedules {
             return false;
 		}
 
-        /// <summary>
-        /// Merges schedules of more than one user
-        /// <para> </para>
-        /// </summary>
-        /// <param name="membersSchedule"> Schedules to be merge </param>
-        /// <param name="startDate"> Starting day of the week to be merged </param>
-        /// <param name="endDate"> Final day of the week to be merged </param>
-        /// <param name="startTime">Starting time to show results</param>
-        /// <param name="endTime"> Final time to show results </param>
-        /// <param name="countThreshold"></param>
-        /// <param name="priorityThreshold"></param>
-        /// <returns></returns>
-        public bool[,] mergeSchedule(List<Schedule> membersSchedule, DateTime startDate, DateTime endDate, 
-            DateTime startTime, DateTime endTime, int countThreshold, int priorityThreshold) {
+        public int[,] mergeSchedules(List<Schedule> membersSchedule, DateTime startDate, DateTime endDate, int priorityThreshold)
+        {
             int[,] mergedSchedule = new int[7, 24 * 60 + 1];
-            bool[,] result = new bool[7, 24 * 60];
-            for(int i = 0; i < 7; i++)
-                for(int j = 0; j < 24 * 60; j++) {
-                    mergedSchedule[i, j] = 0;
-                    result[i, j] = false;
-                }
-
-            foreach(Schedule curSchedule in membersSchedule) {
+            foreach (Schedule curSchedule in membersSchedule)
+            {
                 int i = 0;
-                for(DateTime curDate = startDate; curDate.CompareTo(endDate) <= 0; curDate.AddDays(1), i++) {
+                for (DateTime curDate = startDate; curDate.CompareTo(endDate) <= 0; curDate.AddDays(1), i++)
+                {
                     int day = curDate.Day, month = curDate.Month, year = curDate.Year;
                     List<Event> events = curSchedule.getDailyEvent(day, month, year);
 
-                    foreach(Event curEvent in events) {
-                        if(curEvent.getPriority() < priorityThreshold) { continue; }
+                    foreach (Event curEvent in events)
+                    {
+                        if (curEvent.getPriority() < priorityThreshold) { continue; }
                         DateTime eventStart = curEvent.getStart();
                         DateTime eventEnd = curEvent.getEnd();
                         int startHour = eventStart.Hour, startMinute = eventStart.Minute;
@@ -93,6 +77,26 @@ namespace AUBTimeManagementApp.Service.Schedules {
             for (int i = 0; i < 7; i++)
                 for (int j = 1; j < 24 * 60; j++)
                     mergedSchedule[i, j] += mergedSchedule[i, j - 1];
+
+            return mergedSchedule;
+        }
+
+        /// <summary>
+        /// Merges schedules of more than one user
+        /// <para> </para>
+        /// </summary>
+        /// <param name="membersSchedule"> Schedules to be merge </param>
+        /// <param name="startDate"> Starting day of the week to be merged </param>
+        /// <param name="endDate"> Final day of the week to be merged </param>
+        /// <param name="startTime">Starting time to show results</param>
+        /// <param name="endTime"> Final time to show results </param>
+        /// <param name="countThreshold"></param>
+        /// <param name="priorityThreshold"></param>
+        /// <returns></returns>
+        public bool[,] getFreeTime(List<Schedule> membersSchedule, DateTime startDate, DateTime endDate, 
+            DateTime startTime, DateTime endTime, int countThreshold, int priorityThreshold) {
+            int[,] mergedSchedule = mergeSchedules(membersSchedule, startDate, endDate, priorityThreshold);
+            bool[,] result = new bool[7, 24 * 60];
 
             int start = 60 * startTime.Hour + startTime.Minute;
             int end = 60 * endTime.Hour + endTime.Minute;
