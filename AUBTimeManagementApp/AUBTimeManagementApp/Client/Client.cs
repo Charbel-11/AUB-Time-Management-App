@@ -4,6 +4,8 @@ using System.Text;
 using AUBTimeManagementApp.DataContracts;
 using AUBTimeManagementApp.Service;
 using AUBTimeManagementApp.Service.Teams;
+using AUBTimeManagementApp.Service.Events;
+
 
 namespace AUBTimeManagementApp.Client
 {
@@ -13,7 +15,6 @@ namespace AUBTimeManagementApp.Client
         public string username;
         private Schedule schedule;
         private List<Team> teams;
-
         // Explicit static constructor to tell C# compiler not to mark type as beforefieldinit
         static Client()
         {
@@ -61,5 +62,10 @@ namespace AUBTimeManagementApp.Client
         {
             teams.Add(newTeam);
         }
+
+        public void createEvent(string eventname, int priority, DateTime startDate, DateTime endDate)
+		{
+            EventsHandler.createPersonalEvent(eventname, priority, startDate, endDate);
+		}
     }
 }

@@ -5,6 +5,7 @@ using AUBTimeManagementApp.DataContracts;
 
 namespace AUBTimeManagementApp.Service.Schedules {
     class SchedulesHandler {
+
         public Schedule getUserSchedule(string username) {
             Schedule userSchedule = new Schedule(true, username);
 
@@ -31,6 +32,20 @@ namespace AUBTimeManagementApp.Service.Schedules {
 
             return null;
         }
+
+        public bool addEventToList(string username, int eventID)
+		{
+            //gets username and event ID
+            //when user creates an event add it to his schedule
+            return false;
+		}
+
+        public bool removeEventFromList(string username, int eventID)
+		{
+            //gets username abd event ID
+            //when user cancels event remove it from his schedule
+            return false;
+		}
 
         /// <summary>
         /// Merges schedules of more than one user
