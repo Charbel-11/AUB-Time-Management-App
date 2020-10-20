@@ -7,7 +7,7 @@ using AUBTimeManagementApp;
 
 namespace AUBTimeManagementApp.Client {
     class ClientHandleData {
-        private static ByteBuffer ClientBuffer;
+        private static BufferHelper ClientBufferH;
         public delegate void PacketF(byte[] Data);
         public static Dictionary<int, PacketF> PacketListener;
 
@@ -25,21 +25,21 @@ namespace AUBTimeManagementApp.Client {
             int pLength = 0;    //Packet length
             byte[] buffer = (byte[])data.Clone();   //To avoid shallow copies
 
-            if (ClientBuffer == null) { ClientBuffer = new ByteBuffer(); }
+            if (ClientBufferH == null) { ClientBufferH = new BufferHelper(); }
 
-            ClientBuffer.WriteBytes(buffer);
-            if (ClientBuffer.Length() < 4)  //Considers previously received data
+            ClientBufferH.WriteBytes(buffer);
+            if (ClientBufferH.Length() < 4)  //Considers previously received data
             {
-                ClientBuffer.Clear();
+                ClientBufferH.Clear();
                 return;
             }
 
-            pLength = ClientBuffer.ReadInteger(false);      //Doesn't advance before all the packet is here
-            while (pLength >= 4 && pLength <= ClientBuffer.Length() - 4) {
-                ClientBuffer.ReadInteger();
-                int packageID = ClientBuffer.ReadInteger();
+            pLength = ClientBufferH.ReadInteger(false);      //Doesn't advance before all the packet is here
+            while (pLength >= 4 && pLength <= ClientBufferH.Length() - 4) {
+                ClientBufferH.ReadInteger();
+                int packageID = ClientBufferH.ReadInteger();
                 pLength -= 4;
-                data = ClientBuffer.ReadBytes(pLength);
+                data = ClientBufferH.ReadBytes(pLength);
                 if (PacketListener.TryGetValue(packageID, out PacketF packet))
                     packet.Invoke(data);
                 else {
@@ -48,18 +48,18 @@ namespace AUBTimeManagementApp.Client {
                 }
 
                 pLength = 0;
-                if (ClientBuffer.Length() >= 4)
-                    pLength = ClientBuffer.ReadInteger(false);
+                if (ClientBufferH.Length() >= 4)
+                    pLength = ClientBufferH.ReadInteger(false);
             }
 
-            if (pLength < 4) { ClientBuffer.Clear(); }
+            if (pLength < 4) { ClientBufferH.Clear(); }
         }
         private static void HandleMessage(byte[] data) {
-            ByteBuffer buffer = new ByteBuffer();
-            buffer.WriteBytes(data);
-            string msg = buffer.ReadString();
-          
-            buffer.Dispose();
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteBytes(data);
+            string msg = bufferH.ReadString();
+
+            bufferH.Dispose();
         }
 
         // OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH 
@@ -68,13 +68,13 @@ namespace AUBTimeManagementApp.Client {
 
         public static void HandleLoginReply(byte[] data)
         {
-            ByteBuffer buffer = new ByteBuffer();
-            buffer.WriteBytes(data);    //Add the byte[] array to our buffer so that we can read from it
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteBytes(data);    //Add the byte[] array to our buffer so that we can read from it
 
             // Read verification result from accounts handler
-            bool isUser = buffer.ReadBool();
-            string message = buffer.ReadString();
-            buffer.Dispose();
+            bool isUser = bufferH.ReadBool();
+            string message = bufferH.ReadString();
+            bufferH.Dispose();
 //            return new KeyValuePair<bool, string>(isUser, message);
 //Function must have this specific signature so it fits in the dictionary PacketListener
         }

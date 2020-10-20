@@ -29,14 +29,14 @@ namespace Server {
         /// <param name="ConnectionID"></param>
         /// <returns></returns>
         public static bool HandleAuth(int ConnectionID) {
-            if (ServerTCP.ClientObjects[ConnectionID].buffer.Length() < 12) {
+            if (ServerTCP.ClientObjects[ConnectionID].bufferH.Length() < 12) {
                 ServerTCP.ClientObjects[ConnectionID].CloseConnection();
                 return false;
             }
 
-            int len = ServerTCP.ClientObjects[ConnectionID].buffer.ReadInteger();
-            int id1 = ServerTCP.ClientObjects[ConnectionID].buffer.ReadInteger();
-            int id2 = ServerTCP.ClientObjects[ConnectionID].buffer.ReadInteger();
+            int len = ServerTCP.ClientObjects[ConnectionID].bufferH.ReadInteger();
+            int id1 = ServerTCP.ClientObjects[ConnectionID].bufferH.ReadInteger();
+            int id2 = ServerTCP.ClientObjects[ConnectionID].bufferH.ReadInteger();
             if (len == 8 && id1 == 19239485 && id2 == 5680973) {
                 ServerTCP.ClientObjects[ConnectionID].authenticated = true;
                 Console.WriteLine(ConnectionID + " was successfully authenticated");
@@ -73,31 +73,31 @@ namespace Server {
                 byte[] buffer = (byte[])data.Clone();   //To avoid shallow copies
 
                 if (!ServerTCP.ClientObjects.ContainsKey(ConnectionID)) { return; }
-                if (ServerTCP.ClientObjects[ConnectionID].buffer == null)
-                    ServerTCP.ClientObjects[ConnectionID].buffer = new ByteBuffer();
+                if (ServerTCP.ClientObjects[ConnectionID].bufferH == null)
+                    ServerTCP.ClientObjects[ConnectionID].bufferH = new BufferHelper();
 
-                ServerTCP.ClientObjects[ConnectionID].buffer.WriteBytes(buffer);
+                ServerTCP.ClientObjects[ConnectionID].bufferH.WriteBytes(buffer);
                 if (!ServerTCP.ClientObjects[ConnectionID].authenticated) {
                     bool a = HandleAuth(ConnectionID);
                     if (!a) { return; }
-                    if (ServerTCP.ClientObjects[ConnectionID].buffer.Length() == 0) { return; }
+                    if (ServerTCP.ClientObjects[ConnectionID].bufferH.Length() == 0) { return; }
                 }
 
-                if (ServerTCP.ClientObjects[ConnectionID].buffer.Length() < 4) {
+                if (ServerTCP.ClientObjects[ConnectionID].bufferH.Length() < 4) {
                     Console.WriteLine("Buffer is too empty");
-                    ServerTCP.ClientObjects[ConnectionID].buffer.Clear();
+                    ServerTCP.ClientObjects[ConnectionID].bufferH.Clear();
                     return;
                 }
 
                 if (!ServerTCP.ClientObjects.ContainsKey(ConnectionID)) { return; }
-                pLength = ServerTCP.ClientObjects[ConnectionID].buffer.ReadInteger(false);  //Advances only when the whole packet is here
-                while (pLength >= 4 && pLength <= ServerTCP.ClientObjects[ConnectionID].buffer.Length() - 4)    //-4 since readPos hasn't advanced yet
+                pLength = ServerTCP.ClientObjects[ConnectionID].bufferH.ReadInteger(false);  //Advances only when the whole packet is here
+                while (pLength >= 4 && pLength <= ServerTCP.ClientObjects[ConnectionID].bufferH.Length() - 4)    //-4 since readPos hasn't advanced yet
                 {
-                    ServerTCP.ClientObjects[ConnectionID].buffer.ReadInteger();
+                    ServerTCP.ClientObjects[ConnectionID].bufferH.ReadInteger();
 
-                    int packageID = ServerTCP.ClientObjects[ConnectionID].buffer.ReadInteger();
+                    int packageID = ServerTCP.ClientObjects[ConnectionID].bufferH.ReadInteger();
                     pLength -= 4;
-                    data = ServerTCP.ClientObjects[ConnectionID].buffer.ReadBytes(pLength);
+                    data = ServerTCP.ClientObjects[ConnectionID].bufferH.ReadBytes(pLength);
 
                     //Call the appropriate function in case of a correct packageID
                     if (PacketListener.TryGetValue(packageID, out PacketF packet))
@@ -107,11 +107,11 @@ namespace Server {
                     if (!ServerTCP.ClientObjects.ContainsKey(ConnectionID)) { return; }
 
                     pLength = 0;
-                    if (ServerTCP.ClientObjects[ConnectionID].buffer.Length() >= 4)
-                        pLength = ServerTCP.ClientObjects[ConnectionID].buffer.ReadInteger(false);
+                    if (ServerTCP.ClientObjects[ConnectionID].bufferH.Length() >= 4)
+                        pLength = ServerTCP.ClientObjects[ConnectionID].bufferH.ReadInteger(false);
                 }
 
-                if (pLength < 4 && ServerTCP.ClientObjects.ContainsKey(ConnectionID)) { ServerTCP.ClientObjects[ConnectionID].buffer.Clear(); }
+                if (pLength < 4 && ServerTCP.ClientObjects.ContainsKey(ConnectionID)) { ServerTCP.ClientObjects[ConnectionID].bufferH.Clear(); }
             }
             catch (Exception e) {
                 Console.WriteLine(e.ToString());
@@ -120,26 +120,26 @@ namespace Server {
 
 
         private static void HandleMessage(int ConnectionID, byte[] data) {
-            ByteBuffer buffer = new ByteBuffer();
-            buffer.WriteBytes(data);
-            string msg = buffer.ReadString();
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteBytes(data);
+            string msg = bufferH.ReadString();
             Console.WriteLine(msg);
-            buffer.Dispose();
+            bufferH.Dispose();
         }
         
         //Some client used PACKAGE_Login, we handle it here
         private static void HandleLogin(int ConnectionID, byte[] data) {
-            ByteBuffer buffer = new ByteBuffer();
-            buffer.WriteBytes(data);
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteBytes(data);
 
             // OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH 
 
             // Nourhane
             // Read username and password to buffer
-            string username = buffer.ReadString();
-            string password = buffer.ReadString();
+            string username = bufferH.ReadString();
+            string password = bufferH.ReadString();
 
-            buffer.Dispose();
+            bufferH.Dispose();
 
             // Call AccountsHandler 
             bool isUser = AccountsHandler.LogIn(username, password);

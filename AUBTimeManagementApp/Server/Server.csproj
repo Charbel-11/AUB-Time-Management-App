@@ -43,7 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ByteBuffer.cs" />
+    <Compile Include="BufferHelper.cs" />
     <Compile Include="ClientObject.cs" />
     <Compile Include="Packages.cs" />
     <Compile Include="Program.cs" />

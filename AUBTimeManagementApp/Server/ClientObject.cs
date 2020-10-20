@@ -14,7 +14,7 @@ namespace Server {
         public TcpClient Socket;
         public NetworkStream myStream;  //Needed to send and receive data between this specific client client and the server
         public byte[] ReceiveBuffer;    //Stores all the information we are sending from the client to the server or from the server to the client
-        public ByteBuffer buffer;
+        public BufferHelper bufferH;
         public List<byte[]> BufferList = new List<byte[]>();
 
         public int ConnectionID;
@@ -37,9 +37,9 @@ namespace Server {
             
             //Larger sent/receiveed packets are split but smaller packets are sent/received together
             Socket.ReceiveBufferSize = 4096;    
-            Socket.SendBufferSize = 4096;       
+            Socket.SendBufferSize = 4096;
 
-            buffer = new ByteBuffer();
+            bufferH = new BufferHelper();
             ReceiveBuffer = new byte[4096];
             myStream = Socket.GetStream();
 
@@ -95,7 +95,7 @@ namespace Server {
             Console.WriteLine("Connection from {0} has been terminated", IP);
             authenticated = false;
 
-            if (buffer != null) { buffer.Dispose(); buffer = null; }
+            if (bufferH != null) { bufferH.Dispose(); bufferH = null; }
             if (Socket != null) { Socket.Close(); Socket = null; }
 
             ServerTCP.ClientObjects.TryRemove(ConnectionID, out ClientObject wtv);

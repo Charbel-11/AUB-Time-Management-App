@@ -62,7 +62,7 @@ namespace Server {
                 return;
             }
 
-            ByteBuffer buffer = new ByteBuffer();
+            BufferHelper buffer = new BufferHelper();
             //Writes the length of the data first
             buffer.WriteInteger(data.GetUpperBound(0) - data.GetLowerBound(0) + 1);
             buffer.WriteBytes(data);
@@ -78,7 +78,7 @@ namespace Server {
         /// <param name="ConnectionID">Connection ID of the target user</param>
         /// <param name="msg">Message to be sent</param>
         public static void PACKET_SendMessage(int ConnectionID, string msg) {
-            ByteBuffer buffer = new ByteBuffer();
+            BufferHelper buffer = new BufferHelper();
             buffer.WriteInteger((int)ServerPackages.SMsg);
             buffer.WriteString(msg);
             SendDataTo(ConnectionID, buffer.ToArray());
@@ -86,7 +86,7 @@ namespace Server {
         }
 
         public static void PACKET_SendLoginReply(int ConnectionID, bool isUser) {
-            ByteBuffer buffer = new ByteBuffer();
+            BufferHelper buffer = new BufferHelper();
             buffer.WriteInteger((int)ServerPackages.SLoginReply);
 
             // Write bool on buffer

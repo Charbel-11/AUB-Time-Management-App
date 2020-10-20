@@ -60,7 +60,8 @@ namespace AUBTimeManagementApp.Client
 
             // OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH
             // Nourhane
-            return ClientHandleData.HandleLogin(username, password);
+            //      return ClientHandleData.HandleLogin(username, password);
+            return new KeyValuePair<bool, string>(true, "SS");
             // OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH
         }
 

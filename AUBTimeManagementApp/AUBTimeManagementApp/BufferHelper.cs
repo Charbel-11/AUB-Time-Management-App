@@ -8,14 +8,14 @@ namespace AUBTimeManagementApp {
     /// <summary>
     /// Buffer class that allows to send and receive data in a simple manner
     /// </summary>
-    public class ByteBuffer : IDisposable {
+    public class BufferHelper : IDisposable {
         //We need the array of bytes to be able to use BitConverter 
         private List<Byte> Buff;        //Main buffer (data container)
         private byte[] readBuff;        //Data ready to be read
         private int readPos;            //Index of first unread byte
         private bool buffUpdated = false;
 
-        public ByteBuffer() {
+        public BufferHelper() {
             Buff = new List<Byte>();
             readPos = 0;
         }

@@ -46,7 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ByteBuffer.cs" />
+    <Compile Include="BufferHelper.cs" />
     <Compile Include="Client\Client.cs" />
     <Compile Include="Client\ClientHandleData.cs" />
     <Compile Include="Client\ClientTCP.cs" />

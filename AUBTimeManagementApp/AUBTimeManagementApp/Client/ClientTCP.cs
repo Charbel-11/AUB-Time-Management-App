@@ -48,43 +48,43 @@ namespace AUBTimeManagementApp.Client {
                 ClientSocket.Close();
                 throw new Exception();
             }
-            ByteBuffer buffer = new ByteBuffer();
-            buffer.WriteInteger((data.GetUpperBound(0) - data.GetLowerBound(0) + 1));
-            buffer.WriteBytes(data);
-            byte[] tmp = buffer.ToArray();
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteInteger((data.GetUpperBound(0) - data.GetLowerBound(0) + 1));
+            bufferH.WriteBytes(data);
+            byte[] tmp = bufferH.ToArray();
             myStream.Write(tmp, 0, tmp.Length);
-            buffer.Dispose();
+            bufferH.Dispose();
         }
 
         public static void Authenticate() {
-            ByteBuffer buf = new ByteBuffer();
-            buf.WriteInteger(19239485); buf.WriteInteger(5680973);
-            ClientTCP.SendData(buf.ToArray());
-            buf.Dispose();
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteInteger(19239485); bufferH.WriteInteger(5680973);
+            ClientTCP.SendData(bufferH.ToArray());
+            bufferH.Dispose();
         }
 
         public static void PACKAGE_Message(string msg) {
-            ByteBuffer buffer = new ByteBuffer();
-            buffer.WriteInteger((int)ClientPackages.CMsg);
-            
-            buffer.WriteString(msg);
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteInteger((int)ClientPackages.CMsg);
 
-            SendData(buffer.ToArray());
-            buffer.Dispose();
+            bufferH.WriteString(msg);
+
+            SendData(bufferH.ToArray());
+            bufferH.Dispose();
         }
 
         public static void PACKAGE_Login(string username, string password) {
-            ByteBuffer buffer = new ByteBuffer();
+            BufferHelper bufferH = new BufferHelper();
             //Writes the function ID so the server knows this is PACKAGE_Login and handles it accordingly
-            buffer.WriteInteger((int)ClientPackages.CLogin);
+            bufferH.WriteInteger((int)ClientPackages.CLogin);
 
             // Write username and password on buffer
-            buffer.WriteString(username);
-            buffer.WriteString(password);
+            bufferH.WriteString(username);
+            bufferH.WriteString(password);
 
             //Sends it to the server
-            SendData(buffer.ToArray());
-            buffer.Dispose();
+            SendData(bufferH.ToArray());
+            bufferH.Dispose();
         }
 
         public static void CloseConnection() {
