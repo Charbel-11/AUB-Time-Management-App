@@ -60,5 +60,29 @@ namespace AUBTimeManagementApp.Client {
           
             buffer.Dispose();
         }
+
+        // OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH 
+
+        // Nourhane
+
+        public static KeyValuePair<bool, string> HandleLogin(string username, string password)
+        {
+            ByteBuffer buffer = new ByteBuffer();
+
+            // Write username and password on buffer
+            buffer.WriteString(username);
+            buffer.WriteString(password);
+        
+            // Read verification result from accounts handler
+            bool isUser = buffer.ReadBool();
+
+            // Error !!!
+            //string message = buffer.ReadString();
+            string message = "connected";
+            buffer.Dispose();
+            return new KeyValuePair<bool, string>(isUser, message);
+        }
+
+        // OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH 
     }
 }

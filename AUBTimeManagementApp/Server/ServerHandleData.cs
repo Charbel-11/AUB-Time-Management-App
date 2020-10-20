@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Server.Service.Accounts;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -128,9 +129,26 @@ namespace Server {
         private static void HandleLogin(int ConnectionID, byte[] data) {
             ByteBuffer buffer = new ByteBuffer();
             buffer.WriteBytes(data);
+
+            // OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH 
+
+            // Nourhane
+            // Read username and password to buffer
             string username = buffer.ReadString();
+            string password = buffer.ReadString();
 
             buffer.Dispose();
+
+            // Call AccountsHandler 
+            bool isUser = AccountsHandler.LogIn(username, password);
+            // If account exists notify the front end to change scenes
+            // Write bool on buffer
+            buffer.WriteBool(isUser);
+            //Check if it appears to the client hence everything is working well
+            buffer.WriteString("What a lucky day!");
+            // OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH 
+
+            
         }
     }
 }

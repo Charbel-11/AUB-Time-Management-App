@@ -53,10 +53,15 @@ namespace AUBTimeManagementApp.Client
             this.username = username;
         }
 
-        public void logIn(string username, string password)
+        public KeyValuePair<bool, string> logIn(string username, string password)
         {
             //TODO
             this.username = username;
+
+            // OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH
+            // Nourhane
+            return ClientHandleData.HandleLogin(username, password);
+            // OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH
         }
 
         public void logOut()

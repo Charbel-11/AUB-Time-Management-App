@@ -31,10 +31,17 @@ namespace AUBTimeManagementApp.GUI
         {
             string username = UsernameTextBox.Text;
             string password = PasswordTextBox.Text;
-            Client.Client.Instance.logIn(username, password);
 
-            Form1 form1 = new Form1(this, username);
-            form1.Show();
+            KeyValuePair<bool,string> correctUsernameAndPassword = Client.Client.Instance.logIn(username, password);
+            if (correctUsernameAndPassword.Key)
+            {
+                Form1 form1 = new Form1(this, username);
+                form1.Show();
+            }
+            else
+            {
+
+            }
         }
 
         private void SignUpButton_Click(object sender, EventArgs e)
