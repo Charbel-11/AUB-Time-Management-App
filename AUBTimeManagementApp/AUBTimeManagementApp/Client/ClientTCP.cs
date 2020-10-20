@@ -39,6 +39,7 @@ namespace AUBTimeManagementApp.Client {
 
             byte[] newBytes = new byte[readBytes];
             Array.Copy(receiveBuffer, newBytes, readBytes);
+            ClientHandleData.HandleData(newBytes);
             if (ClientSocket == null || myStream == null) { return; }
             myStream.BeginRead(receiveBuffer, 0, 4096 * 2, ReceiveCallBack, null);
         }

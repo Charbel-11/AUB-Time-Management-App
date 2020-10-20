@@ -20,8 +20,6 @@ namespace Server {
         public int ConnectionID;
         public string IP;
         public bool authenticated;
-
-        public string Username;
         public bool StopReading = false;
 
         /// <summary>
@@ -98,12 +96,6 @@ namespace Server {
             authenticated = false;
 
             if (buffer != null) { buffer.Dispose(); buffer = null; }
-            if (Username == "N" || Username == null) {
-                Socket.Close();
-                Socket = null;
-                return;
-            }
-
             if (Socket != null) { Socket.Close(); Socket = null; }
 
             ServerTCP.ClientObjects.TryRemove(ConnectionID, out ClientObject wtv);

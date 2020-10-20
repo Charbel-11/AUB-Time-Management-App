@@ -7,7 +7,7 @@ using AUBTimeManagementApp;
 
 namespace AUBTimeManagementApp.Client {
     class ClientHandleData {
-        private static ByteBuffer PlayerBuffer;
+        private static ByteBuffer ClientBuffer;
         public delegate void PacketF(byte[] Data);
         public static Dictionary<int, PacketF> PacketListener;
 
@@ -25,21 +25,21 @@ namespace AUBTimeManagementApp.Client {
             int pLength = 0;    //Packet length
             byte[] buffer = (byte[])data.Clone();   //To avoid shallow copies
 
-            if (PlayerBuffer == null) { PlayerBuffer = new ByteBuffer(); }
+            if (ClientBuffer == null) { ClientBuffer = new ByteBuffer(); }
 
-            PlayerBuffer.WriteBytes(buffer);
-            if (PlayerBuffer.Length() < 4)  //Considers previously received data
+            ClientBuffer.WriteBytes(buffer);
+            if (ClientBuffer.Length() < 4)  //Considers previously received data
             {
-                PlayerBuffer.Clear();
+                ClientBuffer.Clear();
                 return;
             }
 
-            pLength = PlayerBuffer.ReadInteger(false);      //Doesn't advance before all the packet is here
-            while (pLength >= 4 && pLength <= PlayerBuffer.Length() - 4) {
-                PlayerBuffer.ReadInteger();
-                int packageID = PlayerBuffer.ReadInteger();
+            pLength = ClientBuffer.ReadInteger(false);      //Doesn't advance before all the packet is here
+            while (pLength >= 4 && pLength <= ClientBuffer.Length() - 4) {
+                ClientBuffer.ReadInteger();
+                int packageID = ClientBuffer.ReadInteger();
                 pLength -= 4;
-                data = PlayerBuffer.ReadBytes(pLength);
+                data = ClientBuffer.ReadBytes(pLength);
                 if (PacketListener.TryGetValue(packageID, out PacketF packet))
                     packet.Invoke(data);
                 else {
@@ -48,11 +48,11 @@ namespace AUBTimeManagementApp.Client {
                 }
 
                 pLength = 0;
-                if (PlayerBuffer.Length() >= 4)
-                    pLength = PlayerBuffer.ReadInteger(false);
+                if (ClientBuffer.Length() >= 4)
+                    pLength = ClientBuffer.ReadInteger(false);
             }
 
-            if (pLength < 4) { PlayerBuffer.Clear(); }
+            if (pLength < 4) { ClientBuffer.Clear(); }
         }
         private static void HandleMessage(byte[] data) {
             ByteBuffer buffer = new ByteBuffer();
