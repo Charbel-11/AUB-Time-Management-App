@@ -12,9 +12,13 @@ namespace AUBTimeManagementApp.GUI
 {
     public partial class Form1 : Form
     {
-        public Form1()
+        Form2 parent;
+        public Form1(Form2 _parent, string username = null)
         {
+            parent = _parent;
             InitializeComponent();
+            label1.Text = "Welcome " + username + "!";
+            label1.Show();
         }
 
         public void displayTeam(string newTeam, string newMembers)
@@ -45,5 +49,19 @@ namespace AUBTimeManagementApp.GUI
             freeTime.Text = (Client.Client.Instance.findFreeTime());
         }
 
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Form1_Load_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Form1_Load_2(object sender, EventArgs e)
+        {
+
+        }
     }
 }

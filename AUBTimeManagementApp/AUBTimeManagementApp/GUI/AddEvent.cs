@@ -25,5 +25,10 @@ namespace AUBTimeManagementApp.GUI
             parent.displayEvent(eventName.Text, priority.Value, startDate.Value.ToString(), endDate.Value.ToString());
             Close();
         }
+
+        private void AddEvent_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
