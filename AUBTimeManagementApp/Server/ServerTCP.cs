@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Server.Service.Accounts;
 
 namespace Server {
     /// <summary>
@@ -83,5 +84,19 @@ namespace Server {
             SendDataTo(ConnectionID, buffer.ToArray());
             buffer.Dispose();
         }
+
+        public static void PACKET_SendLoginReply(int ConnectionID, bool isUser) {
+            ByteBuffer buffer = new ByteBuffer();
+            buffer.WriteInteger((int)ServerPackages.SLoginReply);
+
+            // Write bool on buffer
+            buffer.WriteBool(isUser);
+            //Check if it appears to the client hence everything is working well
+            buffer.WriteString("What a lucky day!");
+
+            SendDataTo(ConnectionID, buffer.ToArray());
+            buffer.Dispose();
+        }
+
     }
 }

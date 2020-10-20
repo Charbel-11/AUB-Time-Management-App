@@ -126,6 +126,8 @@ namespace Server {
             Console.WriteLine(msg);
             buffer.Dispose();
         }
+        
+        //Some client used PACKAGE_Login, we handle it here
         private static void HandleLogin(int ConnectionID, byte[] data) {
             ByteBuffer buffer = new ByteBuffer();
             buffer.WriteBytes(data);
@@ -142,13 +144,7 @@ namespace Server {
             // Call AccountsHandler 
             bool isUser = AccountsHandler.LogIn(username, password);
             // If account exists notify the front end to change scenes
-            // Write bool on buffer
-            buffer.WriteBool(isUser);
-            //Check if it appears to the client hence everything is working well
-            buffer.WriteString("What a lucky day!");
-            // OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH 
-
-            
+            ServerTCP.PACKET_SendLoginReply(ConnectionID, isUser);
         }
     }
 }

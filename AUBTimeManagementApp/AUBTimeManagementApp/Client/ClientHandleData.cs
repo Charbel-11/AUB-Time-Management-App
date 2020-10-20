@@ -14,7 +14,8 @@ namespace AUBTimeManagementApp.Client {
         public static void InitializePacketListener() {
             PacketListener = new Dictionary<int, PacketF>
             {
-            { (int)ServerPackages.SMsg, HandleMessage }
+            { (int)ServerPackages.SMsg, HandleMessage },
+            { (int)ServerPackages.SLoginReply, HandleLoginReply }
             };
         }
 
@@ -65,22 +66,17 @@ namespace AUBTimeManagementApp.Client {
 
         // Nourhane
 
-        public static KeyValuePair<bool, string> HandleLogin(string username, string password)
+        public static void HandleLoginReply(byte[] data)
         {
             ByteBuffer buffer = new ByteBuffer();
+            buffer.WriteBytes(data);    //Add the byte[] array to our buffer so that we can read from it
 
-            // Write username and password on buffer
-            buffer.WriteString(username);
-            buffer.WriteString(password);
-        
             // Read verification result from accounts handler
             bool isUser = buffer.ReadBool();
-
-            // Error !!!
-            //string message = buffer.ReadString();
-            string message = "connected";
+            string message = buffer.ReadString();
             buffer.Dispose();
-            return new KeyValuePair<bool, string>(isUser, message);
+//            return new KeyValuePair<bool, string>(isUser, message);
+//Function must have this specific signature so it fits in the dictionary PacketListener
         }
 
         // OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH 

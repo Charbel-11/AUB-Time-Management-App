@@ -72,12 +72,16 @@ namespace AUBTimeManagementApp.Client {
             buffer.Dispose();
         }
 
-        public static void PACKAGE_Login() {
+        public static void PACKAGE_Login(string username, string password) {
             ByteBuffer buffer = new ByteBuffer();
+            //Writes the function ID so the server knows this is PACKAGE_Login and handles it accordingly
             buffer.WriteInteger((int)ClientPackages.CLogin);
-          
-            //add data to buffer
 
+            // Write username and password on buffer
+            buffer.WriteString(username);
+            buffer.WriteString(password);
+
+            //Sends it to the server
             SendData(buffer.ToArray());
             buffer.Dispose();
         }

@@ -2,7 +2,8 @@
 //S is for server functions, C is for client functions
 
 public enum ServerPackages {
-    SMsg
+    SMsg,
+    SLoginReply
 }
 public enum ClientPackages {
     CMsg,
