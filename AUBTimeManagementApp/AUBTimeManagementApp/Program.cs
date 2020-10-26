@@ -19,8 +19,12 @@ namespace AUBTimeManagementApplication
             Client.Instance.initializeSocket();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new Form1());
-            Application.Run(new Form2());
+
+            Form2 curForm = new Form2();
+            curForm.Show();
+            Client.Instance.setForm(curForm);
+
+            Application.Run();
         }
     }
 }

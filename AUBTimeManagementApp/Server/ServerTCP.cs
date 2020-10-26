@@ -91,8 +91,6 @@ namespace Server {
 
             // Write bool on buffer
             buffer.WriteBool(isUser);
-            //Check if it appears to the client hence everything is working well
-            buffer.WriteString("What a lucky day!");
 
             SendDataTo(ConnectionID, buffer.ToArray());
             buffer.Dispose();

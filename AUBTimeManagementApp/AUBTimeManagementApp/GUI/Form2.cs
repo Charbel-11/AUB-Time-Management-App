@@ -12,6 +12,7 @@ namespace AUBTimeManagementApp.GUI
 {
     public partial class Form2 : Form
     {
+        private string username;
         public Form2()
         {
             InitializeComponent();
@@ -27,16 +28,19 @@ namespace AUBTimeManagementApp.GUI
 
         }
 
-        private void LoginButton_Click(object sender, EventArgs e)
-        {
-            string username = UsernameTextBox.Text;
+        private void LoginButton_Click(object sender, EventArgs e) {
+            username = UsernameTextBox.Text;
             string password = PasswordTextBox.Text;
 
-            KeyValuePair<bool,string> correctUsernameAndPassword = Client.Client.Instance.logIn(username, password);
-            if (correctUsernameAndPassword.Key)
+            Client.Client.Instance.logIn(username, password);
+        }
+        public void loginReply(bool OK) { 
+            if (OK)
             {
                 Form1 form1 = new Form1(this, username);
                 form1.Show();
+                Client.Client.Instance.setForm(form1);
+                Close();
             }
             else
             {

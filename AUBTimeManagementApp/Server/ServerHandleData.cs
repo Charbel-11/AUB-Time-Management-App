@@ -132,9 +132,6 @@ namespace Server {
             BufferHelper bufferH = new BufferHelper();
             bufferH.WriteBytes(data);
 
-            // OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH 
-
-            // Nourhane
             // Read username and password to buffer
             string username = bufferH.ReadString();
             string password = bufferH.ReadString();

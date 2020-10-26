@@ -5,7 +5,8 @@ using AUBTimeManagementApp.DataContracts;
 using AUBTimeManagementApp.Service;
 using AUBTimeManagementApp.Service.Teams;
 using AUBTimeManagementApp.Service.Events;
-
+using AUBTimeManagementApp.GUI;
+using System.Windows.Forms;
 
 namespace AUBTimeManagementApp.Client
 {
@@ -19,7 +20,13 @@ namespace AUBTimeManagementApp.Client
         public string username;
         private Schedule schedule;
         private List<Team> teams;
-        private List<Event> events; 
+        private List<Event> events;
+
+        //Connects the users to the active open form
+        private RegistrationForm registrationForm;
+        private Form1 mainForm;
+        private Form2 signInUpForm;
+
         // Explicit static constructor to tell C# compiler not to mark type as beforefieldinit
         static Client()
         {
@@ -45,6 +52,19 @@ namespace AUBTimeManagementApp.Client
             ClientTCP.InitializeClientSocket(serverIP, serverPort);
         }
 
+        //Stores a pointer to the currently opened in Client
+        public void setForm(Form form) { 
+            if (form.GetType() == typeof(RegistrationForm)) {
+                registrationForm = (RegistrationForm)form;
+            }
+            else if (form.GetType() == typeof(Form1)) {
+                mainForm = (Form1)form;
+            }
+            else if (form.GetType() == typeof(Form2)) {
+                signInUpForm = (Form2)form;
+            }
+        }
+
         public void createAccount(string username, string password, string email)
         {
             if(username == "Charbel") { return; }
@@ -53,16 +73,18 @@ namespace AUBTimeManagementApp.Client
             this.username = username;
         }
 
-        public KeyValuePair<bool, string> logIn(string username, string password)
+        public void logIn(string username, string password)
         {
-            //TODO
             this.username = username;
-
-            // OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH
-            // Nourhane
-            //      return ClientHandleData.HandleLogin(username, password);
-            return new KeyValuePair<bool, string>(true, "SS");
-            // OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH
+            ClientTCP.PACKAGE_Login(username, password);
+        }
+        public void logInReply(bool OK) {
+            if (signInUpForm.InvokeRequired) {
+                //We are calling a method of the form from a different thread
+                //Need to use invoke to make it threadsafe
+                signInUpForm.Invoke(new MethodInvoker(delegate { signInUpForm.loginReply(OK); }));
+            }
+            else { signInUpForm.loginReply(OK); }
         }
 
         public void logOut()

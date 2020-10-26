@@ -62,23 +62,16 @@ namespace AUBTimeManagementApp.Client {
             bufferH.Dispose();
         }
 
-        // OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH 
-
-        // Nourhane
-
         public static void HandleLoginReply(byte[] data)
         {
             BufferHelper bufferH = new BufferHelper();
-            bufferH.WriteBytes(data);    //Add the byte[] array to our buffer so that we can read from it
+            bufferH.WriteBytes(data);    //Add the byte[] array to our buffer helper so that we can parse it
 
             // Read verification result from accounts handler
             bool isUser = bufferH.ReadBool();
-            string message = bufferH.ReadString();
-            bufferH.Dispose();
-//            return new KeyValuePair<bool, string>(isUser, message);
-//Function must have this specific signature so it fits in the dictionary PacketListener
-        }
+            Client.Instance.logInReply(isUser);
 
-        // OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH 
+            bufferH.Dispose();
+        }
     }
 }
