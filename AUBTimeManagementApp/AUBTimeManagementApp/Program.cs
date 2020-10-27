@@ -22,7 +22,6 @@ namespace AUBTimeManagementApplication
 
             Form2 curForm = new Form2();
             curForm.Show();
-            Client.Instance.setForm(curForm);
 
             Application.Run();
         }

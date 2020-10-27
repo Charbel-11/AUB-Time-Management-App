@@ -18,6 +18,8 @@ namespace AUBTimeManagementApp.GUI
         public AddTeam(Form1 _parent)
         {
             parent = _parent;
+            Client.Client.Instance.setForm(this);
+
             InitializeComponent();
         }
 

@@ -16,6 +16,8 @@ namespace AUBTimeManagementApp.GUI
         public RegistrationForm(Form2 _parent)
         {
             parent = _parent;
+            Client.Client.Instance.setForm(this);
+
             InitializeComponent();
         }
     }

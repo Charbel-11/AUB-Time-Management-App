@@ -15,6 +15,8 @@ namespace AUBTimeManagementApp.GUI
         private string username;
         public Form2()
         {
+            Client.Client.Instance.setForm(this);
+
             InitializeComponent();
         }
 
@@ -39,7 +41,6 @@ namespace AUBTimeManagementApp.GUI
             {
                 Form1 form1 = new Form1(this, username);
                 form1.Show();
-                Client.Client.Instance.setForm(form1);
                 Close();
             }
             else

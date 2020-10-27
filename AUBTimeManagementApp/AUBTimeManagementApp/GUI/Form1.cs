@@ -16,6 +16,8 @@ namespace AUBTimeManagementApp.GUI
         public Form1(Form2 _parent, string username = null)
         {
             parent = _parent;
+            Client.Client.Instance.setForm(this);
+
             InitializeComponent();
             label1.Text = "Welcome " + username + "!";
             label1.Show();
