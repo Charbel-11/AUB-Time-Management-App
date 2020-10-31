@@ -59,7 +59,11 @@ namespace AUBTimeManagementApp.GUI
         }
 
         private void calendar_ItemDoubleClick(object sender, CalendarItemEventArgs e) {
+            //TODO: Check if event already exists at this time, if so open its description
+
+            //Else:
             AddEvent addEventWindow = new AddEvent(this, e.Item.StartDate, e.Item.EndDate);
+            calendar.Items.Remove(e.Item);
             addEventWindow.Show();
         }
     }

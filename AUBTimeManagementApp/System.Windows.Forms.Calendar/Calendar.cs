@@ -689,7 +689,6 @@ namespace System.Windows.Forms.Calendar
             item.Text = itemText;
 
             CalendarItemCancelEventArgs evtA = new CalendarItemCancelEventArgs(item);
-            
             OnItemCreating(evtA);
             
             if (!evtA.Cancel)
@@ -1415,7 +1414,7 @@ namespace System.Windows.Forms.Calendar
         {
             base.OnDoubleClick(e);
 
-            CreateItemOnSelection(string.Empty, true);
+            CreateItemOnSelection(string.Empty, false);
         }
 
         protected virtual void OnDayHeaderClick(CalendarDayEventArgs e)
