@@ -7,14 +7,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.Calendar;
 
 namespace AUBTimeManagementApp.GUI
 {
-    public partial class Form1 : Form
-    {
+    public partial class Form1 : Form {
+        List<CalendarItem> _items = new List<CalendarItem>();   //Maybe we should put this in the client code (took it from the demo)
         Form2 parent;
-        public Form1(Form2 _parent, string username = null)
-        {
+        public Form1(Form2 _parent, string username = null) {
             parent = _parent;
             Client.Client.Instance.setForm(this);
 
@@ -23,47 +23,44 @@ namespace AUBTimeManagementApp.GUI
             label1.Show();
         }
 
-        public void displayTeam(string newTeam, string newMembers)
-        {
-            teams.Text += "\r\n" + newTeam + ": " + newMembers;
+        public void displayTeam(string newTeam, string newMembers) {
         }
 
-        public void displayEvent(string eventName, int priority, string startDate, string endDate)
-        {
-            events.Text += "\r\n" + eventName + ", " + priority + "\r\n"
-                + startDate + " -> " + endDate;
+        public void displayEvent(string eventName, int priority, DateTime startDate, DateTime endDate) {
+            CalendarItem curEvent = new CalendarItem(calendar, startDate, endDate, eventName + " " + priority);
+            calendar.Items.Add(curEvent);
+            _items.Add(curEvent);
         }
 
-        private void AddTeamButton_Click(object sender, EventArgs e)
-        {
+        private void AddTeamButton_Click(object sender, EventArgs e) {
             AddTeam addTeamWindow = new AddTeam(this);
             addTeamWindow.Show();
         }
 
-        private void addEvent_MouseClick(object sender, MouseEventArgs e)
-        {
+        private void addEvent_MouseClick(object sender, MouseEventArgs e) {
             AddEvent addEventWindow = new AddEvent(this);
             addEventWindow.Show();
         }
 
-        private void findTime_Click(object sender, EventArgs e)
-        {
-            freeTime.Text = (Client.Client.Instance.findFreeTime());
+        private void PlaceItems() {
+            foreach (CalendarItem item in _items) {
+                if (calendar.ViewIntersects(item)) {
+                    calendar.Items.Add(item);
+                }
+            }
         }
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
+        private void monthView_SelectionChanged(object sender, EventArgs e) {
+            calendar.SetViewRange(monthView.SelectionStart, monthView.SelectionEnd);
         }
 
-        private void Form1_Load_1(object sender, EventArgs e)
-        {
-
+        private void calendar_LoadItems(object sender, CalendarLoadEventArgs e) {
+            PlaceItems();
         }
 
-        private void Form1_Load_2(object sender, EventArgs e)
-        {
-
+        private void calendar_ItemDoubleClick(object sender, CalendarItemEventArgs e) {
+            AddEvent addEventWindow = new AddEvent(this, e.Item.StartDate, e.Item.EndDate);
+            addEventWindow.Show();
         }
     }
 }

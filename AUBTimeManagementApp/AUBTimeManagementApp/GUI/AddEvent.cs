@@ -21,10 +21,16 @@ namespace AUBTimeManagementApp.GUI
 
             InitializeComponent();
         }
+
+        public AddEvent(Form1 _parent, DateTime _startDate, DateTime _endDate) : this(_parent) {
+            startDate.Value = _startDate;
+            endDate.Value = _endDate;
+        }
+
         private void createButton_Click(object sender, EventArgs e)
         {
             Client.Client.Instance.createEvent(eventName.Text, priority.Value, startDate.Value, endDate.Value);
-            parent.displayEvent(eventName.Text, priority.Value, startDate.Value.ToString(), endDate.Value.ToString());
+            parent.displayEvent(eventName.Text, priority.Value, startDate.Value, endDate.Value);
             Close();
         }
 

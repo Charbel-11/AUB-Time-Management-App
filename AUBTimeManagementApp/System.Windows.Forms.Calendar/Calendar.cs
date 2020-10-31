@@ -689,9 +689,9 @@ namespace System.Windows.Forms.Calendar
             item.Text = itemText;
 
             CalendarItemCancelEventArgs evtA = new CalendarItemCancelEventArgs(item);
-
+            
             OnItemCreating(evtA);
-
+            
             if (!evtA.Cancel)
             {
                 Items.Add(item);
@@ -702,8 +702,7 @@ namespace System.Windows.Forms.Calendar
                     ActivateEditMode(item);
                 }
             }
-
-            
+                  
         }
 
         /// <summary>
@@ -1260,7 +1259,8 @@ namespace System.Windows.Forms.Calendar
 
             if (span.Days < 1 || span.Days > MaximumViewDays )
             {
-                throw new Exception("Days between ViewStart and ViewEnd should be between 1 and MaximumViewDays");
+                return;
+             //   throw new Exception("Days between ViewStart and ViewEnd should be between 1 and MaximumViewDays");
             }
 
             if (span.Days > MaximumFullDays)

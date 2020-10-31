@@ -52,7 +52,10 @@ namespace AUBTimeManagementApp.Client
             ClientTCP.InitializeClientSocket(serverIP, serverPort);
         }
 
-        //Stores a pointer to the currently opened in Client
+        /// <summary>
+        /// Stores a pointer to the currently opened form in Client
+        /// </summary>
+        /// <param name="form">The form to connect</param>
         public void setForm(Form form) { 
             if (form.GetType() == typeof(RegistrationForm)) {
                 registrationForm = (RegistrationForm)form;
