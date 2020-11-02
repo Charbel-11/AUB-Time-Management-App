@@ -19,7 +19,8 @@ namespace Server {
         public static void InitializePacketListener() {
             PacketListener = new Dictionary<int, PacketF> {
                 { (int)ClientPackages.CMsg, HandleMessage },
-                { (int)ClientPackages.CLogin, HandleLogin }
+                { (int)ClientPackages.CLogin, HandleLogin },
+                { (int)ClientPackages.CRegister, HandleRegister }
             };
         }
 
@@ -126,7 +127,36 @@ namespace Server {
             Console.WriteLine(msg);
             bufferH.Dispose();
         }
-        
+
+        private static void HandleRegister(int ConnectionID, byte[] data)
+        {
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteBytes(data);
+
+            // Read username and password to buffer
+            string username = bufferH.ReadString();
+            string firstname = bufferH.ReadString();
+            string lastName = bufferH.ReadString();
+            string password = bufferH.ReadString();
+            string confirmPassowrd = bufferH.ReadString();
+            string email = bufferH.ReadString();
+            int day = bufferH.ReadInteger();
+            int month = bufferH.ReadInteger();
+            int year = bufferH.ReadInteger();
+            DateTime datoOfBirth = new DateTime(year, month, day);
+
+            Console.WriteLine(username + " has joined the party!!!");
+
+            bufferH.Dispose();
+
+            // Call AccountsHandler 
+            int isRegistered = AccountsHandler.confirmRegistration(username, firstname, lastName, email, password, confirmPassowrd, datoOfBirth);
+
+            Console.WriteLine(isRegistered);
+            // If account exists notify the front end to change scenes
+            ServerTCP.PACKET_SendRegisterReply(ConnectionID, isRegistered);
+        }
+
         //Some client used PACKAGE_Login, we handle it here
         private static void HandleLogin(int ConnectionID, byte[] data) {
             BufferHelper bufferH = new BufferHelper();

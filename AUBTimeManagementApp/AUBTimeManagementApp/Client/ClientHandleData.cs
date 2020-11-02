@@ -15,7 +15,8 @@ namespace AUBTimeManagementApp.Client {
             PacketListener = new Dictionary<int, PacketF>
             {
             { (int)ServerPackages.SMsg, HandleMessage },
-            { (int)ServerPackages.SLoginReply, HandleLoginReply }
+            { (int)ServerPackages.SLoginReply, HandleLoginReply },
+            { (int)ServerPackages.SRegisterReply, HandleRegisterReply }
             };
         }
 
@@ -58,6 +59,18 @@ namespace AUBTimeManagementApp.Client {
             BufferHelper bufferH = new BufferHelper();
             bufferH.WriteBytes(data);
             string msg = bufferH.ReadString();
+
+            bufferH.Dispose();
+        }
+
+        public static void HandleRegisterReply(byte[] data)
+        {
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteBytes(data);    //Add the byte[] array to our buffer helper so that we can parse it
+
+            // Read verification result from accounts handler
+            int isRegistered = bufferH.ReadInteger();
+            Client.Instance.registerReply(isRegistered);
 
             bufferH.Dispose();
         }

@@ -11,10 +11,10 @@ using System.Windows.Forms.Calendar;
 
 namespace AUBTimeManagementApp.GUI
 {
-    public partial class Form1 : Form {
+    public partial class mainForm : Form {
         List<CalendarItem> _items = new List<CalendarItem>();   //Maybe we should put this in the client code (took it from the demo)
-        Form2 parent;
-        public Form1(Form2 _parent, string username = null) {
+        SignInUpForm parent;
+        public mainForm(SignInUpForm _parent, string username = null) {
             parent = _parent;
             Client.Client.Instance.setForm(this);
 

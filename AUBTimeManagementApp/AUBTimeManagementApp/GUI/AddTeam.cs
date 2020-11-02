@@ -13,9 +13,9 @@ namespace AUBTimeManagementApp.GUI
 {
     public partial class AddTeam : Form
     {
-        Form1 parent;
+        mainForm parent;
 
-        public AddTeam(Form1 _parent)
+        public AddTeam(mainForm _parent)
         {
             parent = _parent;
             Client.Client.Instance.setForm(this);

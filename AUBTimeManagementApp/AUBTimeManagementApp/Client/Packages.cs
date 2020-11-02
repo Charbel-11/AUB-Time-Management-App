@@ -3,9 +3,11 @@
 
 public enum ServerPackages {
     SMsg,
-    SLoginReply
+    SLoginReply,
+    SRegisterReply
 }
 public enum ClientPackages {
     CMsg,
-    CLogin
+    CLogin,
+    CRegister
 }

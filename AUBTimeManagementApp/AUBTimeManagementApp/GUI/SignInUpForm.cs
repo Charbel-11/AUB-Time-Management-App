@@ -10,10 +10,10 @@ using System.Windows.Forms;
 
 namespace AUBTimeManagementApp.GUI
 {
-    public partial class Form2 : Form
+    public partial class SignInUpForm : Form
     {
         private string username;
-        public Form2()
+        public SignInUpForm()
         {
             Client.Client.Instance.setForm(this);
 
@@ -39,7 +39,7 @@ namespace AUBTimeManagementApp.GUI
         public void loginReply(bool OK) { 
             if (OK)
             {
-                Form1 form1 = new Form1(this, username);
+                mainForm form1 = new mainForm(this, username);
                 form1.Show();
                 Close();
             }

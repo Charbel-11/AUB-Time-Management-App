@@ -85,6 +85,18 @@ namespace Server {
             buffer.Dispose();
         }
 
+        public static void PACKET_SendRegisterReply(int ConnectionID, int isRegistered)
+        {
+            BufferHelper buffer = new BufferHelper();
+            buffer.WriteInteger((int)ServerPackages.SRegisterReply);
+
+            // Write bool on buffer
+            buffer.WriteInteger(isRegistered);
+
+            SendDataTo(ConnectionID, buffer.ToArray());
+            buffer.Dispose();
+        }
+
         public static void PACKET_SendLoginReply(int ConnectionID, bool isUser) {
             BufferHelper buffer = new BufferHelper();
             buffer.WriteInteger((int)ServerPackages.SLoginReply);

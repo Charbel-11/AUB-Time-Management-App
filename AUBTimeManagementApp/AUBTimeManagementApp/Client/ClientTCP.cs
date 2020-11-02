@@ -73,6 +73,29 @@ namespace AUBTimeManagementApp.Client {
             bufferH.Dispose();
         }
 
+        public static void PACKAGE_Register(string username, string firstName, string lastName, string password, string confirmPassword, string email, DateTime dateOfBirth)
+        {
+            BufferHelper bufferH = new BufferHelper();
+            //Writes the function ID so the server knows this is PACKAGE_Login and handles it accordingly
+            bufferH.WriteInteger((int)ClientPackages.CRegister);
+            int day = dateOfBirth.Day, month = dateOfBirth.Month, year = dateOfBirth.Year;
+
+            // Write username and password on buffer
+            bufferH.WriteString(username);
+            bufferH.WriteString(firstName);
+            bufferH.WriteString(lastName);
+            bufferH.WriteString(password);
+            bufferH.WriteString(confirmPassword);
+            bufferH.WriteString(email);
+            bufferH.WriteInteger(day);
+            bufferH.WriteInteger(month);
+            bufferH.WriteInteger(year);
+
+            //Sends it to the server
+            SendData(bufferH.ToArray());
+            bufferH.Dispose();
+        }
+
         public static void PACKAGE_Login(string username, string password) {
             BufferHelper bufferH = new BufferHelper();
             //Writes the function ID so the server knows this is PACKAGE_Login and handles it accordingly

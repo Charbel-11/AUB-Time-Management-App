@@ -66,17 +66,17 @@
     <Compile Include="GUI\AddTeam.Designer.cs">
       <DependentUpon>AddTeam.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\Form1.cs">
+    <Compile Include="GUI\mainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GUI\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="GUI\mainForm.Designer.cs">
+      <DependentUpon>mainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\Form2.cs">
+    <Compile Include="GUI\SignInUpForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GUI\Form2.Designer.cs">
-      <DependentUpon>Form2.cs</DependentUpon>
+    <Compile Include="GUI\SignInUpForm.Designer.cs">
+      <DependentUpon>SignInUpForm.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\RegistrationForm.cs">
       <SubType>Form</SubType>
@@ -107,11 +107,14 @@
     <EmbeddedResource Include="GUI\AddTeam.resx">
       <DependentUpon>AddTeam.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="GUI\mainForm.resx">
+      <DependentUpon>mainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Form2.resx">
-      <DependentUpon>Form2.cs</DependentUpon>
+    <EmbeddedResource Include="GUI\RegistrationForm.resx">
+      <DependentUpon>RegistrationForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\SignInUpForm.resx">
+      <DependentUpon>SignInUpForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

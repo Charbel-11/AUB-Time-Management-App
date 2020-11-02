@@ -13,8 +13,8 @@ namespace AUBTimeManagementApp.GUI
 {
     public partial class AddEvent : Form
     {
-        Form1 parent;
-        public AddEvent(Form1 _parent)
+        mainForm parent;
+        public AddEvent(mainForm _parent)
         {
             parent = _parent;
             Client.Client.Instance.setForm(this);
@@ -22,7 +22,7 @@ namespace AUBTimeManagementApp.GUI
             InitializeComponent();
         }
 
-        public AddEvent(Form1 _parent, DateTime _startDate, DateTime _endDate) : this(_parent) {
+        public AddEvent(mainForm _parent, DateTime _startDate, DateTime _endDate) : this(_parent) {
             startDate.Value = _startDate;
             endDate.Value = _endDate;
         }

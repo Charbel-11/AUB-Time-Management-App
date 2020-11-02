@@ -24,8 +24,8 @@ namespace AUBTimeManagementApp.Client
 
         //Connects the users to the active open form
         private RegistrationForm registrationForm;
-        private Form1 mainForm;
-        private Form2 signInUpForm;
+        private mainForm mainForm;
+        private SignInUpForm signInUpForm;
 
         // Explicit static constructor to tell C# compiler not to mark type as beforefieldinit
         static Client()
@@ -60,20 +60,19 @@ namespace AUBTimeManagementApp.Client
             if (form.GetType() == typeof(RegistrationForm)) {
                 registrationForm = (RegistrationForm)form;
             }
-            else if (form.GetType() == typeof(Form1)) {
-                mainForm = (Form1)form;
+            else if (form.GetType() == typeof(mainForm)) {
+                mainForm = (mainForm)form;
             }
-            else if (form.GetType() == typeof(Form2)) {
-                signInUpForm = (Form2)form;
+            else if (form.GetType() == typeof(SignInUpForm)) {
+                signInUpForm = (SignInUpForm)form;
             }
         }
 
-        public void createAccount(string username, string password, string email)
-        {
-            if(username == "Charbel") { return; }
-            
+        public void createAccount(string username, string firstName, string lastName, string password, string confirmPassword, string email, DateTime dateOfBirth)
+        {            
             //TODO
             this.username = username;
+            ClientTCP.PACKAGE_Register(username, firstName, lastName, password, confirmPassword, email, dateOfBirth);
         }
 
         public void logIn(string username, string password)
@@ -81,6 +80,18 @@ namespace AUBTimeManagementApp.Client
             this.username = username;
             ClientTCP.PACKAGE_Login(username, password);
         }
+
+        public void registerReply(int OK)
+        {
+            if (registrationForm.InvokeRequired)
+            {
+                //We are calling a method of the form from a different thread
+                //Need to use invoke to make it threadsafe
+                registrationForm.Invoke(new MethodInvoker(delegate { registrationForm.registrationReply(OK); }));
+            }
+           else { registrationForm.registrationReply(OK); }
+        }
+
         public void logInReply(bool OK) {
             if (signInUpForm.InvokeRequired) {
                 //We are calling a method of the form from a different thread

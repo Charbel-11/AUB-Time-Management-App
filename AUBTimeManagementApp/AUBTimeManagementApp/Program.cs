@@ -20,7 +20,7 @@ namespace AUBTimeManagementApplication
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            Form2 curForm = new Form2();
+            SignInUpForm curForm = new SignInUpForm();
             curForm.Show();
 
             Application.Run();
