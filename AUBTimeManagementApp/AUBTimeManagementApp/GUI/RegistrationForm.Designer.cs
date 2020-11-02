@@ -112,7 +112,7 @@
             this.FirstNameTextBox.Location = new System.Drawing.Point(284, 108);
             this.FirstNameTextBox.Name = "FirstNameTextBox";
             this.FirstNameTextBox.Size = new System.Drawing.Size(196, 22);
-            this.FirstNameTextBox.TabIndex = 6;
+            this.FirstNameTextBox.TabIndex = 1;
             // 
             // ConfirmPasswordLabel
             // 
@@ -129,7 +129,7 @@
             this.ConfirmPasswordTextBox.Name = "ConfirmPasswordTextBox";
             this.ConfirmPasswordTextBox.PasswordChar = '*';
             this.ConfirmPasswordTextBox.Size = new System.Drawing.Size(196, 22);
-            this.ConfirmPasswordTextBox.TabIndex = 8;
+            this.ConfirmPasswordTextBox.TabIndex = 5;
             // 
             // EmailLabel
             // 
@@ -145,14 +145,14 @@
             this.EmailTextBox.Location = new System.Drawing.Point(284, 197);
             this.EmailTextBox.Name = "EmailTextBox";
             this.EmailTextBox.Size = new System.Drawing.Size(196, 22);
-            this.EmailTextBox.TabIndex = 10;
+            this.EmailTextBox.TabIndex = 3;
             // 
             // DateOfBirth
             // 
             this.DateOfBirth.Location = new System.Drawing.Point(284, 334);
             this.DateOfBirth.Name = "DateOfBirth";
             this.DateOfBirth.Size = new System.Drawing.Size(200, 22);
-            this.DateOfBirth.TabIndex = 12;
+            this.DateOfBirth.TabIndex = 6;
             // 
             // DateOfBirthLabel
             // 
@@ -168,7 +168,7 @@
             this.button1.Location = new System.Drawing.Point(630, 133);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 39);
-            this.button1.TabIndex = 15;
+            this.button1.TabIndex = 8;
             this.button1.Text = "Go Back";
             this.button1.UseVisualStyleBackColor = true;
             // 
@@ -177,7 +177,7 @@
             this.RegisterButton.Location = new System.Drawing.Point(630, 202);
             this.RegisterButton.Name = "RegisterButton";
             this.RegisterButton.Size = new System.Drawing.Size(75, 39);
-            this.RegisterButton.TabIndex = 16;
+            this.RegisterButton.TabIndex = 7;
             this.RegisterButton.Text = "Register";
             this.RegisterButton.UseVisualStyleBackColor = true;
             this.RegisterButton.Click += new System.EventHandler(this.RegisterButton_Click);
