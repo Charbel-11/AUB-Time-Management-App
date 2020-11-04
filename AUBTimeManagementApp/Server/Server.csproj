@@ -58,6 +58,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccountsDataBase.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AccountsDataBase.xsd</DependentUpon>
+    </Compile>
     <Compile Include="AccountsDataBaseDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -84,6 +89,17 @@
     <Compile Include="Service\Storage\TeamsStorage.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="AccountsDataBase.xsc">
+      <DependentUpon>AccountsDataBase.xsd</DependentUpon>
+    </None>
+    <None Include="AccountsDataBase.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>AccountsDataBase.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="AccountsDataBase.xss">
+      <DependentUpon>AccountsDataBase.xsd</DependentUpon>
+    </None>
     <None Include="AccountsDataBaseDataSet.xsc">
       <DependentUpon>AccountsDataBaseDataSet.xsd</DependentUpon>
     </None>

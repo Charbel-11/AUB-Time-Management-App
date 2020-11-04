@@ -68,23 +68,19 @@ namespace AUBTimeManagementApp.Client
             }
         }
 
-        public void createAccount(string username, string firstName, string lastName, string password, string confirmPassword, string email, DateTime dateOfBirth)
-        {            
+        public void createAccount(string username, string firstName, string lastName, string password, string confirmPassword, string email, DateTime dateOfBirth) {            
             //TODO
             this.username = username;
             ClientTCP.PACKAGE_Register(username, firstName, lastName, password, confirmPassword, email, dateOfBirth);
         }
 
-        public void logIn(string username, string password)
-        {
+        public void logIn(string username, string password) {
             this.username = username;
             ClientTCP.PACKAGE_Login(username, password);
         }
 
-        public void registerReply(int OK)
-        {
-            if (registrationForm.InvokeRequired)
-            {
+        public void registerReply(int OK) {
+            if (registrationForm.InvokeRequired) {
                 //We are calling a method of the form from a different thread
                 //Need to use invoke to make it threadsafe
                 registrationForm.Invoke(new MethodInvoker(delegate { registrationForm.registrationReply(OK); }));

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AUBTimeManagementApp.Service.Storage;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -7,29 +8,17 @@ namespace Server.Service.Accounts
     class AccountsHandler
     {
         public static int confirmRegistration(string username, string firstName, string lastName, string email, string password, string confirmPassword, DateTime dateOfBirth) {
-            bool usernameTaken = false;
-            //
-            //CHECK THAT USERNAME IS NOT TAKEN
-            //
-            if (usernameTaken) { return -3; }
-
+            if (AccountsStorage.usernameExists(username)) { return -3; }
             int checkPass = checkPassword(password, confirmPassword);
-            if(checkPass == -1) { return -1; }
-            if(checkPass == -2) { return -2; }
+            if(checkPass != 1) { return checkPass; }
 
-
-            return 1;
+            bool ok = AccountsStorage.createAccount(username, firstName, lastName, email, password, dateOfBirth);
+            return (ok ? 1 : -4);
         }
 
-        public static bool LogIn(string username, string password) {
-            //
-            //CHECK THAT USERNAME/OLDPASSWORD ARE VALID
-            //
-
-            //
-            //CONNECT THE USER TO THE SERVER
-            //
-            return true;
+        public static bool confirmLogIn(string username, string password) {
+            if (!AccountsStorage.usernameExists(username)) { return false; }
+            return AccountsStorage.validateLogIn(username, password);
         }
 
         public static bool logOut() {

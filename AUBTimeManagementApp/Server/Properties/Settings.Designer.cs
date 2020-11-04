@@ -33,5 +33,19 @@ namespace Server.Properties {
                 return ((string)(this["AccountsDataBaseConnectionString"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=C:\\USERS\\USER\\DOWNLOADS\\AUBTIM" +
+            "EMANAGEMENTAPP\\AUBTIMEMANAGEMENTAPP\\SERVER\\SERVICE\\STORAGE\\ACCOUNTSDATABASE.MDF;" +
+            "Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate" +
+            "=False")]
+        public string C__USERS_USER_DOWNLOADS_AUBTIMEMANAGEMENTAPP_AUBTIMEMANAGEMENTAPP_SERVER_SERVICE_STORAGE_ACCOUNTSDATABASE_MDFConnectionString {
+            get {
+                return ((string)(this["C__USERS_USER_DOWNLOADS_AUBTIMEMANAGEMENTAPP_AUBTIMEMANAGEMENTAPP_SERVER_SERVICE_" +
+                    "STORAGE_ACCOUNTSDATABASE_MDFConnectionString"]));
+            }
+        }
     }
 }

@@ -169,7 +169,7 @@ namespace Server {
             bufferH.Dispose();
 
             // Call AccountsHandler 
-            bool isUser = AccountsHandler.LogIn(username, password);
+            bool isUser = AccountsHandler.confirmLogIn(username, password);
             // If account exists notify the front end to change scenes
             ServerTCP.PACKET_SendLoginReply(ConnectionID, isUser);
         }

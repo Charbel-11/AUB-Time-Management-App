@@ -32,6 +32,9 @@ namespace AUBTimeManagementApp.GUI
             if (OK == -3) {
                 return;
             }
+            if(OK == -4) {
+                return;
+            }
             parent.Show();
             Close();
         }
