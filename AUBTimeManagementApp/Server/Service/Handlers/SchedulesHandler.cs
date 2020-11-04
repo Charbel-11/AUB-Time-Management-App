@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using AUBTimeManagementApp.DataContracts;
+using Server.DataContracts;
 
-namespace AUBTimeManagementApp.Service.Schedules {
+namespace Server.Service.Handlers {
     class SchedulesHandler {
 
         public Schedule getUserSchedule(string username) {

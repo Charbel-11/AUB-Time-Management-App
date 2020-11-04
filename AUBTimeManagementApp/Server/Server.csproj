@@ -58,9 +58,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AccountsDataBase.cs">
-      <DependentUpon>AccountsDataBase.xsd</DependentUpon>
-    </Compile>
     <Compile Include="AccountsDataBase.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -83,6 +80,9 @@
     </Compile>
     <Compile Include="ServerHandleData.cs" />
     <Compile Include="ServerTCP.cs" />
+    <Compile Include="DataContracts\Event.cs" />
+    <Compile Include="DataContracts\Schedule.cs" />
+    <Compile Include="DataContracts\Team.cs" />
     <Compile Include="Service\Handlers\AccountsHandler.cs" />
     <Compile Include="Service\Handlers\EventsHandler.cs" />
     <Compile Include="Service\Handlers\InvitationsHandler.cs" />

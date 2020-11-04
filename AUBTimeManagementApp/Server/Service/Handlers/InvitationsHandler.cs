@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace AUBTimeManagementApp.Service.Invitations
+namespace Server.Service.Handlers
 {
     class InvitationsHandler
     {

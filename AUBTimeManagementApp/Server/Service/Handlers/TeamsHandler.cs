@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using AUBTimeManagementApp.Client;
-using AUBTimeManagementApp.DataContracts;
+using Server.DataContracts;
 
-namespace AUBTimeManagementApp.Service.Teams
+namespace Server.Service.Handlers
 {
     static class TeamsHandler
     {
@@ -19,8 +18,8 @@ namespace AUBTimeManagementApp.Service.Teams
             //Send the details for online users
 
             //For the prototype:
-            Team newTeam = new Team(admin, 11);
-            Client.Client.Instance.addTeam(newTeam);
+   //         Team newTeam = new Team(admin, 11);
+     //       Client.Client.Instance.addTeam(newTeam);
 
             invalidUsernames = new string[1];
             return null;

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Reflection.Emit;
 using System.Text;
-using AUBTimeManagementApp.DataContracts;
+using Server.DataContracts;
 
-namespace AUBTimeManagementApp.Service.Events
+namespace Server.Service.Handlers
 {
     static class EventsHandler    {
         static public Event createPersonalEvent(string eventname, int priority, DateTime startDate, DateTime endDate)
@@ -14,8 +14,8 @@ namespace AUBTimeManagementApp.Service.Events
             //ask schedule hadler to update user's schedule (event list)
 
             //for prototype
-            Event newEvent = new Event(13, priority, "me", eventname, startDate, endDate);
-            Client.Client.Instance.addEvent(newEvent);
+           // Event newEvent = new Event(13, priority, "me", eventname, startDate, endDate);
+           // Client.Client.Instance.addEvent(newEvent);
             return null;
 
         }
