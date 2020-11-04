@@ -86,15 +86,6 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Service\Accounts\AccountsHandler.cs" />
-    <Compile Include="Service\Accounts\RegistrationChecker.cs" />
-    <Compile Include="Service\Events\ConflictsChecker.cs" />
-    <Compile Include="Service\Events\EventsHandler.cs" />
-    <Compile Include="Service\Invitations\InvitationsHandler.cs" />
-    <Compile Include="Service\Notifications\NotificationsHandler.cs" />
-    <Compile Include="Service\Schedules\SchedulesHandler.cs" />
-    <Compile Include="Service\Teams\TeamEventsPermissionChecker.cs" />
-    <Compile Include="Service\Teams\TeamsHandler.cs" />
     <EmbeddedResource Include="GUI\AddEvent.resx">
       <DependentUpon>AddEvent.cs</DependentUpon>
     </EmbeddedResource>
