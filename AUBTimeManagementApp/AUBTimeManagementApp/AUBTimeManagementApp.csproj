@@ -93,12 +93,6 @@
     <Compile Include="Service\Invitations\InvitationsHandler.cs" />
     <Compile Include="Service\Notifications\NotificationsHandler.cs" />
     <Compile Include="Service\Schedules\SchedulesHandler.cs" />
-    <Compile Include="Service\Storage\AccountsStorage.cs" />
-    <Compile Include="Service\Storage\EventsStorage.cs" />
-    <Compile Include="Service\Storage\InvitationsStorage.cs" />
-    <Compile Include="Service\Storage\NotificationsStorage.cs" />
-    <Compile Include="Service\Storage\SchedulesStorage.cs" />
-    <Compile Include="Service\Storage\TeamsStorage.cs" />
     <Compile Include="Service\Teams\TeamEventsPermissionChecker.cs" />
     <Compile Include="Service\Teams\TeamsHandler.cs" />
     <EmbeddedResource Include="GUI\AddEvent.resx">

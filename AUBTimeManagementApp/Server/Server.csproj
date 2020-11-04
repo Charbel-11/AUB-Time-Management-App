@@ -58,6 +58,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccountsDataBase.cs">
+      <DependentUpon>AccountsDataBase.xsd</DependentUpon>
+    </Compile>
     <Compile Include="AccountsDataBase.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
