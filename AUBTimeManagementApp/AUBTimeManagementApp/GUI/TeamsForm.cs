@@ -15,13 +15,17 @@ namespace AUBTimeManagementApp.GUI {
             InitializeComponent();
             addTeamButton.BringToFront();
         }
-
-        private void addTeamButton_Click(object sender, EventArgs e) {
+        public void addTeamEntry(string teamName) {
             Button newB = new Button();
             newB.Margin = new Padding(0);
-            newB.Text = "New Team!";
+            newB.Text = teamName;
             newB.Size = new Size(485, 46);
             TeamsLayout.Controls.Add(newB);
+        }
+
+        private void addTeamButton_Click(object sender, EventArgs e) {
+            AddTeam aT = new AddTeam();
+            aT.Show();
         }
 
         private void backButton_Click(object sender, EventArgs e) {

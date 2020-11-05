@@ -65,5 +65,11 @@ namespace AUBTimeManagementApp.GUI
             calendar.Items.Remove(e.Item);
             addEventWindow.Show();
         }
+
+        private void backButton_Click(object sender, EventArgs e) {
+            SignInUpForm nF = new SignInUpForm();
+            nF.Show();
+            Close();
+        }
     }
 }

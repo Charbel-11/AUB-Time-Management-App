@@ -989,6 +989,7 @@ namespace System.Windows.Forms.Calendar
 
                     for (int i = dayStart.Index; i <= dayEnd.Index; i++)
                     {
+                        if (i >= Calendar.Days.Length) { continue; }
                         Calendar.Days[i].AddContainedItem(item);
                         maxItems = Math.Max(maxItems, Calendar.Days[i].ContainedItems.Count);
                     }

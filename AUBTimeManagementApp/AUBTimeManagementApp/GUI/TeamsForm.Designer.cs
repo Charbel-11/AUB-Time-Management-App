@@ -133,7 +133,7 @@
             this.Controls.Add(this.addTeamButton);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "TeamsForm";
-            this.Text = "TeamsForm";
+            this.Text = "Teams";
             this.TeamsLayout.ResumeLayout(false);
             this.ResumeLayout(false);
 
