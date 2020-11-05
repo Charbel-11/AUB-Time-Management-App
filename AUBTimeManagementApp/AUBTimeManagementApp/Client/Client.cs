@@ -116,7 +116,7 @@ namespace AUBTimeManagementApp.Client
             teams.Add(newTeam);
         }
 
-        public void createEvent(string eventName, int priority, DateTime startDate, DateTime endDate) {
+        public void showEvent(string eventName, int priority, DateTime startDate, DateTime endDate) {
             mainForm.displayEvent(eventName, priority, startDate, endDate);
         }
         public void addEvent(Event newEvent)
