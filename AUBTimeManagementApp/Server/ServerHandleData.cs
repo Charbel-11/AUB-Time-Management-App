@@ -21,7 +21,8 @@ namespace Server {
             PacketListener = new Dictionary<int, PacketF> {
                 { (int)ClientPackages.CMsg, HandleMessage },
                 { (int)ClientPackages.CLogin, HandleLogin },
-                { (int)ClientPackages.CRegister, HandleRegister }
+                { (int)ClientPackages.CRegister, HandleRegister },
+                { (int)ClientPackages.CGetUserSchedule, HandleGetUserSchedule }
             };
         }
 
@@ -189,10 +190,11 @@ namespace Server {
             int[] e = SchedulesHandler.getEventList(userID);
             // Call EventsHandler to get details of each event in the eventsID list
             // and add them to a string to be sent to the client
+            ////////////TO FIX/////////////////////////////////
             string events="";
             foreach (int i in e)
             {
-                events += i;//fix
+                events += i;
                 string details = EventsHandler.getPersonalEvent(i);
                 events+=details;
             }

@@ -16,7 +16,8 @@ namespace AUBTimeManagementApp.Client {
             {
             { (int)ServerPackages.SMsg, HandleMessage },
             { (int)ServerPackages.SLoginReply, HandleLoginReply },
-            { (int)ServerPackages.SRegisterReply, HandleRegisterReply }
+            { (int)ServerPackages.SRegisterReply, HandleRegisterReply },
+            { (int)ServerPackages.SGetUserScheduleReply, HandleGetUserScheduleReply }
             };
         }
 

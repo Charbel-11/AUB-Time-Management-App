@@ -142,6 +142,11 @@ namespace AUBTimeManagementApp.Client
             //get userID from user storage
             ClientTCP.PACKAGE_GetUserSchedule(userID);
         }
+
+        public void GetUserScheduleReply(string events)
+		{
+
+		}
     }
 
 }
