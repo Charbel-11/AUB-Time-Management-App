@@ -29,31 +29,31 @@
 		
         private void InitializeComponent()
         {
-            System.Windows.Forms.Calendar.CalendarHighlightRange calendarHighlightRange1 = new System.Windows.Forms.Calendar.CalendarHighlightRange();
-            System.Windows.Forms.Calendar.CalendarHighlightRange calendarHighlightRange2 = new System.Windows.Forms.Calendar.CalendarHighlightRange();
-            System.Windows.Forms.Calendar.CalendarHighlightRange calendarHighlightRange3 = new System.Windows.Forms.Calendar.CalendarHighlightRange();
-            System.Windows.Forms.Calendar.CalendarHighlightRange calendarHighlightRange4 = new System.Windows.Forms.Calendar.CalendarHighlightRange();
-            System.Windows.Forms.Calendar.CalendarHighlightRange calendarHighlightRange5 = new System.Windows.Forms.Calendar.CalendarHighlightRange();
-            this.AddTeamButton = new System.Windows.Forms.Button();
+            System.Windows.Forms.Calendar.CalendarHighlightRange calendarHighlightRange6 = new System.Windows.Forms.Calendar.CalendarHighlightRange();
+            System.Windows.Forms.Calendar.CalendarHighlightRange calendarHighlightRange7 = new System.Windows.Forms.Calendar.CalendarHighlightRange();
+            System.Windows.Forms.Calendar.CalendarHighlightRange calendarHighlightRange8 = new System.Windows.Forms.Calendar.CalendarHighlightRange();
+            System.Windows.Forms.Calendar.CalendarHighlightRange calendarHighlightRange9 = new System.Windows.Forms.Calendar.CalendarHighlightRange();
+            System.Windows.Forms.Calendar.CalendarHighlightRange calendarHighlightRange10 = new System.Windows.Forms.Calendar.CalendarHighlightRange();
+            this.TeamButton = new System.Windows.Forms.Button();
             this.addEvent = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.monthView = new System.Windows.Forms.Calendar.MonthView();
             this.calendar = new System.Windows.Forms.Calendar.Calendar();
             this.SuspendLayout();
             // 
-            // AddTeamButton
+            // TeamButton
             // 
-            this.AddTeamButton.Location = new System.Drawing.Point(689, 363);
-            this.AddTeamButton.Name = "AddTeamButton";
-            this.AddTeamButton.Size = new System.Drawing.Size(266, 51);
-            this.AddTeamButton.TabIndex = 0;
-            this.AddTeamButton.Text = "Add Team";
-            this.AddTeamButton.UseVisualStyleBackColor = true;
-            this.AddTeamButton.Click += new System.EventHandler(this.AddTeamButton_Click);
+            this.TeamButton.Location = new System.Drawing.Point(689, 451);
+            this.TeamButton.Name = "TeamButton";
+            this.TeamButton.Size = new System.Drawing.Size(266, 51);
+            this.TeamButton.TabIndex = 0;
+            this.TeamButton.Text = "Teams";
+            this.TeamButton.UseVisualStyleBackColor = true;
+            this.TeamButton.Click += new System.EventHandler(this.TeamButton_Click);
             // 
             // addEvent
             // 
-            this.addEvent.Location = new System.Drawing.Point(689, 454);
+            this.addEvent.Location = new System.Drawing.Point(689, 359);
             this.addEvent.Name = "addEvent";
             this.addEvent.Size = new System.Drawing.Size(266, 51);
             this.addEvent.TabIndex = 1;
@@ -95,27 +95,27 @@
             // calendar
             // 
             this.calendar.Font = new System.Drawing.Font("Segoe UI", 9F);
-            calendarHighlightRange1.DayOfWeek = System.DayOfWeek.Monday;
-            calendarHighlightRange1.EndTime = System.TimeSpan.Parse("17:00:00");
-            calendarHighlightRange1.StartTime = System.TimeSpan.Parse("08:00:00");
-            calendarHighlightRange2.DayOfWeek = System.DayOfWeek.Tuesday;
-            calendarHighlightRange2.EndTime = System.TimeSpan.Parse("17:00:00");
-            calendarHighlightRange2.StartTime = System.TimeSpan.Parse("08:00:00");
-            calendarHighlightRange3.DayOfWeek = System.DayOfWeek.Wednesday;
-            calendarHighlightRange3.EndTime = System.TimeSpan.Parse("17:00:00");
-            calendarHighlightRange3.StartTime = System.TimeSpan.Parse("08:00:00");
-            calendarHighlightRange4.DayOfWeek = System.DayOfWeek.Thursday;
-            calendarHighlightRange4.EndTime = System.TimeSpan.Parse("17:00:00");
-            calendarHighlightRange4.StartTime = System.TimeSpan.Parse("08:00:00");
-            calendarHighlightRange5.DayOfWeek = System.DayOfWeek.Friday;
-            calendarHighlightRange5.EndTime = System.TimeSpan.Parse("17:00:00");
-            calendarHighlightRange5.StartTime = System.TimeSpan.Parse("08:00:00");
+            calendarHighlightRange6.DayOfWeek = System.DayOfWeek.Monday;
+            calendarHighlightRange6.EndTime = System.TimeSpan.Parse("17:00:00");
+            calendarHighlightRange6.StartTime = System.TimeSpan.Parse("08:00:00");
+            calendarHighlightRange7.DayOfWeek = System.DayOfWeek.Tuesday;
+            calendarHighlightRange7.EndTime = System.TimeSpan.Parse("17:00:00");
+            calendarHighlightRange7.StartTime = System.TimeSpan.Parse("08:00:00");
+            calendarHighlightRange8.DayOfWeek = System.DayOfWeek.Wednesday;
+            calendarHighlightRange8.EndTime = System.TimeSpan.Parse("17:00:00");
+            calendarHighlightRange8.StartTime = System.TimeSpan.Parse("08:00:00");
+            calendarHighlightRange9.DayOfWeek = System.DayOfWeek.Thursday;
+            calendarHighlightRange9.EndTime = System.TimeSpan.Parse("17:00:00");
+            calendarHighlightRange9.StartTime = System.TimeSpan.Parse("08:00:00");
+            calendarHighlightRange10.DayOfWeek = System.DayOfWeek.Friday;
+            calendarHighlightRange10.EndTime = System.TimeSpan.Parse("17:00:00");
+            calendarHighlightRange10.StartTime = System.TimeSpan.Parse("08:00:00");
             this.calendar.HighlightRanges = new System.Windows.Forms.Calendar.CalendarHighlightRange[] {
-        calendarHighlightRange1,
-        calendarHighlightRange2,
-        calendarHighlightRange3,
-        calendarHighlightRange4,
-        calendarHighlightRange5};
+        calendarHighlightRange6,
+        calendarHighlightRange7,
+        calendarHighlightRange8,
+        calendarHighlightRange9,
+        calendarHighlightRange10};
             this.calendar.Location = new System.Drawing.Point(7, 6);
             this.calendar.Name = "calendar";
             this.calendar.Size = new System.Drawing.Size(611, 532);
@@ -124,15 +124,15 @@
             this.calendar.LoadItems += new System.Windows.Forms.Calendar.Calendar.CalendarLoadEventHandler(this.calendar_LoadItems);
             this.calendar.ItemDoubleClick += new System.Windows.Forms.Calendar.Calendar.CalendarItemEventHandler(this.calendar_ItemDoubleClick);
             // 
-            // Form1
+            // mainForm
             // 
             this.ClientSize = new System.Drawing.Size(1016, 550);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.monthView);
             this.Controls.Add(this.calendar);
             this.Controls.Add(this.addEvent);
-            this.Controls.Add(this.AddTeamButton);
-            this.Name = "Form1";
+            this.Controls.Add(this.TeamButton);
+            this.Name = "mainForm";
             this.Text = "Time Management App";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -141,7 +141,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Button AddTeamButton;
+        private System.Windows.Forms.Button TeamButton;
         private System.Windows.Forms.Button addEvent;
         private System.Windows.Forms.Calendar.Calendar calendar;
         private System.Windows.Forms.Calendar.MonthView monthView;

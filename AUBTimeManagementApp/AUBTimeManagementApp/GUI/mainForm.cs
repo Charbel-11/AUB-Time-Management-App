@@ -13,9 +13,7 @@ namespace AUBTimeManagementApp.GUI
 {
     public partial class mainForm : Form {
         List<CalendarItem> _items = new List<CalendarItem>();   //Maybe we should put this in the client code (took it from the demo)
-        SignInUpForm parent;
-        public mainForm(SignInUpForm _parent, string username = null) {
-            parent = _parent;
+        public mainForm(string username = null) {
             Client.Client.Instance.setForm(this);
 
             InitializeComponent();
@@ -32,9 +30,10 @@ namespace AUBTimeManagementApp.GUI
             _items.Add(curEvent);
         }
 
-        private void AddTeamButton_Click(object sender, EventArgs e) {
-            AddTeam addTeamWindow = new AddTeam(this);
+        private void TeamButton_Click(object sender, EventArgs e) {
+            TeamsForm addTeamWindow = new TeamsForm();
             addTeamWindow.Show();
+            Close();
         }
 
         private void addEvent_MouseClick(object sender, MouseEventArgs e) {

@@ -23,6 +23,7 @@ namespace AUBTimeManagementApp.Client
         private RegistrationForm registrationForm;
         private mainForm mainForm;
         private SignInUpForm signInUpForm;
+        private TeamsForm teamsForm;
 
         // Explicit static constructor to tell C# compiler not to mark type as beforefieldinit
         static Client()
@@ -62,6 +63,9 @@ namespace AUBTimeManagementApp.Client
             }
             else if (form.GetType() == typeof(SignInUpForm)) {
                 signInUpForm = (SignInUpForm)form;
+            }
+            else if (form.GetType() == typeof(TeamsForm)) {
+                teamsForm = (TeamsForm)form;
             }
         }
 

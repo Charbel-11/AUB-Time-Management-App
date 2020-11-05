@@ -39,7 +39,7 @@ namespace AUBTimeManagementApp.GUI
         public void loginReply(bool OK) { 
             if (OK)
             {
-                mainForm form1 = new mainForm(this, username);
+                mainForm form1 = new mainForm(username);
                 form1.Show();
                 Close();
             }
