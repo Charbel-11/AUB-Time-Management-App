@@ -15,7 +15,7 @@ namespace AUBTimeManagementApp.Client
         private static readonly int serverPort = 8020;
 
         public string username;
-        private Schedule schedule;
+        public string userID;
         private List<Team> teams;
         private List<Event> events;
 
@@ -135,6 +135,12 @@ namespace AUBTimeManagementApp.Client
                 s += start + "->" + end + "\r\n";
             }
             return s;
+        }
+
+        public void GetUserSchedule()
+        {
+            //get userID from user storage
+            ClientTCP.PACKAGE_GetUserSchedule(userID);
         }
     }
 

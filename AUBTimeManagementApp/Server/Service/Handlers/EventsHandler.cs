@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AUBTimeManagementApp.Service.Storage;
+using System;
 using System.Collections.Generic;
 using System.Reflection.Emit;
 using System.Text;
@@ -52,6 +53,14 @@ namespace Server.Service.Handlers
             return false;
 		}
 
-
+        static public string getPersonalEvent(int eventID)
+		{
+            if (EventsStorage.eventExists(eventID))
+            {
+                string EventDetails = EventsStorage.getEventDetails(eventID);
+                return EventDetails;
+            }
+            return " ";
+		}
     }
 }

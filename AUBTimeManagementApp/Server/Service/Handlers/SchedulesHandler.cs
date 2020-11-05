@@ -1,18 +1,26 @@
-﻿using System;
+﻿using AUBTimeManagementApp.Service.Storage;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using Server.DataContracts;
 
+
 namespace Server.Service.Handlers {
     class SchedulesHandler {
 
-        public Schedule getUserSchedule(string username) {
-            Schedule userSchedule = new Schedule(true, username);
-
-            //Get a list of event IDs
-            //Get the detail about each event and add it to a schedule
-
-            return userSchedule;
+        public static int[] getEventList(string userID) {
+            //If schedule exists get a list of event IDs
+            int[] e = new int[] { };
+            if (SchedulesStorage.ScheduleExists(userID))
+			{
+                e = SchedulesStorage.GetSchedule(userID);
+            }
+            //else create empty schedule
+            else
+			{
+                SchedulesStorage.CreateSchedule(userID);   
+            }
+            return e;
         }
 
         public Schedule getTeamSchedule(int teamID) {

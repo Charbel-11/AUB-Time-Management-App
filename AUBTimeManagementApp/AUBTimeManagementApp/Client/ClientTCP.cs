@@ -110,6 +110,20 @@ namespace AUBTimeManagementApp.Client {
             bufferH.Dispose();
         }
 
+        public static void PACKAGE_GetUserSchedule(string userID)
+        {
+            BufferHelper bufferH = new BufferHelper();
+            //Writes the function ID so the server knows this is PACKAGE_Login and handles it accordingly
+            bufferH.WriteInteger((int)ClientPackages.CGetUserSchedule);
+
+            // Write userID on buffer
+            bufferH.WriteString(userID);
+
+            //Sends it to the server
+            SendData(bufferH.ToArray());
+            bufferH.Dispose();
+        }
+
         public static void CloseConnection() {
             if (ClientSocket != null)
                 ClientSocket.Close();

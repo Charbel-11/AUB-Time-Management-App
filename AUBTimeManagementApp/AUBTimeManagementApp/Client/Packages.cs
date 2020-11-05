@@ -4,10 +4,13 @@
 public enum ServerPackages {
     SMsg,
     SLoginReply,
-    SRegisterReply
+    SRegisterReply,
+    SGetUserScheduleReply
+
 }
 public enum ClientPackages {
     CMsg,
     CLogin,
-    CRegister
+    CRegister,
+    CGetUserSchedule
 }

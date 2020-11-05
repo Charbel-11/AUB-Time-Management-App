@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Server.Service.Handlers;
+using Server.DataContracts;
 
 namespace Server {
     /// <summary>
@@ -103,6 +104,18 @@ namespace Server {
 
             // Write bool on buffer
             buffer.WriteBool(isUser);
+
+            SendDataTo(ConnectionID, buffer.ToArray());
+            buffer.Dispose();
+        }
+
+        public static void PACKET_SendGetUserScheduleReply(int ConnectionID, string events)
+        {
+            BufferHelper buffer = new BufferHelper();
+            buffer.WriteInteger((int)ServerPackages.SGetUserScheduleReply);
+
+            // Write events string on buffer
+            buffer.WriteString(events);
 
             SendDataTo(ConnectionID, buffer.ToArray());
             buffer.Dispose();

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Server.DataContracts;
 
 namespace Server {
     /// <summary>
@@ -172,6 +173,30 @@ namespace Server {
             bool isUser = AccountsHandler.confirmLogIn(username, password);
             // If account exists notify the front end to change scenes
             ServerTCP.PACKET_SendLoginReply(ConnectionID, isUser);
+        }
+
+        private static void HandleGetUserSchedule(int ConnectionID, byte[] data)
+        {
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteBytes(data);
+
+            // Read username and password to buffer
+            string userID = bufferH.ReadString();
+
+            bufferH.Dispose();
+
+            // Call SchedulesHandler to get list of events in the schedule
+            int[] e = SchedulesHandler.getEventList(userID);
+            // Call EventsHandler to get details of each event in the eventsID list
+            // and add them to a string to be sent to the client
+            string events="";
+            foreach (int i in e)
+            {
+                events += i;//fix
+                string details = EventsHandler.getPersonalEvent(i);
+                events+=details;
+            }
+            ServerTCP.PACKET_SendGetUserScheduleReply(ConnectionID, events);
         }
     }
 }

@@ -86,5 +86,17 @@ namespace AUBTimeManagementApp.Client {
 
             bufferH.Dispose();
         }
+
+        public static void HandleGetUserScheduleReply(byte[] data)
+        {
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteBytes(data);    //Add the byte[] array to our buffer helper so that we can parse it
+
+            // Read verification result from accounts handler
+            string events = bufferH.ReadString();
+            Client.Instance.GetUserScheduleReply(events);
+
+            bufferH.Dispose();
+        }
     }
 }
