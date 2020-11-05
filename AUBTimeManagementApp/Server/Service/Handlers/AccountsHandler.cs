@@ -8,7 +8,7 @@ namespace Server.Service.Handlers
     class AccountsHandler
     {
         public static int confirmRegistration(string username, string firstName, string lastName, string email, string password, string confirmPassword, DateTime dateOfBirth) {
-            if (AccountsStorage.usernameExists(username)) { return -3; }
+            //if (AccountsStorage.usernameExists(username)) { return -3; }
             int checkPass = checkPassword(password, confirmPassword);
             if(checkPass != 1) { return checkPass; }
 

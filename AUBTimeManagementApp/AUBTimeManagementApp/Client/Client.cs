@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using AUBTimeManagementApp.DataContracts;
-using AUBTimeManagementApp.Service;
-using AUBTimeManagementApp.Service.Teams;
-using AUBTimeManagementApp.Service.Events;
 using AUBTimeManagementApp.GUI;
 using System.Windows.Forms;
 
@@ -107,7 +104,7 @@ namespace AUBTimeManagementApp.Client
 
         }
         public void createTeam(string teamName, string[] teamMembers) {
-            TeamsHandler.createTeamRequest(username, teamName, teamMembers, out string[] invalidUsernames);
+            
         }
 
         public void addTeam(Team newTeam)
@@ -115,9 +112,8 @@ namespace AUBTimeManagementApp.Client
             teams.Add(newTeam);
         }
 
-        public void createEvent(string eventname, int priority, DateTime startDate, DateTime endDate)
-		{
-            EventsHandler.createPersonalEvent(eventname, priority, startDate, endDate);
+        public void createEvent(string eventname, int priority, DateTime startDate, DateTime endDate) {
+
 		}
         public void addEvent(Event newEvent)
         {
