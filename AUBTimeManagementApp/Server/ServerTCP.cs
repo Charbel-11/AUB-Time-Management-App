@@ -16,6 +16,7 @@ namespace Server {
     class ServerTCP {
         private static TcpListener ServerSocket;    //The server basically
         public static ConcurrentDictionary<int, ClientObject> ClientObjects;
+        public static ConcurrentDictionary<string, int> UsernameToConnectionID;
 
         public static void InitializeServer() {
             InitializeClientObjects();
@@ -26,6 +27,7 @@ namespace Server {
         /// </summary>
         private static void InitializeClientObjects() {
             ClientObjects = new ConcurrentDictionary<int, ClientObject>();
+            UsernameToConnectionID = new ConcurrentDictionary<string, int>();
         }
         /// <summary>
         /// Sets the port and starts listening to new connections
@@ -79,47 +81,77 @@ namespace Server {
         /// <param name="ConnectionID">Connection ID of the target user</param>
         /// <param name="msg">Message to be sent</param>
         public static void PACKET_SendMessage(int ConnectionID, string msg) {
-            BufferHelper buffer = new BufferHelper();
-            buffer.WriteInteger((int)ServerPackages.SMsg);
-            buffer.WriteString(msg);
-            SendDataTo(ConnectionID, buffer.ToArray());
-            buffer.Dispose();
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteInteger((int)ServerPackages.SMsg);
+            bufferH.WriteString(msg);
+            SendDataTo(ConnectionID, bufferH.ToArray());
+            bufferH.Dispose();
         }
 
         public static void PACKET_SendRegisterReply(int ConnectionID, int isRegistered)
         {
-            BufferHelper buffer = new BufferHelper();
-            buffer.WriteInteger((int)ServerPackages.SRegisterReply);
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteInteger((int)ServerPackages.SRegisterReply);
 
             // Write bool on buffer
-            buffer.WriteInteger(isRegistered);
+            bufferH.WriteInteger(isRegistered);
 
-            SendDataTo(ConnectionID, buffer.ToArray());
-            buffer.Dispose();
+            SendDataTo(ConnectionID, bufferH.ToArray());
+            bufferH.Dispose();
         }
 
         public static void PACKET_SendLoginReply(int ConnectionID, bool isUser) {
-            BufferHelper buffer = new BufferHelper();
-            buffer.WriteInteger((int)ServerPackages.SLoginReply);
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteInteger((int)ServerPackages.SLoginReply);
 
             // Write bool on buffer
-            buffer.WriteBool(isUser);
+            bufferH.WriteBool(isUser);
 
-            SendDataTo(ConnectionID, buffer.ToArray());
-            buffer.Dispose();
+            SendDataTo(ConnectionID, bufferH.ToArray());
+            bufferH.Dispose();
         }
 
         public static void PACKET_SendGetUserScheduleReply(int ConnectionID, string events)
         {
-            BufferHelper buffer = new BufferHelper();
-            buffer.WriteInteger((int)ServerPackages.SGetUserScheduleReply);
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteInteger((int)ServerPackages.SGetUserScheduleReply);
 
             // Write events string on buffer
-            buffer.WriteString(events);
+            bufferH.WriteString(events);
 
-            SendDataTo(ConnectionID, buffer.ToArray());
-            buffer.Dispose();
+            SendDataTo(ConnectionID, bufferH.ToArray());
+            bufferH.Dispose();
         }
 
+        //Used to respond to the user who created the team
+        //The user will display a message accordingly, however we still send him a PACKET_NewTeamCreated 
+        public static void PACKET_CreateTeamReply(int ConnectionID, bool OK, string[] invalidUsernames) {
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteInteger((int)ServerPackages.SCreateTeamReply);
+
+            bufferH.WriteBool(OK);
+            if (OK) {
+                bufferH.WriteInteger(invalidUsernames.Length);
+                foreach(string m in invalidUsernames) { bufferH.WriteString(m); }
+            }
+
+            SendDataTo(ConnectionID, bufferH.ToArray());
+            bufferH.Dispose();
+        }
+
+        //Sent to every online user that has been added to a team
+        public static void PACKET_NewTeamCreated(int ConnectionID, string teamName, int teamID, string admin, string[] members) {
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteInteger((int)ServerPackages.SNewTeamCreated);
+
+            bufferH.WriteString(teamName);
+            bufferH.WriteInteger(teamID);
+            bufferH.WriteString(admin);
+            bufferH.WriteInteger(members.Length);
+            foreach (string m in members) { bufferH.WriteString(m); }
+
+            SendDataTo(ConnectionID, bufferH.ToArray());
+            bufferH.Dispose();
+        }
     }
 }

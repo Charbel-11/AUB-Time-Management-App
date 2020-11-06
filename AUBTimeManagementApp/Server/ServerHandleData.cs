@@ -22,7 +22,8 @@ namespace Server {
                 { (int)ClientPackages.CMsg, HandleMessage },
                 { (int)ClientPackages.CLogin, HandleLogin },
                 { (int)ClientPackages.CRegister, HandleRegister },
-                { (int)ClientPackages.CGetUserSchedule, HandleGetUserSchedule }
+                { (int)ClientPackages.CGetUserSchedule, HandleGetUserSchedule },
+                { (int)ClientPackages.CCreateTeam, HandleCreateTeam }
             };
         }
 
@@ -172,6 +173,13 @@ namespace Server {
 
             // Call AccountsHandler 
             bool isUser = AccountsHandler.confirmLogIn(username, password);
+
+            if (isUser) {
+                ServerTCP.ClientObjects[ConnectionID].username = username;
+                ServerTCP.UsernameToConnectionID[username] = ConnectionID;
+                //TODO: set this user to be online in the db HERE (to make sure UsernameToConnectionID is set accordingly)
+            }
+
             // If account exists notify the front end to change scenes
             ServerTCP.PACKET_SendLoginReply(ConnectionID, isUser);
         }
@@ -200,5 +208,23 @@ namespace Server {
             }
             ServerTCP.PACKET_SendGetUserScheduleReply(ConnectionID, events);
         }
+
+        private static void HandleCreateTeam(int ConnectionID, byte[] data) {
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteBytes(data);
+
+            string teamName = bufferH.ReadString();
+            string admin = bufferH.ReadString();
+            int numberOfMembers = bufferH.ReadInteger();
+            string[] members = new string[numberOfMembers];
+            for(int i = 0; i < numberOfMembers; i++) {
+                members[i] = bufferH.ReadString();
+            }
+
+            bufferH.Dispose();
+
+            TeamsHandler.createTeamRequest(ConnectionID, admin, teamName, members);
+        }
+
     }
 }

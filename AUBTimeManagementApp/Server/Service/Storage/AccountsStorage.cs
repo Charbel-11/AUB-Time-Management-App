@@ -10,6 +10,10 @@ namespace AUBTimeManagementApp.Service.Storage
             return true;
         }
 
+        public static bool isOnline(string username) {
+            return true;
+        }
+
         public static int validateRegistration(string username, string email) {
             return 1;
         }

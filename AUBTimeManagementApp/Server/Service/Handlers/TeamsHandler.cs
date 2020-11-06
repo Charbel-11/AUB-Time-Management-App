@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using AUBTimeManagementApp.Service.Storage;
 using Server.DataContracts;
 
 namespace Server.Service.Handlers
@@ -8,21 +9,34 @@ namespace Server.Service.Handlers
     static class TeamsHandler
     {
         #region Requests
-        //admin is the user who called the function
-        //Returns the team for the user, null if an error occured
-        public static Team createTeamRequest(string admin, string teamName, string[] members, out string[] invalidUsernames)
+        /// <summary>
+        /// Creates a new team in the database and notifies all online users
+        /// </summary>
+        /// <param name="admin">The admin of the team (calling user)</param>
+        /// <param name="teamName">The name of the team</param>
+        /// <param name="members">The list of members given by the calling user (might be invalid)</param>
+        public static void createTeamRequest(int ConnectionID, string admin, string teamName, string[] members)
         {
-            //Get the usernames of members with valid username
-            //Invalid usernames are stored in invalidUsernames
-            //Create the team with the valid usernames/teamName/admin
-            //Send the details for online users
+            List<string> invalidUsernames = new List<string>();
+            List<string> validUsernames = new List<string>();
 
-            //For the prototype:
-   //         Team newTeam = new Team(admin, 11);
-     //       Client.Client.Instance.addTeam(newTeam);
+            validUsernames.Add(admin);
+            foreach(string m in members) {
+                if (AccountsStorage.usernameExists(m)) { validUsernames.Add(m); }
+                else { invalidUsernames.Add(m); }
+            }
 
-            invalidUsernames = new string[1];
-            return null;
+            //NOTE: Maybe generate the team ID automatically and return it in the addTeam function instead
+            int teamID = TeamsStorage.getNewTeamID();
+            bool OK = TeamsStorage.addTeam(teamName, admin, TeamsStorage.getNewTeamID(), validUsernames.ToArray());
+            ServerTCP.PACKET_CreateTeamReply(ConnectionID, OK, invalidUsernames.ToArray());
+            if (!OK) { return; }
+
+            //Send the team details to online users         
+            foreach (string user in validUsernames) {
+                if (AccountsStorage.isOnline(user))
+                    ServerTCP.PACKET_NewTeamCreated(ServerTCP.UsernameToConnectionID[user], teamName, teamID, admin, validUsernames.ToArray());
+            }
         }
 
         public static bool removeTeamRequest(int teamID)
@@ -87,6 +101,7 @@ namespace Server.Service.Handlers
         }
         #endregion
 
+        //Those should probably be in the ServerTCP
         #region Send Flags
         private static void sendNewTeamDetails(string username, Team team)
         {
@@ -125,6 +140,7 @@ namespace Server.Service.Handlers
         }
         #endregion
 
+        //Those should be in the client code i guess
         #region Receive Flags
         public static void receiveNewTeamDetails(Team team)
         {

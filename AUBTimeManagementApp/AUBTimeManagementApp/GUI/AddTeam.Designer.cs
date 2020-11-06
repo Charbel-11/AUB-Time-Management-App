@@ -140,6 +140,7 @@
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.teamName);
             this.Name = "AddTeam";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Add Team";
             this.ResumeLayout(false);
             this.PerformLayout();

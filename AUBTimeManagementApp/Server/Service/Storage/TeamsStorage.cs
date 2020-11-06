@@ -68,6 +68,10 @@ namespace AUBTimeManagementApp.Service.Storage
 
             return new string[] { };
         }
+
+        public static int getNewTeamID() {
+            return 1;
+        }
         #endregion
     }
 }

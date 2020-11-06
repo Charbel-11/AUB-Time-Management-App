@@ -44,9 +44,9 @@
             Title.BackColor = System.Drawing.Color.Transparent;
             Title.Font = new System.Drawing.Font("Microsoft Sans Serif", 22.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             Title.ForeColor = System.Drawing.Color.Navy;
-            Title.Location = new System.Drawing.Point(87, 18);
+            Title.Location = new System.Drawing.Point(98, 22);
             Title.Name = "Title";
-            Title.Size = new System.Drawing.Size(654, 44);
+            Title.Size = new System.Drawing.Size(765, 52);
             Title.TabIndex = 0;
             Title.Text = "AUB Time Management Application";
             Title.Click += new System.EventHandler(this.label1_Click);
@@ -57,9 +57,10 @@
             this.SignUpButton.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
             this.SignUpButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
             this.SignUpButton.ForeColor = System.Drawing.Color.Navy;
-            this.SignUpButton.Location = new System.Drawing.Point(275, 361);
+            this.SignUpButton.Location = new System.Drawing.Point(309, 451);
+            this.SignUpButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.SignUpButton.Name = "SignUpButton";
-            this.SignUpButton.Size = new System.Drawing.Size(217, 51);
+            this.SignUpButton.Size = new System.Drawing.Size(244, 64);
             this.SignUpButton.TabIndex = 1;
             this.SignUpButton.Text = "Sign Up";
             this.SignUpButton.UseVisualStyleBackColor = false;
@@ -71,9 +72,10 @@
             this.LoginButton.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
             this.LoginButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
             this.LoginButton.ForeColor = System.Drawing.Color.Navy;
-            this.LoginButton.Location = new System.Drawing.Point(275, 277);
+            this.LoginButton.Location = new System.Drawing.Point(309, 346);
+            this.LoginButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.LoginButton.Name = "LoginButton";
-            this.LoginButton.Size = new System.Drawing.Size(217, 51);
+            this.LoginButton.Size = new System.Drawing.Size(244, 64);
             this.LoginButton.TabIndex = 2;
             this.LoginButton.Text = "Login";
             this.LoginButton.UseVisualStyleBackColor = false;
@@ -84,9 +86,10 @@
             this.UsernameTextBox.BackColor = System.Drawing.Color.WhiteSmoke;
             this.UsernameTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
             this.UsernameTextBox.ForeColor = System.Drawing.Color.Navy;
-            this.UsernameTextBox.Location = new System.Drawing.Point(275, 141);
+            this.UsernameTextBox.Location = new System.Drawing.Point(309, 176);
+            this.UsernameTextBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.UsernameTextBox.Name = "UsernameTextBox";
-            this.UsernameTextBox.Size = new System.Drawing.Size(217, 28);
+            this.UsernameTextBox.Size = new System.Drawing.Size(244, 32);
             this.UsernameTextBox.TabIndex = 3;
             // 
             // PasswordTextBox
@@ -94,10 +97,11 @@
             this.PasswordTextBox.BackColor = System.Drawing.Color.WhiteSmoke;
             this.PasswordTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
             this.PasswordTextBox.ForeColor = System.Drawing.Color.Navy;
-            this.PasswordTextBox.Location = new System.Drawing.Point(275, 215);
+            this.PasswordTextBox.Location = new System.Drawing.Point(309, 269);
+            this.PasswordTextBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.PasswordTextBox.Name = "PasswordTextBox";
             this.PasswordTextBox.PasswordChar = '*';
-            this.PasswordTextBox.Size = new System.Drawing.Size(217, 28);
+            this.PasswordTextBox.Size = new System.Drawing.Size(244, 32);
             this.PasswordTextBox.TabIndex = 4;
             this.PasswordTextBox.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
@@ -106,9 +110,9 @@
             this.UsernameLabel.AutoSize = true;
             this.UsernameLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
             this.UsernameLabel.ForeColor = System.Drawing.Color.Navy;
-            this.UsernameLabel.Location = new System.Drawing.Point(272, 108);
+            this.UsernameLabel.Location = new System.Drawing.Point(306, 135);
             this.UsernameLabel.Name = "UsernameLabel";
-            this.UsernameLabel.Size = new System.Drawing.Size(97, 24);
+            this.UsernameLabel.Size = new System.Drawing.Size(113, 26);
             this.UsernameLabel.TabIndex = 5;
             this.UsernameLabel.Text = "Username";
             // 
@@ -117,18 +121,18 @@
             this.PasswordLabel.AutoSize = true;
             this.PasswordLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
             this.PasswordLabel.ForeColor = System.Drawing.Color.Navy;
-            this.PasswordLabel.Location = new System.Drawing.Point(272, 184);
+            this.PasswordLabel.Location = new System.Drawing.Point(306, 230);
             this.PasswordLabel.Name = "PasswordLabel";
-            this.PasswordLabel.Size = new System.Drawing.Size(92, 24);
+            this.PasswordLabel.Size = new System.Drawing.Size(108, 26);
             this.PasswordLabel.TabIndex = 6;
             this.PasswordLabel.Text = "Password";
             // 
-            // Form2
+            // SignInUpForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.GhostWhite;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(900, 562);
             this.Controls.Add(this.PasswordLabel);
             this.Controls.Add(this.UsernameLabel);
             this.Controls.Add(this.PasswordTextBox);
@@ -136,7 +140,9 @@
             this.Controls.Add(this.LoginButton);
             this.Controls.Add(this.SignUpButton);
             this.Controls.Add(Title);
-            this.Name = "Form2";
+            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.Name = "SignInUpForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form2";
             this.TransparencyKey = System.Drawing.Color.Red;
             this.Load += new System.EventHandler(this.Form2_Load);

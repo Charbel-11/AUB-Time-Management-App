@@ -146,6 +146,7 @@
             this.Controls.Add(this.addEvent);
             this.Controls.Add(this.TeamButton);
             this.Name = "mainForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Time Management App";
             this.ResumeLayout(false);
             this.PerformLayout();

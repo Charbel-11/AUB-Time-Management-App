@@ -18,6 +18,7 @@ namespace Server {
         public List<byte[]> BufferList = new List<byte[]>();
 
         public int ConnectionID;
+        public string username;
         public string IP;
         public bool authenticated;
         public bool StopReading = false;
@@ -99,6 +100,7 @@ namespace Server {
             if (Socket != null) { Socket.Close(); Socket = null; }
 
             ServerTCP.ClientObjects.TryRemove(ConnectionID, out ClientObject wtv);
+            ServerTCP.UsernameToConnectionID.TryRemove(username, out int cId);
         }
 
         /// <summary>

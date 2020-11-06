@@ -4,6 +4,7 @@ using System.Text;
 using AUBTimeManagementApp.DataContracts;
 using AUBTimeManagementApp.GUI;
 using System.Windows.Forms;
+using System.Linq;
 
 namespace AUBTimeManagementApp.Client
 {
@@ -15,7 +16,7 @@ namespace AUBTimeManagementApp.Client
         private static readonly int serverPort = 8020;
 
         public string username;
-        public string userID;
+        public string userID = "i";
         private List<Team> teams;
         private List<Event> events;
 
@@ -69,26 +70,35 @@ namespace AUBTimeManagementApp.Client
             }
         }
 
+        public List<Team> getTeams() { return teams; }
+
+        public void addEvent(Event newEvent) {
+            events.Add(newEvent);
+        }
+
+        public void showEvent(string eventName, int priority, DateTime startDate, DateTime endDate) {
+            mainForm.displayEvent(eventName, priority, startDate, endDate);
+        }
+
+
         public void createAccount(string username, string firstName, string lastName, string password, string confirmPassword, string email, DateTime dateOfBirth) {            
             //TODO
             this.username = username;
             ClientTCP.PACKAGE_Register(username, firstName, lastName, password, confirmPassword, email, dateOfBirth);
         }
-
-        public void logIn(string username, string password) {
-            this.username = username;
-            ClientTCP.PACKAGE_Login(username, password);
-        }
-
         public void registerReply(int OK) {
             if (registrationForm.InvokeRequired) {
                 //We are calling a method of the form from a different thread
                 //Need to use invoke to make it threadsafe
                 registrationForm.Invoke(new MethodInvoker(delegate { registrationForm.registrationReply(OK); }));
             }
-           else { registrationForm.registrationReply(OK); }
+            else { registrationForm.registrationReply(OK); }
         }
 
+        public void logIn(string username, string password) {
+            this.username = username;
+            ClientTCP.PACKAGE_Login(username, password);
+        }
         public void logInReply(bool OK) {
             if (signInUpForm.InvokeRequired) {
                 //We are calling a method of the form from a different thread
@@ -108,33 +118,38 @@ namespace AUBTimeManagementApp.Client
 
         }
         public void createTeam(string teamName, string[] teamMembers) {
-            
+            ClientTCP.PACKAGE_CreateTeam(teamName, username, teamMembers);
         }
-
-        public void addTeam(Team newTeam)
-        {
-            teams.Add(newTeam);
-        }
-
-        public void showEvent(string eventName, int priority, DateTime startDate, DateTime endDate) {
-            mainForm.displayEvent(eventName, priority, startDate, endDate);
-        }
-        public void addEvent(Event newEvent)
-        {
-            events.Add(newEvent);
-        }
-
-        public string findFreeTime()
-        {
-            string s = "Find free time: \r\n All the time except: \r\n";
-            foreach (Event e in events)
-            {
-                DateTime start, end;
-                start = e.getStart();
-                end = e.getEnd();
-                s += start + "->" + end + "\r\n";
+        public void createTeamReply(bool OK, string[] invalidUsernames) {
+            string title = OK ? "The team was successfully created!" : "There was an error, the team was not created";
+            string info = "";
+            if (OK) {
+                if (invalidUsernames.Length == 0) { info = "All usernames provided were valid."; }
+                else {
+                    info = "The following provided usernames were invalid:\r\n";
+                    info += String.Join(", ", invalidUsernames);
+                }
             }
-            return s;
+
+            if (teamsForm != null && teamsForm.Visible) {
+                if (teamsForm.InvokeRequired) {
+                    teamsForm.Invoke(new MethodInvoker(delegate { teamsForm.showMessage(title, info); }));
+                }
+                else { teamsForm.showMessage(title, info); }
+            }
+        }
+
+        public void addedToATeam(string teamName, int teamID, string admin, string[] members) {
+            Team newTeam = new Team(teamID, teamName);
+            foreach (string m in members) { newTeam.addMember(m, m == admin); }
+            teams.Add(newTeam);
+
+            if (teamsForm != null && teamsForm.Visible) {
+                if (teamsForm.InvokeRequired) {
+                    teamsForm.Invoke(new MethodInvoker(delegate { teamsForm.addTeamEntry(newTeam); }));
+                }
+                else { teamsForm.addTeamEntry(newTeam); }
+            }
         }
 
         public void GetUserSchedule()
@@ -148,5 +163,4 @@ namespace AUBTimeManagementApp.Client
 
 		}
     }
-
 }

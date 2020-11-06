@@ -17,7 +17,9 @@ namespace AUBTimeManagementApp.Client {
             { (int)ServerPackages.SMsg, HandleMessage },
             { (int)ServerPackages.SLoginReply, HandleLoginReply },
             { (int)ServerPackages.SRegisterReply, HandleRegisterReply },
-            { (int)ServerPackages.SGetUserScheduleReply, HandleGetUserScheduleReply }
+            { (int)ServerPackages.SGetUserScheduleReply, HandleGetUserScheduleReply },
+            { (int)ServerPackages.SCreateTeamReply, HandleCreateTeamReply },
+            { (int)ServerPackages.SNewTeamCreated, HandleNewTeamCreated }
             };
         }
 
@@ -98,6 +100,38 @@ namespace AUBTimeManagementApp.Client {
             Client.Instance.GetUserScheduleReply(events);
 
             bufferH.Dispose();
+        }
+
+        public static void HandleCreateTeamReply(byte[] data) {
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteBytes(data);
+
+            bool OK = bufferH.ReadBool();
+            List<string> invalidUsernames = new List<string>();
+            if (OK) {
+                int n = bufferH.ReadInteger();
+                for(int i = 0; i < n; i++) { invalidUsernames.Add(bufferH.ReadString()); }
+            }
+
+            bufferH.Dispose();
+
+            Client.Instance.createTeamReply(OK, invalidUsernames.ToArray());
+        }
+
+        public static void HandleNewTeamCreated(byte[] data) {
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteBytes(data);
+
+            string teamName = bufferH.ReadString();
+            int teamID = bufferH.ReadInteger();
+            string admin = bufferH.ReadString();
+            int n = bufferH.ReadInteger();
+            List<string> members = new List<string>();
+            for(int i = 0; i < n; i++) { members.Add(bufferH.ReadString()); }
+
+            bufferH.Dispose();
+
+            Client.Instance.addedToATeam(teamName, teamID, admin, members.ToArray());
         }
     }
 }

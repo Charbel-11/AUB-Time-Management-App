@@ -70,9 +70,9 @@ namespace AUBTimeManagementApp.GUI
         private void removeButton_Click(object sender, EventArgs e) {
             int idx = removeButtons.FindIndex(a => a == sender);
 
+            flowLayoutPanel1.Controls.Remove(grpBoxes[idx]);
             members.RemoveAt(idx);
             removeButtons.RemoveAt(idx);
-            flowLayoutPanel1.Controls.Remove(grpBoxes[idx]);
             grpBoxes.RemoveAt(idx);
         }
     }
