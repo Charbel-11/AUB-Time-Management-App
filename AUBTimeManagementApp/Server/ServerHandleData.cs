@@ -199,14 +199,24 @@ namespace Server {
             // Call EventsHandler to get details of each event in the eventsID list
             // and add them to a string to be sent to the client
             ////////////TO FIX/////////////////////////////////
-            string events="";
+            List<string> eventName = new List<string>();
+            List<int> eventPriority = new List<int>();
+            List<DateTime> eventStart = new List<DateTime>();
+            List<DateTime> eventEnd = new List<DateTime>();
+            int n = 0;
             foreach (int i in e)
             {
-                events += i;
-                string details = EventsHandler.getPersonalEvent(i);
-                events+=details;
+                Event eve = EventsHandler.getPersonalEvent(i);
+                if (eve!=null)
+				{
+                    n++;
+                    eventName.Add(eve.getName());
+                    eventPriority.Add(eve.getPriority());
+                    eventStart.Add(eve.getStart());
+                    eventEnd.Add(eve.getEnd());
+                }
             }
-            ServerTCP.PACKET_SendGetUserScheduleReply(ConnectionID, events);
+            ServerTCP.PACKET_SendGetUserScheduleReply(ConnectionID, n, eventName, eventPriority,eventStart,eventEnd);
         }
 
         private static void HandleCreateTeam(int ConnectionID, byte[] data) {

@@ -24,7 +24,10 @@ namespace Server.DataContracts
             attendees = _attendees;
             teamEvent = _teamEvent;
         }
-
+        public string getName()
+		{
+            return eventName;
+		}
         public DateTime getStart()
         {
             return startTime;

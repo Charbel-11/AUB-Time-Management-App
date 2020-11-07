@@ -158,7 +158,7 @@ namespace AUBTimeManagementApp.Client
             ClientTCP.PACKAGE_GetUserSchedule(userID);
         }
 
-        public void GetUserScheduleReply(string events)
+        public void GetUserScheduleReply(List<string> eventName, List<int> eventPririty, List<string> eventStart, List<string> eventEnd)
 		{
 
 		}

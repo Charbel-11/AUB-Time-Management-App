@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -93,11 +94,21 @@ namespace AUBTimeManagementApp.Client {
         public static void HandleGetUserScheduleReply(byte[] data)
         {
             BufferHelper bufferH = new BufferHelper();
-            bufferH.WriteBytes(data);    //Add the byte[] array to our buffer helper so that we can parse it
+            bufferH.WriteBytes(data);
 
-            // Read verification result from accounts handler
-            string events = bufferH.ReadString();
-            Client.Instance.GetUserScheduleReply(events);
+            int n = bufferH.ReadInteger();
+            List<string> eventName = new List<string>();
+            List<int> eventPriority = new List<int>();
+            List<string> eventStart = new List<string>();
+            List<string> eventEnd = new List<string>();
+            for (int i=0;i<n;i++)
+			{
+                eventName.Add(bufferH.ReadString());
+                eventPriority.Add(bufferH.ReadInteger());
+                eventStart.Add(bufferH.ReadString());
+                eventEnd.Add(bufferH.ReadString());
+            }
+            Client.Instance.GetUserScheduleReply(eventName, eventPriority, eventStart, eventEnd);
 
             bufferH.Dispose();
         }

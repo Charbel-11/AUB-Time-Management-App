@@ -12,11 +12,29 @@ namespace AUBTimeManagementApp.Service.Storage
             return true;
 		}
         //Get event name
-        public static string getEventDetails(int eventID)
+        public static string getEventName(int eventID)
         {
-            //get name, start date, end date, priority of an event
-            string details="";
-            return details;
+            string s = "";
+            return s;
         }
+        //Get event startDate
+        public static DateTime getEventStartDate(int eventID)
+        {
+            DateTime start = new DateTime(2020,11,7);
+            return start;
+        }
+        //Get event endDate
+        public static DateTime getEventEndDate(int eventID)
+        {
+            DateTime end = new DateTime(2020, 11, 7);
+            return end;
+        }
+        //Get event priority
+        public static int getEventPriority(int eventID)
+        {
+            int priority = 0;
+            return priority;
+        }
+        
     }
 }

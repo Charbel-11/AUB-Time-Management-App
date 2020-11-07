@@ -53,14 +53,18 @@ namespace Server.Service.Handlers
             return false;
 		}
 
-        static public string getPersonalEvent(int eventID)
+        static public Event getPersonalEvent(int eventID)
 		{
             if (EventsStorage.eventExists(eventID))
             {
-                string EventDetails = EventsStorage.getEventDetails(eventID);
+                string name = EventsStorage.getEventName(eventID);
+                DateTime start = EventsStorage.getEventStartDate(eventID);
+                DateTime end = EventsStorage.getEventEndDate(eventID);
+                int priority = EventsStorage.getEventPriority(eventID);
+                Event EventDetails = new Event(eventID,priority, "",name,start,end);
                 return EventDetails;
             }
-            return " ";
+            return null;
 		}
     }
 }

@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Server.Service.Handlers;
 using Server.DataContracts;
+using System.Diagnostics.Eventing.Reader;
 
 namespace Server {
     /// <summary>
@@ -111,13 +112,18 @@ namespace Server {
             bufferH.Dispose();
         }
 
-        public static void PACKET_SendGetUserScheduleReply(int ConnectionID, string events)
+        public static void PACKET_SendGetUserScheduleReply(int ConnectionID, int n, List<string> eventName, List<int> eventPriority, List<DateTime> eventStart, List<DateTime> eventEnd)
         {
             BufferHelper bufferH = new BufferHelper();
             bufferH.WriteInteger((int)ServerPackages.SGetUserScheduleReply);
-
-            // Write events string on buffer
-            bufferH.WriteString(events);
+            bufferH.WriteInteger(n);
+            for (int i=0; i<n; i++)
+			{
+                bufferH.WriteString(eventName[i]);
+                bufferH.WriteInteger(eventPriority[i]);
+                bufferH.WriteString(eventStart[i].ToString());
+                bufferH.WriteString(eventEnd[i].ToString());
+            }
 
             SendDataTo(ConnectionID, bufferH.ToArray());
             bufferH.Dispose();
