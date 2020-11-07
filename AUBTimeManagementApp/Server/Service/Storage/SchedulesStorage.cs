@@ -23,7 +23,7 @@ namespace AUBTimeManagementApp.Service.Storage
 
         public static int[] GetSchedule(string UserID)
 		{
-            return new int[] { };
+            return new int[] {1,2,3};
 		}
 
 		public static bool CreateSchedule(string UserID, int[] EventsID = null)

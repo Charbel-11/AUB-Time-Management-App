@@ -198,7 +198,6 @@ namespace Server {
             int[] e = SchedulesHandler.getEventList(userID);
             // Call EventsHandler to get details of each event in the eventsID list
             // and add them to a string to be sent to the client
-            ////////////TO FIX/////////////////////////////////
             List<string> eventName = new List<string>();
             List<int> eventPriority = new List<int>();
             List<DateTime> eventStart = new List<DateTime>();

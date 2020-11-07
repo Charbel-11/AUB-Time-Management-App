@@ -108,7 +108,7 @@ namespace AUBTimeManagementApp.Client {
                 eventStart.Add(bufferH.ReadString());
                 eventEnd.Add(bufferH.ReadString());
             }
-            Client.Instance.GetUserScheduleReply(eventName, eventPriority, eventStart, eventEnd);
+            Client.Instance.GetUserScheduleReply(n, eventName, eventPriority, eventStart, eventEnd);
 
             bufferH.Dispose();
         }

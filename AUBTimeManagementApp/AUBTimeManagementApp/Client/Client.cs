@@ -154,13 +154,15 @@ namespace AUBTimeManagementApp.Client
 
         public void GetUserSchedule()
         {
-            //get userID from user storage
             ClientTCP.PACKAGE_GetUserSchedule(userID);
         }
 
-        public void GetUserScheduleReply(List<string> eventName, List<int> eventPririty, List<string> eventStart, List<string> eventEnd)
+        public void GetUserScheduleReply(int n, List<string> eventName, List<int> eventPriority, List<string> eventStart, List<string> eventEnd)
 		{
-
+            for(int i=0; i<n; i++)
+			{
+                mainForm.Invoke(new MethodInvoker(delegate { mainForm.displayEvent(eventName[i], eventPriority[i], DateTime.Parse(eventStart[i]), DateTime.Parse(eventEnd[i])); }));
+			}
 		}
     }
 }
