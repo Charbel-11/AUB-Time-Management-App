@@ -8,16 +8,17 @@ namespace Server.Service.Handlers
     class AccountsHandler
     {
         public static int confirmRegistration(string username, string firstName, string lastName, string email, string password, string confirmPassword, DateTime dateOfBirth) {
-            //if (AccountsStorage.usernameExists(username)) { return -3; }
             int checkPass = checkPassword(password, confirmPassword);
             if(checkPass != 1) { return checkPass; }
 
+            int checkReg = AccountsStorage.validateRegistration(username, email);
+            if(checkReg != 1) { return -2 + checkReg; }
+
             bool ok = AccountsStorage.createAccount(username, firstName, lastName, email, password, dateOfBirth);
-            return (ok ? 1 : -4);
+            return (ok ? 1 : -5);
         }
 
         public static bool confirmLogIn(string username, string password) {
-            if (!AccountsStorage.usernameExists(username)) { return false; }
             return AccountsStorage.validateLogIn(username, password);
         }
 

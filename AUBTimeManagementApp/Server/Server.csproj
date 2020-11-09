@@ -90,6 +90,7 @@
     <Compile Include="Service\Handlers\SchedulesHandler.cs" />
     <Compile Include="Service\Handlers\TeamsHandler.cs" />
     <Compile Include="Service\Storage\AccountsStorage.cs" />
+    <Compile Include="Service\Storage\ConnectionUtil.cs" />
     <Compile Include="Service\Storage\EventsStorage.cs" />
     <Compile Include="Service\Storage\InvitationsStorage.cs" />
     <Compile Include="Service\Storage\NotificationsStorage.cs" />

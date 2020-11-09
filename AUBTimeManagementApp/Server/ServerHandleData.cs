@@ -64,12 +64,11 @@ namespace Server {
         {
             try {
                 //Writing on the console what is received (for debugging)
-                /*
+                
                 foreach (byte bb in data) { Console.Write(bb + " "); }
                 Console.Write('\n');
                 foreach (byte bb in data) { Console.Write((char)bb); }
                 Console.Write('\n');
-                */
 
                 if (data == null) { Console.WriteLine("No data..."); return; }
 
@@ -118,7 +117,7 @@ namespace Server {
                 if (pLength < 4 && ServerTCP.ClientObjects.ContainsKey(ConnectionID)) { ServerTCP.ClientObjects[ConnectionID].bufferH.Clear(); }
             }
             catch (Exception e) {
-                Console.WriteLine(e.ToString());
+                Console.WriteLine(e.Message);
             }
         }
 
@@ -175,9 +174,13 @@ namespace Server {
             bool isUser = AccountsHandler.confirmLogIn(username, password);
 
             if (isUser) {
+                Console.WriteLine(username + " just signed in!");
                 ServerTCP.ClientObjects[ConnectionID].username = username;
                 ServerTCP.UsernameToConnectionID[username] = ConnectionID;
                 //TODO: set this user to be online in the db HERE (to make sure UsernameToConnectionID is set accordingly)
+            }
+            else {
+                Console.WriteLine("Invalid Username\\Password");
             }
 
             // If account exists notify the front end to change scenes
