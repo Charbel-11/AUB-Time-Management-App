@@ -24,9 +24,11 @@ namespace AUBTimeManagementApp.GUI
         public void registrationReply(int OK)
         {
             if (OK == -1) {
+                ErrorLabel.Text = "The confirmed password and the password are not identical!";
                 return;
             }
             if (OK == -2) {
+                ErrorLabel.Text = "The password should contain at least 8 characters!";
                 return;
             }
             if (OK == -3) {
@@ -65,6 +67,11 @@ namespace AUBTimeManagementApp.GUI
             DateTime dateOfBirth = DateOfBirth.Value;
 
             Client.Client.Instance.createAccount(username, firstName, lastName, password, confirmPassword, email, dateOfBirth);
+        }
+
+        private void GoBack_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }
