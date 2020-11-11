@@ -152,7 +152,8 @@ namespace Server {
             bufferH.Dispose();
 
             // Call AccountsHandler 
-            int isRegistered = AccountsHandler.confirmRegistration(username, firstname, lastName, email, password, confirmPassowrd, datoOfBirth);
+            var accountHandler = new AccountsHandler();
+            int isRegistered = accountHandler.ConfirmRegistration(username, firstname, lastName, email, password, confirmPassowrd, datoOfBirth);
 
             Console.WriteLine(isRegistered);
             // If account exists notify the front end to change scenes
@@ -171,7 +172,8 @@ namespace Server {
             bufferH.Dispose();
 
             // Call AccountsHandler 
-            bool isUser = AccountsHandler.confirmLogIn(username, password);
+            var accountsHandler = new AccountsHandler();
+            bool isUser = accountsHandler.ConfirmLogIn(username, password);
 
             if (isUser) {
                 Console.WriteLine(username + " just signed in!");

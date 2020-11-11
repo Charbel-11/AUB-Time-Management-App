@@ -5,10 +5,14 @@ using System.Text;
 
 namespace Server.Service.Handlers
 {
-    class AccountsHandler
+    public class AccountsHandler: IAccountsHandler
     {
-        public static int confirmRegistration(string username, string firstName, string lastName, string email, string password, string confirmPassword, DateTime dateOfBirth) {
-            int checkPass = checkPassword(password, confirmPassword);
+        public AccountsHandler()
+        {
+
+        }
+        public int ConfirmRegistration(string username, string firstName, string lastName, string email, string password, string confirmPassword, DateTime dateOfBirth) {
+            int checkPass = CheckPassword(password, confirmPassword);
             if(checkPass != 1) { return checkPass; }
 
             int checkReg = AccountsStorage.validateRegistration(username, email);
@@ -18,17 +22,17 @@ namespace Server.Service.Handlers
             return (ok ? 1 : -5);
         }
 
-        public static bool confirmLogIn(string username, string password) {
+        public bool ConfirmLogIn(string username, string password) {
             return AccountsStorage.validateLogIn(username, password);
         }
 
-        public static bool logOut() {
+        public bool LogOut() {
             return false;
         }
 
-        public static int changePassword(string username, string oldPassword, string newPassword, string confirmPassowrd) {
+        public int ChangePassword(string username, string oldPassword, string newPassword, string confirmPassowrd) {
 
-            int checkPass = checkPassword(newPassword, confirmPassowrd);
+            int checkPass = CheckPassword(newPassword, confirmPassowrd);
             if(checkPass == -1) { return -1; }
             if(checkPass == -2) { return -2; }
 
@@ -61,7 +65,7 @@ namespace Server.Service.Handlers
         /// <item> 1 if verification if successful </item>
         /// </list>
         /// </returns>
-        private static int checkPassword(string password, string confirmPassword)
+        private int CheckPassword(string password, string confirmPassword)
         {
             if(password != confirmPassword) { return -1; }
             if(password.Length < 8) { return -2; }
