@@ -239,7 +239,8 @@ namespace Server {
 
             bufferH.Dispose();
 
-            TeamsHandler.createTeamRequest(ConnectionID, admin, teamName, members);
+            var teamsHandler = new TeamsHandler();
+            teamsHandler.CreateTeamRequest(ConnectionID, admin, teamName, members);
         }
 
     }

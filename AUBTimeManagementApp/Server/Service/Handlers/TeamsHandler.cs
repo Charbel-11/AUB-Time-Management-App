@@ -6,7 +6,7 @@ using Server.DataContracts;
 
 namespace Server.Service.Handlers
 {
-    static class TeamsHandler
+    public class TeamsHandler: ITeamsHandler
     {
         #region Requests
         /// <summary>
@@ -15,7 +15,7 @@ namespace Server.Service.Handlers
         /// <param name="admin">The admin of the team (calling user)</param>
         /// <param name="teamName">The name of the team</param>
         /// <param name="members">The list of members given by the calling user (might be invalid)</param>
-        public static void createTeamRequest(int ConnectionID, string admin, string teamName, string[] members)
+        public void CreateTeamRequest(int ConnectionID, string admin, string teamName, string[] members)
         {
             List<string> invalidUsernames = new List<string>();
             List<string> validUsernames = new List<string>();
@@ -39,7 +39,7 @@ namespace Server.Service.Handlers
             }
         }
 
-        public static bool removeTeamRequest(int teamID)
+        public bool RemoveTeamRequest(int teamID)
         {
             //Get the team members
             //Delete the team from the database
@@ -49,7 +49,7 @@ namespace Server.Service.Handlers
             return false;
         }
                
-        public static bool addMemberRequest(string userToAdd, int teamID)
+        public bool AddMemberRequest(string userToAdd, int teamID)
         {
             //Checks that the username exists
             //Get the team members
@@ -59,7 +59,7 @@ namespace Server.Service.Handlers
             return false;
         }
 
-        public static bool removeMemberRequest(string userToRemove, int teamID)
+        public bool RemoveMemberRequest(string userToRemove, int teamID)
         {
             //Get the team members
             //Remove the username from the team
@@ -68,7 +68,7 @@ namespace Server.Service.Handlers
             return false;
         }
 
-        public static bool makeAdminRequest(string newAdmin, int teamID)
+        public bool MakeAdminRequest(string newAdmin, int teamID)
         {
             //Set the user as a new admin in the Teams Storage
             //Get the team members
@@ -77,7 +77,7 @@ namespace Server.Service.Handlers
             return false;
         }
 
-        public static bool removeAdminRequest(string oldAdmin, int teamID)
+        public bool RemoveAdminRequest(string oldAdmin, int teamID)
         {
             //Set the user as a normal member in the Teams Storage
             //Get the team members
@@ -86,7 +86,7 @@ namespace Server.Service.Handlers
             return false;
         }
 
-        public static Team[] getPersonalTeams(string username)
+        public Team[] GetPersonalTeams(string username)
         {
             //Gets all team IDs for the user
             //Then all the information for each team and send them back
@@ -95,45 +95,45 @@ namespace Server.Service.Handlers
         }
 
         //Same as remove member when the member is the user himself, used like this for readability
-        public static bool leaveTeamRequest(string username, int teamID)
+        public bool LeaveTeamRequest(string username, int teamID)
         {
-            return removeMemberRequest(username, teamID);
+            return RemoveMemberRequest(username, teamID);
         }
         #endregion
 
         //Those should probably be in the ServerTCP
         #region Send Flags
-        private static void sendNewTeamDetails(string username, Team team)
+        private void sendNewTeamDetails(string username, Team team)
         {
             //Checks if the user is online
             //If so, send the team details
         }
 
-        private static void sendRemoveTeamFlag(string username, int teamID)
+        private void sendRemoveTeamFlag(string username, int teamID)
         {
             //Checks if the user is online
             //If so, remove the team with ID teamID from his teams
         }
 
-        private static void sendAddMemberFlag(string username, string newMember, int teamID)
+        private void sendAddMemberFlag(string username, string newMember, int teamID)
         {
             //Checks if the user is online
             //If so, send the the new member's username with the corresponding teamID
         }
 
-        private static void sendRemoveMemberFlag(string username, string removedMember, int teamID)
+        private void sendRemoveMemberFlag(string username, string removedMember, int teamID)
         {
             //Checks if the user is online
             //If so, send the the removed member's username with the corresponding teamID
         }
 
-        private static void sendNewAdminFlag(string username, string newAdmin, int teamID)
+        private void sendNewAdminFlag(string username, string newAdmin, int teamID)
         {
             //Checks if the user is online
             //If so, send the the new admin's username with the corresponding teamID
         }
 
-        private static void sendRemoveAdminFlag(string username, string oldAdmin, int teamID)
+        private void sendRemoveAdminFlag(string username, string oldAdmin, int teamID)
         {
             //Checks if the user is online
             //If so, send the the old admin's username with the corresponding teamID
@@ -142,33 +142,33 @@ namespace Server.Service.Handlers
 
         //Those should be in the client code i guess
         #region Receive Flags
-        public static void receiveNewTeamDetails(Team team)
+        public void receiveNewTeamDetails(Team team)
         {
             //Modify user's teams array + front end accordingly
         }
 
-        public static void receiveRemoveTeamFlag(int teamID)
+        public void receiveRemoveTeamFlag(int teamID)
         {
             //Modify user's teams array + front end accordingly
         }
 
-        public static void receiveAddMemberFlag(string newMember, int teamID)
+        public void receiveAddMemberFlag(string newMember, int teamID)
         {
             //Modify user's teams array + front end accordingly
         }
 
-        public static void receiveRemoveMemberFlag(string removedMember, int teamID)
+        public void receiveRemoveMemberFlag(string removedMember, int teamID)
         {
             //Modify user's teams array + front end accordingly
         }
 
-        public static void receiveNewAdminFlag(string newAdmin, int teamID)
+        public void ReceiveNewAdminFlag(string newAdmin, int teamID)
         {
             //newAdmin could be equal to the client's username, we need to deal with that case
             //Otherwise, just modify the corresponding team
         }
 
-        public static void receiveRemoveAdminFlag(string oldAdmin, int teamID)
+        public void ReceiveRemoveAdminFlag(string oldAdmin, int teamID)
         {
             //oldAdmin could be equal to the client's username, we need to deal with that case
             //Otherwise, just modify the corresponding team
