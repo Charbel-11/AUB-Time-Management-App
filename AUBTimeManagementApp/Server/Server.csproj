@@ -86,6 +86,7 @@
     <Compile Include="Service\Handlers\AccountsHandler.cs" />
     <Compile Include="Service\Handlers\EventsHandler.cs" />
     <Compile Include="Service\Handlers\IAccountHandler.cs" />
+    <Compile Include="Service\Handlers\IEventsHandler.cs" />
     <Compile Include="Service\Handlers\InvitationsHandler.cs" />
     <Compile Include="Service\Handlers\NotificationsHandler.cs" />
     <Compile Include="Service\Handlers\SchedulesHandler.cs" />

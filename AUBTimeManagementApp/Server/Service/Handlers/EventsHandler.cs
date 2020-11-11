@@ -7,8 +7,13 @@ using Server.DataContracts;
 
 namespace Server.Service.Handlers
 {
-    static class EventsHandler    {
-        static public Event createPersonalEvent(string eventname, int priority, DateTime startDate, DateTime endDate)
+    public class EventsHandler : IEventsHandler   {
+
+        public EventsHandler()
+        {
+
+        }
+        public Event CreatePersonalEvent(string eventname, int priority, DateTime startDate, DateTime endDate)
         {
             //check for conflict with the conflict checker
             //Create personal event with plannerUsername/priority/eventName/startTime/endTime
@@ -21,13 +26,13 @@ namespace Server.Service.Handlers
 
         }
 
-        static public Event createTeamEvent()
+        public Event CreateTeamEvent()
         {
             //
             return null;
         }
 
-        static public bool updatePersonalEvent()
+        public bool UpdatePersonalEvent()
 		{
             // get event info to be updated (time, name, priority, attendees)
             //check for conflict with the conflict checker only if there is a time update
@@ -35,7 +40,7 @@ namespace Server.Service.Handlers
             return false;
 		}
 
-        static public bool cancelPersonalEvent()
+        public bool CancelPersonalEvent()
 		{
             //get ID of event to be canceled
             //remove event from event storage
@@ -44,7 +49,7 @@ namespace Server.Service.Handlers
 		}
       
 
-        static public bool cancelTeamEvent()
+        public bool CancelTeamEvent()
 		{
             //get ID of group event to be cancelled
             //get list of event attendees
@@ -53,7 +58,7 @@ namespace Server.Service.Handlers
             return false;
 		}
 
-        static public Event getPersonalEvent(int eventID)
+        public Event GetPersonalEvent(int eventID)
 		{
             if (EventsStorage.eventExists(eventID))
             {

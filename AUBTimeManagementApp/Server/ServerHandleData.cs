@@ -210,7 +210,8 @@ namespace Server {
             int n = 0;
             foreach (int i in e)
             {
-                Event eve = EventsHandler.getPersonalEvent(i);
+                var eventsHandler = new EventsHandler();
+                Event eve = eventsHandler.GetPersonalEvent(i);
                 if (eve!=null)
 				{
                     n++;
