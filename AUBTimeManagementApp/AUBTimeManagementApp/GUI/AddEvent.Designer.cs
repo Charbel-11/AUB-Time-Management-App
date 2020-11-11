@@ -46,10 +46,10 @@
             // 
             this.createButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
             this.createButton.ForeColor = System.Drawing.Color.Black;
-            this.createButton.Location = new System.Drawing.Point(309, 322);
+            this.createButton.Location = new System.Drawing.Point(290, 322);
             this.createButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.createButton.Name = "createButton";
-            this.createButton.Size = new System.Drawing.Size(219, 46);
+            this.createButton.Size = new System.Drawing.Size(299, 46);
             this.createButton.TabIndex = 11;
             this.createButton.Text = "Create";
             this.createButton.UseVisualStyleBackColor = false;
@@ -84,21 +84,22 @@
             // eventName
             // 
             this.eventName.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.eventName.Location = new System.Drawing.Point(336, 115);
+            this.eventName.Location = new System.Drawing.Point(281, 115);
             this.eventName.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.eventName.Name = "eventName";
-            this.eventName.Size = new System.Drawing.Size(190, 26);
+            this.eventName.Size = new System.Drawing.Size(298, 26);
             this.eventName.TabIndex = 1;
             // 
             // startDate
             // 
             this.startDate.CustomFormat = "MM/dd/yyyy hh:mm:ss";
             this.startDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.startDate.Location = new System.Drawing.Point(290, 226);
+            this.startDate.Location = new System.Drawing.Point(290, 227);
             this.startDate.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.startDate.Name = "startDate";
             this.startDate.Size = new System.Drawing.Size(299, 22);
             this.startDate.TabIndex = 3;
+            this.startDate.Value = new System.DateTime(2020, 11, 11, 22, 59, 13, 0);
             // 
             // textBox1
             // 

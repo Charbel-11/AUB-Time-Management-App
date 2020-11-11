@@ -107,9 +107,9 @@ namespace Server.Service.Handlers {
 
                     foreach (Event curEvent in events)
                     {
-                        if (curEvent.getPriority() < priorityThreshold) { continue; }
-                        DateTime eventStart = curEvent.getStart();
-                        DateTime eventEnd = curEvent.getEnd();
+                        if (curEvent.priority < priorityThreshold) { continue; }
+                        DateTime eventStart = curEvent.startTime;
+                        DateTime eventEnd = curEvent.endTime;
                         int startHour = eventStart.Hour, startMinute = eventStart.Minute;
                         int endHour = eventEnd.Hour, endMinute = eventEnd.Minute;
 

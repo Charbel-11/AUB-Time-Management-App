@@ -5,10 +5,10 @@ using System.Text;
 
 namespace Server.DataContracts {
     public class Team {
-        private int teamID;
-        private string teamName;
-        private List<string> teamAdmin;
-        private List<string> teamMembers;
+        private int teamID { get; set; }
+        private string teamName { get; set; }
+        private List<string> teamAdmin { get; set; }
+        private List<string> teamMembers { get; set; }
 
         public Team(int _teamID, string _teamName) {
             teamID = _teamID; teamName = _teamName;
@@ -21,8 +21,6 @@ namespace Server.DataContracts {
             if (isAdmin) { teamAdmin.Add(username); }
         }
 
-        public string getTeamName() { return teamName; }
-        public string[] getMembers() { return teamMembers.ToArray(); }
         public bool isAdmin(string username) { return teamAdmin.Contains(username); }
     }
 }

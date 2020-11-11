@@ -152,7 +152,7 @@ namespace Server {
             bufferH.Dispose();
 
             // Call AccountsHandler 
-            var accountHandler = new AccountsHandler();
+            IAccountsHandler accountHandler = new AccountsHandler();
             int isRegistered = accountHandler.ConfirmRegistration(username, firstname, lastName, email, password, confirmPassowrd, datoOfBirth);
 
             Console.WriteLine(isRegistered);
@@ -172,7 +172,7 @@ namespace Server {
             bufferH.Dispose();
 
             // Call AccountsHandler 
-            var accountsHandler = new AccountsHandler();
+            IAccountsHandler accountsHandler = new AccountsHandler();
             bool isUser = accountsHandler.ConfirmLogIn(username, password);
 
             if (isUser) {
@@ -200,7 +200,7 @@ namespace Server {
             bufferH.Dispose();
 
             // Call SchedulesHandler to get list of events in the schedule
-            var schedulesHandler = new SchedulesHandler();
+            ISchedulesHandler schedulesHandler = new SchedulesHandler();
             int[] e = schedulesHandler.GetEventList(userID);
             // Call EventsHandler to get details of each event in the eventsID list
             // and add them to a string to be sent to the client
@@ -216,10 +216,10 @@ namespace Server {
                 if (eve!=null)
 				{
                     n++;
-                    eventName.Add(eve.getName());
-                    eventPriority.Add(eve.getPriority());
-                    eventStart.Add(eve.getStart());
-                    eventEnd.Add(eve.getEnd());
+                    eventName.Add(eve.eventName);
+                    eventPriority.Add(eve.priority);
+                    eventStart.Add(eve.startTime);
+                    eventEnd.Add(eve.endTime);
                 }
             }
             ServerTCP.PACKET_SendGetUserScheduleReply(ConnectionID, n, eventName, eventPriority,eventStart,eventEnd);
@@ -239,7 +239,7 @@ namespace Server {
 
             bufferH.Dispose();
 
-            var teamsHandler = new TeamsHandler();
+            ITeamsHandler teamsHandler = new TeamsHandler();
             teamsHandler.CreateTeamRequest(ConnectionID, admin, teamName, members);
         }
 
