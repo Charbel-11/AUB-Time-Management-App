@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Server.Service.Handlers
 {
-    interface IEventsHandler
+    public interface IEventsHandler
     {
         Event CreatePersonalEvent(string eventname, int priority, DateTime startDate, DateTime endDate);
         Event CreateTeamEvent();
