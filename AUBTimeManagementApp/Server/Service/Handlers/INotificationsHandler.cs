@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Server.Service.Handlers
 {
-    interface INotificationsHandler
+    public interface INotificationsHandler
     {
     }
 }

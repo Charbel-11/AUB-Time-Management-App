@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Server.DataContracts
 {
-    class Schedule
+    public class Schedule
     {
         private bool userSchedule;  //False if it is a team schedule
         private string usernameID;  //In case it is a user schedule

@@ -200,7 +200,8 @@ namespace Server {
             bufferH.Dispose();
 
             // Call SchedulesHandler to get list of events in the schedule
-            int[] e = SchedulesHandler.getEventList(userID);
+            var schedulesHandler = new SchedulesHandler();
+            int[] e = schedulesHandler.GetEventList(userID);
             // Call EventsHandler to get details of each event in the eventsID list
             // and add them to a string to be sent to the client
             List<string> eventName = new List<string>();

@@ -87,7 +87,10 @@
     <Compile Include="Service\Handlers\EventsHandler.cs" />
     <Compile Include="Service\Handlers\IAccountHandler.cs" />
     <Compile Include="Service\Handlers\IEventsHandler.cs" />
+    <Compile Include="Service\Handlers\IInvitationsHandler.cs" />
+    <Compile Include="Service\Handlers\INotificationsHandler.cs" />
     <Compile Include="Service\Handlers\InvitationsHandler.cs" />
+    <Compile Include="Service\Handlers\ISchedulesHandler.cs" />
     <Compile Include="Service\Handlers\NotificationsHandler.cs" />
     <Compile Include="Service\Handlers\SchedulesHandler.cs" />
     <Compile Include="Service\Handlers\TeamsHandler.cs" />
