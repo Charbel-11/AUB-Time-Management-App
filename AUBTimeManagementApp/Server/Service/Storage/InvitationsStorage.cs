@@ -4,7 +4,21 @@ using System.Text;
 
 namespace AUBTimeManagementApp.Service.Storage
 {
-    class InvitationsStorage
+    public class InvitationsStorage
     {
+        public void AddInvitation(int userId, int eventId, string senderUsername)
+        {
+
+        }
+
+        public void RemoveInvitation(int userId, int eventId)
+        {
+
+        }
+
+        public List<int> GetInvitations(int userId)
+        {
+            return null;
+        }
     }
 }
