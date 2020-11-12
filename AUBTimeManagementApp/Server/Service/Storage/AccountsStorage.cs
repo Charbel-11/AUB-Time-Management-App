@@ -22,7 +22,7 @@ namespace AUBTimeManagementApp.Service.Storage
                 if (dataReader.HasRows) { return true; }
                 sqlConnection.Close();
             }
-            catch (SqlException exception) { throw; }
+            catch (SqlException) { throw; }
             return false;
         }
 
@@ -35,12 +35,13 @@ namespace AUBTimeManagementApp.Service.Storage
                 string query = "SELECT Online FROM Users WHERE Username = " + username;
                 SqlCommand command = new SqlCommand(query, sqlConnection);
                 SqlDataReader dataReader = command.ExecuteReader();
+                sqlConnection.Close();
 
                 return (bool) dataReader.GetValue(0);
-                sqlConnection.Close();
+                
             }
-            catch (SqlException exception) { throw; }
-            return false;
+            catch (SqlException) { throw; }
+            
         }
 
         public static int validateRegistration(string username, string email) {
@@ -64,7 +65,7 @@ namespace AUBTimeManagementApp.Service.Storage
 
                 sqlConnection.Close();
             }
-            catch (SqlException exception) { throw; }
+            catch (SqlException) { throw; }
             return 1;
         }
 

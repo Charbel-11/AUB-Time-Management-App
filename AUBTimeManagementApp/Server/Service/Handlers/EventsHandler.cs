@@ -9,10 +9,13 @@ namespace Server.Service.Handlers
 {
     public class EventsHandler : IEventsHandler   {
 
+        public EventsStorage _eventStorage;
         public EventsHandler()
         {
 
         }
+        
+
         public Event CreatePersonalEvent(string eventname, int priority, DateTime startDate, DateTime endDate)
         {
             //check for conflict with the conflict checker
@@ -26,6 +29,28 @@ namespace Server.Service.Handlers
 
         }
 
+        public void RemoveEvent(int eventId)
+        {
+            RemoveEventFromUniversalEventsDB(eventId);
+        }
+
+  
+        public void RemoveUserFromEventAttendees(int eventId, string username)
+        {
+            // get event
+            Event _event = GetEvent(eventId);
+            List<string> updatedAttendees = new List<string> ();
+            for (int i =0; i <_event.attendees.Count; i++)
+            {
+                if (_event.attendees[i] != username)
+                    updatedAttendees.Add(_event.attendees[i]);
+            }
+
+            Event updatedEvent = new Event(_event.ID, _event.priority, _event.plannerUsername,
+            _event.eventName, _event.startTime, _event.endTime, _event.teamEvent, updatedAttendees);
+           
+            _eventStorage.UpdateEvent(updatedEvent);
+        }
         public Event CreateTeamEvent()
         {
             //
@@ -71,5 +96,25 @@ namespace Server.Service.Handlers
             }
             return null;
 		}
+
+        /****************************** PRIVATE FUNCTIONS ********************************/
+        private Event GetEvent(int eventId)
+        {
+            return _eventStorage.GetEvent(eventId);
+        }
+        private void AddEventToUniversalEventsDB(Event _event)
+        {
+            _eventStorage.AddEvent(_event);
+        }
+
+        private void RemoveEventFromUniversalEventsDB(int eventId)
+        {
+            _eventStorage.RemoveEvent(eventId);
+        }
+
+        private void UpdateEventInUniversalEventsDB(Event _event)
+        {
+            _eventStorage.UpdateEvent(_event);
+        }
     }
 }
