@@ -82,7 +82,6 @@ namespace AUBTimeManagementApp.Client
 
 
         public void createAccount(string username, string firstName, string lastName, string password, string confirmPassword, string email, DateTime dateOfBirth) {            
-            //TODO
             this.username = username;
             ClientTCP.PACKAGE_Register(username, firstName, lastName, password, confirmPassword, email, dateOfBirth);
         }

@@ -6,9 +6,13 @@ using System.Threading.Tasks;
 
 namespace Server.Service.Storage {
     static class ConnectionUtil {
-        public static string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Lenovo\\OneDrive\\Desktop\\AUB-Time-Management-App\\AUBTimeManagementApp\\Server\\Service\\Storage\\AccountsDataBase.mdf;Integrated Security=True";
-        public static string connectionStringUniversalEventsDB = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Lenovo\\OneDrive\\Desktop\\AUB-Time-Management-App\\AUBTimeManagementApp\\Server\\Service\\Storage\\EventsUniversalDataBase.mdf;Integrated Security=True";
-        public static string connectionStringInvitationsDB = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Lenovo\\OneDrive\\Desktop\\AUB-Time-Management-App\\AUBTimeManagementApp\\Server\\Service\\Storage\\InvitationsDataBase.mdf;Integrated Security=True";
+        private static string path0 = "C:\\Users\\Lenovo\\OneDrive\\Desktop\\AUB-Time-Management-App\\AUBTimeManagementApp\\Server\\Service\\Storage";
+        private static string path1 = "C:\\Users\\PC\\source\\repos\\AUB-Time-Management-App\\AUBTimeManagementApp\\Server\\Service\\Storage";
+        
+        private static string path = path1;
+        public static string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=" + path + "\\AccountsDataBase.mdf;Integrated Security=True";
+        public static string connectionStringUniversalEventsDB = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=" + path + "\\EventsUniversalDataBase.mdf;Integrated Security=True";
+        public static string connectionStringInvitationsDB = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=" + path + "\\InvitationsDataBase.mdf;Integrated Security=True";
 
     }
 }
