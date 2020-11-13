@@ -36,7 +36,7 @@ namespace AUBTimeManagementApp.GUI {
         public void addTeamEntry(Team team) {
             Button newB = new Button();
             newB.Margin = new Padding(0);
-            newB.Text = team.getTeamName();
+            newB.Text = team.teamName;
             newB.Size = new Size(485, 46);
             TeamsLayout.Controls.Add(newB);
             butToTeam[newB] = team;

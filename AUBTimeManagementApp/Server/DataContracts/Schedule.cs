@@ -7,10 +7,10 @@ namespace Server.DataContracts
 {
     public class Schedule
     {
-        private bool userSchedule { get; set; }  //False if it is a team schedule
-        private string usernameID { get; set; }  //In case it is a user schedule
-        private int teamID { get; set; }         //In case it is a team schedule
-        private List<Event>[,,] events { get; set; } = new List<Event>[50, 12, 31];
+        public  bool userSchedule { get; set; }  //False if it is a team schedule
+        public string usernameID { get; set; }  //In case it is a user schedule
+        public int teamID { get; set; }         //In case it is a team schedule
+        public List<Event>[,,] events { get; set; } = new List<Event>[50, 12, 31];
 
         public Schedule(bool _userSchedule, string _usernameID = "", int _teamID = 0)
         {
