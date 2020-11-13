@@ -30,6 +30,10 @@ namespace Server.Service.Handlers
             return false;
         }
 
+        public void setOnline(string username, bool online) {
+            AccountsStorage.setOnline(username, online);
+        }
+
         public int ChangePassword(string username, string oldPassword, string newPassword, string confirmPassowrd) {
 
             int checkPass = CheckPassword(newPassword, confirmPassowrd);

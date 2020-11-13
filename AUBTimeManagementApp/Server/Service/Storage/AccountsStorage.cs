@@ -15,8 +15,9 @@ namespace AUBTimeManagementApp.Service.Storage
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
                 sqlConnection.Open();
 
-                string query = "SELECT UserID FROM Users WHERE Username = " + username;
+                string query = "SELECT UserID FROM Users WHERE Username = @Username";
                 SqlCommand command = new SqlCommand(query, sqlConnection);
+                command.Parameters.Add("@Username", SqlDbType.NVarChar).Value = username;
                 SqlDataReader dataReader = command.ExecuteReader();
 
                 if (dataReader.HasRows) { return true; }
@@ -32,16 +33,37 @@ namespace AUBTimeManagementApp.Service.Storage
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
                 sqlConnection.Open();
 
-                string query = "SELECT Online FROM Users WHERE Username = " + username;
+                string query = "SELECT Online FROM Users WHERE Username = @Username";
                 SqlCommand command = new SqlCommand(query, sqlConnection);
+                command.Parameters.Add("@Username", SqlDbType.NVarChar).Value = username;
                 SqlDataReader dataReader = command.ExecuteReader();
+
+                bool res = false;
+                while (dataReader.Read()) {
+                    res = (bool)dataReader.GetValue(0);
+                }             
                 sqlConnection.Close();
 
-                return (bool) dataReader.GetValue(0);
+                return res;
                 
             }
+            catch (SqlException) { throw; }           
+        }
+
+        public static void setOnline(string username, bool online) {
+            try {
+                string connectionString = ConnectionUtil.connectionString;
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+                sqlConnection.Open();
+
+                string query = "Update Users Set Online = True; WHERE Username = @Username";
+                SqlCommand command = new SqlCommand(query, sqlConnection);
+                command.Parameters.Add("@Username", SqlDbType.NVarChar).Value = username;
+                SqlDataReader dataReader = command.ExecuteReader();
+
+                sqlConnection.Close();
+            }
             catch (SqlException) { throw; }
-            
         }
 
         public static int validateRegistration(string username, string email) {

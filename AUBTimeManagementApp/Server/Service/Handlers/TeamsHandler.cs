@@ -34,8 +34,8 @@ namespace Server.Service.Handlers
 
             //Send the team details to online users         
             foreach (string user in validUsernames) {
-                if (AccountsStorage.isOnline(user))
-                    ServerTCP.PACKET_NewTeamCreated(ServerTCP.UsernameToConnectionID[user], teamName, teamID, admin, validUsernames.ToArray());
+                if (ServerTCP.UsernameToConnectionID.TryGetValue(user, out int cID))
+                    ServerTCP.PACKET_NewTeamCreated(cID, teamName, teamID, admin, validUsernames.ToArray());
             }
         }
 

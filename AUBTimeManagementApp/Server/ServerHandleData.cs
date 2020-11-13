@@ -181,7 +181,7 @@ namespace Server {
                 Console.WriteLine(username + " just signed in!");
                 ServerTCP.ClientObjects[ConnectionID].username = username;
                 ServerTCP.UsernameToConnectionID[username] = ConnectionID;
-                //TODO: set this user to be online in the db HERE (to make sure UsernameToConnectionID is set accordingly)
+//                accountsHandler.setOnline(username, true);
             }
             else {
                 Console.WriteLine("Invalid Username\\Password");
