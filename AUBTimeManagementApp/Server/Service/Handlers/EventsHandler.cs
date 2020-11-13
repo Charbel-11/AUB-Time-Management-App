@@ -83,19 +83,17 @@ namespace Server.Service.Handlers
             return false;
 		}
 
-        public Event GetEventDetails(int eventID)
+        public List<Event> GetEventList(List<int> eventsIDs)
 		{
-            if (EventsStorage.eventExists(eventID))
-            {
-                string name = EventsStorage.getEventName(eventID);
-                DateTime start = EventsStorage.getEventStartDate(eventID);
-                DateTime end = EventsStorage.getEventEndDate(eventID);
-                int priority = EventsStorage.getEventPriority(eventID);
-                Event EventDetails = new Event(eventID,priority, "",name,start,end);
-                return EventDetails;
-            }
-            return null;
+           
+            return _eventStorage.GetAllEvents(eventsIDs);
 		}
+
+        public List<Event> FilterEventList(int priority, List<int> eventsIDs)
+        {
+
+            return _eventStorage.filterEvents(priority, eventsIDs);
+        }
 
         /****************************** PRIVATE FUNCTIONS ********************************/
         private Event GetEvent(int eventId)

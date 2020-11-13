@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AUBTimeManagementApp;
+using AUBTimeManagementApp.DataContracts;
 
 namespace AUBTimeManagementApp.Client {
     class ClientHandleData {
@@ -19,6 +20,9 @@ namespace AUBTimeManagementApp.Client {
             { (int)ServerPackages.SLoginReply, HandleLoginReply },
             { (int)ServerPackages.SRegisterReply, HandleRegisterReply },
             { (int)ServerPackages.SGetUserScheduleReply, HandleGetUserScheduleReply },
+            { (int)ServerPackages.SGetTeamScheduleReply, HandleGetTeamScheduleReply },
+            { (int)ServerPackages.SFilterUserScheduleReply, HandleFilterUserScheduleReply },
+            { (int)ServerPackages.SFilterTeamScheduleReply, HandleFilterTeamScheduleReply },
             { (int)ServerPackages.SCreateTeamReply, HandleCreateTeamReply },
             { (int)ServerPackages.SNewTeamCreated, HandleNewTeamCreated }
             };
@@ -97,18 +101,93 @@ namespace AUBTimeManagementApp.Client {
             bufferH.WriteBytes(data);
 
             int n = bufferH.ReadInteger();
-            List<string> eventName = new List<string>();
-            List<int> eventPriority = new List<int>();
-            List<string> eventStart = new List<string>();
-            List<string> eventEnd = new List<string>();
-            for (int i=0;i<n;i++)
-			{
-                eventName.Add(bufferH.ReadString());
-                eventPriority.Add(bufferH.ReadInteger());
-                eventStart.Add(bufferH.ReadString());
-                eventEnd.Add(bufferH.ReadString());
+            List<Event> eventsList = new List<Event>();
+            for (int i = 0; i < n; i++)
+            {
+                int eventID = bufferH.ReadInteger();
+                string planner = bufferH.ReadString();
+                string eventName = bufferH.ReadString();
+                int eventPriority = bufferH.ReadInteger();
+                string eventStart = bufferH.ReadString();
+                string eventEnd = bufferH.ReadString();
+                bool isteamEvent = bufferH.ReadBool();
+                Event curevent = new Event(eventID, eventPriority, planner, eventName, DateTime.Parse(eventStart), DateTime.Parse(eventEnd), isteamEvent);
+                eventsList.Add(curevent);
             }
-            Client.Instance.GetUserScheduleReply(n, eventName, eventPriority, eventStart, eventEnd);
+            Client.Instance.GetUserScheduleReply(n, eventsList);
+
+            bufferH.Dispose();
+        }
+
+        public static void HandleGetTeamScheduleReply(byte[] data)
+        {
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteBytes(data);
+
+            int n = bufferH.ReadInteger();
+            List<Event> eventsList = new List<Event>();
+            for (int i = 0; i < n; i++)
+            {
+                int eventID = bufferH.ReadInteger();
+                string planner = bufferH.ReadString();
+                string eventName = bufferH.ReadString();
+                int eventPriority = bufferH.ReadInteger();
+                string eventStart = bufferH.ReadString();
+                string eventEnd = bufferH.ReadString();
+                bool isteamEvent = bufferH.ReadBool();
+                Event curevent = new Event(eventID, eventPriority, planner, eventName, DateTime.Parse(eventStart),DateTime.Parse(eventEnd), isteamEvent);
+                eventsList.Add(curevent);
+            }
+            Client.Instance.GetTeamScheduleReply(n, eventsList);
+
+            bufferH.Dispose();
+        }
+
+
+        public static void HandleFilterUserScheduleReply(byte[] data)
+        {
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteBytes(data);
+
+            int n = bufferH.ReadInteger();
+            List<Event> eventsList = new List<Event>();
+            for (int i = 0; i < n; i++)
+            {
+                int eventID = bufferH.ReadInteger();
+                string planner = bufferH.ReadString();
+                string eventName = bufferH.ReadString();
+                int eventPriority = bufferH.ReadInteger();
+                string eventStart = bufferH.ReadString();
+                string eventEnd = bufferH.ReadString();
+                bool isteamEvent = bufferH.ReadBool();
+                Event curevent = new Event(eventID, eventPriority, planner, eventName, DateTime.Parse(eventStart), DateTime.Parse(eventEnd), isteamEvent);
+                eventsList.Add(curevent);
+            }
+            Client.Instance.FilterUserScheduleReply(n, eventsList);
+
+            bufferH.Dispose();
+        }
+
+        public static void HandleFilterTeamScheduleReply(byte[] data)
+        {
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteBytes(data);
+
+            int n = bufferH.ReadInteger();
+            List<Event> eventsList = new List<Event>();
+            for (int i = 0; i < n; i++)
+            {
+                int eventID = bufferH.ReadInteger();
+                string planner = bufferH.ReadString();
+                string eventName = bufferH.ReadString();
+                int eventPriority = bufferH.ReadInteger();
+                string eventStart = bufferH.ReadString();
+                string eventEnd = bufferH.ReadString();
+                bool isteamEvent = bufferH.ReadBool();
+                Event curevent = new Event(eventID, eventPriority, planner, eventName, DateTime.Parse(eventStart), DateTime.Parse(eventEnd), isteamEvent);
+                eventsList.Add(curevent);
+            }
+            Client.Instance.FilterTeamScheduleReply(n, eventsList);
 
             bufferH.Dispose();
         }

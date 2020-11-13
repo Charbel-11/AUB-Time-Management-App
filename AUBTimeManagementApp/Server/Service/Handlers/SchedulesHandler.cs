@@ -8,9 +8,9 @@ using Server.DataContracts;
 namespace Server.Service.Handlers {
     class SchedulesHandler : ISchedulesHandler{
 
-        public int[] GetUserSchedule(string userID) {
+        public List<int> GetUserSchedule(string userID) {
             //If user schedule exists get a list of event IDs
-            int[] eventList = new int[] { };
+            List<int> eventList = new List<int>();
             if (SchedulesStorage.PersonalScheduleExists(userID))
 			{
                 eventList = SchedulesStorage.GetPersonalSchedule(userID);
@@ -23,9 +23,10 @@ namespace Server.Service.Handlers {
             return eventList;
         }
 
-        public int[] GetTeamSchedule(int teamID) {
-            //If team schedule exists get a list of event IDs
-            int[] eventList = new int[] { };
+        public List<int> GetTeamSchedule(int teamID)
+        {
+            //If user schedule exists get a list of event IDs
+            List<int> eventList = new List<int>();
             if (SchedulesStorage.TeamScheduleExists(teamID))
             {
                 eventList = SchedulesStorage.GetTeamSchedule(teamID);
@@ -38,14 +39,14 @@ namespace Server.Service.Handlers {
             return eventList;
         }
 
-        public Schedule GetFilteredSchedule(string username, int priority) {
-            //Get list of event IDs from the schedule storage
-            //Get event details from the event handler
-            //Filter the events with the filtering handler
-            //Return filtered schedule
+        /* public int[] GetFilteredSchedule(string username, int priority) {
+             //Get list of event IDs from the schedule storage
+             //Get event details from the event handler
+             //Filter the events with the filtering handler
+             //Return filtered schedule
 
-            return null;
-        }
+             return null;
+         }*/
 
         public bool AddEventToList(string username, int eventID) { 
             //gets username and event ID

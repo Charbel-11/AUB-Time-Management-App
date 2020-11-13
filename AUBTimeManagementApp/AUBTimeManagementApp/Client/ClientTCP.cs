@@ -123,6 +123,48 @@ namespace AUBTimeManagementApp.Client {
             bufferH.Dispose();
         }
 
+
+        public static void PACKAGE_GetTeamSchedule(int teamID)
+        {
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteInteger((int)ClientPackages.CGetTeamSchedule);
+
+            // Write userID on buffer
+            bufferH.WriteInteger(teamID);
+
+            //Sends it to the server
+            SendData(bufferH.ToArray());
+            bufferH.Dispose();
+        }
+
+        public static void PACKAGE_FilterUserSchedule(string UserID, int priority)
+        {
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteInteger((int)ClientPackages.CFilterUserSchedule);
+            bufferH.WriteInteger(priority);
+
+            // Write userID on buffer
+            bufferH.WriteString(UserID);
+
+            //Sends it to the server
+            SendData(bufferH.ToArray());
+            bufferH.Dispose();
+        }
+
+        public static void PACKAGE_FilterTeamSchedule(int teamID, int priority)
+        {
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteInteger((int)ClientPackages.CFilterTeamSchedule);
+            bufferH.WriteInteger(priority);
+
+            // Write userID on buffer
+            bufferH.WriteInteger(teamID);
+
+            //Sends it to the server
+            SendData(bufferH.ToArray());
+            bufferH.Dispose();
+        }
+
         public static void PACKAGE_CreateTeam(string teamName, string admin, string[] members) {
             BufferHelper bufferH = new BufferHelper();
             bufferH.WriteInteger((int)ClientPackages.CCreateTeam);

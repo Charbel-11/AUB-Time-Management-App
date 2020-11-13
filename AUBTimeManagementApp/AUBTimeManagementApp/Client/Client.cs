@@ -17,6 +17,7 @@ namespace AUBTimeManagementApp.Client
 
         public string username;
         public string userID = "i";
+        public int teamID = 0;
         private List<Team> teams;
         private List<Event> events;
 
@@ -156,12 +157,41 @@ namespace AUBTimeManagementApp.Client
             ClientTCP.PACKAGE_GetUserSchedule(userID);
         }
 
-        public void GetUserScheduleReply(int n, List<string> eventName, List<int> eventPriority, List<string> eventStart, List<string> eventEnd)
+        public void GetUserScheduleReply(int n, List<Event> eventsList)
 		{
-            for(int i=0; i<n; i++)
-			{
-                mainForm.Invoke(new MethodInvoker(delegate { mainForm.displayEvent(eventName[i], eventPriority[i], DateTime.Parse(eventStart[i]), DateTime.Parse(eventEnd[i])); }));
-			}
+
 		}
+
+        public void GetTeamSchedule()
+        {
+            ClientTCP.PACKAGE_GetTeamSchedule(teamID);
+        }
+
+        public void GetTeamScheduleReply(int n, List<Event> eventsList)
+        {
+
+        }
+
+
+        public void FilterUserSchedule(int priority)
+        {
+            ClientTCP.PACKAGE_FilterUserSchedule(userID, priority);
+        }
+
+        public void FilterUserScheduleReply(int n, List<Event> eventsList)
+        {
+
+        }
+
+
+        public void FilterTeamSchedule(int priority)
+        {
+            ClientTCP.PACKAGE_FilterTeamSchedule(teamID, priority);
+        }
+
+        public void FilterTeamScheduleReply(int n, List<Event> eventsList)
+        {
+
+        }
     }
 }

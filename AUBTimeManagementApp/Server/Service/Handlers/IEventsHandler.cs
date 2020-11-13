@@ -14,8 +14,8 @@ namespace Server.Service.Handlers
         bool UpdatePersonalEvent();
         bool CancelPersonalEvent();
         bool CancelTeamEvent();
-        Event GetEventDetails(int eventID);
         void RemoveEvent(int eventId);
         void RemoveUserFromEventAttendees(int eventId, string username);
+        List<Event> GetEventList(List<int> eventsIDs);
     }
 }

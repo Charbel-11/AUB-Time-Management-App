@@ -12,7 +12,7 @@ namespace AUBTimeManagementApp.Service.Storage
 		{
             return true;
 		}
-        //Get event name
+       /* //Get event name
         public static string getEventName(int eventID)
         {
             string s = "event___1";
@@ -42,6 +42,19 @@ namespace AUBTimeManagementApp.Service.Storage
             int priority = 1;
             return priority;
         }
+
+        //Get event planner
+        public static string getEventPlanner(int eventID)
+        {
+            string planner = "abc";
+            return planner;
+        }
+
+        //return true if team event, false otherwise
+        public static bool isTeamevent(int eventID)
+        {
+            return false;
+        }*/
 
         // Get all events for a given user
         // Warning: The accounts database should not contain details about events (just the events ids maybe in some concatenated string (?))
@@ -73,6 +86,11 @@ namespace AUBTimeManagementApp.Service.Storage
         {
 
         }
+
+        public List<Event> filterEvents(int priority, List<int> eventIDs)
+		{
+            return null;
+		}
         
     }
 }
