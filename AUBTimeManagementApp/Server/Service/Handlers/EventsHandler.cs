@@ -83,7 +83,7 @@ namespace Server.Service.Handlers
             return false;
 		}
 
-        public Event GetPersonalEvent(int eventID)
+        public Event GetEventDetails(int eventID)
 		{
             if (EventsStorage.eventExists(eventID))
             {

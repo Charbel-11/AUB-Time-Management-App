@@ -23,7 +23,9 @@ namespace Server {
                 { (int)ClientPackages.CLogin, HandleLogin },
                 { (int)ClientPackages.CRegister, HandleRegister },
                 { (int)ClientPackages.CGetUserSchedule, HandleGetUserSchedule },
+                { (int)ClientPackages.CGetTeamSchedule, HandleGetTeamSchedule },
                 { (int)ClientPackages.CCreateTeam, HandleCreateTeam }
+
             };
         }
 
@@ -188,7 +190,7 @@ namespace Server {
             // If account exists notify the front end to change scenes
             ServerTCP.PACKET_SendLoginReply(ConnectionID, isUser);
         }
-
+       
         private static void HandleGetUserSchedule(int ConnectionID, byte[] data)
         {
             BufferHelper bufferH = new BufferHelper();
@@ -201,28 +203,50 @@ namespace Server {
 
             // Call SchedulesHandler to get list of events in the schedule
             ISchedulesHandler schedulesHandler = new SchedulesHandler();
-            int[] e = schedulesHandler.GetEventList(userID);
-            // Call EventsHandler to get details of each event in the eventsID list
-            // and add them to a string to be sent to the client
-            List<string> eventName = new List<string>();
-            List<int> eventPriority = new List<int>();
-            List<DateTime> eventStart = new List<DateTime>();
-            List<DateTime> eventEnd = new List<DateTime>();
+            int[] eventIDs = schedulesHandler.GetUserSchedule(userID);
+            // Call EventsHandler to get the events from eventIDs list and add them to the events list
+            List<Event> eventsList = new List<Event>(); 
             int n = 0;
-            foreach (int i in e)
+            foreach (int i in eventIDs)
             {
                 var eventsHandler = new EventsHandler();
-                Event eve = eventsHandler.GetPersonalEvent(i);
-                if (eve!=null)
+                Event currEvent = eventsHandler.GetEventDetails(i);
+                if (currEvent!=null)
 				{
                     n++;
-                    eventName.Add(eve.eventName);
-                    eventPriority.Add(eve.priority);
-                    eventStart.Add(eve.startTime);
-                    eventEnd.Add(eve.endTime);
+                    eventsList.Add(currEvent);
                 }
             }
-            ServerTCP.PACKET_SendGetUserScheduleReply(ConnectionID, n, eventName, eventPriority,eventStart,eventEnd);
+            ServerTCP.PACKET_SendGetUserScheduleReply(ConnectionID, n, eventsList);
+        }
+
+        private static void HandleGetTeamSchedule(int ConnectionID, byte[] data)
+        {
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteBytes(data);
+
+            // Read username and password to buffer
+            int TeamID = bufferH.ReadInteger();
+
+            bufferH.Dispose();
+
+            // Call SchedulesHandler to get list of events in the schedule
+            ISchedulesHandler schedulesHandler = new SchedulesHandler();
+            int[] eventIDs = schedulesHandler.GetTeamSchedule(TeamID);
+            // Call EventsHandler to get the events from eventIDs list and add them to the events list
+            List<Event> eventsList = new List<Event>();
+            int n = 0;
+            foreach (int i in eventIDs)
+            {
+                var eventsHandler = new EventsHandler();
+                Event currEvent = eventsHandler.GetEventDetails(i);
+                if (currEvent != null)
+                {
+                    n++;
+                    eventsList.Add(currEvent);
+                }
+            }
+            ServerTCP.PACKET_SendGetUserScheduleReply(ConnectionID, n, eventsList);
         }
 
         private static void HandleCreateTeam(int ConnectionID, byte[] data) {

@@ -112,17 +112,34 @@ namespace Server {
             bufferH.Dispose();
         }
 
-        public static void PACKET_SendGetUserScheduleReply(int ConnectionID, int n, List<string> eventName, List<int> eventPriority, List<DateTime> eventStart, List<DateTime> eventEnd)
+        public static void PACKET_SendGetUserScheduleReply(int ConnectionID, int n, List<Event> eventsList)
         {
             BufferHelper bufferH = new BufferHelper();
             bufferH.WriteInteger((int)ServerPackages.SGetUserScheduleReply);
             bufferH.WriteInteger(n);
             for (int i=0; i<n; i++)
 			{
-                bufferH.WriteString(eventName[i]);
-                bufferH.WriteInteger(eventPriority[i]);
-                bufferH.WriteString(eventStart[i].ToString());
-                bufferH.WriteString(eventEnd[i].ToString());
+                bufferH.WriteString(eventsList[i].eventName);
+                bufferH.WriteInteger(eventsList[i].priority);
+                bufferH.WriteString(eventsList[i].startTime.ToString());
+                bufferH.WriteString(eventsList[i].endTime.ToString());
+            }
+
+            SendDataTo(ConnectionID, bufferH.ToArray());
+            bufferH.Dispose();
+        }
+
+        public static void PACKET_SendGetTeamScheduleReply(int ConnectionID, int n, List<Event> eventsList)
+        {
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteInteger((int)ServerPackages.SGetUserScheduleReply);
+            bufferH.WriteInteger(n);
+            for (int i = 0; i < n; i++)
+            {
+                bufferH.WriteString(eventsList[i].eventName);
+                bufferH.WriteInteger(eventsList[i].priority);
+                bufferH.WriteString(eventsList[i].startTime.ToString());
+                bufferH.WriteString(eventsList[i].endTime.ToString());
             }
 
             SendDataTo(ConnectionID, bufferH.ToArray());

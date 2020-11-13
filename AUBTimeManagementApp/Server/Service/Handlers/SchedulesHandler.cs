@@ -8,28 +8,34 @@ using Server.DataContracts;
 namespace Server.Service.Handlers {
     class SchedulesHandler : ISchedulesHandler{
 
-        public int[] GetEventList(string userID) {
-            //If schedule exists get a list of event IDs
-            int[] e = new int[] { };
-            if (SchedulesStorage.ScheduleExists(userID))
+        public int[] GetUserSchedule(string userID) {
+            //If user schedule exists get a list of event IDs
+            int[] eventList = new int[] { };
+            if (SchedulesStorage.PersonalScheduleExists(userID))
 			{
-                e = SchedulesStorage.GetSchedule(userID);
+                eventList = SchedulesStorage.GetPersonalSchedule(userID);
             }
             //else create empty schedule
             else
 			{
-                SchedulesStorage.CreateSchedule(userID);   
+                SchedulesStorage.CreatePersonalSchedule(userID);   
             }
-            return e;
+            return eventList;
         }
 
-        public Schedule GetTeamSchedule(int teamID) {
-            Schedule teamSchedule = new Schedule(false, "", teamID);
-
-            //Get a list of event IDs
-            //Get the detail about each event and add it to a schedule
-
-            return teamSchedule;
+        public int[] GetTeamSchedule(int teamID) {
+            //If team schedule exists get a list of event IDs
+            int[] eventList = new int[] { };
+            if (SchedulesStorage.TeamScheduleExists(teamID))
+            {
+                eventList = SchedulesStorage.GetTeamSchedule(teamID);
+            }
+            //else create empty schedule
+            else
+            {
+                SchedulesStorage.CreateTeamSchedule(teamID);
+            }
+            return eventList;
         }
 
         public Schedule GetFilteredSchedule(string username, int priority) {

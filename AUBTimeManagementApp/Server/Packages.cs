@@ -6,6 +6,7 @@ public enum ServerPackages {
     SLoginReply,
     SRegisterReply,
     SGetUserScheduleReply,
+    SGetTeamScheduleReply,
     SCreateTeamReply,
     SNewTeamCreated
 }
@@ -14,5 +15,6 @@ public enum ClientPackages {
     CLogin,
     CRegister,
     CGetUserSchedule,
+    CGetTeamSchedule,
     CCreateTeam
 }

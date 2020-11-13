@@ -9,8 +9,8 @@ namespace Server.Service.Handlers
 {
     public interface ISchedulesHandler
     {
-        int[] GetEventList(string userID);
-        Schedule GetTeamSchedule(int teamID);
+        int[] GetUserSchedule(string userID);
+        int[] GetTeamSchedule(int teamID);
         Schedule GetFilteredSchedule(string username, int priority);
         bool AddEventToList(string username, int eventID);
         bool RemoveEventFromList(string username, int eventID);
