@@ -22,9 +22,6 @@ namespace Server.Service.Handlers
             //Create personal event with plannerUsername/priority/eventName/startTime/endTime
             //ask schedule hadler to update user's schedule (event list)
 
-            //for prototype
-           // Event newEvent = new Event(13, priority, "me", eventname, startDate, endDate);
-           // Client.Client.Instance.addEvent(newEvent);
             return null;
 
         }

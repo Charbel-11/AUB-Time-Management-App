@@ -5,10 +5,10 @@ using System.Text;
 
 namespace Server.DataContracts {
     public class Team {
-        private int teamID { get; set; }
-        private string teamName { get; set; }
-        private List<string> teamAdmin { get; set; }
-        private List<string> teamMembers { get; set; }
+        public int teamID { get; set; }
+        public string teamName { get; set; }
+        public List<string> teamAdmin { get; set; }
+        public List<string> teamMembers { get; set; }
 
         public Team(int _teamID, string _teamName) {
             teamID = _teamID; teamName = _teamName;

@@ -100,7 +100,7 @@ namespace Server {
             if (Socket != null) { Socket.Close(); Socket = null; }
 
             ServerTCP.ClientObjects.TryRemove(ConnectionID, out ClientObject wtv);
-            ServerTCP.UsernameToConnectionID.TryRemove(username, out int cId);
+            if (username != "") ServerTCP.UsernameToConnectionID.TryRemove(username, out int cId);
         }
 
         /// <summary>
