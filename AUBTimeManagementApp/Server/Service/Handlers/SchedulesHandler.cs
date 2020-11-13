@@ -39,15 +39,6 @@ namespace Server.Service.Handlers {
             return eventList;
         }
 
-        /* public int[] GetFilteredSchedule(string username, int priority) {
-             //Get list of event IDs from the schedule storage
-             //Get event details from the event handler
-             //Filter the events with the filtering handler
-             //Return filtered schedule
-
-             return null;
-         }*/
-
         public bool AddEventToList(string username, int eventID) { 
             //gets username and event ID
             //when user creates an event add it to his schedule

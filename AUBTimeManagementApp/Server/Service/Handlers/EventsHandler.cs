@@ -88,8 +88,7 @@ namespace Server.Service.Handlers
 
         public List<Event> FilterEventList(int priority, List<int> eventsIDs)
         {
-
-            return _eventStorage.filterEvents(priority, eventsIDs);
+            return null;
         }
 
         /****************************** PRIVATE FUNCTIONS ********************************/

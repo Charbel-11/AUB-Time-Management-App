@@ -71,5 +71,11 @@ namespace AUBTimeManagementApp.GUI
             nF.Show();
             Close();
         }
-    }
+
+		private void button8_Click(object sender, EventArgs e)
+		{
+            FilterUserScheduleForm filterScheduleWindow = new FilterUserScheduleForm(this);
+            filterScheduleWindow.Show();
+        }
+	}
 }

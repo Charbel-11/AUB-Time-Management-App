@@ -66,6 +66,12 @@
     <Compile Include="GUI\AddTeam.Designer.cs">
       <DependentUpon>AddTeam.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\FilterUserScheduleForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\FilterUserScheduleForm.Designer.cs">
+      <DependentUpon>FilterUserScheduleForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\mainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -103,6 +109,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\AddTeam.resx">
       <DependentUpon>AddTeam.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\FilterUserScheduleForm.resx">
+      <DependentUpon>FilterUserScheduleForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\mainForm.resx">
       <DependentUpon>mainForm.cs</DependentUpon>

@@ -173,7 +173,7 @@ namespace AUBTimeManagementApp.Client
         }
 
 
-        public void FilterUserSchedule(int priority)
+        public void FilterUserSchedule(int priority, bool greaterThan, bool lessThan, bool equalTo)
         {
             ClientTCP.PACKAGE_FilterUserSchedule(userID, priority);
         }
