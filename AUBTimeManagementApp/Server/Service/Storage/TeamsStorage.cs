@@ -11,9 +11,9 @@ namespace AUBTimeManagementApp.Service.Storage
         /// <summary>
         /// Adds a new team to the database
         /// </summary>
-        /// <returns>True if successful, false otherwise</returns>
-        public static bool addTeam(string teamName, string admin, int teamID, string[] members) {
-            return true;
+        /// <returns>The unique teamID of the created team, -1 if it was unsuccessful</returns>
+        public static int addTeam(string teamName, string admin, string[] members) {
+            return 0;
         }
 
         /// <summary>
@@ -66,11 +66,7 @@ namespace AUBTimeManagementApp.Service.Storage
         /// <returns>The usernames of each member (make it ID instead?)</returns>
         public static string[] getTeamMembers(int teamID) {
 
-            return new string[] { "q" };
-        }
-
-        public static int getNewTeamID() {
-            return 1;
+            return new string[] { "q", "fh16" };
         }
         #endregion
     }

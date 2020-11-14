@@ -38,6 +38,7 @@ namespace AUBTimeManagementApp.GUI
         public void loginReply(bool OK) { 
             if (OK)
             {
+                if (Client.Client.Instance.mainForm != null && Client.Client.Instance.mainForm.Visible) { return; }
                 Client.Client.Instance.GetUserSchedule();
                 mainForm form1 = new mainForm(username);
                 form1.Show();

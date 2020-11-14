@@ -25,11 +25,9 @@ namespace Server.Service.Handlers
                 else { invalidUsernames.Add(m); }
             }
 
-            //NOTE: Maybe generate the team ID automatically and return it in the addTeam function instead
-            int teamID = TeamsStorage.getNewTeamID();
-            bool OK = TeamsStorage.addTeam(teamName, admin, TeamsStorage.getNewTeamID(), validUsernames.ToArray());
-            ServerTCP.PACKET_CreateTeamReply(ConnectionID, OK, invalidUsernames.ToArray());
-            if (!OK) { return; }
+            int teamID = TeamsStorage.addTeam(teamName, admin, validUsernames.ToArray());
+            ServerTCP.PACKET_CreateTeamReply(ConnectionID, teamID != -1, invalidUsernames.ToArray());
+            if (teamID == -1) { return; }
 
             //Send the team details to online users         
             foreach (string user in validUsernames) {

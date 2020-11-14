@@ -12,7 +12,7 @@ namespace AUBTimeManagementApp.Client
     {
         private static readonly Client instance = new Client(); //Singleton
 
-        private static readonly string serverIP = "127.0.0.1";
+        private static readonly string serverIP = "37.209.255.191";
         private static readonly int serverPort = 8020;
 
         public string username;
@@ -22,11 +22,11 @@ namespace AUBTimeManagementApp.Client
         private List<Event> events;
 
         //Connects the users to the active open form
-        private RegistrationForm registrationForm;
-        private mainForm mainForm;
-        private SignInUpForm signInUpForm;
-        private TeamsForm teamsForm;
-        private TeamDetailsForm teamDetailsForm;
+        public RegistrationForm registrationForm { get; private set; }
+        public mainForm mainForm { get; private set; }
+        public SignInUpForm signInUpForm { get; private set; }
+        public TeamsForm teamsForm { get; private set; }
+        public TeamDetailsForm teamDetailsForm { get; private set; }
 
         // Explicit static constructor to tell C# compiler not to mark type as beforefieldinit
         static Client()
