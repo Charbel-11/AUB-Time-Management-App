@@ -227,5 +227,17 @@ namespace Server {
             SendDataTo(ConnectionID, bufferH.ToArray());
             bufferH.Dispose();
         }
+
+        public static void PACKET_NewAdminState(int ConnectionID, int teamID, string username, bool isNowAdmin) {
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteInteger((int)ServerPackages.SNewAdminState);
+
+            bufferH.WriteInteger(teamID);
+            bufferH.WriteString(username);
+            bufferH.WriteBool(isNowAdmin);
+
+            SendDataTo(ConnectionID, bufferH.ToArray());
+            bufferH.Dispose();
+        }
     }
 }

@@ -26,7 +26,8 @@ namespace Server {
                 { (int)ClientPackages.CGetTeamSchedule, HandleGetTeamSchedule },
                 { (int)ClientPackages.CFilterUserSchedule, HandleFilterUserSchedule },
                 { (int)ClientPackages.CFilterTeamSchedule, HandleFilterTeamSchedule },
-                { (int)ClientPackages.CCreateTeam, HandleCreateTeam }
+                { (int)ClientPackages.CCreateTeam, HandleCreateTeam },
+                { (int)ClientPackages.CChangeAdminState, HandleChangeAdminState }
 
             };
         }
@@ -287,6 +288,20 @@ namespace Server {
 
             ITeamsHandler teamsHandler = new TeamsHandler();
             teamsHandler.CreateTeamRequest(ConnectionID, admin, teamName, members);
+        }
+
+        private static void HandleChangeAdminState(int ConnectionID, byte[] data) {
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteBytes(data);
+
+            int teamID = bufferH.ReadInteger();
+            string username = bufferH.ReadString();
+            bool isNowAdmin = bufferH.ReadBool();
+
+            bufferH.Dispose();
+
+            TeamsHandler teamsHandler = new TeamsHandler();
+            teamsHandler.ChangeAdminState(teamID, username, isNowAdmin);
         }
 
     }

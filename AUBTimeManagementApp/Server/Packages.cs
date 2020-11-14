@@ -10,7 +10,8 @@ public enum ServerPackages {
     SFilterUserScheduleReply,
     SFilterTeamScheduleReply,
     SCreateTeamReply,
-    SNewTeamCreated
+    SNewTeamCreated,
+    SNewAdminState
 }
 public enum ClientPackages {
     CMsg,
@@ -20,5 +21,6 @@ public enum ClientPackages {
     CGetTeamSchedule,
     CFilterUserSchedule,
     CFilterTeamSchedule,
-    CCreateTeam
+    CCreateTeam,
+    CChangeAdminState
 }

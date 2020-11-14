@@ -181,6 +181,18 @@ namespace AUBTimeManagementApp.Client {
             bufferH.Dispose();
         }
 
+        public static void PACKET_ChangeAdminState(int teamID, string username, bool isNowAdmin) {
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteInteger((int)ClientPackages.CChangeAdminState);
+
+            bufferH.WriteInteger(teamID);
+            bufferH.WriteString(username);
+            bufferH.WriteBool(isNowAdmin);
+
+            SendData(bufferH.ToArray());
+            bufferH.Dispose();
+        }
+
         public static void CloseConnection() {
             if (ClientSocket != null)
                 ClientSocket.Close();

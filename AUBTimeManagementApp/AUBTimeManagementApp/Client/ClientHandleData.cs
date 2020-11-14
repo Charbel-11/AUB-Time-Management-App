@@ -24,7 +24,8 @@ namespace AUBTimeManagementApp.Client {
             { (int)ServerPackages.SFilterUserScheduleReply, HandleFilterUserScheduleReply },
             { (int)ServerPackages.SFilterTeamScheduleReply, HandleFilterTeamScheduleReply },
             { (int)ServerPackages.SCreateTeamReply, HandleCreateTeamReply },
-            { (int)ServerPackages.SNewTeamCreated, HandleNewTeamCreated }
+            { (int)ServerPackages.SNewTeamCreated, HandleNewTeamCreated },
+            { (int)ServerPackages.SNewAdminState, HandleNewAdminState }
             };
         }
 
@@ -222,6 +223,19 @@ namespace AUBTimeManagementApp.Client {
             bufferH.Dispose();
 
             Client.Instance.addedToATeam(teamName, teamID, admin, members.ToArray());
+        }
+
+        public static void HandleNewAdminState(byte[] data) {
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteBytes(data);
+
+            int teamID = bufferH.ReadInteger();
+            string username = bufferH.ReadString();
+            bool isNowAdmin = bufferH.ReadBool();
+
+            bufferH.Dispose();
+
+            Client.Instance.adminStateChanged(teamID, username, isNowAdmin);
         }
     }
 }

@@ -18,7 +18,7 @@ namespace AUBTimeManagementApp.Client
         public string username;
         public string userID = "i";
         public int teamID = 0;
-        private List<Team> teams;
+        private List<Team> teams;   //Might need to make it thread safe (consider case where members of same team add other members or delete or ..., we get asynchronous requests to change teams)
         private List<Event> events;
 
         //Connects the users to the active open form
@@ -26,6 +26,7 @@ namespace AUBTimeManagementApp.Client
         private mainForm mainForm;
         private SignInUpForm signInUpForm;
         private TeamsForm teamsForm;
+        private TeamDetailsForm teamDetailsForm;
 
         // Explicit static constructor to tell C# compiler not to mark type as beforefieldinit
         static Client()
@@ -68,6 +69,9 @@ namespace AUBTimeManagementApp.Client
             }
             else if (form.GetType() == typeof(TeamsForm)) {
                 teamsForm = (TeamsForm)form;
+            }
+            else if (form.GetType() == typeof(TeamDetailsForm)) {
+                teamDetailsForm = (TeamDetailsForm)form;
             }
         }
 
@@ -117,6 +121,8 @@ namespace AUBTimeManagementApp.Client
         {
 
         }
+
+        #region Team
         public void createTeam(string teamName, string[] teamMembers) {
             ClientTCP.PACKAGE_CreateTeam(teamName, username, teamMembers);
         }
@@ -151,6 +157,38 @@ namespace AUBTimeManagementApp.Client
                 else { teamsForm.addTeamEntry(newTeam); }
             }
         }
+
+        /// <summary>
+        /// Sets username in team teamID to be either admin (if admin true) or not
+        /// </summary>
+        /// <param name="teamID">The ID of the team</param>
+        /// <param name="username">The username of the member to set/unset as admin</param>
+        /// <param name="isNowAdmin">True if we want to set the member as admin, false if we want to set him as member</param>
+        public void changeAdminState(int teamID, string username, bool isNowAdmin) {
+            ClientTCP.PACKET_ChangeAdminState(teamID, username, isNowAdmin);
+        }
+
+        /// <summary>
+        /// Called when the user receives a notification that some admin state was changed in some team he is in
+        /// </summary>
+        /// <param name="teamID">The ID of the team</param>
+        /// <param name="username">The username of the member that was set/unset as admin</param>
+        /// <param name="isNowAdmin">True if the member is now an admin, false otherwise</param>
+        public void adminStateChanged(int teamID, string username, bool isNowAdmin) {
+            int idx = teams.FindIndex(a => a.teamID == teamID);
+            if (idx == -1) { return; }
+
+            if (isNowAdmin) { teams[idx].teamAdmin.Add(username); }
+            else { teams[idx].teamAdmin.Remove(username); }
+
+            if (teamDetailsForm != null && teamDetailsForm.Visible && teamDetailsForm.team.teamID == teamID) {
+                if (teamDetailsForm.InvokeRequired) {
+                    teamDetailsForm.Invoke(new MethodInvoker(delegate { teamDetailsForm.tryUpdatingTeam(); }));
+                }
+                else { teamDetailsForm.tryUpdatingTeam(); }
+            }
+        }
+        #endregion
 
         public void GetUserSchedule()
         {

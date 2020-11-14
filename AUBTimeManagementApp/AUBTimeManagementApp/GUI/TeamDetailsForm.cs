@@ -11,16 +11,16 @@ using AUBTimeManagementApp.DataContracts;
 
 namespace AUBTimeManagementApp.GUI {
     public partial class TeamDetailsForm : Form {
-        Team team;
-        Dictionary<Button, int> memberButToIdx;
-        List<Button> remButtons, adminButtons;
+        public Team team { get; set; }
+        List<Button> memberButtons, remButtons, adminButtons;
         List<Label> adminLabels;
 
         public TeamDetailsForm(Team _team) {
+            Client.Client.Instance.setForm(this);
             InitializeComponent();
 
             team = _team;
-            memberButToIdx = new Dictionary<Button, int>();
+            memberButtons = new List<Button>();
             adminButtons = new List<Button>();
             remButtons = new List<Button>();
             adminLabels = new List<Label>();
@@ -53,6 +53,7 @@ namespace AUBTimeManagementApp.GUI {
             remBut.TabIndex = 4;
             remBut.Text = "Remove from Team";
             remBut.UseVisualStyleBackColor = false;
+            remBut.Click += removeMember_Click;
             // 
             // adminBut
             // 
@@ -65,6 +66,7 @@ namespace AUBTimeManagementApp.GUI {
             adminBut.TabIndex = 3;
             adminBut.Text = "Dismiss as Admin";
             adminBut.UseVisualStyleBackColor = false;
+            adminBut.Click += changeAdminState_Click;
             // 
             // adminLabel
             // 
@@ -110,10 +112,10 @@ namespace AUBTimeManagementApp.GUI {
             remBut.Hide();
 
             this.flowLayoutPanel1.Controls.Add(groupBox1);
+            memberButtons.Add(memberBut);
             adminButtons.Add(adminBut);
             remButtons.Add(remBut);
             adminLabels.Add(adminLabel);
-            memberButToIdx[memberBut] = adminLabels.Count - 1;
         }
 
         public void showTeamMembers() {
@@ -123,8 +125,39 @@ namespace AUBTimeManagementApp.GUI {
             }
         }
 
+        public void removeMember_Click(object sender, EventArgs e) {
+
+        }
+
+        public void changeAdminState_Click(object sender, EventArgs e) {
+            int idx = adminButtons.FindIndex(a => a == sender);
+            Client.Client.Instance.changeAdminState(team.teamID, team.teamMembers[idx], !adminLabels[idx].Visible);
+        }
+
+        //If some member did a change to the team while we had it opened
+        public void tryUpdatingTeam() {
+            this.SuspendLayout();
+
+            memberButtons.Clear();
+            adminButtons.Clear();
+            remButtons.Clear();
+            adminLabels.Clear();
+
+            this.teamName.Text = team.teamName;
+            showTeamMembers();
+
+            if (!team.isAdmin(Client.Client.Instance.username)) {
+                memberState.Text = "Member";
+                memberState.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            }
+
+            this.ResumeLayout(false);
+            this.PerformLayout();
+        }
+
         public void membersButton_Click(object sender, EventArgs e) {
-            int idx = memberButToIdx[(Button)sender];
+            int idx = memberButtons.FindIndex(a => a == sender);
+            if (team.teamMembers[idx] == Client.Client.Instance.username) { return; }
             if (remButtons[idx].Visible) { remButtons[idx].Hide(); }
             else { remButtons[idx].Show(); }
             if (adminButtons[idx].Visible) { adminButtons[idx].Hide(); }

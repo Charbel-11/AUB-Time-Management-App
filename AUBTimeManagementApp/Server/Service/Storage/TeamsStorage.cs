@@ -66,7 +66,7 @@ namespace AUBTimeManagementApp.Service.Storage
         /// <returns>The usernames of each member (make it ID instead?)</returns>
         public static string[] getTeamMembers(int teamID) {
 
-            return new string[] { };
+            return new string[] { "q" };
         }
 
         public static int getNewTeamID() {
