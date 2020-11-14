@@ -20,50 +20,10 @@ namespace AUBTimeManagementApp.Service.Storage
                 command.Parameters.Add("@Username", SqlDbType.NVarChar).Value = username;
                 SqlDataReader dataReader = command.ExecuteReader();
 
-                if (dataReader.HasRows) { return true; }
-                sqlConnection.Close();
+                bool res = dataReader.HasRows;
+                sqlConnection.Close(); return res;
             }
-            catch (SqlException) { throw; }
-            return false;
-        }
-
-        public static bool isOnline(string username) {
-            try {
-                string connectionString = ConnectionUtil.connectionString;
-                SqlConnection sqlConnection = new SqlConnection(connectionString);
-                sqlConnection.Open();
-
-                string query = "SELECT Online FROM Users WHERE Username = @Username";
-                SqlCommand command = new SqlCommand(query, sqlConnection);
-                command.Parameters.Add("@Username", SqlDbType.NVarChar).Value = username;
-                SqlDataReader dataReader = command.ExecuteReader();
-
-                bool res = false;
-                while (dataReader.Read()) {
-                    res = (bool)dataReader.GetValue(0);
-                }             
-                sqlConnection.Close();
-
-                return res;
-                
-            }
-            catch (SqlException) { throw; }           
-        }
-
-        public static void setOnline(string username, bool online) {
-            try {
-                string connectionString = ConnectionUtil.connectionString;
-                SqlConnection sqlConnection = new SqlConnection(connectionString);
-                sqlConnection.Open();
-
-                string query = "Update Users Set Online = True; WHERE Username = @Username";
-                SqlCommand command = new SqlCommand(query, sqlConnection);
-                command.Parameters.Add("@Username", SqlDbType.NVarChar).Value = username;
-                SqlDataReader dataReader = command.ExecuteReader();
-
-                sqlConnection.Close();
-            }
-            catch (SqlException) { throw; }
+            catch (SqlException exception) { Console.WriteLine("usernameExists: " + exception.Message); throw; }
         }
 
         public static int validateRegistration(string username, string email) {
@@ -76,19 +36,18 @@ namespace AUBTimeManagementApp.Service.Storage
                 SqlCommand command = new SqlCommand(usernameQuery, sqlConnection);
                 command.Parameters.Add("@Username", SqlDbType.NVarChar).Value = username;
                 SqlDataReader dataReader = command.ExecuteReader();
-                if (dataReader.HasRows) { return -1; }
+                if (dataReader.HasRows) { sqlConnection.Close(); return -1; }
                 dataReader.Close();
 
                 string emailQuery = "SELECT UserID FROM Users WHERE Email = @Email";
                 command = new SqlCommand(emailQuery, sqlConnection);
                 command.Parameters.Add("@Email", SqlDbType.NVarChar).Value = email;
                 dataReader = command.ExecuteReader();
-                if (dataReader.HasRows) { return -2; }
+                if (dataReader.HasRows) { sqlConnection.Close(); return -2; }
 
-                sqlConnection.Close();
+                sqlConnection.Close(); return 1;
             }
-            catch (SqlException) { throw; }
-            return 1;
+            catch (SqlException exception) { Console.WriteLine("validateRegistration: " + exception.Message); throw; }
         }
 
         public static bool validateLogIn(string username, string password) {
@@ -102,19 +61,44 @@ namespace AUBTimeManagementApp.Service.Storage
                 command.Parameters.Add("@Username", SqlDbType.NVarChar).Value = username;
                 SqlDataReader dataReader = command.ExecuteReader();
 
-                if (dataReader.Read() && dataReader.GetString(0) == password) { return true; }
-                sqlConnection.Close();
+                bool res = dataReader.Read() && dataReader.GetString(0) == password;
+                sqlConnection.Close(); return res;
             }
-            catch (SqlException exception) { Console.WriteLine(exception.Message); return false; }
-            return false;
+            catch (SqlException exception) { Console.WriteLine("validateLogIn: " + exception.Message); return false; }
         }
 
         public static bool validateChangePassword(string username, string password) {
-            return true;
+            try {
+                string connectionString = ConnectionUtil.connectionString;
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+                sqlConnection.Open();
+
+                string query = "SELECT Password FROM Users WHERE Username = @Username";
+                SqlCommand command = new SqlCommand(query, sqlConnection);
+                command.Parameters.Add("@Username", SqlDbType.NVarChar).Value = username;
+                SqlDataReader dataReader = command.ExecuteReader();
+
+                bool res = dataReader.Read() && dataReader.GetString(0) == password;
+                sqlConnection.Close(); return res;
+            }
+            catch (SqlException exception) { Console.WriteLine("validateChangePassword: " + exception.Message); throw; }
         }
 
         public static bool updatePassword(string username, string password) {
-            return true;
+            try {
+                string connectionString = ConnectionUtil.connectionString;
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+                sqlConnection.Open();
+
+                string query = "UPDATE Users SET Password = @Password WHERE Username = @Username";
+                SqlCommand command = new SqlCommand(query, sqlConnection);
+                command.Parameters.Add("@Password", SqlDbType.NVarChar).Value = password;
+                command.Parameters.Add("@Username", SqlDbType.NVarChar).Value = username;
+                SqlDataReader dataReader = command.ExecuteReader();
+
+                sqlConnection.Close(); return true;
+            }
+            catch (SqlException exception) { Console.WriteLine("updatePassword: " + exception.Message); throw; }
         }
 
         public static bool createAccount(string username, string firstName, string lastName, string email, string password, DateTime dateOfBirth) {
@@ -135,16 +119,49 @@ namespace AUBTimeManagementApp.Service.Storage
                 command.Parameters.Add("@Online", SqlDbType.Bit).Value = false;
                 SqlDataReader dataReader = command.ExecuteReader();
 
-                command.Parameters.Clear();
-                sqlConnection.Close();
+                command.Parameters.Clear(); sqlConnection.Close(); return true;
             }
-            catch (SqlException exception) { Console.WriteLine(exception.Message); return false; }
-            return true;
+            catch (SqlException exception) { Console.WriteLine("createAccount: " + exception.Message); throw; }
         }
 
-        public static int[] getUserTeams(string username) {
-            int[] teams = new int[0]; 
-            return teams;
+        public static List<int> getUserTeams(string username) {
+            try {
+                string connectionString = ConnectionUtil.connectionString;
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+                sqlConnection.Open();
+
+                string query = "SELECT TeamID FROM isMember WHERE Username = @Username";
+                SqlCommand command = new SqlCommand(query, sqlConnection);
+                command.Parameters.Add("@Username", SqlDbType.NVarChar).Value = username;
+                SqlDataReader dataReader = command.ExecuteReader();
+
+                List<int> teams = new List<int>();
+                while (dataReader.Read()) { teams.Add(dataReader.GetInt32(0)); }
+
+                sqlConnection.Close(); return teams;
+            }
+            catch (SqlException exception) { Console.WriteLine("getUserTeams: " + exception.Message); throw; }
+        }
+
+        public static List<int> getUserEvents(string username, int priority) {
+            try {
+                string connectionString = ConnectionUtil.connectionString;
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+                sqlConnection.Open();
+
+                string nestedQuery = "(SELECT EventID FROM isAttendee WHERE Username = @Username)";
+                string query = "SELECT EventID FROM Events WHERE Priority = @Priority AND EventID IN " + nestedQuery;
+                SqlCommand command = new SqlCommand(query, sqlConnection);
+                command.Parameters.Add("@Priority", SqlDbType.Int).Value = priority;
+                command.Parameters.Add("@Username", SqlDbType.NVarChar).Value = username;
+                SqlDataReader dataReader = command.ExecuteReader();
+
+                List<int> events = new List<int>();
+                while (dataReader.Read()) { events.Add(dataReader.GetInt32(0)); }
+
+                sqlConnection.Close(); return events;
+            }
+            catch (SqlException exception) { Console.WriteLine("getUserEvents: " + exception.Message); throw; }
         }
 
     }

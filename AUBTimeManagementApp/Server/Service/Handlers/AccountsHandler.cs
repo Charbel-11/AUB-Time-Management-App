@@ -30,10 +30,6 @@ namespace Server.Service.Handlers
             return false;
         }
 
-        public void setOnline(string username, bool online) {
-            AccountsStorage.setOnline(username, online);
-        }
-
         public int ChangePassword(string username, string oldPassword, string newPassword, string confirmPassowrd) {
 
             int checkPass = CheckPassword(newPassword, confirmPassowrd);
@@ -85,6 +81,18 @@ namespace Server.Service.Handlers
 
             if (upper && lower && digit && other) return 1;
             return -2;
+        }
+
+        public List<int> getUserTeams(string username) {
+            return AccountsStorage.getUserTeams(username);
+        }
+
+        public List<int> getUserEvents(string username, bool low, bool mid, bool high) {
+            List<int> events = new List<int>();
+            if (low) { events.AddRange(AccountsStorage.getUserEvents(username, 1)); }
+            if (mid) { events.AddRange(AccountsStorage.getUserEvents(username, 2)); }
+            if (high) { events.AddRange(AccountsStorage.getUserEvents(username, 3)); }
+            return events;
         }
     }
 }
