@@ -38,9 +38,10 @@ namespace AUBTimeManagementApp.GUI {
             newB.Margin = new Padding(0);
             newB.Text = team.teamName;
             newB.Size = new Size(485, 46);
+            newB.Click += teamInfo_Click;
             TeamsLayout.Controls.Add(newB);
             butToTeam[newB] = team;
-        }
+       }
 
         private void addTeamButton_Click(object sender, EventArgs e) {
             AddTeam aT = new AddTeam();
@@ -50,6 +51,14 @@ namespace AUBTimeManagementApp.GUI {
         private void backButton_Click(object sender, EventArgs e) {
             mainForm mF = new mainForm();
             mF.Show();
+            Close();
+        }
+
+        private void teamInfo_Click(object sender, EventArgs e) {
+            Team curTeam = butToTeam[(Button)sender];
+
+            TeamDetailsForm tDF = new TeamDetailsForm(curTeam);
+            tDF.Show();
             Close();
         }
     }
