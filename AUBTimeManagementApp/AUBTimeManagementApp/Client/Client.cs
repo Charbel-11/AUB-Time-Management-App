@@ -12,7 +12,7 @@ namespace AUBTimeManagementApp.Client
     {
         private static readonly Client instance = new Client(); //Singleton
 
-        private static readonly string serverIP = "37.209.255.191";
+        private static readonly string serverIP = "127.0.0.1";
         private static readonly int serverPort = 8020;
 
         public string username;
@@ -169,7 +169,7 @@ namespace AUBTimeManagementApp.Client
         }
 
         /// <summary>
-        /// Called when the user receives a notification that some admin state was changed in some team he is in
+        /// Called when the user receives a notification that some admin state was changed in some team they are in
         /// </summary>
         /// <param name="teamID">The ID of the team</param>
         /// <param name="username">The username of the member that was set/unset as admin</param>
@@ -186,6 +186,45 @@ namespace AUBTimeManagementApp.Client
                     teamDetailsForm.Invoke(new MethodInvoker(delegate { teamDetailsForm.tryUpdatingTeam(); }));
                 }
                 else { teamDetailsForm.tryUpdatingTeam(); }
+            }
+        }
+        
+        /// <summary>
+        /// Called to remove a member from a team
+        /// </summary>
+        /// <param name="teamID">The ID of the team</param>
+        /// <param name="username">The member to remove (could be the current user)</param>
+        public void removeMember(int teamID, string username) {
+            ClientTCP.PACKET_RemoveMember(teamID, username);
+        }
+
+        /// <summary>
+        /// Called when the user receives a notification that some member of a team they are in was removed
+        /// </summary>
+        /// <param name="teamID">The ID of the tam</param>
+        /// <param name="username">Tge username of the removed member</param>
+        public void memberRemoved(int teamID, string username) {
+            int idx = teams.FindIndex(a => a.teamID == teamID);
+            if (idx == -1) { return; }
+
+            bool teamDetailsOpen = teamDetailsForm != null && teamDetailsForm.Visible && teamDetailsForm.team.teamID == teamID;
+            if (username == this.username) { 
+                teams.RemoveAt(idx); 
+                if (teamDetailsOpen) {
+                    if (teamDetailsForm.InvokeRequired) {
+                        teamDetailsForm.Invoke(new MethodInvoker(delegate { teamDetailsForm.goBack(); }));
+                    }
+                    else { teamDetailsForm.goBack(); }
+                }
+            }
+            else {
+                teams[idx].removeMember(username);
+                if (teamDetailsOpen) {
+                    if (teamDetailsForm.InvokeRequired) {
+                        teamDetailsForm.Invoke(new MethodInvoker(delegate { teamDetailsForm.tryUpdatingTeam(); }));
+                    }
+                    else { teamDetailsForm.tryUpdatingTeam(); }
+                }
             }
         }
         #endregion

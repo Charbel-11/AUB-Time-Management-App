@@ -14,12 +14,14 @@ namespace AUBTimeManagementApp.GUI {
         public Team team { get; set; }
         List<Button> memberButtons, remButtons, adminButtons;
         List<Label> adminLabels;
+        bool isAdmin;
 
         public TeamDetailsForm(Team _team) {
             Client.Client.Instance.setForm(this);
             InitializeComponent();
 
             team = _team;
+            isAdmin = team.isAdmin(Client.Client.Instance.username);
             memberButtons = new List<Button>();
             adminButtons = new List<Button>();
             remButtons = new List<Button>();
@@ -28,9 +30,11 @@ namespace AUBTimeManagementApp.GUI {
             this.teamName.Text = team.teamName;
             showTeamMembers();
 
-            if (!team.isAdmin(Client.Client.Instance.username)) {
+            if (!isAdmin) {
                 memberState.Text = "Member";
-                memberState.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                this.memberState.ForeColor = System.Drawing.Color.Black;
+                addMembersButton.Enabled = false;
+                scheduleEventBut.Enabled = false;
             }
         }
 
@@ -126,7 +130,8 @@ namespace AUBTimeManagementApp.GUI {
         }
 
         public void removeMember_Click(object sender, EventArgs e) {
-
+            int idx = remButtons.FindIndex(a => a == sender);
+            Client.Client.Instance.removeMember(team.teamID, team.teamMembers[idx]);
         }
 
         public void changeAdminState_Click(object sender, EventArgs e) {
@@ -157,7 +162,7 @@ namespace AUBTimeManagementApp.GUI {
 
         public void membersButton_Click(object sender, EventArgs e) {
             int idx = memberButtons.FindIndex(a => a == sender);
-            if (team.teamMembers[idx] == Client.Client.Instance.username) { return; }
+            if (!isAdmin || team.teamMembers[idx] == Client.Client.Instance.username) { return; }
             if (remButtons[idx].Visible) { remButtons[idx].Hide(); }
             else { remButtons[idx].Show(); }
             if (adminButtons[idx].Visible) { adminButtons[idx].Hide(); }
@@ -168,12 +173,26 @@ namespace AUBTimeManagementApp.GUI {
 
         }
 
+        private void backBut_Click(object sender, EventArgs e) {
+            goBack();
+        }
+
         private void scheduleEventBut_Click(object sender, EventArgs e) {
 
         }
 
+        private void leaveTeamBut_Click(object sender, EventArgs e) {
+            Client.Client.Instance.removeMember(team.teamID, Client.Client.Instance.username);
+        }
+
         private void teamScheduleBut_Click(object sender, EventArgs e) {
 
+        }
+
+        public void goBack() {
+            TeamsForm teamsF = new TeamsForm();
+            teamsF.Show();
+            Close();
         }
     }
 }

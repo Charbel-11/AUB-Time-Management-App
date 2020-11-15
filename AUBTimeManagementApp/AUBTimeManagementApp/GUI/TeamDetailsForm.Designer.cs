@@ -26,17 +26,17 @@
             this.teamName = new System.Windows.Forms.Label();
             this.memberState = new System.Windows.Forms.Label();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.adminBut = new System.Windows.Forms.Button();
+            this.remBut = new System.Windows.Forms.Button();
+            this.adminLabel = new System.Windows.Forms.Label();
+            this.memberBut = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.addMembersButton = new System.Windows.Forms.Button();
             this.scheduleEventBut = new System.Windows.Forms.Button();
             this.teamScheduleBut = new System.Windows.Forms.Button();
             this.leaveTeamBut = new System.Windows.Forms.Button();
             this.backBut = new System.Windows.Forms.Button();
-            this.memberBut = new System.Windows.Forms.Button();
-            this.adminLabel = new System.Windows.Forms.Label();
-            this.remBut = new System.Windows.Forms.Button();
-            this.adminBut = new System.Windows.Forms.Button();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.flowLayoutPanel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -74,6 +74,65 @@
             this.flowLayoutPanel1.Size = new System.Drawing.Size(571, 348);
             this.flowLayoutPanel1.TabIndex = 12;
             this.flowLayoutPanel1.WrapContents = false;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.adminBut);
+            this.groupBox1.Controls.Add(this.remBut);
+            this.groupBox1.Controls.Add(this.adminLabel);
+            this.groupBox1.Controls.Add(this.memberBut);
+            this.groupBox1.Location = new System.Drawing.Point(0, 0);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(0);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(542, 55);
+            this.groupBox1.TabIndex = 1;
+            this.groupBox1.TabStop = false;
+            // 
+            // adminBut
+            // 
+            this.adminBut.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.adminBut.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.adminBut.ForeColor = System.Drawing.Color.White;
+            this.adminBut.Location = new System.Drawing.Point(232, 6);
+            this.adminBut.Name = "adminBut";
+            this.adminBut.Size = new System.Drawing.Size(131, 42);
+            this.adminBut.TabIndex = 3;
+            this.adminBut.Text = "Dismiss as Admin";
+            this.adminBut.UseVisualStyleBackColor = false;
+            // 
+            // remBut
+            // 
+            this.remBut.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.remBut.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.remBut.ForeColor = System.Drawing.Color.White;
+            this.remBut.Location = new System.Drawing.Point(390, 6);
+            this.remBut.Name = "remBut";
+            this.remBut.Size = new System.Drawing.Size(131, 42);
+            this.remBut.TabIndex = 4;
+            this.remBut.Text = "Remove from Team";
+            this.remBut.UseVisualStyleBackColor = false;
+            // 
+            // adminLabel
+            // 
+            this.adminLabel.AutoSize = true;
+            this.adminLabel.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.adminLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.adminLabel.Location = new System.Drawing.Point(433, 18);
+            this.adminLabel.Name = "adminLabel";
+            this.adminLabel.Size = new System.Drawing.Size(54, 20);
+            this.adminLabel.TabIndex = 2;
+            this.adminLabel.Text = "Admin";
+            // 
+            // memberBut
+            // 
+            this.memberBut.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.memberBut.Location = new System.Drawing.Point(0, 0);
+            this.memberBut.Name = "memberBut";
+            this.memberBut.Size = new System.Drawing.Size(542, 53);
+            this.memberBut.TabIndex = 1;
+            this.memberBut.Text = "Member1";
+            this.memberBut.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.memberBut.UseVisualStyleBackColor = true;
             // 
             // label1
             // 
@@ -123,6 +182,7 @@
             this.leaveTeamBut.TabIndex = 17;
             this.leaveTeamBut.Text = "Leave Team";
             this.leaveTeamBut.UseVisualStyleBackColor = true;
+            this.leaveTeamBut.Click += new System.EventHandler(this.leaveTeamBut_Click);
             // 
             // backBut
             // 
@@ -132,65 +192,7 @@
             this.backBut.TabIndex = 18;
             this.backBut.Text = "Back";
             this.backBut.UseVisualStyleBackColor = true;
-            // 
-            // memberBut
-            // 
-            this.memberBut.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.memberBut.Location = new System.Drawing.Point(0, 0);
-            this.memberBut.Name = "memberBut";
-            this.memberBut.Size = new System.Drawing.Size(542, 53);
-            this.memberBut.TabIndex = 1;
-            this.memberBut.Text = "Member1";
-            this.memberBut.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.memberBut.UseVisualStyleBackColor = true;
-            // 
-            // adminLabel
-            // 
-            this.adminLabel.AutoSize = true;
-            this.adminLabel.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.adminLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            this.adminLabel.Location = new System.Drawing.Point(433, 18);
-            this.adminLabel.Name = "adminLabel";
-            this.adminLabel.Size = new System.Drawing.Size(54, 20);
-            this.adminLabel.TabIndex = 2;
-            this.adminLabel.Text = "Admin";
-            // 
-            // remBut
-            // 
-            this.remBut.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.remBut.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.remBut.ForeColor = System.Drawing.Color.White;
-            this.remBut.Location = new System.Drawing.Point(390, 6);
-            this.remBut.Name = "remBut";
-            this.remBut.Size = new System.Drawing.Size(131, 42);
-            this.remBut.TabIndex = 4;
-            this.remBut.Text = "Remove from Team";
-            this.remBut.UseVisualStyleBackColor = false;
-            // 
-            // adminBut
-            // 
-            this.adminBut.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.adminBut.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.adminBut.ForeColor = System.Drawing.Color.White;
-            this.adminBut.Location = new System.Drawing.Point(232, 6);
-            this.adminBut.Name = "adminBut";
-            this.adminBut.Size = new System.Drawing.Size(131, 42);
-            this.adminBut.TabIndex = 3;
-            this.adminBut.Text = "Dismiss as Admin";
-            this.adminBut.UseVisualStyleBackColor = false;
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.adminBut);
-            this.groupBox1.Controls.Add(this.remBut);
-            this.groupBox1.Controls.Add(this.adminLabel);
-            this.groupBox1.Controls.Add(this.memberBut);
-            this.groupBox1.Location = new System.Drawing.Point(0, 0);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(0);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(542, 55);
-            this.groupBox1.TabIndex = 1;
-            this.groupBox1.TabStop = false;
+            this.backBut.Click += new System.EventHandler(this.backBut_Click);
             // 
             // TeamDetailsForm
             // 
@@ -207,6 +209,7 @@
             this.Controls.Add(this.memberState);
             this.Controls.Add(this.teamName);
             this.Name = "TeamDetailsForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "TeamDetailsForm";
             this.flowLayoutPanel1.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);

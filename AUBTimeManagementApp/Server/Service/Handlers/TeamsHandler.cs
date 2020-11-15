@@ -56,13 +56,21 @@ namespace Server.Service.Handlers
             return false;
         }
 
-        public bool RemoveMemberRequest(string userToRemove, int teamID)
+        public bool RemoveMemberRequest(int teamID, string userToRemove)
         {
-            //Get the team members
-            //Remove the username from the team
-            //Send a remove member flag to online users
+            bool b = TeamsStorage.removeTeamMember(teamID, userToRemove);
+            if (!b) { return false; }
 
-            return false;
+            string[] teamMembers = TeamsStorage.getTeamMembers(teamID);
+            foreach (string member in teamMembers) {
+                if (ServerTCP.UsernameToConnectionID.TryGetValue(member, out int cID))
+                    ServerTCP.PACKET_MemberRemoved(cID, teamID, userToRemove);
+            }
+
+            if (ServerTCP.UsernameToConnectionID.TryGetValue(userToRemove, out int ID))
+                ServerTCP.PACKET_MemberRemoved(ID, teamID, userToRemove);
+
+            return true;
         }
 
         public bool ChangeAdminState(int teamID, string username, bool isNowAdmin) {
@@ -85,12 +93,6 @@ namespace Server.Service.Handlers
             //Then all the information for each team and send them back
 
             return null;
-        }
-
-        //Same as remove member when the member is the user himself, used like this for readability
-        public bool LeaveTeamRequest(string username, int teamID)
-        {
-            return RemoveMemberRequest(username, teamID);
         }
     }
 }

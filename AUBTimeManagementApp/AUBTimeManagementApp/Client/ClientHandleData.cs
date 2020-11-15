@@ -25,7 +25,8 @@ namespace AUBTimeManagementApp.Client {
             { (int)ServerPackages.SFilterTeamScheduleReply, HandleFilterTeamScheduleReply },
             { (int)ServerPackages.SCreateTeamReply, HandleCreateTeamReply },
             { (int)ServerPackages.SNewTeamCreated, HandleNewTeamCreated },
-            { (int)ServerPackages.SNewAdminState, HandleNewAdminState }
+            { (int)ServerPackages.SNewAdminState, HandleNewAdminState },
+            { (int)ServerPackages.SMemberRemoved, HandleMemberRemoved }
             };
         }
 
@@ -236,6 +237,18 @@ namespace AUBTimeManagementApp.Client {
             bufferH.Dispose();
 
             Client.Instance.adminStateChanged(teamID, username, isNowAdmin);
+        }
+
+        public static void HandleMemberRemoved(byte[] data) {
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteBytes(data);
+
+            int teamID = bufferH.ReadInteger();
+            string removedMember = bufferH.ReadString();
+
+            bufferH.Dispose();
+
+            Client.Instance.memberRemoved(teamID, removedMember);
         }
     }
 }

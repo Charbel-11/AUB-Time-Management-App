@@ -10,9 +10,8 @@ namespace Server.Service.Handlers {
         void CreateTeamRequest(int ConnectionID, string admin, string teamName, string[] members);
         bool RemoveTeamRequest(int teamID);
         bool AddMemberRequest(string userToAdd, int teamID);
-        bool RemoveMemberRequest(string userToRemove, int teamID);
+        bool RemoveMemberRequest(int teamID, string userToRemove);
         bool ChangeAdminState(int teamID, string username, bool isNowAdmin);
         Team[] GetPersonalTeams(string username);
-        bool LeaveTeamRequest(string username, int teamID);
     }
 }

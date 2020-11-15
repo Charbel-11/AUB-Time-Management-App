@@ -27,8 +27,8 @@ namespace Server {
                 { (int)ClientPackages.CFilterUserSchedule, HandleFilterUserSchedule },
                 { (int)ClientPackages.CFilterTeamSchedule, HandleFilterTeamSchedule },
                 { (int)ClientPackages.CCreateTeam, HandleCreateTeam },
-                { (int)ClientPackages.CChangeAdminState, HandleChangeAdminState }
-
+                { (int)ClientPackages.CChangeAdminState, HandleChangeAdminState },
+                { (int)ClientPackages.CRemoveMember, HandleRemoveMember }
             };
         }
 
@@ -304,5 +304,17 @@ namespace Server {
             teamsHandler.ChangeAdminState(teamID, username, isNowAdmin);
         }
 
+        private static void HandleRemoveMember(int ConnectionID, byte[] data) {
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteBytes(data);
+
+            int teamID = bufferH.ReadInteger();
+            string username = bufferH.ReadString();
+
+            bufferH.Dispose();
+
+            TeamsHandler teamsHandler = new TeamsHandler();
+            teamsHandler.RemoveMemberRequest(teamID, username);
+        }
     }
 }

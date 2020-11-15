@@ -239,5 +239,16 @@ namespace Server {
             SendDataTo(ConnectionID, bufferH.ToArray());
             bufferH.Dispose();
         }
+
+        public static void PACKET_MemberRemoved(int ConnectionID, int teamID, string removedMember) {
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteInteger((int)ServerPackages.SMemberRemoved);
+
+            bufferH.WriteInteger(teamID);
+            bufferH.WriteString(removedMember);
+
+            SendDataTo(ConnectionID, bufferH.ToArray());
+            bufferH.Dispose();
+        }
     }
 }
