@@ -32,7 +32,7 @@ namespace Server.Service.Handlers
             //Send the team details to online users         
             foreach (string user in validUsernames) {
                 if (ServerTCP.UsernameToConnectionID.TryGetValue(user, out int cID))
-                    ServerTCP.PACKET_NewTeamCreated(cID, teamName, teamID, admin, validUsernames.ToArray());
+                    ServerTCP.PACKET_NewTeamCreated(cID, teamName, teamID, new string[] { admin }, validUsernames.ToArray());
             }
         }
 
@@ -46,14 +46,25 @@ namespace Server.Service.Handlers
             return false;
         }
                
-        public bool AddMemberRequest(string userToAdd, int teamID)
+        public bool AddMemberRequest(int ConnectionID, int teamID, string userToAdd)
         {
-            //Checks that the username exists
-            //Get the team members
-            //Add username to the team
-            //Send an add member flag to online users
+            bool OK = AccountsStorage.usernameExists(userToAdd);
+            if (OK) { OK = TeamsStorage.addTeamMember(teamID, userToAdd); }
+            ServerTCP.PACKET_AddMemberReply(ConnectionID, OK);
+            if (!OK) { return false; }
 
-            return false;
+            string[] teamMembers = TeamsStorage.getTeamMembers(teamID);
+            foreach (string user in teamMembers) {
+                if (user == userToAdd) { continue; }
+                if (ServerTCP.UsernameToConnectionID.TryGetValue(user, out int cID))
+                    ServerTCP.PACKET_MemberAdded(cID, teamID, userToAdd);
+            }
+
+            Team curTeam = TeamsStorage.getTeamInfo(teamID);
+            if (ServerTCP.UsernameToConnectionID.TryGetValue(userToAdd, out int ID))
+                ServerTCP.PACKET_NewTeamCreated(ID, curTeam.teamName, teamID, curTeam.teamAdmin.ToArray(), curTeam.teamMembers.ToArray());
+
+            return true;
         }
 
         public bool RemoveMemberRequest(int teamID, string userToRemove)

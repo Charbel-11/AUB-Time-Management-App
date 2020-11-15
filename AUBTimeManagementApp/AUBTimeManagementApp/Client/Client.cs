@@ -145,9 +145,10 @@ namespace AUBTimeManagementApp.Client
             }
         }
 
-        public void addedToATeam(string teamName, int teamID, string admin, string[] members) {
+        public void addedToATeam(string teamName, int teamID, List<string> admins, List<string> members) {
             Team newTeam = new Team(teamID, teamName);
-            foreach (string m in members) { newTeam.addMember(m, m == admin); }
+            foreach (string m in members) { newTeam.addMember(m); }
+            foreach(string a in admins) { newTeam.addAdmin(a); }
             teams.Add(newTeam);
 
             if (teamsForm != null && teamsForm.Visible) {
@@ -190,7 +191,7 @@ namespace AUBTimeManagementApp.Client
         }
         
         /// <summary>
-        /// Called to remove a member from a team
+        /// Remove a member from a team
         /// </summary>
         /// <param name="teamID">The ID of the team</param>
         /// <param name="username">The member to remove (could be the current user)</param>
@@ -201,7 +202,7 @@ namespace AUBTimeManagementApp.Client
         /// <summary>
         /// Called when the user receives a notification that some member of a team they are in was removed
         /// </summary>
-        /// <param name="teamID">The ID of the tam</param>
+        /// <param name="teamID">The ID of the team</param>
         /// <param name="username">Tge username of the removed member</param>
         public void memberRemoved(int teamID, string username) {
             int idx = teams.FindIndex(a => a.teamID == teamID);
@@ -227,6 +228,50 @@ namespace AUBTimeManagementApp.Client
                 }
             }
         }
+
+        /// <summary>
+        /// Adds a member to a team
+        /// </summary>
+        /// <param name="teamID">The ID of the team</param>
+        /// <param name="username">The username of the user to add to the team</param>
+        public void addMember(int teamID, string username) {
+            ClientTCP.PACKET_AddMember(teamID, username);
+        }
+
+        /// <summary>
+        /// Feedback of a request of the user made to add a member to a team
+        /// </summary>
+        /// <param name="OK">True if the member was added, false otherwise</param>
+        public void addMemberReply(bool OK) {
+            string feedback = (OK ? "Member added" : "The username is not valid");
+            bool teamDetailsOpen = teamDetailsForm != null && teamDetailsForm.Visible && teamDetailsForm.team.teamID == teamID;
+            if (teamDetailsOpen) {
+                if (teamDetailsForm.InvokeRequired) {
+                    teamDetailsForm.Invoke(new MethodInvoker(delegate { teamDetailsForm.addMemberFeedback(feedback); }));
+                }
+                else { teamDetailsForm.addMemberFeedback(feedback); }
+            }
+        }
+
+        /// <summary>
+        /// Called when the user receives a notification that some member of a team they are in was added
+        /// </summary>
+        /// <param name="teamID">The ID of the team</param>
+        /// <param name="username">Tge username of the addd member</param>
+        public void memberAdded(int teamID, string username) {
+            int idx = teams.FindIndex(a => a.teamID == teamID);
+            if (idx == -1) { return; }
+
+            teams[idx].addMember(username);
+            bool teamDetailsOpen = teamDetailsForm != null && teamDetailsForm.Visible && teamDetailsForm.team.teamID == teamID;
+            if (teamDetailsOpen) {
+                if (teamDetailsForm.InvokeRequired) {
+                    teamDetailsForm.Invoke(new MethodInvoker(delegate { teamDetailsForm.tryUpdatingTeam(); }));
+                }
+                else { teamDetailsForm.tryUpdatingTeam(); }
+            }
+        }
+
         #endregion
 
         public void GetUserSchedule()

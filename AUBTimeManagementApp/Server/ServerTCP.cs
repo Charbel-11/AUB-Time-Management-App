@@ -196,7 +196,6 @@ namespace Server {
             bufferH.Dispose();
         }
 
-
         //Used to respond to the user who created the team
         //The user will display a message accordingly, however we still send him a PACKET_NewTeamCreated 
         public static void PACKET_CreateTeamReply(int ConnectionID, bool OK, string[] invalidUsernames) {
@@ -214,13 +213,14 @@ namespace Server {
         }
 
         //Sent to every online user that has been added to a team
-        public static void PACKET_NewTeamCreated(int ConnectionID, string teamName, int teamID, string admin, string[] members) {
+        public static void PACKET_NewTeamCreated(int ConnectionID, string teamName, int teamID, string[] admin, string[] members) {
             BufferHelper bufferH = new BufferHelper();
             bufferH.WriteInteger((int)ServerPackages.SNewTeamCreated);
 
             bufferH.WriteString(teamName);
             bufferH.WriteInteger(teamID);
-            bufferH.WriteString(admin);
+            bufferH.WriteInteger(admin.Length);
+            foreach (string a in admin) { bufferH.WriteString(a); }
             bufferH.WriteInteger(members.Length);
             foreach (string m in members) { bufferH.WriteString(m); }
 
@@ -246,6 +246,25 @@ namespace Server {
 
             bufferH.WriteInteger(teamID);
             bufferH.WriteString(removedMember);
+
+            SendDataTo(ConnectionID, bufferH.ToArray());
+            bufferH.Dispose();
+        }
+    
+        public static void PACKET_AddMemberReply(int ConnectionID, bool OK) {
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteInteger((int)ServerPackages.SAddMemberReply);
+            bufferH.WriteBool(OK);
+            SendDataTo(ConnectionID, bufferH.ToArray());
+            bufferH.Dispose();
+        }
+
+        public static void PACKET_MemberAdded(int ConnectionID, int teamID, string addedMember) {
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteInteger((int)ServerPackages.SMemberAdded);
+
+            bufferH.WriteInteger(teamID);
+            bufferH.WriteString(addedMember);
 
             SendDataTo(ConnectionID, bufferH.ToArray());
             bufferH.Dispose();

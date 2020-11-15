@@ -36,6 +36,7 @@ namespace AUBTimeManagementApp.GUI {
                 addMembersButton.Enabled = false;
                 scheduleEventBut.Enabled = false;
             }
+            addMemberBox.Hide();
         }
 
         public void createMemberButton(string memberName) {
@@ -129,20 +130,11 @@ namespace AUBTimeManagementApp.GUI {
             }
         }
 
-        public void removeMember_Click(object sender, EventArgs e) {
-            int idx = remButtons.FindIndex(a => a == sender);
-            Client.Client.Instance.removeMember(team.teamID, team.teamMembers[idx]);
-        }
-
-        public void changeAdminState_Click(object sender, EventArgs e) {
-            int idx = adminButtons.FindIndex(a => a == sender);
-            Client.Client.Instance.changeAdminState(team.teamID, team.teamMembers[idx], !adminLabels[idx].Visible);
-        }
-
         //If some member did a change to the team while we had it opened
         public void tryUpdatingTeam() {
             this.SuspendLayout();
 
+            isAdmin = team.isAdmin(Client.Client.Instance.username);
             memberButtons.Clear();
             adminButtons.Clear();
             remButtons.Clear();
@@ -151,9 +143,11 @@ namespace AUBTimeManagementApp.GUI {
             this.teamName.Text = team.teamName;
             showTeamMembers();
 
-            if (!team.isAdmin(Client.Client.Instance.username)) {
+            if (!isAdmin) {
                 memberState.Text = "Member";
-                memberState.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                this.memberState.ForeColor = System.Drawing.Color.Black;
+                addMembersButton.Enabled = false;
+                scheduleEventBut.Enabled = false;
             }
 
             this.ResumeLayout(false);
@@ -169,15 +163,26 @@ namespace AUBTimeManagementApp.GUI {
             else { adminButtons[idx].Show(); }
         }
 
-        private void addMembersButton_Click(object sender, EventArgs e) {
-
+        public void removeMember_Click(object sender, EventArgs e) {
+            int idx = remButtons.FindIndex(a => a == sender);
+            Client.Client.Instance.removeMember(team.teamID, team.teamMembers[idx]);
         }
 
-        private void backBut_Click(object sender, EventArgs e) {
-            goBack();
+        public void changeAdminState_Click(object sender, EventArgs e) {
+            int idx = adminButtons.FindIndex(a => a == sender);
+            Client.Client.Instance.changeAdminState(team.teamID, team.teamMembers[idx], !adminLabels[idx].Visible);
+        }
+
+        private void addMembersButton_Click(object sender, EventArgs e) {
+            feedbackText.Text = "";
+            buttonsBox.Hide();
+            addMemberBox.Show();
         }
 
         private void scheduleEventBut_Click(object sender, EventArgs e) {
+
+        }
+        private void teamScheduleBut_Click(object sender, EventArgs e) {
 
         }
 
@@ -185,8 +190,29 @@ namespace AUBTimeManagementApp.GUI {
             Client.Client.Instance.removeMember(team.teamID, Client.Client.Instance.username);
         }
 
-        private void teamScheduleBut_Click(object sender, EventArgs e) {
+        private void backFromAddBut_Click(object sender, EventArgs e) {
+            addMemberBox.Hide();
+            buttonsBox.Show();
+        }
 
+        private void addBut_Click(object sender, EventArgs e) {
+            string memberToAdd = textField.Text;
+            if (memberToAdd == "") { return; }
+            if (team.teamMembers.Contains(memberToAdd)) {
+                feedbackText.Text = "This user is already a member of the team";
+                return;
+            }
+
+            textField.Text = "";
+            Client.Client.Instance.addMember(team.teamID, memberToAdd);
+        }
+
+        private void backBut_Click(object sender, EventArgs e) {
+            goBack();
+        }
+
+        public void addMemberFeedback(string feedback) {
+            feedbackText.Text = feedback;
         }
 
         public void goBack() {

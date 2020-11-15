@@ -26,7 +26,9 @@ namespace AUBTimeManagementApp.Client {
             { (int)ServerPackages.SCreateTeamReply, HandleCreateTeamReply },
             { (int)ServerPackages.SNewTeamCreated, HandleNewTeamCreated },
             { (int)ServerPackages.SNewAdminState, HandleNewAdminState },
-            { (int)ServerPackages.SMemberRemoved, HandleMemberRemoved }
+            { (int)ServerPackages.SMemberRemoved, HandleMemberRemoved },
+            { (int)ServerPackages.SAddMemberReply, HandleAddMemberReply },
+            { (int)ServerPackages.SMemberAdded, HandleMemberAdded }
             };
         }
 
@@ -65,7 +67,7 @@ namespace AUBTimeManagementApp.Client {
 
             if (pLength < 4) { ClientBufferH.Clear(); }
         }
-        private static void HandleMessage(byte[] data) {
+        public static void HandleMessage(byte[] data) {
             BufferHelper bufferH = new BufferHelper();
             bufferH.WriteBytes(data);
             string msg = bufferH.ReadString();
@@ -214,16 +216,19 @@ namespace AUBTimeManagementApp.Client {
             BufferHelper bufferH = new BufferHelper();
             bufferH.WriteBytes(data);
 
+            List<string> members = new List<string>();
+            List<string> admins = new List<string>();
+
             string teamName = bufferH.ReadString();
             int teamID = bufferH.ReadInteger();
-            string admin = bufferH.ReadString();
+            int nA = bufferH.ReadInteger();
+            for (int i = 0; i < nA; i++) { admins.Add(bufferH.ReadString()); }
             int n = bufferH.ReadInteger();
-            List<string> members = new List<string>();
             for(int i = 0; i < n; i++) { members.Add(bufferH.ReadString()); }
 
             bufferH.Dispose();
 
-            Client.Instance.addedToATeam(teamName, teamID, admin, members.ToArray());
+            Client.Instance.addedToATeam(teamName, teamID, admins, members);
         }
 
         public static void HandleNewAdminState(byte[] data) {
@@ -249,6 +254,26 @@ namespace AUBTimeManagementApp.Client {
             bufferH.Dispose();
 
             Client.Instance.memberRemoved(teamID, removedMember);
+        }
+
+        public static void HandleAddMemberReply(byte[] data) {
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteBytes(data);
+            bool OK = bufferH.ReadBool();
+            bufferH.Dispose();
+            Client.Instance.addMemberReply(OK);
+        }
+
+        public static void HandleMemberAdded(byte[] data) {
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteBytes(data);
+
+            int teamID = bufferH.ReadInteger();
+            string addedMember = bufferH.ReadString();
+
+            bufferH.Dispose();
+
+            Client.Instance.memberAdded(teamID, addedMember);
         }
     }
 }

@@ -204,6 +204,17 @@ namespace AUBTimeManagementApp.Client {
             bufferH.Dispose();
         }
 
+        public static void PACKET_AddMember(int teamID, string username) {
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteInteger((int)ClientPackages.CAddMember);
+
+            bufferH.WriteInteger(teamID);
+            bufferH.WriteString(username);
+
+            SendData(bufferH.ToArray());
+            bufferH.Dispose();
+        }
+
         public static void CloseConnection() {
             if (ClientSocket != null)
                 ClientSocket.Close();

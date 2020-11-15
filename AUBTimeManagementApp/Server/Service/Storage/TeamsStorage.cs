@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Text;
+using Server.DataContracts;
 
 namespace AUBTimeManagementApp.Service.Storage
 {
@@ -65,8 +66,11 @@ namespace AUBTimeManagementApp.Service.Storage
         /// </summary>
         /// <returns>The usernames of each member (make it ID instead?)</returns>
         public static string[] getTeamMembers(int teamID) {
-
             return new string[] { "q" };
+        }
+
+        public static Team getTeamInfo(int teamID) {
+            return new Team(0, "testTeam");
         }
         #endregion
     }
