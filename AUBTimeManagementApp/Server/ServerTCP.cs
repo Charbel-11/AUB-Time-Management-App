@@ -112,6 +112,27 @@ namespace Server {
             bufferH.Dispose();
         }
 
+        public static void PACKET_SendGetUserTeamsReply(int ConnectionID, List<Team> teams) {
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteInteger((int)ServerPackages.SGetUserTeamsReply);
+
+            int n = teams.Count;
+            bufferH.WriteInteger(n);
+            for (int i = 0; i < n; i++) {
+                bufferH.WriteInteger(teams[i].teamID);
+                bufferH.WriteString(teams[i].teamName);
+                int nA = teams[i].teamAdmin.Count;
+                bufferH.WriteInteger(nA);
+                for(int j = 0; j < nA; j++) { bufferH.WriteString(teams[i].teamAdmin[j]); }
+                int nM = teams[i].teamMembers.Count;
+                bufferH.WriteInteger(nM);
+                for (int j = 0; j < nM; j++) { bufferH.WriteString(teams[i].teamMembers[j]); }
+            }
+
+            SendDataTo(ConnectionID, bufferH.ToArray());
+            bufferH.Dispose();
+        }
+
         public static void PACKET_SendGetUserScheduleReply(int ConnectionID, List<Event> eventsList)
         {
             BufferHelper bufferH = new BufferHelper();

@@ -35,16 +35,6 @@ namespace Server.Service.Handlers
                     ServerTCP.PACKET_NewTeamCreated(cID, teamName, teamID, new string[] { admin }, validUsernames.ToArray());
             }
         }
-
-        public bool RemoveTeamRequest(int teamID)
-        {
-            //Get the team members
-            //Delete the team from the database
-            //Remove the teamID from each members' teams in the database
-            //Notify online team members
-
-            return false;
-        }
                
         public bool AddMemberRequest(int ConnectionID, int teamID, string userToAdd)
         {
@@ -98,12 +88,16 @@ namespace Server.Service.Handlers
             return true;
         }
 
-        public Team[] GetPersonalTeams(string username)
+        public List<Team> GetPersonalTeams(string username)
         {
-            //Gets all team IDs for the user
-            //Then all the information for each team and send them back
+            List<int> teamsID = AccountsStorage.getUserTeams(username);
+            List<Team> teams = new List<Team>();
 
-            return null;
+            foreach(int ID in teamsID) {
+                teams.Add(TeamsStorage.getTeamInfo(ID));
+            }
+
+            return teams;
         }
     }
 }

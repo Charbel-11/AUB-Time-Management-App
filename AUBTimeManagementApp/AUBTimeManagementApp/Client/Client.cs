@@ -16,7 +16,6 @@ namespace AUBTimeManagementApp.Client
         private static readonly int serverPort = 8020;
 
         public string username;
-        public string userID = "i";
         public int teamID = 0;
         private List<Team> teams;   //Might need to make it thread safe (consider case where members of same team add other members or delete or ..., we get asynchronous requests to change teams)
         private List<Event> events;
@@ -88,7 +87,7 @@ namespace AUBTimeManagementApp.Client
 
         public void createAccount(string username, string firstName, string lastName, string password, string confirmPassword, string email, DateTime dateOfBirth) {            
             this.username = username;
-            ClientTCP.PACKAGE_Register(username, firstName, lastName, password, confirmPassword, email, dateOfBirth);
+            ClientTCP.PACKET_Register(username, firstName, lastName, password, confirmPassword, email, dateOfBirth);
         }
         public void registerReply(int OK) {
             if (registrationForm.InvokeRequired) {
@@ -101,7 +100,7 @@ namespace AUBTimeManagementApp.Client
 
         public void logIn(string username, string password) {
             this.username = username;
-            ClientTCP.PACKAGE_Login(username, password);
+            ClientTCP.PACKET_Login(username, password);
         }
         public void logInReply(bool OK) {
             if (signInUpForm.InvokeRequired) {
@@ -114,7 +113,7 @@ namespace AUBTimeManagementApp.Client
 
         public void logOut()
         {
-
+            teams.Clear(); events.Clear();
         }
 
         public void changePassword(string oldPassword, string oldPasswordCheck, string newPassword)
@@ -124,7 +123,7 @@ namespace AUBTimeManagementApp.Client
 
         #region Team
         public void createTeam(string teamName, string[] teamMembers) {
-            ClientTCP.PACKAGE_CreateTeam(teamName, username, teamMembers);
+            ClientTCP.PACKET_CreateTeam(teamName, username, teamMembers);
         }
         public void createTeamReply(bool OK, string[] invalidUsernames) {
             string title = OK ? "The team was successfully created!" : "There was an error, the team was not created";
@@ -274,22 +273,36 @@ namespace AUBTimeManagementApp.Client
 
         #endregion
 
-        public void GetUserSchedule()
-        {
-            ClientTCP.PACKAGE_GetUserSchedule(userID);
+        /// <summary>
+        /// Gets all the teams this user is in from the server
+        /// </summary>
+        public void GetUserTeams() {
+            ClientTCP.PACKET_GetUserTeams(username);
         }
 
-        public void GetUserScheduleReply(int n, List<Event> eventsList)
+        public void GetUserTeamsReply(List<Team> teams) {
+            this.teams = teams;
+        }
+
+        /// <summary>
+        /// Gets all the events this user is attending from the server
+        /// </summary>
+        public void GetUserSchedule()
+        {
+            ClientTCP.PACKET_GetUserSchedule(username);
+        }
+
+        public void GetUserScheduleReply(List<Event> eventsList)
 		{
 
 		}
 
         public void GetTeamSchedule()
         {
-            ClientTCP.PACKAGE_GetTeamSchedule(teamID);
+            ClientTCP.PACKET_GetTeamSchedule(teamID);
         }
 
-        public void GetTeamScheduleReply(int n, List<Event> eventsList)
+        public void GetTeamScheduleReply(List<Event> eventsList)
         {
 
         }
@@ -297,7 +310,7 @@ namespace AUBTimeManagementApp.Client
 
         public void FilterUserSchedule(int priority, bool greaterThan, bool lessThan, bool equalTo)
         {
-            ClientTCP.PACKAGE_FilterUserSchedule(userID, priority);
+            ClientTCP.PACKET_FilterUserSchedule(username, priority);
         }
 
         public void FilterUserScheduleReply(int n, List<Event> eventsList)
@@ -308,7 +321,7 @@ namespace AUBTimeManagementApp.Client
 
         public void FilterTeamSchedule(int priority)
         {
-            ClientTCP.PACKAGE_FilterTeamSchedule(teamID, priority);
+            ClientTCP.PACKET_FilterTeamSchedule(teamID, priority);
         }
 
         public void FilterTeamScheduleReply(int n, List<Event> eventsList)

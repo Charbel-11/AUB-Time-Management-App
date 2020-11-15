@@ -8,10 +8,9 @@ using System.Threading.Tasks;
 namespace Server.Service.Handlers {
     public interface ITeamsHandler {
         void CreateTeamRequest(int ConnectionID, string admin, string teamName, string[] members);
-        bool RemoveTeamRequest(int teamID);
         bool AddMemberRequest(int ConnectionID, int teamID, string userToAdd);
         bool RemoveMemberRequest(int teamID, string userToRemove);
         bool ChangeAdminState(int teamID, string username, bool isNowAdmin);
-        Team[] GetPersonalTeams(string username);
+        List<Team> GetPersonalTeams(string username);
     }
 }

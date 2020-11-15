@@ -27,9 +27,6 @@ namespace AUBTimeManagementApp.Client {
             myStream = ClientSocket.GetStream();
             myStream.BeginRead(receiveBuffer, 0, 4096 * 2, ReceiveCallBack, null);
             Authenticate();
-
-            ClientTCP.PACKAGE_Message("Hi!");
-
             if (ClientSocket.Connected == false) { return; }
         }
         private static void ReceiveCallBack(IAsyncResult result) {
@@ -63,7 +60,7 @@ namespace AUBTimeManagementApp.Client {
             bufferH.Dispose();
         }
 
-        public static void PACKAGE_Message(string msg) {
+        public static void PACKET_Message(string msg) {
             BufferHelper bufferH = new BufferHelper();
             bufferH.WriteInteger((int)ClientPackages.CMsg);
 
@@ -73,7 +70,7 @@ namespace AUBTimeManagementApp.Client {
             bufferH.Dispose();
         }
 
-        public static void PACKAGE_Register(string username, string firstName, string lastName, string password, string confirmPassword, string email, DateTime dateOfBirth)
+        public static void PACKET_Register(string username, string firstName, string lastName, string password, string confirmPassword, string email, DateTime dateOfBirth)
         {
             BufferHelper bufferH = new BufferHelper();
             //Writes the function ID so the server knows this is PACKAGE_Login and handles it accordingly
@@ -96,7 +93,7 @@ namespace AUBTimeManagementApp.Client {
             bufferH.Dispose();
         }
 
-        public static void PACKAGE_Login(string username, string password) {
+        public static void PACKET_Login(string username, string password) {
             BufferHelper bufferH = new BufferHelper();
             //Writes the function ID so the server knows this is PACKAGE_Login and handles it accordingly
             bufferH.WriteInteger((int)ClientPackages.CLogin);
@@ -110,21 +107,25 @@ namespace AUBTimeManagementApp.Client {
             bufferH.Dispose();
         }
 
-        public static void PACKAGE_GetUserSchedule(string userID)
+        public static void PACKET_GetUserTeams(string username) 
         {
             BufferHelper bufferH = new BufferHelper();
-            bufferH.WriteInteger((int)ClientPackages.CGetUserSchedule);
-
-            // Write userID on buffer
-            bufferH.WriteString(userID);
-
-            //Sends it to the server
+            bufferH.WriteInteger((int)ClientPackages.CGetUserTeams);
+            bufferH.WriteString(username);
             SendData(bufferH.ToArray());
             bufferH.Dispose();
         }
 
+        public static void PACKET_GetUserSchedule(string username)
+        {
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteInteger((int)ClientPackages.CGetUserSchedule);
+            bufferH.WriteString(username);
+            SendData(bufferH.ToArray());
+            bufferH.Dispose();
+        }
 
-        public static void PACKAGE_GetTeamSchedule(int teamID)
+        public static void PACKET_GetTeamSchedule(int teamID)
         {
             BufferHelper bufferH = new BufferHelper();
             bufferH.WriteInteger((int)ClientPackages.CGetTeamSchedule);
@@ -137,21 +138,18 @@ namespace AUBTimeManagementApp.Client {
             bufferH.Dispose();
         }
 
-        public static void PACKAGE_FilterUserSchedule(string UserID, int priority)
+        public static void PACKET_FilterUserSchedule(string username, int priority)
         {
             BufferHelper bufferH = new BufferHelper();
             bufferH.WriteInteger((int)ClientPackages.CFilterUserSchedule);
             bufferH.WriteInteger(priority);
+            bufferH.WriteString(username);
 
-            // Write userID on buffer
-            bufferH.WriteString(UserID);
-
-            //Sends it to the server
             SendData(bufferH.ToArray());
             bufferH.Dispose();
         }
 
-        public static void PACKAGE_FilterTeamSchedule(int teamID, int priority)
+        public static void PACKET_FilterTeamSchedule(int teamID, int priority)
         {
             BufferHelper bufferH = new BufferHelper();
             bufferH.WriteInteger((int)ClientPackages.CFilterTeamSchedule);
@@ -165,7 +163,7 @@ namespace AUBTimeManagementApp.Client {
             bufferH.Dispose();
         }
 
-        public static void PACKAGE_CreateTeam(string teamName, string admin, string[] members) {
+        public static void PACKET_CreateTeam(string teamName, string admin, string[] members) {
             BufferHelper bufferH = new BufferHelper();
             bufferH.WriteInteger((int)ClientPackages.CCreateTeam);
 

@@ -22,6 +22,7 @@ namespace Server {
                 { (int)ClientPackages.CMsg, HandleMessage },
                 { (int)ClientPackages.CLogin, HandleLogin },
                 { (int)ClientPackages.CRegister, HandleRegister },
+                { (int)ClientPackages.CGetUserTeams, HandleGetUserTeams },
                 { (int)ClientPackages.CGetUserSchedule, HandleGetUserSchedule },
                 { (int)ClientPackages.CGetTeamSchedule, HandleGetTeamSchedule },
                 { (int)ClientPackages.CFilterUserSchedule, HandleFilterUserSchedule },
@@ -195,6 +196,17 @@ namespace Server {
             ServerTCP.PACKET_SendLoginReply(ConnectionID, isUser);
         }
 
+        private static void HandleGetUserTeams(int ConnectionID, byte[] data) {
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteBytes(data);
+            string username = bufferH.ReadString();
+            bufferH.Dispose();
+
+            ITeamsHandler teamsHandler = new TeamsHandler();
+            List<Team> teams = teamsHandler.GetPersonalTeams(username);
+            ServerTCP.PACKET_SendGetUserTeamsReply(ConnectionID, teams);
+        }
+
         private static void HandleGetUserSchedule(int ConnectionID, byte[] data)
         {
             BufferHelper bufferH = new BufferHelper();
@@ -301,7 +313,7 @@ namespace Server {
 
             bufferH.Dispose();
 
-            TeamsHandler teamsHandler = new TeamsHandler();
+            ITeamsHandler teamsHandler = new TeamsHandler();
             teamsHandler.ChangeAdminState(teamID, username, isNowAdmin);
         }
 
@@ -314,7 +326,7 @@ namespace Server {
 
             bufferH.Dispose();
 
-            TeamsHandler teamsHandler = new TeamsHandler();
+            ITeamsHandler teamsHandler = new TeamsHandler();
             teamsHandler.RemoveMemberRequest(teamID, username);
         }
 
@@ -327,7 +339,7 @@ namespace Server {
 
             bufferH.Dispose();
 
-            TeamsHandler teamsHandler = new TeamsHandler();
+            ITeamsHandler teamsHandler = new TeamsHandler();
             teamsHandler.AddMemberRequest(ConnectionID, teamID, username);
         }
     }

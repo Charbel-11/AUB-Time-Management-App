@@ -36,23 +36,16 @@ namespace AUBTimeManagementApp.Service.Storage
 
         #region Remove
         /// <summary>
-        /// Removes the team from the databasse
-        /// </summary>
-        /// <returns>True if successful, false otherwise</returns>
-        public static bool removeTeam(int teamID) {
-            return true;
-        }
-
-        /// <summary>
         /// Removes a member from the team
         /// </summary>
         /// <returns>True if successful, false otherwise</returns>
         public static bool removeTeamMember(int teamID, string username) {
+            //If the team is now empty, remove team
             return true;
         }
 
         /// <summary>
-        /// Removes an admin from the team
+        /// Sets an admin to be a usual member
         /// </summary>
         /// <returns>True if successful, false otherwise</returns>
         public static bool removeTeamAdmin(int teamID, string username) {
@@ -64,7 +57,7 @@ namespace AUBTimeManagementApp.Service.Storage
         /// <summary>
         /// Gets a list of the members of a team
         /// </summary>
-        /// <returns>The usernames of each member (make it ID instead?)</returns>
+        /// <returns>The usernames of each member</returns>
         public static string[] getTeamMembers(int teamID) {
             return new string[] { "q" };
         }

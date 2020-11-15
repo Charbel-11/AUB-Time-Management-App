@@ -67,6 +67,7 @@ namespace AUBTimeManagementApp.GUI
         }
 
         private void backButton_Click(object sender, EventArgs e) {
+            Client.Client.Instance.logOut();
             SignInUpForm nF = new SignInUpForm();
             nF.Show();
             Close();

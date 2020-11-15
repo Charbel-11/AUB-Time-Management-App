@@ -40,6 +40,7 @@ namespace AUBTimeManagementApp.GUI
             {
                 if (Client.Client.Instance.mainForm != null && Client.Client.Instance.mainForm.Visible) { return; }
                 Client.Client.Instance.GetUserSchedule();
+                Client.Client.Instance.GetUserTeams();
                 mainForm form1 = new mainForm(username);
                 form1.Show();
                 Close();
