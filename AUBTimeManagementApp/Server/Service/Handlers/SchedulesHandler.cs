@@ -17,17 +17,8 @@ namespace Server.Service.Handlers {
 
         public List<int> GetTeamSchedule(int teamID)
         {
-            //If user schedule exists get a list of event IDs
-            List<int> eventList = new List<int>();
-            if (SchedulesStorage.TeamScheduleExists(teamID))
-            {
-                eventList = SchedulesStorage.GetTeamSchedule(teamID);
-            }
-            //else create empty schedule
-            else
-            {
-                SchedulesStorage.CreateTeamSchedule(teamID);
-            }
+            //get a list of event IDs that are scheduled for this team
+            List<int> eventList =  SchedulesStorage.GetTeamSchedule(teamID);
             return eventList;
         }
 
