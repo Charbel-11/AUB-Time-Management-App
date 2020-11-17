@@ -9,6 +9,7 @@ namespace Server.Service.Handlers
 {
     public interface IEventsHandler
     {
+        List<int> getFilteredUserEvents(string username, bool low, bool mid, bool high);
         Event CreatePersonalEvent(string eventname, int priority, DateTime startDate, DateTime endDate);
         Event CreateTeamEvent();
         bool UpdatePersonalEvent();

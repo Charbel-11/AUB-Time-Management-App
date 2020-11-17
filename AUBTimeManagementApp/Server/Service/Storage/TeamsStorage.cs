@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Data;
+using System.Data.SqlClient;
 using System.Text;
 using Server.DataContracts;
+using Server.Service.Storage;
 
 namespace AUBTimeManagementApp.Service.Storage
 {
@@ -54,6 +57,26 @@ namespace AUBTimeManagementApp.Service.Storage
         #endregion
 
         #region Get
+
+        public static List<int> getUserTeams(string username) {
+            try {
+                string connectionString = ConnectionUtil.connectionString;
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+                sqlConnection.Open();
+
+                string query = "SELECT TeamID FROM isMember WHERE Username = @Username";
+                SqlCommand command = new SqlCommand(query, sqlConnection);
+                command.Parameters.Add("@Username", SqlDbType.NVarChar).Value = username;
+                SqlDataReader dataReader = command.ExecuteReader();
+
+                List<int> teams = new List<int>();
+                while (dataReader.Read()) { teams.Add(dataReader.GetInt32(0)); }
+
+                sqlConnection.Close(); return teams;
+            }
+            catch (SqlException exception) { Console.WriteLine("getUserTeams: " + exception.Message); throw; }
+        }
+
         /// <summary>
         /// Gets a list of the members of a team
         /// </summary>

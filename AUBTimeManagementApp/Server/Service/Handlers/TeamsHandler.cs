@@ -90,7 +90,7 @@ namespace Server.Service.Handlers
 
         public List<Team> GetPersonalTeams(string username)
         {
-            List<int> teamsID = AccountsStorage.getUserTeams(username);
+            List<int> teamsID = TeamsStorage.getUserTeams(username);
             List<Team> teams = new List<Team>();
 
             foreach(int ID in teamsID) {
@@ -108,6 +108,10 @@ namespace Server.Service.Handlers
             if (mid) { events.AddRange(TeamsStorage.getTeamEvents(teamID, 2)); }
             if (high) { events.AddRange(TeamsStorage.getTeamEvents(teamID, 3)); }
             return events;
+        }
+
+        public List<int> getUserTeams(string username) {
+            return TeamsStorage.getUserTeams(username);
         }
     }
 }

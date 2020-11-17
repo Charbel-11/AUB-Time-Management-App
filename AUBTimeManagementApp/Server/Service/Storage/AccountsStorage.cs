@@ -124,45 +124,5 @@ namespace AUBTimeManagementApp.Service.Storage
             catch (SqlException exception) { Console.WriteLine("createAccount: " + exception.Message); throw; }
         }
 
-        public static List<int> getUserTeams(string username) {
-            try {
-                string connectionString = ConnectionUtil.connectionString;
-                SqlConnection sqlConnection = new SqlConnection(connectionString);
-                sqlConnection.Open();
-
-                string query = "SELECT TeamID FROM isMember WHERE Username = @Username";
-                SqlCommand command = new SqlCommand(query, sqlConnection);
-                command.Parameters.Add("@Username", SqlDbType.NVarChar).Value = username;
-                SqlDataReader dataReader = command.ExecuteReader();
-
-                List<int> teams = new List<int>();
-                while (dataReader.Read()) { teams.Add(dataReader.GetInt32(0)); }
-
-                sqlConnection.Close(); return teams;
-            }
-            catch (SqlException exception) { Console.WriteLine("getUserTeams: " + exception.Message); throw; }
-        }
-
-        public static List<int> getUserEvents(string username, int priority) {
-            try {
-                string connectionString = ConnectionUtil.connectionString;
-                SqlConnection sqlConnection = new SqlConnection(connectionString);
-                sqlConnection.Open();
-
-                string nestedQuery = "(SELECT EventID FROM isAttendee WHERE Username = @Username)";
-                string query = "SELECT EventID FROM Events WHERE Priority = @Priority AND EventID IN " + nestedQuery;
-                SqlCommand command = new SqlCommand(query, sqlConnection);
-                command.Parameters.Add("@Priority", SqlDbType.Int).Value = priority;
-                command.Parameters.Add("@Username", SqlDbType.NVarChar).Value = username;
-                SqlDataReader dataReader = command.ExecuteReader();
-
-                List<int> events = new List<int>();
-                while (dataReader.Read()) { events.Add(dataReader.GetInt32(0)); }
-
-                sqlConnection.Close(); return events;
-            }
-            catch (SqlException exception) { Console.WriteLine("getUserEvents: " + exception.Message); throw; }
-        }
-
     }
 }

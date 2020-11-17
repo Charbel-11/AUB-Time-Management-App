@@ -14,7 +14,15 @@ namespace Server.Service.Handlers
         {
 
         }
-        
+
+        public List<int> getFilteredUserEvents(string username, bool low, bool mid, bool high) {
+            List<int> events = new List<int>();
+            if (low) { events.AddRange(EventsStorage.getFilteredUserEvents(username, 1)); }
+            if (mid) { events.AddRange(EventsStorage.getFilteredUserEvents(username, 2)); }
+            if (high) { events.AddRange(EventsStorage.getFilteredUserEvents(username, 3)); }
+            return events;
+        }
+
 
         public Event CreatePersonalEvent(string eventname, int priority, DateTime startDate, DateTime endDate)
         {

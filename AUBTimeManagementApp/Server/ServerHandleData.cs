@@ -260,13 +260,11 @@ namespace Server {
             bufferH.Dispose();
 
             // Get list of eventIds of events with required priorities in the schedule of the user
-            IAccountsHandler accountsHandler = new AccountsHandler();
-            List<int> filteredEventIDs = new List<int>();
-            filteredEventIDs = accountsHandler.getUserEvents(username, low, medium, high);
-
             // Get List of events from the events table in the database
             IEventsHandler eventsHandler = new EventsHandler();
+            List<int> filteredEventIDs = new List<int>();
             List<Event> filteredEvents = new List<Event>();
+            filteredEventIDs = eventsHandler.getFilteredUserEvents(username, low, medium, high);
             filteredEvents = eventsHandler.GetEventList(filteredEventIDs);
 
             ServerTCP.PACKET_SendGetUserScheduleReply(ConnectionID, filteredEvents);

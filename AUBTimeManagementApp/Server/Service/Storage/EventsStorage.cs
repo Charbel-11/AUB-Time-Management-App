@@ -1,12 +1,34 @@
 ﻿using Server.DataContracts;
+using Server.Service.Storage;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Text;
 
 namespace AUBTimeManagementApp.Service.Storage
 {
-    public class EventsStorage
-    {
+    public class EventsStorage { 
+        public static List<int> getFilteredUserEvents(string username, int priority) {
+            try {
+                string connectionString = ConnectionUtil.connectionString;
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+                sqlConnection.Open();
+
+                string nestedQuery = "(SELECT EventID FROM isUserAttendee WHERE Username = @Username)";
+                string query = "SELECT EventID FROM Events WHERE Priority = @Priority AND EventID IN " + nestedQuery;
+                SqlCommand command = new SqlCommand(query, sqlConnection);
+                command.Parameters.Add("@Priority", SqlDbType.Int).Value = priority;
+                command.Parameters.Add("@Username", SqlDbType.NVarChar).Value = username;
+                SqlDataReader dataReader = command.ExecuteReader();
+
+                List<int> events = new List<int>();
+                while (dataReader.Read()) { events.Add(dataReader.GetInt32(0)); }
+
+                sqlConnection.Close(); return events;
+            }
+            catch (SqlException exception) { Console.WriteLine("getUserEvents: " + exception.Message); throw; }
+        }
         //Check if event exists
         public static bool eventExists(int eventID)
 		{

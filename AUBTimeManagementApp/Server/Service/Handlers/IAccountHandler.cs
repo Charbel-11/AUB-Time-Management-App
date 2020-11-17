@@ -12,7 +12,5 @@ namespace Server.Service.Handlers
         bool ConfirmLogIn(string username, string password);
         bool LogOut();
         int ChangePassword(string username, string oldPassword, string newPassword, string confirmPassowrd);
-        List<int> getUserTeams(string username);
-        List<int> getUserEvents(string username, bool low, bool mid, bool high);
     }
 }

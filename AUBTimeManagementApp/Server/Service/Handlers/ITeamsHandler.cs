@@ -13,5 +13,6 @@ namespace Server.Service.Handlers {
         bool ChangeAdminState(int teamID, string username, bool isNowAdmin);
         List<Team> GetPersonalTeams(string username);
         List<int> getTeamEvents(int teamID, bool low, bool mid, bool high);
+        List<int> getUserTeams(string username);
     }
 }
