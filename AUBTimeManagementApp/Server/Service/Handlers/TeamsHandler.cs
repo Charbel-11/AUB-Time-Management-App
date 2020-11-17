@@ -99,5 +99,15 @@ namespace Server.Service.Handlers
 
             return teams;
         }
+
+
+        public List<int> getTeamEvents(int teamID, bool low, bool mid, bool high)
+        {
+            List<int> events = new List<int>();
+            if (low) { events.AddRange(TeamsStorage.getTeamEvents(teamID, 1)); }
+            if (mid) { events.AddRange(TeamsStorage.getTeamEvents(teamID, 2)); }
+            if (high) { events.AddRange(TeamsStorage.getTeamEvents(teamID, 3)); }
+            return events;
+        }
     }
 }

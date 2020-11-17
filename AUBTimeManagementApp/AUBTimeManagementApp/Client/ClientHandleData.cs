@@ -141,7 +141,7 @@ namespace AUBTimeManagementApp.Client {
                 Event curevent = new Event(eventID, eventPriority, planner, eventName, DateTime.Parse(eventStart), DateTime.Parse(eventEnd), isteamEvent);
                 eventsList.Add(curevent);
             }
-            Client.Instance.GetUserScheduleReply(eventsList);
+            Client.Instance.GetUserScheduleReply(n,eventsList);
 
             bufferH.Dispose();
         }

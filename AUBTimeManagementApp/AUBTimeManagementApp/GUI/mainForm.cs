@@ -19,6 +19,7 @@ namespace AUBTimeManagementApp.GUI
             InitializeComponent();
             label1.Text = "Welcome " + username + "!";
             label1.Show();
+            filteringPanel.Hide();
         }
 
         public void displayTeam(string newTeam, string newMembers) {
@@ -29,6 +30,7 @@ namespace AUBTimeManagementApp.GUI
             calendar.Items.Add(curEvent);
             _items.Add(curEvent);
         }
+
 
         private void TeamButton_Click(object sender, EventArgs e) {
             TeamsForm addTeamWindow = new TeamsForm();
@@ -73,10 +75,36 @@ namespace AUBTimeManagementApp.GUI
             Close();
         }
 
-		private void button8_Click(object sender, EventArgs e)
+		private void filterUserScheduleBut_Click(object sender, EventArgs e)
 		{
-            FilterUserScheduleForm filterScheduleWindow = new FilterUserScheduleForm(this);
-            filterScheduleWindow.Show();
+            mainPanel.Hide();
+            filteringPanel.Show();
+
         }
+
+		private void filterBackBut_Click(object sender, EventArgs e)
+		{
+            filteringPanel.Hide();
+            mainPanel.Show();
+		}
+
+		private void filterDoneButton_Click(object sender, EventArgs e)
+		{
+            filteringPanel.Hide();
+            mainPanel.Show();
+            _items.Clear();
+            calendar.Items.Clear();
+            Client.Client.Instance.FilterUserSchedule(Low.Checked, Medium.Checked, High.Checked );
+        }
+
+		private void textBox1_TextChanged(object sender, EventArgs e)
+		{
+
+		}
+
+		private void textBox2_TextChanged(object sender, EventArgs e)
+		{
+
+		}
 	}
 }

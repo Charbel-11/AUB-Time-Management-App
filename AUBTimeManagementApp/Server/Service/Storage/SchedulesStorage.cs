@@ -9,7 +9,7 @@ namespace AUBTimeManagementApp.Service.Storage
         /********************user schedule********************/
 
         /// <summary>
-        /// check if user schedule with Id = userID exists
+        /// check if user is atteding any event in isAttendee
         /// </summary>
         /// <returns> return true if found, return false otherwise</returns>
         public static bool PersonalScheduleExists(string UserID)
@@ -36,22 +36,12 @@ namespace AUBTimeManagementApp.Service.Storage
         }
 
         /// <summary>
-        /// Get list of event IDs from user schedule with ID = userID
+        /// Get list of event IDs from isAttendee with userID = username
         /// </summary>
         /// <returns> returns a list of IDs of all events in the schedule of the user </returns>
         public static List<int> GetPersonalSchedule(string UserID)
 		{
-            List<int> eventIds = new List<int> { 1, 2, 3 };
-            return eventIds;
-		}
-
-        /// <summary>
-        /// if a personal schedule with ID= userID, create one.
-        /// </summary>
-        /// <returns> retunr true if successful, false otherwise </returns>
-        public static bool CreatePersonalSchedule(string UserID, int[] EventsID = null)
-		{
-            return true;
+            return null;
 		}
 
 
@@ -90,17 +80,9 @@ namespace AUBTimeManagementApp.Service.Storage
         /// <returns> returns a list of IDs of all events in the schedule of the team </returns>
         public static List<int> GetTeamSchedule(int TeamID)
         {
-            List<int> eventIds = new List<int> { 1, 2, 3 };
-            return eventIds;
+
+            return null;
         }
 
-        /// <summary>
-        /// if a team schedule with ID= teamID does not exist, create one.
-        /// </summary>
-        /// <returns> retunr true if successful, false otherwise </returns>
-        public static bool CreateTeamSchedule(int TeamID, int[] EventsID = null)
-        {
-            return true;
-        }
     }
 }

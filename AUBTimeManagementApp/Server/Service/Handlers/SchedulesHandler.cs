@@ -8,18 +8,10 @@ using Server.DataContracts;
 namespace Server.Service.Handlers {
     class SchedulesHandler : ISchedulesHandler{
 
-        public List<int> GetUserSchedule(string userID) {
-            //If user schedule exists get a list of event IDs
+        public List<int> GetUserSchedule(string username) {
+            // get a list of event IDs that the user is attending
             List<int> eventList = new List<int>();
-            if (SchedulesStorage.PersonalScheduleExists(userID))
-			{
-                eventList = SchedulesStorage.GetPersonalSchedule(userID);
-            }
-            //else create empty schedule
-            else
-			{
-                SchedulesStorage.CreatePersonalSchedule(userID);   
-            }
+			eventList = SchedulesStorage.GetPersonalSchedule(username);
             return eventList;
         }
 

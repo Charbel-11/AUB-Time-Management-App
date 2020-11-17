@@ -284,6 +284,8 @@ namespace AUBTimeManagementApp.Client
             this.teams = teams;
         }
 
+
+
         /// <summary>
         /// Gets all the events this user is attending from the server
         /// </summary>
@@ -292,11 +294,29 @@ namespace AUBTimeManagementApp.Client
             ClientTCP.PACKET_GetUserSchedule(username);
         }
 
-        public void GetUserScheduleReply(List<Event> eventsList)
+        public void GetUserScheduleReply(int n, List<Event> eventsList)
 		{
+            for (int i = 0; i < n; i++)
+            {
+                string name = eventsList[i].eventName;
+                int priority = eventsList[i].priority;
+                DateTime start = eventsList[i].startTime;
+                DateTime end = eventsList[i].endTime;
 
-		}
+                if (mainForm.InvokeRequired)
+                {
+                    //We are calling a method of the form from a different thread
+                    //Need to use invoke to make it threadsafe
+                    mainForm.Invoke(new MethodInvoker(delegate { mainForm.displayEvent(name, priority, start, end); }));
+                }
 
+                else { mainForm.displayEvent(name, priority, start, end); }
+            }
+        }
+
+        /// <summary>
+        /// Get all the events scheduled for this team form the server
+        /// </summary>
         public void GetTeamSchedule()
         {
             ClientTCP.PACKET_GetTeamSchedule(teamID);
@@ -307,26 +327,46 @@ namespace AUBTimeManagementApp.Client
 
         }
 
-
-        public void FilterUserSchedule(int priority, bool greaterThan, bool lessThan, bool equalTo)
+        /// <summary>
+        /// get the events of specified priority that the user is attending from the srever
+        /// </summary>
+        public void FilterUserSchedule(bool low, bool medium, bool high)
         {
-            ClientTCP.PACKET_FilterUserSchedule(username, priority);
+            ClientTCP.PACKET_FilterUserSchedule(username, low, medium, high);
         }
 
+      
         public void FilterUserScheduleReply(int n, List<Event> eventsList)
         {
+            for (int i = 0; i < n; i++)
+            {
+                string name = eventsList[i].eventName;
+                int priority = eventsList[i].priority;
+                DateTime start = eventsList[i].startTime;
+                DateTime end = eventsList[i].endTime;
 
+                if (mainForm.InvokeRequired)
+                {
+                    //We are calling a method of the form from a different thread
+                    //Need to use invoke to make it threadsafe
+                    mainForm.Invoke(new MethodInvoker(delegate { mainForm.displayEvent(name, priority, start, end); }));
+                }
+
+                else { mainForm.displayEvent(name, priority, start, end); }
+            }
         }
 
-
-        public void FilterTeamSchedule(int priority)
+        /// <summary>
+        /// get the events of specified priority that are shcedled for this team from the server
+        /// </summary>
+        public void FilterTeamSchedule(int teamID, bool low, bool medium, bool high)
         {
-            ClientTCP.PACKET_FilterTeamSchedule(teamID, priority);
+            ClientTCP.PACKET_FilterTeamSchedule(teamID, low, medium, high);
         }
 
         public void FilterTeamScheduleReply(int n, List<Event> eventsList)
         {
-
+            
         }
     }
 }

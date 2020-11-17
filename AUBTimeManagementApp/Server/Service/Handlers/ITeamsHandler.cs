@@ -12,5 +12,6 @@ namespace Server.Service.Handlers {
         bool RemoveMemberRequest(int teamID, string userToRemove);
         bool ChangeAdminState(int teamID, string username, bool isNowAdmin);
         List<Team> GetPersonalTeams(string username);
+        List<int> getTeamEvents(int teamID, bool low, bool mid, bool high);
     }
 }

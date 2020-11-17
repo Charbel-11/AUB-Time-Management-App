@@ -130,7 +130,7 @@ namespace AUBTimeManagementApp.Client {
             BufferHelper bufferH = new BufferHelper();
             bufferH.WriteInteger((int)ClientPackages.CGetTeamSchedule);
 
-            // Write userID on buffer
+            // Write teamID on buffer
             bufferH.WriteInteger(teamID);
 
             //Sends it to the server
@@ -138,25 +138,32 @@ namespace AUBTimeManagementApp.Client {
             bufferH.Dispose();
         }
 
-        public static void PACKET_FilterUserSchedule(string username, int priority)
+        public static void PACKET_FilterUserSchedule(string username, bool low, bool medium, bool high)
         {
             BufferHelper bufferH = new BufferHelper();
             bufferH.WriteInteger((int)ClientPackages.CFilterUserSchedule);
-            bufferH.WriteInteger(priority);
+           
+            // write username and required priorities on buffer
             bufferH.WriteString(username);
+            bufferH.WriteBool(low);
+            bufferH.WriteBool(medium);
+            bufferH.WriteBool(high);
 
+            // send it to the user
             SendData(bufferH.ToArray());
             bufferH.Dispose();
         }
 
-        public static void PACKET_FilterTeamSchedule(int teamID, int priority)
+        public static void PACKET_FilterTeamSchedule(int teamID, bool low, bool medium, bool high)
         {
             BufferHelper bufferH = new BufferHelper();
             bufferH.WriteInteger((int)ClientPackages.CFilterTeamSchedule);
-            bufferH.WriteInteger(priority);
 
-            // Write userID on buffer
+            // write teamID and required priorities on buffer
             bufferH.WriteInteger(teamID);
+            bufferH.WriteBool(low);
+            bufferH.WriteBool(medium);
+            bufferH.WriteBool(high);
 
             //Sends it to the server
             SendData(bufferH.ToArray());

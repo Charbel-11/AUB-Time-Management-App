@@ -86,10 +86,6 @@ namespace Server.Service.Handlers
             return _eventStorage.GetAllEvents(eventsIDs);
 		}
 
-        public List<Event> FilterEventList(int priority, List<int> eventsIDs)
-        {
-            return null;
-        }
 
         /****************************** PRIVATE FUNCTIONS ********************************/
         private Event GetEvent(int eventId)

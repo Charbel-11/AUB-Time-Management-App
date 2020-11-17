@@ -65,6 +65,11 @@ namespace AUBTimeManagementApp.Service.Storage
         public static Team getTeamInfo(int teamID) {
             return new Team(0, "testTeam");
         }
+
+        public static List<int> getTeamEvents(int teamID, int priority)
+        {
+            return null;
+        }
         #endregion
     }
 }
