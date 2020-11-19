@@ -6,7 +6,7 @@ using Server.DataContracts;
 
 
 namespace Server.Service.Handlers {
-    class SchedulesHandler : ISchedulesHandler{
+    public class SchedulesHandler : ISchedulesHandler{
 
         public List<int> GetUserSchedule(string username) {
             // get a list of event IDs that the user is attending

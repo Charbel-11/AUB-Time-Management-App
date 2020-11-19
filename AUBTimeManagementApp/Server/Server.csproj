@@ -83,6 +83,9 @@
     <Compile Include="DataContracts\Event.cs" />
     <Compile Include="DataContracts\Schedule.cs" />
     <Compile Include="DataContracts\Team.cs" />
+    <Compile Include="Service\ControlBlocks\ConflictChecker.cs" />
+    <Compile Include="Service\ControlBlocks\IConflictChecker.cs" />
+    <Compile Include="Service\Exceptions\ConflictException.cs" />
     <Compile Include="Service\Handlers\AccountsHandler.cs" />
     <Compile Include="Service\Handlers\EventsHandler.cs" />
     <Compile Include="Service\Handlers\IAccountHandler.cs" />

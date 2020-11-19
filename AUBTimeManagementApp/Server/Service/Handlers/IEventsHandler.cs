@@ -10,7 +10,7 @@ namespace Server.Service.Handlers
     public interface IEventsHandler
     {
         List<int> getFilteredUserEvents(string username, bool low, bool mid, bool high);
-        Event CreatePersonalEvent(string eventname, int priority, DateTime startDate, DateTime endDate);
+        Event CreatePersonalEvent(string username, Event _event);
         Event CreateTeamEvent();
         bool UpdatePersonalEvent();
         bool CancelPersonalEvent();
