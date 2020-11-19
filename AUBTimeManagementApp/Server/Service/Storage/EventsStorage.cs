@@ -51,7 +51,28 @@ namespace AUBTimeManagementApp.Service.Storage
         // Add _event to DB
         public void AddEvent(Event _event)
         {
+            try {
+                string connectionString = ConnectionUtil.connectionString;
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+                sqlConnection.Open();
 
+                string query =  "INSERT INTO Events(EventID, EventName, StartTime, EndTime, Priority, PlannerID, Duration) " +
+                                "VALUES (@EventID, @EventName, @StartTime, @EndTime, @Priority, @PlannerID, @Duration)";
+                
+                SqlCommand command = new SqlCommand(query, sqlConnection);
+                
+                command.Parameters.Add("@EventID", SqlDbType.Int).Value = _event.ID;
+                command.Parameters.Add("@EventName", SqlDbType.NVarChar).Value = _event.eventName;
+                command.Parameters.Add("@StartTime", SqlDbType.DateTime).Value = _event.startTime;
+                command.Parameters.Add("@EndTime", SqlDbType.DateTime).Value = _event.endTime;
+                command.Parameters.Add("@Priority", SqlDbType.Int).Value = _event.priority;
+                command.Parameters.Add("@PlannerID", SqlDbType.Int).Value = _event.plannerUsername;
+                //command.Parameters.Add("@Duration").Value = null; // TO BE FIXED (Add this property and do the necessary updates)
+                SqlDataReader dataReader = command.ExecuteReader();
+
+                command.Parameters.Clear(); sqlConnection.Close(); 
+            }
+            catch (SqlException exception) { Console.WriteLine("AddEvent: " + exception.Message); throw; }
         }
 
         // Remove event with id eventId
