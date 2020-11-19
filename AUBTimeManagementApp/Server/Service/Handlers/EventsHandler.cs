@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Reflection.Emit;
 using System.Text;
 using Server.DataContracts;
+using Server.Service.ControlBlocks;
+using Server.Service.Exceptions;
 
 namespace Server.Service.Handlers
 {
@@ -24,11 +26,23 @@ namespace Server.Service.Handlers
         }
 
 
-        public Event CreatePersonalEvent(string eventname, int priority, DateTime startDate, DateTime endDate)
+        /* Incomplete ! */
+        public Event CreatePersonalEvent(string username, Event newEvent)
         {
             //check for conflict with the conflict checker
-            //Create personal event with plannerUsername/priority/eventName/startTime/endTime
-            //ask schedule hadler to update user's schedule (event list)
+            IConflictChecker conflictChecker = new ConflictChecker();
+            List<int> conflictingEvents = conflictChecker.ConflictExists(username, newEvent);
+            if (conflictingEvents.Count == 0) /* no conflict -> proceed */
+            {
+                //Create personal event with plannerUsername/priority/eventName/startTime/endTime
+                //ask schedule hadler to update user's schedule (event list)
+            }
+            else
+            {
+                throw new ConflictException("Conflict", conflictingEvents);
+            }
+
+
 
             return null;
 
@@ -95,7 +109,7 @@ namespace Server.Service.Handlers
 		}
 
 
-        /****************************** PRIVATE FUNCTIONS ********************************/
+        /****************************** UTILITY FUNCTIONS ********************************/
         private Event GetEvent(int eventId)
         {
             return _eventStorage.GetEvent(eventId);

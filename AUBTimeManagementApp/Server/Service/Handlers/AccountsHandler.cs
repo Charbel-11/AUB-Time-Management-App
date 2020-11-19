@@ -39,6 +39,7 @@ namespace Server.Service.Handlers
             //
             //UPDATE THE PASSWORD
             //
+            UpdatePassword(username, newPassword);
 
             return 1;
         }
@@ -81,6 +82,11 @@ namespace Server.Service.Handlers
 
             if (upper && lower && digit && other) return 1;
             return -2;
+        }
+
+        private void UpdatePassword(string username, string newPassword)
+        {
+            AccountsStorage.updatePassword(username, newPassword);
         }
     }
 }
