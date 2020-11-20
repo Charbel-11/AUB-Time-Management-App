@@ -56,8 +56,8 @@ namespace AUBTimeManagementApp.Service.Storage
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
                 sqlConnection.Open();
 
-                string query =  "INSERT INTO Events(EventID, EventName, StartTime, EndTime, Priority, PlannerID, Duration) " +
-                                "VALUES (@EventID, @EventName, @StartTime, @EndTime, @Priority, @PlannerID, @Duration)";
+                string query =  "INSERT INTO Events(EventID, EventName, StartTime, EndTime, Priority, PlannerID) " +
+                                "VALUES (@EventID, @EventName, @StartTime, @EndTime, @Priority, @PlannerID)";
                 
                 SqlCommand command = new SqlCommand(query, sqlConnection);
                 
@@ -67,7 +67,6 @@ namespace AUBTimeManagementApp.Service.Storage
                 command.Parameters.Add("@EndTime", SqlDbType.DateTime).Value = _event.endTime;
                 command.Parameters.Add("@Priority", SqlDbType.Int).Value = _event.priority;
                 command.Parameters.Add("@PlannerID", SqlDbType.Int).Value = _event.plannerUsername;
-                //command.Parameters.Add("@Duration") = null; // TO BE FIXED (Add this property and do the necessary updates)
                 SqlDataReader dataReader = command.ExecuteReader();
 
                 command.Parameters.Clear(); sqlConnection.Close(); 
