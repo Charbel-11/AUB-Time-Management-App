@@ -20,6 +20,7 @@ namespace AUBTimeManagementApp.GUI
             label1.Text = "Welcome " + username + "!";
             label1.Show();
             filteringPanel.Hide();
+            eventDetailsPanel.Hide();
         }
 
         public void displayTeam(string newTeam, string newMembers) {
@@ -60,12 +61,39 @@ namespace AUBTimeManagementApp.GUI
         }
 
         private void calendar_ItemDoubleClick(object sender, CalendarItemEventArgs e) {
-            //TODO: Check if event already exists at this time, if so open its description
-
+            //NOT SURE IT'S CORRECT
+            //Check if event already exists at this time, if so open its description
+            CalendarItem selectedItem = e.Item;
+            if(selectedItem.Selected)
+			{
+                mainPanel.Hide();
+                eventDetailsPanel.Show();
+                string nameAndPriority = selectedItem.Text;
+                detailsEventName.Text = nameAndPriority.Remove(nameAndPriority.Length - 1, 1);
+                detailsStartTime.Text = selectedItem.StartDate.ToString();
+                detailsEndTime.Text = selectedItem.EndDate.ToString();
+                string priority;
+                if(nameAndPriority[nameAndPriority.Length - 1] == '1')
+				{
+                    priority = "Low";
+				}
+                else if(nameAndPriority[nameAndPriority.Length - 1] == '2')
+				{
+                    priority = "Medium";
+				}
+				else
+				{
+                    priority = "High";
+                }
+                detailsPriority.Text = priority;
+			}
             //Else:
-            AddEvent addEventWindow = new AddEvent(this, e.Item.StartDate, e.Item.EndDate);
-            calendar.Items.Remove(e.Item);
-            addEventWindow.Show();
+            else
+            {
+                AddEvent addEventWindow = new AddEvent(this, e.Item.StartDate, e.Item.EndDate);
+                calendar.Items.Remove(e.Item);
+                addEventWindow.Show();
+            }
         }
 
         private void backButton_Click(object sender, EventArgs e) {
@@ -103,6 +131,28 @@ namespace AUBTimeManagementApp.GUI
 		}
 
 		private void textBox2_TextChanged(object sender, EventArgs e)
+		{
+
+		}
+
+
+		private void eventDetailsBackBut_Click(object sender, EventArgs e)
+		{
+            eventDetailsPanel.Hide();
+            mainPanel.Show();
+		}
+
+		private void detailsEndTime_TextChanged(object sender, EventArgs e)
+		{
+
+		}
+
+		private void DeleteEventBut_Click(object sender, EventArgs e)
+		{
+            
+		}
+
+		private void ModifyEventBut_Click(object sender, EventArgs e)
 		{
 
 		}
