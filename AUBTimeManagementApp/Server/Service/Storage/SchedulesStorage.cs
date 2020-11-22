@@ -1,5 +1,8 @@
-﻿using System;
+﻿using Server.Service.Storage;
+using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Text;
 
 namespace AUBTimeManagementApp.Service.Storage
@@ -21,9 +24,26 @@ namespace AUBTimeManagementApp.Service.Storage
         /// add eventID to user schedule with id = userID
         /// </summary>
         /// <returns> return true if successful, false otherwise </returns>
-        public void AddToPersonalSchedule(string UserID, int EventID)
+        public void AddToPersonalSchedule(string username, int eventID)
         {
-            
+            try
+            {
+                string connectionString = ConnectionUtil.connectionString;
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+                sqlConnection.Open();
+
+                string query = "INSERT INTO isUserAttendee(EventID, Username) " +
+                                "VALUES (@EventID, @Username)";
+
+                SqlCommand command = new SqlCommand(query, sqlConnection);
+
+                command.Parameters.Add("@EventID", SqlDbType.Int).Value = eventID;
+                command.Parameters.Add("@Username", SqlDbType.NVarChar).Value = username;
+                SqlDataReader dataReader = command.ExecuteReader();
+
+                command.Parameters.Clear(); sqlConnection.Close();
+            }
+            catch (SqlException exception) { Console.WriteLine("AddToPersonalSchedule: " + exception.Message); throw; }
         }
 
         /// <summary>

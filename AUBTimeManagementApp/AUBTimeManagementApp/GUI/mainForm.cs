@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AUBTimeManagementApp.DataContracts;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -13,9 +14,10 @@ namespace AUBTimeManagementApp.GUI
 {
     public partial class mainForm : Form {
         List<CalendarItem> _items = new List<CalendarItem>();   //Maybe we should put this in the client code (took it from the demo)
+        string _username;
         public mainForm(string username = null) {
             Client.Client.Instance.setForm(this);
-
+            _username = username;
             InitializeComponent();
             label1.Text = "Welcome " + username + "!";
             label1.Show();
@@ -170,5 +172,11 @@ namespace AUBTimeManagementApp.GUI
 		{
 
 		}
-	}
+
+        private void Refresh_Click(object sender, EventArgs e)
+        {
+            Client.Client.Instance.GetUserSchedule();
+        }
+
+    }
 }

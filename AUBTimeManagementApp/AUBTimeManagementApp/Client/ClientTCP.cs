@@ -128,6 +128,23 @@ namespace AUBTimeManagementApp.Client {
             bufferH.Dispose();
         }
 
+        public static void PACKET_GetEventInDetail(int eventId)
+        {
+            BufferHelper bufferH = new BufferHelper();
+
+            //Writes the function ID so the server knows this is PACKAGE_Login and handles it accordingly
+            bufferH.WriteInteger((int)ClientPackages.CGetPersonalEvent);
+
+            // Write username and password on buffer
+
+            bufferH.WriteInteger(eventId);
+
+            //Sends it to the server
+            SendData(bufferH.ToArray());
+            bufferH.Dispose();
+
+        }
+
         public static void PACKET_GetUserTeams(string username) 
         {
             BufferHelper bufferH = new BufferHelper();
