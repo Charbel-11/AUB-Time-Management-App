@@ -163,20 +163,11 @@ namespace AUBTimeManagementApp.GUI
 
 		}
 
-		private void textBox5_TextChanged(object sender, EventArgs e)
-		{
-
-		}
-
-		private void textBox6_TextChanged(object sender, EventArgs e)
-		{
-
-		}
-        // TODO CLEAR DISPLAY BEFORE RELOADING **
         private void Refresh_Click(object sender, EventArgs e)
-        { 
+        {
+            _items.Clear();
+            calendar.Items.Clear();
             Client.Client.Instance.GetUserSchedule();
         }
-
-    }
+	}
 }
