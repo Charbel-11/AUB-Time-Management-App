@@ -32,6 +32,11 @@ namespace Server.Service.ControlBlocks
             }
         }
 
+        public Event GetPersonalEventInDetail(int eventID)
+        {
+            IEventsHandler _eventsHandler = new EventsHandler();
+            return _eventsHandler.GetEvent(eventID);
+        }
         public void CancelPersonalEvent(string username, int eventID)
         {
 
@@ -39,6 +44,20 @@ namespace Server.Service.ControlBlocks
 
         public void UpdatePersonalEvent(Event updatedEvent)
         {
+
+        }
+
+        public List<Event> GetEventsInDetail(string username)
+        {
+            // Extract the list of events id for this user
+            ISchedulesHandler _schedulesHandler = new SchedulesHandler();
+            List<int> userEvents = _schedulesHandler.GetUserSchedule(username);
+
+            // Exctract events in details
+            IEventsHandler _eventsHandler = new EventsHandler();
+            List<Event> userEventsInDetail = _eventsHandler.GetEventList(userEvents);
+
+            return userEventsInDetail;
 
         }
     }

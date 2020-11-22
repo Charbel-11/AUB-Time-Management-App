@@ -33,6 +33,7 @@ namespace Server {
                 { (int)ClientPackages.CRemoveMember, HandleRemoveMember },
                 { (int)ClientPackages.CAddMember, HandleAddMember },
                 {(int)ClientPackages.CCreatePersonalEvent, HandleCreatePersonalEvent },
+                {(int)ClientPackages.CGetPersonalEvent, HandleGetPersonalEvent},
                 {(int)ClientPackages.CCancelPersonalEvent, HandleCancelPersonalEvent },
                 {(int)ClientPackages.CModifyPersonalEvent, HandleModifyPersonalEvent }                
 
@@ -375,6 +376,20 @@ namespace Server {
             //ServerTCP.PACKET_SendCreatePersonalEvent(ConnectionID, );
         }
 
+        private static void HandleGetPersonalEvent(int ConnectionID, byte[] data)
+        {
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteBytes(data);
+
+            int eventID = bufferH.ReadInteger();
+
+            bufferH.Dispose();
+
+            IEventScheduleConnector eventScheduleConnector = new EventScheduleConnector();
+            eventScheduleConnector.GetPersonalEventInDetail(eventID);
+
+            //ServerTCP.PACKET_SendCreatePersonalEvent(ConnectionID, );
+        }
         private static void HandleCancelPersonalEvent(int ConnectionID, byte[] data)
         {
             BufferHelper bufferH = new BufferHelper();

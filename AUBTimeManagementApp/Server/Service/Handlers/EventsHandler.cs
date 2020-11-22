@@ -97,7 +97,7 @@ namespace Server.Service.Handlers
 
 
         /****************************** UTILITY FUNCTIONS ********************************/
-        private Event GetEvent(int eventId)
+        public Event GetEvent(int eventId)
         {
             return _eventStorage.GetEvent(eventId);
         }

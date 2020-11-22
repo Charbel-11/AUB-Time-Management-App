@@ -12,5 +12,7 @@ namespace Server.Service.ControlBlocks
         void AddPersonalEvent(string username, Event _event);
         void CancelPersonalEvent(string username, int eventID);
         void UpdatePersonalEvent(Event updatedEvent);
+        Event GetPersonalEventInDetail(int eventID);
+        List<Event> GetEventsInDetail(string username);
     }
 }
