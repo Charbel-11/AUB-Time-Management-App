@@ -11,10 +11,10 @@ namespace Server.Service.Handlers
 {
     public class EventsHandler : IEventsHandler   {
 
-        public EventsStorage _eventStorage;
+        public EventsStorage _eventsStorage;
         public EventsHandler()
         {
-
+            _eventsStorage = new EventsStorage();
         }
         // TODO: Modify
         public List<int> getFilteredUserEvents(string username, bool low, bool mid, bool high)
@@ -37,7 +37,6 @@ namespace Server.Service.Handlers
         /// <returns></returns>
         public void CreateEvent(Event newEvent)
         {
-            EventsStorage _eventsStorage = new EventsStorage();
             _eventsStorage.AddEvent(newEvent);
         }
 
@@ -91,7 +90,7 @@ namespace Server.Service.Handlers
         public List<Event> GetEventList(List<int> eventsIDs)
 		{
             //if (_eventStorage == null) { return new List<Event>() { }; }
-            EventsStorage _eventsStorage = new EventsStorage();
+            //EventsStorage _eventsStorage = new EventsStorage();
             return _eventsStorage.GetAllEvents(eventsIDs);
 		}
 
@@ -100,21 +99,21 @@ namespace Server.Service.Handlers
         /****************************** UTILITY FUNCTIONS ********************************/
         public Event GetEvent(int eventId)
         {
-            return _eventStorage.GetEvent(eventId);
+            return _eventsStorage.GetEvent(eventId);
         }
         private void AddEventToUniversalEventsDB(Event _event)
         {
-            _eventStorage.AddEvent(_event);
+            _eventsStorage.AddEvent(_event);
         }
 
         private void RemoveEventFromUniversalEventsDB(int eventId)
         {
-            _eventStorage.RemoveEvent(eventId);
+            _eventsStorage.RemoveEvent(eventId);
         }
 
         private void UpdateEventInUniversalEventsDB(Event _event)
         {
-            _eventStorage.UpdateEvent(_event);
+            _eventsStorage.UpdateEvent(_event);
         }
     }
 }
