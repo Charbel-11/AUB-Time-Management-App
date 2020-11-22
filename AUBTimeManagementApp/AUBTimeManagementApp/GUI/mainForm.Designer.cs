@@ -41,6 +41,16 @@
 			this.filterUserScheduleBut = new System.Windows.Forms.Button();
 			this.mainPanel = new System.Windows.Forms.Panel();
 			this.eventDetailsPanel = new System.Windows.Forms.Panel();
+			this.detailsEndTime = new System.Windows.Forms.TextBox();
+			this.textBox7 = new System.Windows.Forms.TextBox();
+			this.detailsPriority = new System.Windows.Forms.TextBox();
+			this.textBox10 = new System.Windows.Forms.TextBox();
+			this.detailsStartTime = new System.Windows.Forms.TextBox();
+			this.textBox6 = new System.Windows.Forms.TextBox();
+			this.detailsEventName = new System.Windows.Forms.TextBox();
+			this.ModifyEventBut = new System.Windows.Forms.Button();
+			this.DeleteEventBut = new System.Windows.Forms.Button();
+			this.eventDetailsBackBut = new System.Windows.Forms.Button();
 			this.filteringPanel = new System.Windows.Forms.Panel();
 			this.textBox5 = new System.Windows.Forms.TextBox();
 			this.textBox4 = new System.Windows.Forms.TextBox();
@@ -52,16 +62,6 @@
 			this.High = new System.Windows.Forms.CheckBox();
 			this.Medium = new System.Windows.Forms.CheckBox();
 			this.Low = new System.Windows.Forms.CheckBox();
-			this.detailsEndTime = new System.Windows.Forms.TextBox();
-			this.textBox7 = new System.Windows.Forms.TextBox();
-			this.detailsPriority = new System.Windows.Forms.TextBox();
-			this.textBox10 = new System.Windows.Forms.TextBox();
-			this.detailsStartTime = new System.Windows.Forms.TextBox();
-			this.textBox6 = new System.Windows.Forms.TextBox();
-			this.detailsEventName = new System.Windows.Forms.TextBox();
-			this.ModifyEventBut = new System.Windows.Forms.Button();
-			this.DeleteEventBut = new System.Windows.Forms.Button();
-			this.eventDetailsBackBut = new System.Windows.Forms.Button();
 			this.monthView = new System.Windows.Forms.Calendar.MonthView();
 			this.calendar = new System.Windows.Forms.Calendar.Calendar();
 			this.Refresh = new System.Windows.Forms.Button();
@@ -147,132 +147,6 @@
 			this.eventDetailsPanel.Name = "eventDetailsPanel";
 			this.eventDetailsPanel.Size = new System.Drawing.Size(326, 257);
 			this.eventDetailsPanel.TabIndex = 20;
-			// 
-			// filteringPanel
-			// 
-			this.filteringPanel.Controls.Add(this.textBox5);
-			this.filteringPanel.Controls.Add(this.textBox4);
-			this.filteringPanel.Controls.Add(this.textBox3);
-			this.filteringPanel.Controls.Add(this.textBox2);
-			this.filteringPanel.Controls.Add(this.textBox1);
-			this.filteringPanel.Controls.Add(this.filterDoneButton);
-			this.filteringPanel.Controls.Add(this.filterBackBut);
-			this.filteringPanel.Controls.Add(this.High);
-			this.filteringPanel.Controls.Add(this.Medium);
-			this.filteringPanel.Controls.Add(this.Low);
-			this.filteringPanel.Location = new System.Drawing.Point(650, 323);
-			this.filteringPanel.Name = "filteringPanel";
-			this.filteringPanel.Size = new System.Drawing.Size(365, 246);
-			this.filteringPanel.TabIndex = 19;
-			// 
-			// textBox5
-			// 
-			this.textBox5.BackColor = System.Drawing.SystemColors.Control;
-			this.textBox5.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			this.textBox5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-			this.textBox5.Location = new System.Drawing.Point(33, 57);
-			this.textBox5.Name = "textBox5";
-			this.textBox5.ReadOnly = true;
-			this.textBox5.Size = new System.Drawing.Size(176, 16);
-			this.textBox5.TabIndex = 9;
-			this.textBox5.Text = "Priority:";
-			// 
-			// textBox4
-			// 
-			this.textBox4.BackColor = System.Drawing.SystemColors.Control;
-			this.textBox4.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			this.textBox4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-			this.textBox4.Location = new System.Drawing.Point(95, 12);
-			this.textBox4.Name = "textBox4";
-			this.textBox4.ReadOnly = true;
-			this.textBox4.Size = new System.Drawing.Size(199, 19);
-			this.textBox4.TabIndex = 8;
-			this.textBox4.Text = "Filter Schedule";
-			// 
-			// textBox3
-			// 
-			this.textBox3.BackColor = System.Drawing.SystemColors.Control;
-			this.textBox3.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			this.textBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-			this.textBox3.Location = new System.Drawing.Point(212, 104);
-			this.textBox3.Name = "textBox3";
-			this.textBox3.ReadOnly = true;
-			this.textBox3.Size = new System.Drawing.Size(52, 16);
-			this.textBox3.TabIndex = 7;
-			this.textBox3.Text = "High";
-			// 
-			// textBox2
-			// 
-			this.textBox2.BackColor = System.Drawing.SystemColors.Control;
-			this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			this.textBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-			this.textBox2.Location = new System.Drawing.Point(120, 103);
-			this.textBox2.Name = "textBox2";
-			this.textBox2.ReadOnly = true;
-			this.textBox2.Size = new System.Drawing.Size(61, 16);
-			this.textBox2.TabIndex = 6;
-			this.textBox2.Text = "Medium";
-			// 
-			// textBox1
-			// 
-			this.textBox1.BackColor = System.Drawing.SystemColors.Control;
-			this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-			this.textBox1.Location = new System.Drawing.Point(43, 103);
-			this.textBox1.Name = "textBox1";
-			this.textBox1.ReadOnly = true;
-			this.textBox1.Size = new System.Drawing.Size(47, 16);
-			this.textBox1.TabIndex = 5;
-			this.textBox1.Text = "Low";
-			// 
-			// filterDoneButton
-			// 
-			this.filterDoneButton.ForeColor = System.Drawing.Color.Green;
-			this.filterDoneButton.Location = new System.Drawing.Point(173, 189);
-			this.filterDoneButton.Name = "filterDoneButton";
-			this.filterDoneButton.Size = new System.Drawing.Size(107, 34);
-			this.filterDoneButton.TabIndex = 4;
-			this.filterDoneButton.Text = "Done";
-			this.filterDoneButton.UseVisualStyleBackColor = true;
-			this.filterDoneButton.Click += new System.EventHandler(this.filterDoneButton_Click);
-			// 
-			// filterBackBut
-			// 
-			this.filterBackBut.ForeColor = System.Drawing.Color.Red;
-			this.filterBackBut.Location = new System.Drawing.Point(33, 189);
-			this.filterBackBut.Name = "filterBackBut";
-			this.filterBackBut.Size = new System.Drawing.Size(110, 34);
-			this.filterBackBut.TabIndex = 3;
-			this.filterBackBut.Text = "Back";
-			this.filterBackBut.UseVisualStyleBackColor = true;
-			this.filterBackBut.Click += new System.EventHandler(this.filterBackBut_Click);
-			// 
-			// High
-			// 
-			this.High.AutoSize = true;
-			this.High.Location = new System.Drawing.Point(222, 128);
-			this.High.Name = "High";
-			this.High.Size = new System.Drawing.Size(15, 14);
-			this.High.TabIndex = 2;
-			this.High.UseVisualStyleBackColor = true;
-			// 
-			// Medium
-			// 
-			this.Medium.AutoSize = true;
-			this.Medium.Location = new System.Drawing.Point(142, 129);
-			this.Medium.Name = "Medium";
-			this.Medium.Size = new System.Drawing.Size(15, 14);
-			this.Medium.TabIndex = 1;
-			this.Medium.UseVisualStyleBackColor = true;
-			// 
-			// Low
-			// 
-			this.Low.AutoSize = true;
-			this.Low.Location = new System.Drawing.Point(53, 128);
-			this.Low.Name = "Low";
-			this.Low.Size = new System.Drawing.Size(15, 14);
-			this.Low.TabIndex = 0;
-			this.Low.UseVisualStyleBackColor = true;
 			// 
 			// detailsEndTime
 			// 
@@ -375,6 +249,132 @@
 			this.eventDetailsBackBut.Text = "Back";
 			this.eventDetailsBackBut.UseVisualStyleBackColor = true;
 			this.eventDetailsBackBut.Click += new System.EventHandler(this.eventDetailsBackBut_Click);
+			// 
+			// filteringPanel
+			// 
+			this.filteringPanel.Controls.Add(this.textBox5);
+			this.filteringPanel.Controls.Add(this.textBox4);
+			this.filteringPanel.Controls.Add(this.textBox3);
+			this.filteringPanel.Controls.Add(this.textBox2);
+			this.filteringPanel.Controls.Add(this.textBox1);
+			this.filteringPanel.Controls.Add(this.filterDoneButton);
+			this.filteringPanel.Controls.Add(this.filterBackBut);
+			this.filteringPanel.Controls.Add(this.High);
+			this.filteringPanel.Controls.Add(this.Medium);
+			this.filteringPanel.Controls.Add(this.Low);
+			this.filteringPanel.Location = new System.Drawing.Point(650, 323);
+			this.filteringPanel.Name = "filteringPanel";
+			this.filteringPanel.Size = new System.Drawing.Size(365, 246);
+			this.filteringPanel.TabIndex = 19;
+			// 
+			// textBox5
+			// 
+			this.textBox5.BackColor = System.Drawing.SystemColors.Control;
+			this.textBox5.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			this.textBox5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+			this.textBox5.Location = new System.Drawing.Point(33, 57);
+			this.textBox5.Name = "textBox5";
+			this.textBox5.ReadOnly = true;
+			this.textBox5.Size = new System.Drawing.Size(176, 16);
+			this.textBox5.TabIndex = 9;
+			this.textBox5.Text = "Choose priority:";
+			// 
+			// textBox4
+			// 
+			this.textBox4.BackColor = System.Drawing.SystemColors.Control;
+			this.textBox4.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			this.textBox4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+			this.textBox4.Location = new System.Drawing.Point(95, 12);
+			this.textBox4.Name = "textBox4";
+			this.textBox4.ReadOnly = true;
+			this.textBox4.Size = new System.Drawing.Size(199, 19);
+			this.textBox4.TabIndex = 8;
+			this.textBox4.Text = "Filter Schedule";
+			// 
+			// textBox3
+			// 
+			this.textBox3.BackColor = System.Drawing.SystemColors.Control;
+			this.textBox3.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			this.textBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+			this.textBox3.Location = new System.Drawing.Point(212, 104);
+			this.textBox3.Name = "textBox3";
+			this.textBox3.ReadOnly = true;
+			this.textBox3.Size = new System.Drawing.Size(52, 16);
+			this.textBox3.TabIndex = 7;
+			this.textBox3.Text = "High";
+			// 
+			// textBox2
+			// 
+			this.textBox2.BackColor = System.Drawing.SystemColors.Control;
+			this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			this.textBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+			this.textBox2.Location = new System.Drawing.Point(120, 103);
+			this.textBox2.Name = "textBox2";
+			this.textBox2.ReadOnly = true;
+			this.textBox2.Size = new System.Drawing.Size(61, 16);
+			this.textBox2.TabIndex = 6;
+			this.textBox2.Text = "Medium";
+			// 
+			// textBox1
+			// 
+			this.textBox1.BackColor = System.Drawing.SystemColors.Control;
+			this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+			this.textBox1.Location = new System.Drawing.Point(43, 103);
+			this.textBox1.Name = "textBox1";
+			this.textBox1.ReadOnly = true;
+			this.textBox1.Size = new System.Drawing.Size(47, 16);
+			this.textBox1.TabIndex = 5;
+			this.textBox1.Text = "Low";
+			// 
+			// filterDoneButton
+			// 
+			this.filterDoneButton.ForeColor = System.Drawing.Color.Green;
+			this.filterDoneButton.Location = new System.Drawing.Point(173, 189);
+			this.filterDoneButton.Name = "filterDoneButton";
+			this.filterDoneButton.Size = new System.Drawing.Size(107, 34);
+			this.filterDoneButton.TabIndex = 4;
+			this.filterDoneButton.Text = "Filter";
+			this.filterDoneButton.UseVisualStyleBackColor = true;
+			this.filterDoneButton.Click += new System.EventHandler(this.filterDoneButton_Click);
+			// 
+			// filterBackBut
+			// 
+			this.filterBackBut.ForeColor = System.Drawing.Color.Red;
+			this.filterBackBut.Location = new System.Drawing.Point(33, 189);
+			this.filterBackBut.Name = "filterBackBut";
+			this.filterBackBut.Size = new System.Drawing.Size(110, 34);
+			this.filterBackBut.TabIndex = 3;
+			this.filterBackBut.Text = "Back";
+			this.filterBackBut.UseVisualStyleBackColor = true;
+			this.filterBackBut.Click += new System.EventHandler(this.filterBackBut_Click);
+			// 
+			// High
+			// 
+			this.High.AutoSize = true;
+			this.High.Location = new System.Drawing.Point(222, 128);
+			this.High.Name = "High";
+			this.High.Size = new System.Drawing.Size(15, 14);
+			this.High.TabIndex = 2;
+			this.High.UseVisualStyleBackColor = true;
+			// 
+			// Medium
+			// 
+			this.Medium.AutoSize = true;
+			this.Medium.Location = new System.Drawing.Point(142, 129);
+			this.Medium.Name = "Medium";
+			this.Medium.Size = new System.Drawing.Size(15, 14);
+			this.Medium.TabIndex = 1;
+			this.Medium.UseVisualStyleBackColor = true;
+			// 
+			// Low
+			// 
+			this.Low.AutoSize = true;
+			this.Low.Location = new System.Drawing.Point(53, 128);
+			this.Low.Name = "Low";
+			this.Low.Size = new System.Drawing.Size(15, 14);
+			this.Low.TabIndex = 0;
+			this.Low.UseVisualStyleBackColor = true;
 			// 
 			// monthView
 			// 
