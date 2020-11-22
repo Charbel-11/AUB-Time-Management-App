@@ -30,6 +30,7 @@ namespace Server.Service.ControlBlocks
             {
                 throw new ConflictException("Conflict", conflictingEvents);
             }
+            Console.WriteLine("Event was added"); 
         }
 
         public Event GetPersonalEventInDetail(int eventID)

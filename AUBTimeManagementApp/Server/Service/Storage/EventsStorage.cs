@@ -65,8 +65,8 @@ namespace AUBTimeManagementApp.Service.Storage
                 DateTime start = dataReader.GetDateTime(2);
                 DateTime end = dataReader.GetDateTime(3);
                 int priority = dataReader.GetInt32(4);
-                string plannerID = dataReader.GetInt32(5).ToString();
-                Event fetchedEvent = new Event(eventID, priority, plannerID, eventName, start, end);
+                string plannerUsername = dataReader.GetString(5);
+                Event fetchedEvent = new Event(eventID, priority, plannerUsername, eventName, start, end);
 
                 command.Parameters.Clear(); sqlConnection.Close();
             }
@@ -82,17 +82,18 @@ namespace AUBTimeManagementApp.Service.Storage
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
                 sqlConnection.Open();
 
-                string query =  "INSERT INTO Events(EventID, EventName, StartTime, EndTime, Priority, PlannerID) " +
-                                "VALUES (@EventID, @EventName, @StartTime, @EndTime, @Priority, @PlannerID)";
+                string query =  "INSERT INTO Events(EventID, EventName, StartTime, EndTime, Priority, PlannerUsername) " +
+                                "VALUES (@EventID, @EventName, @StartTime, @EndTime, @Priority, @PlannerUsername)";
                 
                 SqlCommand command = new SqlCommand(query, sqlConnection);
-                
-                command.Parameters.Add("@EventID", SqlDbType.Int).Value = _event.ID;
+
+                int _eventID = _event.eventName.GetHashCode();
+                command.Parameters.Add("@EventID", SqlDbType.Int).Value = _eventID;//_event.ID;
                 command.Parameters.Add("@EventName", SqlDbType.NVarChar).Value = _event.eventName;
                 command.Parameters.Add("@StartTime", SqlDbType.DateTime).Value = _event.startTime;
                 command.Parameters.Add("@EndTime", SqlDbType.DateTime).Value = _event.endTime;
                 command.Parameters.Add("@Priority", SqlDbType.Int).Value = _event.priority;
-                command.Parameters.Add("@PlannerID", SqlDbType.Int).Value = _event.plannerUsername;
+                command.Parameters.Add("@PlannerUsername", SqlDbType.NVarChar).Value = _event.plannerUsername;
                 SqlDataReader dataReader = command.ExecuteReader();
 
                 command.Parameters.Clear(); sqlConnection.Close(); 

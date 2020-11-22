@@ -230,6 +230,8 @@ namespace Server {
             // Get the events from eventIDs list and add them to the events list
             var eventsHandler = new EventsHandler();
             List<Event> eventsList = eventsHandler.GetEventList(eventIDs);
+
+            Console.WriteLine("Will show " + eventsList.Count.ToString() + "events!");
             ServerTCP.PACKET_SendGetUserScheduleReply(ConnectionID, eventsList);
         }
 
@@ -369,7 +371,7 @@ namespace Server {
 
             bufferH.Dispose();
 
-            Event addedEvent = new Event(0, eventPriority, " ", eventName, DateTime.Parse(eventStart), DateTime.Parse(eventEnd));
+            Event addedEvent = new Event(eventName.GetHashCode(), eventPriority, " ", eventName, DateTime.Parse(eventStart), DateTime.Parse(eventEnd));
             IEventScheduleConnector eventScheduleConnector = new EventScheduleConnector();
             eventScheduleConnector.AddPersonalEvent(username, addedEvent);
 
