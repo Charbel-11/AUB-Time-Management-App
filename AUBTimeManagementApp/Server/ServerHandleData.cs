@@ -356,6 +356,8 @@ namespace Server {
 
         private static void HandleCreatePersonalEvent(int ConnectionID, byte[] data)
         {
+            Console.WriteLine("Server is adding the event");
+
             BufferHelper bufferH = new BufferHelper();
             bufferH.WriteBytes(data);
 
@@ -376,6 +378,7 @@ namespace Server {
 
         private static void HandleGetPersonalEvent(int ConnectionID, byte[] data)
         {
+
             BufferHelper bufferH = new BufferHelper();
             bufferH.WriteBytes(data);
 
