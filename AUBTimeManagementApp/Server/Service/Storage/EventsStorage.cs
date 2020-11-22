@@ -41,9 +41,37 @@ namespace AUBTimeManagementApp.Service.Storage
 		}
 
         // Get all events with IDs in eventIDs
-        public List<Event> GetAllEvents(List<int> eventsIds)
+        public List<Event> GetAllEvents(List<int> eventsIDs)
         {
-            return null;
+            try
+            {
+                string connectionString = ConnectionUtil.connectionString;
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+                sqlConnection.Open();
+
+                string combinedStringEventIDs = string.Join(",", eventsIDs);
+                string query = "Select * From Events Where EventID IN " + combinedStringEventIDs;
+
+                SqlCommand command = new SqlCommand(query, sqlConnection);
+
+                SqlDataReader dataReader = command.ExecuteReader();
+
+                List<Event> AllEvents = new List<Event>();
+                while (dataReader.Read())
+                {
+                    int eventID = dataReader.GetInt32(0);
+                    string eventName = dataReader.GetString(1);
+                    DateTime start = dataReader.GetDateTime(2);
+                    DateTime end = dataReader.GetDateTime(3);
+                    int priority = dataReader.GetInt32(4);
+                    string plannerID = dataReader.GetInt32(5).ToString();
+                    Event currEvent = new Event(eventID, priority, plannerID, eventName, start, end);
+                    AllEvents.Add(currEvent);
+                }
+
+                command.Parameters.Clear(); return AllEvents;
+            }
+            catch (SqlException exception) { Console.WriteLine("GetEvent: " + exception.Message); throw; }
         }
 
         // Exctract an event with eventId from DB
@@ -55,7 +83,7 @@ namespace AUBTimeManagementApp.Service.Storage
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
                 sqlConnection.Open();
 
-                string query = "Select * From Events Where Name = @eventID";
+                string query = "Select * From Events Where EventID = @eventID";
 
                 SqlCommand command = new SqlCommand(query, sqlConnection);
 
@@ -68,10 +96,9 @@ namespace AUBTimeManagementApp.Service.Storage
                 string plannerID = dataReader.GetInt32(5).ToString();
                 Event fetchedEvent = new Event(eventID, priority, plannerID, eventName, start, end);
 
-                command.Parameters.Clear(); sqlConnection.Close();
+                command.Parameters.Clear(); return fetchedEvent;
             }
             catch (SqlException exception) { Console.WriteLine("GetEvent: " + exception.Message); throw; }
-            return null;
         }
 
         // Add _event to DB
@@ -100,17 +127,55 @@ namespace AUBTimeManagementApp.Service.Storage
             catch (SqlException exception) { Console.WriteLine("AddEvent: " + exception.Message); throw; }
         }
 
-        // Remove event with id eventId
-        public void RemoveEvent(int eventId)
-        {
 
+        // Remove event with id eventId
+        public void RemoveEvent(int eventID)
+        {
+            try
+            {
+                string connectionString = ConnectionUtil.connectionString;
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+                sqlConnection.Open();
+
+                string query = "DELETE From Events Where EventID = @eventID";
+
+                SqlCommand command = new SqlCommand(query, sqlConnection);
+
+                command.Parameters.Add("@eventID", SqlDbType.Int).Value = eventID;
+                SqlDataReader dataReader = command.ExecuteReader();
+
+
+                command.Parameters.Clear(); sqlConnection.Close();
+            }
+            catch (SqlException exception) { Console.WriteLine("RemoveEvent: " + exception.Message); throw; }
         }
 
         // Update the event with id _event->EventId
         public void UpdateEvent(Event _event)
         {
+            try
+            {
+                string connectionString = ConnectionUtil.connectionString;
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+                sqlConnection.Open();
 
+                string query = "UPDATE Events SET EventName = @eventName, StartTime = @start, EndTime = @end, Priority = @priority, PlannerUsername = @plannerUsername  WHERE EventID = @eventID";
+
+                SqlCommand command = new SqlCommand(query, sqlConnection);
+
+                command.Parameters.Add("@eventID", SqlDbType.Int).Value = _event.ID;
+                command.Parameters.Add("@eventName", SqlDbType.NVarChar).Value = _event.eventName;
+                command.Parameters.Add("@start", SqlDbType.DateTime).Value = _event.startTime;
+                command.Parameters.Add("@end", SqlDbType.DateTime).Value = _event.endTime;
+                command.Parameters.Add("@priority", SqlDbType.Int).Value = _event.priority;
+                command.Parameters.Add("@plannerUsername", SqlDbType.Int).Value = _event.plannerUsername;
+                SqlDataReader dataReader = command.ExecuteReader();
+
+
+                command.Parameters.Clear(); sqlConnection.Close();
+            }
+            catch (SqlException exception) { Console.WriteLine("UpdateEvent: " + exception.Message); throw; }
         }
-        
+
     }
 }
