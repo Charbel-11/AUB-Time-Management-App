@@ -47,8 +47,30 @@ namespace AUBTimeManagementApp.Service.Storage
         }
 
         // Exctract an event with eventId from DB
-        public Event GetEvent(int eventId)
+        public Event GetEvent(int eventID)
         {
+            try
+            {
+                string connectionString = ConnectionUtil.connectionString;
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+                sqlConnection.Open();
+
+                string query = "Select * From Events Where Name = @eventID";
+
+                SqlCommand command = new SqlCommand(query, sqlConnection);
+
+                command.Parameters.Add("@eventID", SqlDbType.Int).Value = eventID;
+                SqlDataReader dataReader = command.ExecuteReader();
+                string eventName = dataReader.GetString(1);
+                DateTime start = dataReader.GetDateTime(2);
+                DateTime end = dataReader.GetDateTime(3);
+                int priority = dataReader.GetInt32(4);
+                string plannerID = dataReader.GetInt32(5).ToString();
+                Event fetchedEvent = new Event(eventID, priority, plannerID, eventName, start, end);
+
+                command.Parameters.Clear(); sqlConnection.Close();
+            }
+            catch (SqlException exception) { Console.WriteLine("GetEvent: " + exception.Message); throw; }
             return null;
         }
 
