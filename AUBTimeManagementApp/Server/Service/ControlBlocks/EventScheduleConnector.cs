@@ -33,6 +33,19 @@ namespace Server.Service.ControlBlocks
             Console.WriteLine("Event was added"); 
         }
 
+        public List<Event> GetPersonalSchedule(string username)
+        {
+            // Add event id to the user's schedule
+            ISchedulesHandler _schedulesHandler = new SchedulesHandler();
+            List<int> eventsIds = _schedulesHandler.GetUserSchedule(username);
+            Console.WriteLine("Now we're gonna retrieve" + eventsIds.Count.ToString() + "events");
+            // Add event to the events tables
+            IEventsHandler _eventsHandler = new EventsHandler();
+            List<Event> _events = _eventsHandler.GetEventList(eventsIds);
+            Console.WriteLine("We retrieved" + _events.Count.ToString() + "events");
+            return _events;
+
+        }
         public Event GetPersonalEventInDetail(int eventID)
         {
             IEventsHandler _eventsHandler = new EventsHandler();

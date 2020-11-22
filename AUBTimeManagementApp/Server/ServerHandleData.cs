@@ -224,12 +224,8 @@ namespace Server {
             bufferH.Dispose();
 
             // Get list of events in the schedule
-            ISchedulesHandler schedulesHandler = new SchedulesHandler();
-            List<int> eventIDs = schedulesHandler.GetUserSchedule(username);
-            
-            // Get the events from eventIDs list and add them to the events list
-            var eventsHandler = new EventsHandler();
-            List<Event> eventsList = eventsHandler.GetEventList(eventIDs);
+            IEventScheduleConnector _eventScheduleConnector = new EventScheduleConnector();
+            List<Event> eventsList = _eventScheduleConnector.GetPersonalSchedule(username);
 
             Console.WriteLine("Will show " + eventsList.Count.ToString() + "events!");
             ServerTCP.PACKET_SendGetUserScheduleReply(ConnectionID, eventsList);

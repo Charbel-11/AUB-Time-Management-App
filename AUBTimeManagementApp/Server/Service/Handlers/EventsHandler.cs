@@ -90,8 +90,9 @@ namespace Server.Service.Handlers
 
         public List<Event> GetEventList(List<int> eventsIDs)
 		{
-            if (_eventStorage == null) { return new List<Event>() { }; }
-            return _eventStorage.GetAllEvents(eventsIDs);
+            //if (_eventStorage == null) { return new List<Event>() { }; }
+            EventsStorage _eventsStorage = new EventsStorage();
+            return _eventsStorage.GetAllEvents(eventsIDs);
 		}
 
 

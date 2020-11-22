@@ -45,12 +45,15 @@ namespace AUBTimeManagementApp.Service.Storage
         {
             try
             {
+                Console.WriteLine("Getting events from events DB");
                 string connectionString = ConnectionUtil.connectionString;
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
                 sqlConnection.Open();
 
                 string combinedStringEventIDs = string.Join(",", eventsIDs);
-                string query = "Select * From Events Where EventID IN " + combinedStringEventIDs;
+                
+                Console.WriteLine(combinedStringEventIDs);
+                string query = "Select * From Events Where EventID IN " + "(" + combinedStringEventIDs +")";
 
                 SqlCommand command = new SqlCommand(query, sqlConnection);
 
@@ -64,12 +67,14 @@ namespace AUBTimeManagementApp.Service.Storage
                     DateTime start = dataReader.GetDateTime(2);
                     DateTime end = dataReader.GetDateTime(3);
                     int priority = dataReader.GetInt32(4);
-                    string plannerID = dataReader.GetInt32(5).ToString();
+                    string plannerID = dataReader.GetString(5);
                     Event currEvent = new Event(eventID, priority, plannerID, eventName, start, end);
                     AllEvents.Add(currEvent);
+                    Console.WriteLine("Adding" + eventID.ToString() + " | " + eventName + " | " + start.ToString());
                 }
+                Console.WriteLine("GetSched " + AllEvents.Count.ToString());
 
-                command.Parameters.Clear(); return AllEvents;
+               command.Parameters.Clear(); return AllEvents;
             }
             catch (SqlException exception) { Console.WriteLine("GetEvent: " + exception.Message); throw; }
         }

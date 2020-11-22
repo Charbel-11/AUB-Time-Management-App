@@ -10,8 +10,8 @@ namespace Server.Service.Handlers {
 
         public List<int> GetUserSchedule(string username) {
             // get a list of event IDs that the user is attending
-            List<int> eventList = new List<int>();
-			eventList = SchedulesStorage.GetPersonalSchedule(username);
+            SchedulesStorage _schedulesStorage = new SchedulesStorage();
+            List<int> eventList = _schedulesStorage.GetPersonalSchedule(username);
             Console.WriteLine("Getting the schedule!");
             return eventList;
         }

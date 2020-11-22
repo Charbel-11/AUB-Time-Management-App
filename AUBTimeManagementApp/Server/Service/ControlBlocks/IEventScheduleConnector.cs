@@ -14,5 +14,6 @@ namespace Server.Service.ControlBlocks
         void UpdatePersonalEvent(Event updatedEvent);
         Event GetPersonalEventInDetail(int eventID);
         List<Event> GetEventsInDetail(string username);
+        List<Event> GetPersonalSchedule(string username);
     }
 }

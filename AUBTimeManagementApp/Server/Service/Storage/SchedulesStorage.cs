@@ -59,10 +59,30 @@ namespace AUBTimeManagementApp.Service.Storage
         /// Get list of event IDs from isAttendee with userID = username
         /// </summary>
         /// <returns> returns a list of IDs of all events in the schedule of the user </returns>
-        public static List<int> GetPersonalSchedule(string UserID)
+        public List<int> GetPersonalSchedule(string username)
 		{
-            return null;
-		}
+            try
+            {
+                string connectionString = ConnectionUtil.connectionString;
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+                sqlConnection.Open();
+
+                string query = "(SELECT EventID FROM isUserAttendee WHERE Username = @Username)";
+  
+                SqlCommand command = new SqlCommand(query, sqlConnection);
+                command.Parameters.Add("@Username", SqlDbType.NVarChar).Value = username;
+                SqlDataReader dataReader = command.ExecuteReader();
+
+                List<int> events = new List<int>();
+                while (dataReader.Read()) { events.Add(dataReader.GetInt32(0)); }
+
+                sqlConnection.Close();
+                Console.WriteLine("Extracted events = " + events.Count.ToString());
+                return events;
+            }
+            catch (SqlException exception) { Console.WriteLine("GetPersonalSchedule: " + exception.Message); throw; }
+
+        }
 
 
         /********************team schedule********************/

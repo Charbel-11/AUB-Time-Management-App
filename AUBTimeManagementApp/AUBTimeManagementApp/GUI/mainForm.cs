@@ -172,9 +172,9 @@ namespace AUBTimeManagementApp.GUI
 		{
 
 		}
-
+        // TODO CLEAR DISPLAY BEFORE RELOADING **
         private void Refresh_Click(object sender, EventArgs e)
-        {
+        { 
             Client.Client.Instance.GetUserSchedule();
         }
 
