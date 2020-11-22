@@ -8,9 +8,11 @@ using System.Text;
 
 namespace AUBTimeManagementApp.Service.Storage
 {
-    public class EventsStorage { 
-        public static List<int> getFilteredUserEvents(string username, int priority) {
-            try {
+    public class EventsStorage {
+        public static List<int> getFilteredUserEvents(string username, int priority)
+        {
+            try
+            {
                 string connectionString = ConnectionUtil.connectionString;
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
                 sqlConnection.Open();
@@ -29,15 +31,16 @@ namespace AUBTimeManagementApp.Service.Storage
             }
             catch (SqlException exception) { Console.WriteLine("getUserEvents: " + exception.Message); throw; }
         }
+
+
+
         //Check if event exists
         public static bool eventExists(int eventID)
 		{
             return true;
 		}
 
-        // Get all events for a given user
-        // Warning: The accounts database should not contain details about events (just the events ids maybe in some concatenated string (?))
-        // We need another DB that maps users to a list of eventsIds
+        // Get all events with IDs in eventIDs
         public List<Event> GetAllEvents(List<int> eventsIds)
         {
             return null;
@@ -48,6 +51,7 @@ namespace AUBTimeManagementApp.Service.Storage
         {
             return null;
         }
+
         // Add _event to DB
         public void AddEvent(Event _event)
         {

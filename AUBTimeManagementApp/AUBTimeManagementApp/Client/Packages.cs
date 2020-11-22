@@ -15,7 +15,10 @@ public enum ServerPackages {
     SNewAdminState,
     SMemberRemoved,
     SAddMemberReply,
-    SMemberAdded
+    SMemberAdded,
+    SCreatePersonalEventReply,
+    SCancelPersonalEventReply,
+    SModifyPersonalEventReply
 }
 public enum ClientPackages {
     CMsg,
@@ -29,5 +32,8 @@ public enum ClientPackages {
     CCreateTeam,
     CChangeAdminState,
     CRemoveMember,
-    CAddMember
+    CAddMember,
+    CCreatePersonalEvent,
+    CCancelPersonalEvent,
+    CModifyPersonalEvent
 }

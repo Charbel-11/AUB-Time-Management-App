@@ -125,34 +125,48 @@ namespace AUBTimeManagementApp.GUI
             Client.Client.Instance.FilterUserSchedule(Low.Checked, Medium.Checked, High.Checked );
         }
 
-		private void textBox1_TextChanged(object sender, EventArgs e)
-		{
-
-		}
-
-		private void textBox2_TextChanged(object sender, EventArgs e)
-		{
-
-		}
-
-
 		private void eventDetailsBackBut_Click(object sender, EventArgs e)
 		{
             eventDetailsPanel.Hide();
             mainPanel.Show();
 		}
 
-		private void detailsEndTime_TextChanged(object sender, EventArgs e)
-		{
-
-		}
-
 		private void DeleteEventBut_Click(object sender, EventArgs e)
 		{
-            
-		}
+            //Confirm that the user wnats to delete the event.
+            var result = MessageBox.Show("Are you sure you would like to delete this event from your schedule?",
+                "Delete Event", MessageBoxButtons.YesNo);
+            //If the yes button is pressed delete event
+            if (result == DialogResult.Yes)
+			{
+               //Client.Client.Instance.CancelPersonalEvent(eventID);
+            }
+        }
 
 		private void ModifyEventBut_Click(object sender, EventArgs e)
+		{
+            //Confirm that the user wnats to delete the event.
+            var result = MessageBox.Show("Are you sure you would like to save the changes to this event?",
+                "Delete Event", MessageBoxButtons.YesNo);
+            //If the yes button is pressed delete event
+            if (result == DialogResult.Yes)
+            {
+                //get text from text boxes and make event
+                //Client.Client.Instance.ModifyPersonalEvent(updatedEvent);
+            }
+        }
+
+		private void detailsStartTime_TextChanged(object sender, EventArgs e)
+		{
+
+		}
+
+		private void textBox5_TextChanged(object sender, EventArgs e)
+		{
+
+		}
+
+		private void textBox6_TextChanged(object sender, EventArgs e)
 		{
 
 		}

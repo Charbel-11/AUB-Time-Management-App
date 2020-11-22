@@ -5,6 +5,8 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using AUBTimeManagementApp;
+using AUBTimeManagementApp.DataContracts;
+
 
 namespace AUBTimeManagementApp.Client {
     class ClientTCP {
@@ -223,6 +225,49 @@ namespace AUBTimeManagementApp.Client {
         public static void CloseConnection() {
             if (ClientSocket != null)
                 ClientSocket.Close();
+        }
+
+        public static void PACKET_CreatePersonalEvent(string username, string eventName, int priority, DateTime start, DateTime end)
+        {
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteInteger((int)ClientPackages.CCreatePersonalEvent);
+
+            bufferH.WriteString(username);
+            bufferH.WriteString(eventName);
+            bufferH.WriteString(start.ToString());
+            bufferH.WriteString(end.ToString());
+            bufferH.WriteInteger(priority);
+
+            SendData(bufferH.ToArray());
+            bufferH.Dispose();
+        }
+
+        public static void PACKET_CancelPersonalEvent(string username, int eventID)
+        {
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteInteger((int)ClientPackages.CCreatePersonalEvent);
+
+            bufferH.WriteString(username);
+            bufferH.WriteInteger(eventID);
+
+            SendData(bufferH.ToArray());
+            bufferH.Dispose();
+        }
+
+        public static void Packet_ModifyPersonalEvent(Event updatedEvent)
+        {
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteInteger((int)ClientPackages.CCreatePersonalEvent);
+
+            bufferH.WriteInteger(updatedEvent.ID);
+            bufferH.WriteString(updatedEvent.eventName);
+            bufferH.WriteString(updatedEvent.startTime.ToString());
+            bufferH.WriteString(updatedEvent.endTime.ToString());
+            bufferH.WriteInteger(updatedEvent.priority);
+            bufferH.WriteString(updatedEvent.plannerUsername);
+
+            SendData(bufferH.ToArray());
+            bufferH.Dispose();
         }
     }
 }

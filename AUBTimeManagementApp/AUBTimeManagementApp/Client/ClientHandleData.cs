@@ -29,7 +29,8 @@ namespace AUBTimeManagementApp.Client {
             { (int)ServerPackages.SNewAdminState, HandleNewAdminState },
             { (int)ServerPackages.SMemberRemoved, HandleMemberRemoved },
             { (int)ServerPackages.SAddMemberReply, HandleAddMemberReply },
-            { (int)ServerPackages.SMemberAdded, HandleMemberAdded }
+            { (int)ServerPackages.SMemberAdded, HandleMemberAdded },
+                {(int)ServerPackages.SCancelPersonalEventReply, HandleCancelPersonalEventReply }
             };
         }
 
@@ -296,6 +297,18 @@ namespace AUBTimeManagementApp.Client {
             bufferH.Dispose();
 
             Client.Instance.memberAdded(teamID, addedMember);
+        }
+
+        public static void HandleCancelPersonalEventReply(byte[] data)
+        {
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteBytes(data);
+
+            bool isCanceled = bufferH.ReadBool();
+
+            bufferH.Dispose();
+
+            Client.Instance.personalEventCanceled(isCanceled);
         }
     }
 }

@@ -29,11 +29,11 @@
 		
         private void InitializeComponent()
         {
-			System.Windows.Forms.Calendar.CalendarHighlightRange calendarHighlightRange21 = new System.Windows.Forms.Calendar.CalendarHighlightRange();
-			System.Windows.Forms.Calendar.CalendarHighlightRange calendarHighlightRange22 = new System.Windows.Forms.Calendar.CalendarHighlightRange();
-			System.Windows.Forms.Calendar.CalendarHighlightRange calendarHighlightRange23 = new System.Windows.Forms.Calendar.CalendarHighlightRange();
-			System.Windows.Forms.Calendar.CalendarHighlightRange calendarHighlightRange24 = new System.Windows.Forms.Calendar.CalendarHighlightRange();
-			System.Windows.Forms.Calendar.CalendarHighlightRange calendarHighlightRange25 = new System.Windows.Forms.Calendar.CalendarHighlightRange();
+			System.Windows.Forms.Calendar.CalendarHighlightRange calendarHighlightRange16 = new System.Windows.Forms.Calendar.CalendarHighlightRange();
+			System.Windows.Forms.Calendar.CalendarHighlightRange calendarHighlightRange17 = new System.Windows.Forms.Calendar.CalendarHighlightRange();
+			System.Windows.Forms.Calendar.CalendarHighlightRange calendarHighlightRange18 = new System.Windows.Forms.Calendar.CalendarHighlightRange();
+			System.Windows.Forms.Calendar.CalendarHighlightRange calendarHighlightRange19 = new System.Windows.Forms.Calendar.CalendarHighlightRange();
+			System.Windows.Forms.Calendar.CalendarHighlightRange calendarHighlightRange20 = new System.Windows.Forms.Calendar.CalendarHighlightRange();
 			this.TeamButton = new System.Windows.Forms.Button();
 			this.addEvent = new System.Windows.Forms.Button();
 			this.label1 = new System.Windows.Forms.Label();
@@ -52,6 +52,8 @@
 			this.Medium = new System.Windows.Forms.CheckBox();
 			this.Low = new System.Windows.Forms.CheckBox();
 			this.eventDetailsPanel = new System.Windows.Forms.Panel();
+			this.detailsEndTime = new System.Windows.Forms.TextBox();
+			this.textBox7 = new System.Windows.Forms.TextBox();
 			this.detailsPriority = new System.Windows.Forms.TextBox();
 			this.textBox10 = new System.Windows.Forms.TextBox();
 			this.detailsStartTime = new System.Windows.Forms.TextBox();
@@ -62,8 +64,6 @@
 			this.eventDetailsBackBut = new System.Windows.Forms.Button();
 			this.monthView = new System.Windows.Forms.Calendar.MonthView();
 			this.calendar = new System.Windows.Forms.Calendar.Calendar();
-			this.textBox7 = new System.Windows.Forms.TextBox();
-			this.detailsEndTime = new System.Windows.Forms.TextBox();
 			this.mainPanel.SuspendLayout();
 			this.filteringPanel.SuspendLayout();
 			this.eventDetailsPanel.SuspendLayout();
@@ -154,9 +154,11 @@
 			this.textBox5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
 			this.textBox5.Location = new System.Drawing.Point(33, 57);
 			this.textBox5.Name = "textBox5";
+			this.textBox5.ReadOnly = true;
 			this.textBox5.Size = new System.Drawing.Size(176, 16);
 			this.textBox5.TabIndex = 9;
 			this.textBox5.Text = "Priority:";
+			this.textBox5.TextChanged += new System.EventHandler(this.textBox5_TextChanged);
 			// 
 			// textBox4
 			// 
@@ -165,6 +167,7 @@
 			this.textBox4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
 			this.textBox4.Location = new System.Drawing.Point(81, 3);
 			this.textBox4.Name = "textBox4";
+			this.textBox4.ReadOnly = true;
 			this.textBox4.Size = new System.Drawing.Size(199, 19);
 			this.textBox4.TabIndex = 8;
 			this.textBox4.Text = "Filter Schedule";
@@ -176,6 +179,7 @@
 			this.textBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
 			this.textBox3.Location = new System.Drawing.Point(212, 104);
 			this.textBox3.Name = "textBox3";
+			this.textBox3.ReadOnly = true;
 			this.textBox3.Size = new System.Drawing.Size(52, 16);
 			this.textBox3.TabIndex = 7;
 			this.textBox3.Text = "High";
@@ -187,6 +191,7 @@
 			this.textBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
 			this.textBox2.Location = new System.Drawing.Point(120, 103);
 			this.textBox2.Name = "textBox2";
+			this.textBox2.ReadOnly = true;
 			this.textBox2.Size = new System.Drawing.Size(61, 16);
 			this.textBox2.TabIndex = 6;
 			this.textBox2.Text = "Medium";
@@ -198,6 +203,7 @@
 			this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
 			this.textBox1.Location = new System.Drawing.Point(43, 103);
 			this.textBox1.Name = "textBox1";
+			this.textBox1.ReadOnly = true;
 			this.textBox1.Size = new System.Drawing.Size(47, 16);
 			this.textBox1.TabIndex = 5;
 			this.textBox1.Text = "Low";
@@ -268,6 +274,26 @@
 			this.eventDetailsPanel.Size = new System.Drawing.Size(317, 275);
 			this.eventDetailsPanel.TabIndex = 20;
 			// 
+			// detailsEndTime
+			// 
+			this.detailsEndTime.BackColor = System.Drawing.SystemColors.Control;
+			this.detailsEndTime.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			this.detailsEndTime.Location = new System.Drawing.Point(82, 110);
+			this.detailsEndTime.Name = "detailsEndTime";
+			this.detailsEndTime.Size = new System.Drawing.Size(144, 13);
+			this.detailsEndTime.TabIndex = 0;
+			// 
+			// textBox7
+			// 
+			this.textBox7.BackColor = System.Drawing.SystemColors.Control;
+			this.textBox7.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			this.textBox7.Location = new System.Drawing.Point(14, 110);
+			this.textBox7.Name = "textBox7";
+			this.textBox7.ReadOnly = true;
+			this.textBox7.Size = new System.Drawing.Size(100, 13);
+			this.textBox7.TabIndex = 0;
+			this.textBox7.Text = "End Time";
+			// 
 			// detailsPriority
 			// 
 			this.detailsPriority.BackColor = System.Drawing.SystemColors.Control;
@@ -283,6 +309,7 @@
 			this.textBox10.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this.textBox10.Location = new System.Drawing.Point(14, 136);
 			this.textBox10.Name = "textBox10";
+			this.textBox10.ReadOnly = true;
 			this.textBox10.Size = new System.Drawing.Size(101, 13);
 			this.textBox10.TabIndex = 8;
 			this.textBox10.Text = "Priority: ";
@@ -295,6 +322,7 @@
 			this.detailsStartTime.Name = "detailsStartTime";
 			this.detailsStartTime.Size = new System.Drawing.Size(144, 13);
 			this.detailsStartTime.TabIndex = 5;
+			this.detailsStartTime.TextChanged += new System.EventHandler(this.detailsStartTime_TextChanged);
 			// 
 			// textBox6
 			// 
@@ -302,9 +330,11 @@
 			this.textBox6.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this.textBox6.Location = new System.Drawing.Point(14, 84);
 			this.textBox6.Name = "textBox6";
+			this.textBox6.ReadOnly = true;
 			this.textBox6.Size = new System.Drawing.Size(101, 13);
 			this.textBox6.TabIndex = 4;
 			this.textBox6.Text = "Start Time: ";
+			this.textBox6.TextChanged += new System.EventHandler(this.textBox6_TextChanged);
 			// 
 			// detailsEventName
 			// 
@@ -372,27 +402,27 @@
 			// calendar
 			// 
 			this.calendar.Font = new System.Drawing.Font("Segoe UI", 9F);
-			calendarHighlightRange21.DayOfWeek = System.DayOfWeek.Monday;
-			calendarHighlightRange21.EndTime = System.TimeSpan.Parse("17:00:00");
-			calendarHighlightRange21.StartTime = System.TimeSpan.Parse("08:00:00");
-			calendarHighlightRange22.DayOfWeek = System.DayOfWeek.Tuesday;
-			calendarHighlightRange22.EndTime = System.TimeSpan.Parse("17:00:00");
-			calendarHighlightRange22.StartTime = System.TimeSpan.Parse("08:00:00");
-			calendarHighlightRange23.DayOfWeek = System.DayOfWeek.Wednesday;
-			calendarHighlightRange23.EndTime = System.TimeSpan.Parse("17:00:00");
-			calendarHighlightRange23.StartTime = System.TimeSpan.Parse("08:00:00");
-			calendarHighlightRange24.DayOfWeek = System.DayOfWeek.Thursday;
-			calendarHighlightRange24.EndTime = System.TimeSpan.Parse("17:00:00");
-			calendarHighlightRange24.StartTime = System.TimeSpan.Parse("08:00:00");
-			calendarHighlightRange25.DayOfWeek = System.DayOfWeek.Friday;
-			calendarHighlightRange25.EndTime = System.TimeSpan.Parse("17:00:00");
-			calendarHighlightRange25.StartTime = System.TimeSpan.Parse("08:00:00");
+			calendarHighlightRange16.DayOfWeek = System.DayOfWeek.Monday;
+			calendarHighlightRange16.EndTime = System.TimeSpan.Parse("17:00:00");
+			calendarHighlightRange16.StartTime = System.TimeSpan.Parse("08:00:00");
+			calendarHighlightRange17.DayOfWeek = System.DayOfWeek.Tuesday;
+			calendarHighlightRange17.EndTime = System.TimeSpan.Parse("17:00:00");
+			calendarHighlightRange17.StartTime = System.TimeSpan.Parse("08:00:00");
+			calendarHighlightRange18.DayOfWeek = System.DayOfWeek.Wednesday;
+			calendarHighlightRange18.EndTime = System.TimeSpan.Parse("17:00:00");
+			calendarHighlightRange18.StartTime = System.TimeSpan.Parse("08:00:00");
+			calendarHighlightRange19.DayOfWeek = System.DayOfWeek.Thursday;
+			calendarHighlightRange19.EndTime = System.TimeSpan.Parse("17:00:00");
+			calendarHighlightRange19.StartTime = System.TimeSpan.Parse("08:00:00");
+			calendarHighlightRange20.DayOfWeek = System.DayOfWeek.Friday;
+			calendarHighlightRange20.EndTime = System.TimeSpan.Parse("17:00:00");
+			calendarHighlightRange20.StartTime = System.TimeSpan.Parse("08:00:00");
 			this.calendar.HighlightRanges = new System.Windows.Forms.Calendar.CalendarHighlightRange[] {
-        calendarHighlightRange21,
-        calendarHighlightRange22,
-        calendarHighlightRange23,
-        calendarHighlightRange24,
-        calendarHighlightRange25};
+        calendarHighlightRange16,
+        calendarHighlightRange17,
+        calendarHighlightRange18,
+        calendarHighlightRange19,
+        calendarHighlightRange20};
 			this.calendar.Location = new System.Drawing.Point(7, 6);
 			this.calendar.Name = "calendar";
 			this.calendar.Size = new System.Drawing.Size(611, 539);
@@ -400,26 +430,6 @@
 			this.calendar.Text = "calendar";
 			this.calendar.LoadItems += new System.Windows.Forms.Calendar.Calendar.CalendarLoadEventHandler(this.calendar_LoadItems);
 			this.calendar.ItemDoubleClick += new System.Windows.Forms.Calendar.Calendar.CalendarItemEventHandler(this.calendar_ItemDoubleClick);
-			// 
-			// textBox7
-			// 
-			this.textBox7.BackColor = System.Drawing.SystemColors.Control;
-			this.textBox7.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			this.textBox7.Location = new System.Drawing.Point(14, 110);
-			this.textBox7.Name = "textBox7";
-			this.textBox7.Size = new System.Drawing.Size(100, 13);
-			this.textBox7.TabIndex = 0;
-			this.textBox7.Text = "End Time";
-			// 
-			// detailsEndTime
-			// 
-			this.detailsEndTime.BackColor = System.Drawing.SystemColors.Control;
-			this.detailsEndTime.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			this.detailsEndTime.Location = new System.Drawing.Point(82, 110);
-			this.detailsEndTime.Name = "detailsEndTime";
-			this.detailsEndTime.Size = new System.Drawing.Size(144, 13);
-			this.detailsEndTime.TabIndex = 0;
-			this.detailsEndTime.TextChanged += new System.EventHandler(this.detailsEndTime_TextChanged);
 			// 
 			// mainForm
 			// 

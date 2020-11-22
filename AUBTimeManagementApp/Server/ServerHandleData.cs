@@ -30,7 +30,11 @@ namespace Server {
                 { (int)ClientPackages.CCreateTeam, HandleCreateTeam },
                 { (int)ClientPackages.CChangeAdminState, HandleChangeAdminState },
                 { (int)ClientPackages.CRemoveMember, HandleRemoveMember },
-                { (int)ClientPackages.CAddMember, HandleAddMember }
+                { (int)ClientPackages.CAddMember, HandleAddMember },
+                {(int)ClientPackages.CCreatePersonalEvent, HandleCreatePersonalEvent },
+                {(int)ClientPackages.CCancelPersonalEvent, HandleCancelPersonalEvent },
+                {(int)ClientPackages.CModifyPersonalEvent, HandleModifyPersonalEvent }                
+
             };
         }
 
@@ -348,6 +352,64 @@ namespace Server {
 
             ITeamsHandler teamsHandler = new TeamsHandler();
             teamsHandler.AddMemberRequest(ConnectionID, teamID, username);
+        }
+
+        private static void HandleCreatePersonalEvent(int ConnectionID, byte[] data)
+        {
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteBytes(data);
+
+            string username = bufferH.ReadString();
+            string eventName = bufferH.ReadString();
+            string eventStart = bufferH.ReadString();
+            string eventEnd = bufferH.ReadString();
+            int eventPriority = bufferH.ReadInteger();
+
+            bufferH.Dispose();
+
+            Event addedEvent = new Event(0, eventPriority, " ", eventName, DateTime.Parse(eventStart), DateTime.Parse(eventEnd));
+            IEventsHandler eventsHandler = new EventsHandler();
+            eventsHandler.CreatePersonalEvent(username, addedEvent);
+
+            //ServerTCP.PACKET_SendCreatePersonalEvent(ConnectionID, );
+        }
+
+        private static void HandleCancelPersonalEvent(int ConnectionID, byte[] data)
+        {
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteBytes(data);
+
+            string username = bufferH.ReadString();
+            int eventID = bufferH.ReadInteger();
+
+            bufferH.Dispose();
+
+            IEventsHandler eventsHandler = new EventsHandler();
+            bool isCanceled = eventsHandler.CancelPersonalEvent(username, eventID);
+
+            ServerTCP.PACKET_CancelPersonalEvent(ConnectionID, isCanceled);
+        }
+
+        private static void HandleModifyPersonalEvent(int ConnectionID, byte[] data)
+        {
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteBytes(data);
+
+            int eventID = bufferH.ReadInteger();
+            string eventName = bufferH.ReadString();
+            string start = bufferH.ReadString();
+            string end = bufferH.ReadString();
+            int priority = bufferH.ReadInteger();
+            string plannerUsername = bufferH.ReadString();
+
+            bufferH.Dispose();
+
+            Event updatedEvent = new Event(eventID, priority, plannerUsername, eventName, DateTime.Parse(start), DateTime.Parse(end));
+
+            IEventsHandler eventsHandler = new EventsHandler();
+            bool isCanceled = eventsHandler.UpdatePersonalEvent(updatedEvent);
+
+            ServerTCP.PACKET_CancelPersonalEvent(ConnectionID, isCanceled);
         }
     }
 }

@@ -84,8 +84,8 @@ namespace AUBTimeManagementApp.Client
             mainForm.displayEvent(eventName, priority, startDate, endDate);
         }
 
-
-        public void createAccount(string username, string firstName, string lastName, string password, string confirmPassword, string email, DateTime dateOfBirth) {            
+		#region Account
+		public void createAccount(string username, string firstName, string lastName, string password, string confirmPassword, string email, DateTime dateOfBirth) {            
             this.username = username;
             ClientTCP.PACKET_Register(username, firstName, lastName, password, confirmPassword, email, dateOfBirth);
         }
@@ -120,6 +120,43 @@ namespace AUBTimeManagementApp.Client
         {
 
         }
+        #endregion
+
+        #region Events
+
+        public void CreatePersonalEvent(string eventName, int priority, DateTime start, DateTime end)
+        {
+            ClientTCP.PACKET_CreatePersonalEvent(username, eventName, priority, start, end);
+;        }
+
+		/// <summary>
+		/// remove event from user's schedule
+		/// </summary>
+		/// <param name="eventID"></param>
+		public void CancelPersonalEvent(int eventID)
+        {
+            ClientTCP.PACKET_CancelPersonalEvent(username, eventID);
+        }
+
+        public void personalEventCanceled(bool isCanceled)
+        {
+
+        }
+
+        /// <summary>
+        /// Modify personal event
+        /// </summary>
+        /// <param name="eventID"></param>
+        public void ModifyPersonalEvent(Event updatedEvent)
+        {
+            ClientTCP.Packet_ModifyPersonalEvent(updatedEvent);
+        }
+
+        public void personalEventModified()
+        {
+
+        }
+        #endregion
 
         #region Team
         public void createTeam(string teamName, string[] teamMembers) {
@@ -368,5 +405,7 @@ namespace AUBTimeManagementApp.Client
         {
             
         }
+
+
     }
 }
