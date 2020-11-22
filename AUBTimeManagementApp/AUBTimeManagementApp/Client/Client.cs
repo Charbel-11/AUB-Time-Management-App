@@ -78,9 +78,17 @@ namespace AUBTimeManagementApp.Client
 
         public void addEvent(Event newEvent) {
             events.Add(newEvent);
+            ClientTCP.PACKET_CreateEvent(newEvent);
         }
 
+        public void ShowEvent(Event _event)
+        {
+            showEvent(_event.eventName, _event.priority, _event.startTime, _event.endTime);
+        }
+
+        /* This function displays the event details for the user */
         public void showEvent(string eventName, int priority, DateTime startDate, DateTime endDate) {
+            
             mainForm.displayEvent(eventName, priority, startDate, endDate);
         }
 

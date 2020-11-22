@@ -30,8 +30,40 @@ namespace AUBTimeManagementApp.Client {
             { (int)ServerPackages.SMemberRemoved, HandleMemberRemoved },
             { (int)ServerPackages.SAddMemberReply, HandleAddMemberReply },
             { (int)ServerPackages.SMemberAdded, HandleMemberAdded },
+            {(int)ServerPackages.SGetPersonalEventReply, HandleGetPersonalEventReply },
+            {(int)ServerPackages.SCreatePersonalEventReply, HandleCreatePersonalEventReply },
                 {(int)ServerPackages.SCancelPersonalEventReply, HandleCancelPersonalEventReply }
             };
+        }
+
+        private static void HandleCreatePersonalEventReply(byte[] Data)
+        {
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteBytes(Data);    
+            // Read verification result from server
+            int isCreated = bufferH.ReadInteger();
+            // TODO: Display something to the user
+
+            bufferH.Dispose();
+        }
+
+        private static void HandleGetPersonalEventReply(byte[] Data)
+        {
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteBytes(Data);
+
+            int eventID = bufferH.ReadInteger();
+            string planner = bufferH.ReadString();
+            string eventName = bufferH.ReadString();
+            int eventPriority = bufferH.ReadInteger();
+            string eventStart = bufferH.ReadString();
+            string eventEnd = bufferH.ReadString();
+            bool isteamEvent = bufferH.ReadBool();
+            Event _event = new Event(eventID, eventPriority, planner, eventName, DateTime.Parse(eventStart), DateTime.Parse(eventEnd), isteamEvent);
+
+            Client.Instance.ShowEvent(_event);
+
+            bufferH.Dispose();
         }
 
         public static void HandleData(byte[] data) {

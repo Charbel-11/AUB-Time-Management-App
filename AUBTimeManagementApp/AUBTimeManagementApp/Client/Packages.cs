@@ -17,6 +17,7 @@ public enum ServerPackages {
     SAddMemberReply,
     SMemberAdded,
     SCreatePersonalEventReply,
+    SGetPersonalEventReply,
     SCancelPersonalEventReply,
     SModifyPersonalEventReply
 }
@@ -34,6 +35,7 @@ public enum ClientPackages {
     CRemoveMember,
     CAddMember,
     CCreatePersonalEvent,
+    CGetPersonalEvent,
     CCancelPersonalEvent,
     CModifyPersonalEvent
 }

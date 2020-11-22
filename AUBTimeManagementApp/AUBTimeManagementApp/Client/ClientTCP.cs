@@ -109,6 +109,25 @@ namespace AUBTimeManagementApp.Client {
             bufferH.Dispose();
         }
 
+        public static void PACKET_CreateEvent(Event _event)
+        {
+            BufferHelper bufferH = new BufferHelper();
+            //Writes the function ID so the server knows this is PACKAGE_Login and handles it accordingly
+            bufferH.WriteInteger((int)ClientPackages.CCreatePersonalEvent);
+
+            // Write username and password on buffer
+
+            bufferH.WriteInteger(_event.ID);
+            bufferH.WriteString(_event.eventName);
+            bufferH.WriteString ((_event.startTime).ToString());
+            bufferH.WriteString((_event.endTime).ToString());
+            bufferH.WriteString(_event.plannerUsername);
+            bufferH.WriteInteger(_event.priority);
+            //Sends it to the server
+            SendData(bufferH.ToArray());
+            bufferH.Dispose();
+        }
+
         public static void PACKET_GetUserTeams(string username) 
         {
             BufferHelper bufferH = new BufferHelper();
