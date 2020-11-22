@@ -22,10 +22,10 @@ namespace Server.Service.Handlers {
             return eventList;
         }
 
-        public bool AddEventToList(string username, int eventID) { 
-            //gets username and event ID
-            //when user creates an event add it to his schedule
-            return false;
+        public void AddEventToList(string username, int eventID) {
+            SchedulesStorage _scheduleStorage = new SchedulesStorage();
+            _scheduleStorage.AddToPersonalSchedule(username, eventID);
+            
 		}
 
         public bool RemoveEventFromList(string username, int eventID) {

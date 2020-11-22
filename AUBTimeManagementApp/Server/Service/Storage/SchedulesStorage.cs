@@ -4,7 +4,7 @@ using System.Text;
 
 namespace AUBTimeManagementApp.Service.Storage
 {
-    class SchedulesStorage
+    public class SchedulesStorage
     {
         /********************user schedule********************/
 
@@ -12,7 +12,7 @@ namespace AUBTimeManagementApp.Service.Storage
         /// check if user is atteding any event in isAttendee
         /// </summary>
         /// <returns> return true if found, return false otherwise</returns>
-        public static bool PersonalScheduleExists(string UserID)
+        public bool PersonalScheduleExists(string UserID)
         {
             return true;
         }
@@ -21,18 +21,18 @@ namespace AUBTimeManagementApp.Service.Storage
         /// add eventID to user schedule with id = userID
         /// </summary>
         /// <returns> return true if successful, false otherwise </returns>
-        public static bool AddToPersonalSchedule(string UserID, int EventID)
+        public void AddToPersonalSchedule(string UserID, int EventID)
         {
-            return true;
+            
         }
 
         /// <summary>
         /// delete eventID from user schedule with ID = userID
         /// </summary>
         /// <returns> return true if successful, false otherwise </returns>
-        public static bool DelFromPersonalSchedule(string UserID, int EventID)
+        public void DelFromPersonalSchedule(string UserID, int EventID)
         {
-            return true;
+            
         }
 
         /// <summary>

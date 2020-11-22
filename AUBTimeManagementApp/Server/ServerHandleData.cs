@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Server.DataContracts;
+using Server.Service.ControlBlocks;
 
 namespace Server {
     /// <summary>
@@ -368,8 +369,8 @@ namespace Server {
             bufferH.Dispose();
 
             Event addedEvent = new Event(0, eventPriority, " ", eventName, DateTime.Parse(eventStart), DateTime.Parse(eventEnd));
-            IEventsHandler eventsHandler = new EventsHandler();
-            eventsHandler.CreatePersonalEvent(username, addedEvent);
+            IEventScheduleConnector eventScheduleConnector = new EventScheduleConnector();
+            eventScheduleConnector.AddPersonalEvent(username, addedEvent);
 
             //ServerTCP.PACKET_SendCreatePersonalEvent(ConnectionID, );
         }
@@ -384,10 +385,11 @@ namespace Server {
 
             bufferH.Dispose();
 
-            IEventsHandler eventsHandler = new EventsHandler();
-            bool isCanceled = eventsHandler.CancelPersonalEvent(username, eventID);
+            IEventScheduleConnector eventScheduleConnector = new EventScheduleConnector();
+            eventScheduleConnector.CancelPersonalEvent(username, eventID);
 
-            ServerTCP.PACKET_CancelPersonalEvent(ConnectionID, isCanceled);
+            // Modify this (returning true is useless here)
+            ServerTCP.PACKET_CancelPersonalEvent(ConnectionID, true);
         }
 
         private static void HandleModifyPersonalEvent(int ConnectionID, byte[] data)
@@ -406,10 +408,10 @@ namespace Server {
 
             Event updatedEvent = new Event(eventID, priority, plannerUsername, eventName, DateTime.Parse(start), DateTime.Parse(end));
 
-            IEventsHandler eventsHandler = new EventsHandler();
-            bool isCanceled = eventsHandler.UpdatePersonalEvent(updatedEvent);
+            IEventScheduleConnector _eventScheduleConnector= new EventScheduleConnector();
+            _eventScheduleConnector.UpdatePersonalEvent(updatedEvent);
 
-            ServerTCP.PACKET_CancelPersonalEvent(ConnectionID, isCanceled);
+            ServerTCP.PACKET_CancelPersonalEvent(ConnectionID, true);
         }
     }
 }

@@ -16,7 +16,7 @@ namespace Server.Service.Handlers
         {
 
         }
-
+        // TODO: Modify
         public List<int> getFilteredUserEvents(string username, bool low, bool mid, bool high)
         {
             List<int> events = new List<int>();
@@ -35,38 +35,18 @@ namespace Server.Service.Handlers
         /// <param name="username"></param>
         /// <param name="newEvent"></param>
         /// <returns></returns>
-        public void CreatePersonalEvent(string username, Event newEvent)
+        public void CreateEvent(Event newEvent)
         {
-            //check for conflict with the conflict checker
-            IConflictChecker conflictChecker = new ConflictChecker();
-            List<int> conflictingEvents = conflictChecker.ConflictExists(username, newEvent);
-            if (conflictingEvents.Count == 0) /* no conflict -> proceed */
-            {
-                //add newEvent to events table
-                //ask schedule hadler to update user's schedule (event list)
-            }
-            else
-            {
-                throw new ConflictException("Conflict", conflictingEvents);
-            }
-
-
-            //return list of conflicting events if adding was successful.....
-            
-
+            EventsStorage _eventsStorage = new EventsStorage();
+            _eventsStorage.AddEvent(newEvent);
         }
 
-        public Event CreateTeamEvent()
-        {
-            //
-            return null;
-        }
 
         /// <summary>
         /// delete an event from the events table
         /// </summary>
         /// <param name="eventId"></param>
-        public void RemoveEvent(int eventId)
+        public void CancelEvent(int eventId)
         {
             RemoveEventFromUniversalEventsDB(eventId);
         }
@@ -99,44 +79,15 @@ namespace Server.Service.Handlers
         /// Modify an event in the events table
         /// </summary>
         /// <returns></returns>
-        public bool UpdatePersonalEvent(Event updatedEvent)
+        public void UpdateEvent(Event updatedEvent)
 		{
             //get event from db
             Event oldEvent = GetEvent(updatedEvent.ID);
             // get event info to be updated (time, name, priority, attendees)
             //check for conflict with the conflict checker only if there is a time update
             //update event info in event storage if no time conflict
-            return false;
 		}
 
-
-        /// <summary>
-        /// remove the event from the user's schedule
-        /// </summary>
-        /// <returns></returns>
-        public bool CancelPersonalEvent(string username, int eventID)
-		{
-            //delete the row username, userID from isAttendee table
-            //decrement number of attendees of event with ID = eventID in events table
-            // if number of attendees is now zero delete event from events table
-            return false;
-		}
-      
-
-        public bool CancelTeamEvent()
-		{
-            //get ID of group event to be cancelled
-            //get list of event attendees
-            //ask schedules handler to remove event from events list of each of the attendees
-            //delete event from event storage
-            return false;
-		}
-
-        /// <summary>
-        /// return a list the events whose IDs are in the list eventsIDs
-        /// </summary>
-        /// <param name="eventsIDs"></param>
-        /// <returns></returns>
         public List<Event> GetEventList(List<int> eventsIDs)
 		{
             if (_eventStorage == null) { return new List<Event>() { }; }

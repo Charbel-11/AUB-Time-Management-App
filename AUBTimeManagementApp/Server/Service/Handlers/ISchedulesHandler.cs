@@ -10,8 +10,8 @@ namespace Server.Service.Handlers
     public interface ISchedulesHandler
     {
         List<int> GetUserSchedule(string userID);
+        void AddEventToList(string username, int eventID);
         List<int> GetTeamSchedule(int teamID);
-        bool AddEventToList(string username, int eventID);
         bool RemoveEventFromList(string username, int eventID);
         bool[,] GetFreeTime(List<Schedule> membersSchedule, DateTime startDate, DateTime endDate,
             DateTime startTime, DateTime endTime, int countThreshold, int priorityThreshold);
