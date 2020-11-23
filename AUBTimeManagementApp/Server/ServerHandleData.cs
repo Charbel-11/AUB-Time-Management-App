@@ -312,8 +312,27 @@ namespace Server {
 
             ITeamUsersConnector _teamUsersConnector = new TeamUsersConnector();
             List<string> invalidUsernames = _teamUsersConnector.CreateTeamRequest(admin, teamName, members);
-
             ServerTCP.PACKET_CreateTeamReply(ConnectionID, true, invalidUsernames);
+
+            List<string> validUsernames = new List<string>();
+            foreach (string user in members)
+            {
+                if (!invalidUsernames.Contains(user))
+                {
+                    validUsernames.Add(user);
+                }
+            }
+
+            foreach (string user in validUsernames)
+            {
+                if (ServerTCP.UsernameToConnectionID.TryGetValue(user, out int cID))
+                    {
+                        ServerTCP.PACKET_NewTeamCreated(cID, teamName, teamName.GetHashCode(), new string[] { admin }, validUsernames.ToArray());
+                    }
+                }
+            }
+
+            
         }
 
         private static void HandleChangeAdminState(int ConnectionID, byte[] data) {
