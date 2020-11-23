@@ -87,6 +87,8 @@
     <Compile Include="Service\ControlBlocks\EventScheduleConnector.cs" />
     <Compile Include="Service\ControlBlocks\IConflictChecker.cs" />
     <Compile Include="Service\ControlBlocks\IEventScheduleConnector.cs" />
+    <Compile Include="Service\ControlBlocks\ITeamUsersConnector.cs" />
+    <Compile Include="Service\ControlBlocks\TeamUsersConnector.cs" />
     <Compile Include="Service\Exceptions\ConflictException.cs" />
     <Compile Include="Service\Handlers\AccountsHandler.cs" />
     <Compile Include="Service\Handlers\EventsHandler.cs" />

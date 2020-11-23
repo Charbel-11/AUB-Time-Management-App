@@ -303,15 +303,17 @@ namespace Server {
             string teamName = bufferH.ReadString();
             string admin = bufferH.ReadString();
             int numberOfMembers = bufferH.ReadInteger();
-            string[] members = new string[numberOfMembers];
+            List<string> members = new List<string> ();
             for(int i = 0; i < numberOfMembers; i++) {
-                members[i] = bufferH.ReadString();
+                members.Add(bufferH.ReadString());
             }
 
             bufferH.Dispose();
 
-            ITeamsHandler teamsHandler = new TeamsHandler();
-            teamsHandler.CreateTeamRequest(ConnectionID, admin, teamName, members);
+            ITeamUsersConnector _teamUsersConnector = new TeamUsersConnector();
+            List<string> invalidUsernames = _teamUsersConnector.CreateTeamRequest(admin, teamName, members);
+
+            ServerTCP.PACKET_CreateTeamReply(ConnectionID, true, invalidUsernames);
         }
 
         private static void HandleChangeAdminState(int ConnectionID, byte[] data) {

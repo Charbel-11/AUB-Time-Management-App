@@ -14,32 +14,34 @@ namespace Server.Service.Handlers
         /// <param name="admin">The admin of the team (calling user)</param>
         /// <param name="teamName">The name of the team</param>
         /// <param name="members">The list of members given by the calling user (might be invalid)</param>
-        public void CreateTeamRequest(int ConnectionID, string admin, string teamName, string[] members)
+        public void CreateTeamRequest(string teamName, string admin, List<string> members)
         {
-            List<string> invalidUsernames = new List<string>();
-            List<string> validUsernames = new List<string>();
+            TeamsStorage _teamsStorage = new TeamsStorage();
+            _teamsStorage.AddTeam(teamName);
 
-            validUsernames.Add(admin);
-            foreach(string m in members) {
-                if (AccountsStorage.usernameExists(m)) { validUsernames.Add(m); }
-                else { invalidUsernames.Add(m); }
-            }
+            // NOT THE HANDLER'S RESPONSIBILITY
+            //ServerTCP.PACKET_CreateTeamReply(ConnectionID, teamID != -1, invalidUsernames.ToArray());
 
-            int teamID = TeamsStorage.addTeam(teamName, admin, validUsernames.ToArray());
-            ServerTCP.PACKET_CreateTeamReply(ConnectionID, teamID != -1, invalidUsernames.ToArray());
-            if (teamID == -1) { return; }
-
-            //Send the team details to online users         
+            //Send the team details to online users
+            /*
+             * IT'S NOT THIS HANDLER'S RESPONSIBILITY
             foreach (string user in validUsernames) {
                 if (ServerTCP.UsernameToConnectionID.TryGetValue(user, out int cID))
                     ServerTCP.PACKET_NewTeamCreated(cID, teamName, teamID, new string[] { admin }, validUsernames.ToArray());
             }
+            */
+            _teamsStorage.AddTeamMembers(teamName.GetHashCode(), members);
+            _teamsStorage.AddTeamAdmin(teamName.GetHashCode(), admin);
         }
                
         public bool AddMemberRequest(int ConnectionID, int teamID, string userToAdd)
         {
             bool OK = AccountsStorage.usernameExists(userToAdd);
-            if (OK) { OK = TeamsStorage.addTeamMember(teamID, userToAdd); }
+            if (OK) {
+                var teamsStorage = new TeamsStorage();
+                teamsStorage.AddTeamMembers(teamID, new List<string> { userToAdd });
+                OK = true;
+            }
             ServerTCP.PACKET_AddMemberReply(ConnectionID, OK);
             if (!OK) { return false; }
 
@@ -76,7 +78,11 @@ namespace Server.Service.Handlers
 
         public bool ChangeAdminState(int teamID, string username, bool isNowAdmin) {
             bool b = false;
-            if (isNowAdmin) { b = TeamsStorage.addTeamAdmin(teamID, username); }
+            if (isNowAdmin) {
+                var teamsStorage = new TeamsStorage();
+                teamsStorage.AddTeamAdmin(teamID, username);
+                b = true;
+            }
             else { b = TeamsStorage.removeTeamAdmin(teamID, username); }
             if (!b) { return false; }
 

@@ -16,25 +16,80 @@ namespace AUBTimeManagementApp.Service.Storage
         /// Adds a new team to the database
         /// </summary>
         /// <returns>The unique teamID of the created team, -1 if it was unsuccessful</returns>
-        public static int addTeam(string teamName, string admin, string[] members) {
-            return 0;
+        public void AddTeam(string teamName) 
+        {
+            try
+            {
+                string connectionString = ConnectionUtil.connectionString;
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+                sqlConnection.Open();
+
+                string query = "INSERT INTO Teams(TeamID, TeamName) " +
+                                "VALUES (@TeamID, @TeamName)";
+                SqlCommand command = new SqlCommand(query, sqlConnection);
+                command.Parameters.Add("@TeamID", SqlDbType.NVarChar).Value = teamName.GetHashCode();
+                command.Parameters.Add("@TeamName", SqlDbType.NVarChar).Value = teamName;
+               
+                SqlDataReader dataReader = command.ExecuteReader();
+
+                command.Parameters.Clear(); sqlConnection.Close(); 
+            }
+            catch (SqlException exception) { Console.WriteLine("AddTeam: " + exception.Message); throw; }
         }
 
         /// <summary>
         /// Adds a member to the team
         /// </summary>
         /// <returns>True if successful, false otherwise</returns>
-        public static bool addTeamMember(int teamID, string username) {
-            return true;
+        public void AddTeamMembers(int teamID, List<string> members) 
+        {
+            foreach (string member in members)
+            {
+                try
+                {
+                    string connectionString = ConnectionUtil.connectionString;
+                    SqlConnection sqlConnection = new SqlConnection(connectionString);
+                    sqlConnection.Open();
+
+                    string query = "INSERT INTO isMember(UserID, TeamID) " +
+                                    "VALUES (@UserID, @TeamID)";
+                    SqlCommand command = new SqlCommand(query, sqlConnection);
+                    command.Parameters.Add("@UserID", SqlDbType.Int).Value = member.GetHashCode();
+                    command.Parameters.Add("@TeamID", SqlDbType.Int).Value = teamID;
+
+                    SqlDataReader dataReader = command.ExecuteReader();
+
+                    command.Parameters.Clear(); sqlConnection.Close();
+                }
+                catch (SqlException exception) { Console.WriteLine("AddTeamMember: " + exception.Message); throw; }
+            }
         }
 
         /// <summary>
         /// Adds an admin to the team (from the existing members)
         /// </summary>
         /// <returns>True if successful, false otherwise</returns>
-        public static bool addTeamAdmin(int teamID, string username) {
-            return true;
+        public void  AddTeamAdmin(int teamID, string username)
+        {
+            try
+            {
+                string connectionString = ConnectionUtil.connectionString;
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+                sqlConnection.Open();
+
+                string query = "INSERT INTO isAdmin(UserID, TeamID) " +
+                                "VALUES (@UserID, @TeamID)";
+                SqlCommand command = new SqlCommand(query, sqlConnection);
+                command.Parameters.Add("@UserID", SqlDbType.Int).Value = username.GetHashCode();
+                command.Parameters.Add("@TeamID", SqlDbType.Int).Value = teamID;
+
+                SqlDataReader dataReader = command.ExecuteReader();
+
+                command.Parameters.Clear(); sqlConnection.Close();
+            }
+            catch (SqlException exception) { Console.WriteLine("AddTeamAdmin: " + exception.Message); throw; }
         }
+    
         #endregion
 
         #region Remove

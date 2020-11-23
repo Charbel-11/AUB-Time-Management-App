@@ -219,13 +219,13 @@ namespace Server {
 
         //Used to respond to the user who created the team
         //The user will display a message accordingly, however we still send him a PACKET_NewTeamCreated 
-        public static void PACKET_CreateTeamReply(int ConnectionID, bool OK, string[] invalidUsernames) {
+        public static void PACKET_CreateTeamReply(int ConnectionID, bool OK, List<string> invalidUsernames) {
             BufferHelper bufferH = new BufferHelper();
             bufferH.WriteInteger((int)ServerPackages.SCreateTeamReply);
 
             bufferH.WriteBool(OK);
             if (OK) {
-                bufferH.WriteInteger(invalidUsernames.Length);
+                bufferH.WriteInteger(invalidUsernames.Count);
                 foreach(string m in invalidUsernames) { bufferH.WriteString(m); }
             }
 

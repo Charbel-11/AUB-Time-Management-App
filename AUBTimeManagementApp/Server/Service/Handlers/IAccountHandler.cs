@@ -12,5 +12,7 @@ namespace Server.Service.Handlers
         bool ConfirmLogIn(string username, string password);
         bool LogOut();
         int ChangePassword(string username, string oldPassword, string newPassword, string confirmPassowrd);
+
+        bool IsRegistered(string username);
     }
 }

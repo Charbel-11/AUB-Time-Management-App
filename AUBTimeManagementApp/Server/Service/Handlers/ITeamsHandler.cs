@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Server.Service.Handlers {
     public interface ITeamsHandler {
-        void CreateTeamRequest(int ConnectionID, string admin, string teamName, string[] members);
+        void CreateTeamRequest(string teamName, string admin, List<string> members);
         bool AddMemberRequest(int ConnectionID, int teamID, string userToAdd);
         bool RemoveMemberRequest(int teamID, string userToRemove);
         bool ChangeAdminState(int teamID, string username, bool isNowAdmin);

@@ -215,6 +215,7 @@ namespace AUBTimeManagementApp.Client {
             bufferH.WriteString(teamName);
             bufferH.WriteString(admin);
             bufferH.WriteInteger(members.Length);
+            
             foreach (string m in members){
                 bufferH.WriteString(m);
             }

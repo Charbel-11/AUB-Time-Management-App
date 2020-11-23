@@ -43,6 +43,10 @@ namespace Server.Service.Handlers
 
             return 1;
         }
+        public bool IsRegistered(string username)
+        {
+            return AccountsStorage.usernameExists(username);
+        }
 
         /// <summary>
         /// Checks if the password entered is valid
