@@ -137,7 +137,19 @@ namespace AUBTimeManagementApp.Service.Storage
         /// </summary>
         /// <returns>The usernames of each member</returns>
         public static string[] getTeamMembers(int teamID) {
-            return new string[] { "q" };
+            List<string> members = new List<string>();
+
+            string connectionString = ConnectionUtil.connectionString;
+            SqlConnection sqlConnection = new SqlConnection(connectionString);
+            sqlConnection.Open();
+            string query = "SELECT UserID FROM isMember WHERE TeamID = @TeamID";
+            SqlCommand command = new SqlCommand(query, sqlConnection);
+            command.Parameters.Add("@TeamID", SqlDbType.Int).Value = teamID;
+            SqlDataReader dataReader = command.ExecuteReader();
+            while (dataReader.Read()) { members.Add(dataReader.GetInt32(0).ToString()); }
+            sqlConnection.Close();
+
+            return members.ToArray();
         }
 
         public static Team getTeamInfo(int teamID) {
@@ -148,6 +160,8 @@ namespace AUBTimeManagementApp.Service.Storage
 
             try
             {
+                /* TODO: Maybe it can be done with a complex query instead of 3 */
+
                 string connectionString = ConnectionUtil.connectionString;
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
                 sqlConnection.Open();
