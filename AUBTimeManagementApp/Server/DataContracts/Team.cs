@@ -15,6 +15,14 @@ namespace Server.DataContracts {
             teamMembers = new List<string>();
             teamAdmin = new List<string>();
         }
+        public Team(int _teamID, string _teamName, List<string> _admins, List<string> _members)
+        {
+            teamID = _teamID;
+            teamName = _teamName;
+            teamMembers = _members;
+            teamAdmin = _admins;
+        }
+
         public void addMember(string username) {
             teamMembers.Add(username);
         }

@@ -326,10 +326,10 @@ namespace Server {
             foreach (string user in validUsernames)
             {
                 if (ServerTCP.UsernameToConnectionID.TryGetValue(user, out int cID))
-                    {
-                        ServerTCP.PACKET_NewTeamCreated(cID, teamName, teamName.GetHashCode(), new string[] { admin }, validUsernames.ToArray());
-                    }
+                {
+                    ServerTCP.PACKET_NewTeamCreated(cID, teamName, teamName.GetHashCode(), new string[] { admin }, validUsernames.ToArray());
                 }
+                
             }
 
             

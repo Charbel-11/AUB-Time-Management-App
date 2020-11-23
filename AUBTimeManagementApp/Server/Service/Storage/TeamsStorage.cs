@@ -118,10 +118,10 @@ namespace AUBTimeManagementApp.Service.Storage
                 string connectionString = ConnectionUtil.connectionString;
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
                 sqlConnection.Open();
-
-                string query = "SELECT TeamID FROM isMember WHERE Username = @Username";
+                int UserID = username.GetHashCode();
+                string query = "SELECT TeamID FROM isMember WHERE UserID = @UserID";
                 SqlCommand command = new SqlCommand(query, sqlConnection);
-                command.Parameters.Add("@Username", SqlDbType.NVarChar).Value = username;
+                command.Parameters.Add("@UserID", SqlDbType.Int).Value = UserID;
                 SqlDataReader dataReader = command.ExecuteReader();
 
                 List<int> teams = new List<int>();
@@ -141,7 +141,51 @@ namespace AUBTimeManagementApp.Service.Storage
         }
 
         public static Team getTeamInfo(int teamID) {
-            return new Team(0, "testTeam");
+
+            string teamName = null;
+            List<string> members = new List<string>();
+            List<string> admins = new List<string>();
+
+            try
+            {
+                string connectionString = ConnectionUtil.connectionString;
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+                sqlConnection.Open();
+                string query = "SELECT TeamName FROM Teams WHERE TeamID = @TeamID";
+                SqlCommand command = new SqlCommand(query, sqlConnection);
+                command.Parameters.Add("@TeamID", SqlDbType.Int).Value = teamID;
+                SqlDataReader dataReader = command.ExecuteReader();
+                while(dataReader.Read()) teamName = dataReader.GetString(0);
+                sqlConnection.Close();
+
+
+                connectionString = ConnectionUtil.connectionString;
+                sqlConnection = new SqlConnection(connectionString);
+                sqlConnection.Open();
+                query = "SELECT UserID FROM isAdmin WHERE TeamID = @TeamID";
+                command = new SqlCommand(query, sqlConnection);
+                command.Parameters.Add("@TeamID", SqlDbType.Int).Value = teamID;
+                dataReader = command.ExecuteReader();
+                while (dataReader.Read()) { admins.Add(dataReader.GetInt32(0).ToString()); }
+                sqlConnection.Close();
+
+                connectionString = ConnectionUtil.connectionString;
+                sqlConnection = new SqlConnection(connectionString);
+                sqlConnection.Open();
+                query = "SELECT UserID FROM isMember WHERE TeamID = @TeamID";
+                command = new SqlCommand(query, sqlConnection);
+                command.Parameters.Add("@TeamID", SqlDbType.Int).Value = teamID;
+                dataReader = command.ExecuteReader();
+                while (dataReader.Read()) { members.Add(dataReader.GetInt32(0).ToString()); }
+                sqlConnection.Close();
+
+
+                return new Team(teamID, teamName, admins, members);
+            }
+            catch (SqlException exception) { Console.WriteLine("getTeamInfo: " + exception.Message); throw; }
+
+
+            
         }
 
         public static List<int> getTeamEvents(int teamID, int priority)

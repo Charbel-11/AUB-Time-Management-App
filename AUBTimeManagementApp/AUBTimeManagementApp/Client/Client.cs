@@ -329,8 +329,6 @@ namespace AUBTimeManagementApp.Client
             this.teams = teams;
         }
 
-
-
         /// <summary>
         /// Gets all the events this user is attending from the server
         /// </summary>
