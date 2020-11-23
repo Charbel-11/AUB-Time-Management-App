@@ -27,7 +27,7 @@ namespace AUBTimeManagementApp.Service.Storage
                 string query = "INSERT INTO Teams(TeamID, TeamName) " +
                                 "VALUES (@TeamID, @TeamName)";
                 SqlCommand command = new SqlCommand(query, sqlConnection);
-                command.Parameters.Add("@TeamID", SqlDbType.NVarChar).Value = teamName.GetHashCode();
+                command.Parameters.Add("@TeamID", SqlDbType.Int).Value = teamName.GetHashCode();
                 command.Parameters.Add("@TeamName", SqlDbType.NVarChar).Value = teamName;
                
                 SqlDataReader dataReader = command.ExecuteReader();
