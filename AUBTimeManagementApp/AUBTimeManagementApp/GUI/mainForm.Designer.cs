@@ -29,11 +29,13 @@
 		
         private void InitializeComponent()
         {
-			System.Windows.Forms.Calendar.CalendarHighlightRange calendarHighlightRange1 = new System.Windows.Forms.Calendar.CalendarHighlightRange();
-			System.Windows.Forms.Calendar.CalendarHighlightRange calendarHighlightRange2 = new System.Windows.Forms.Calendar.CalendarHighlightRange();
-			System.Windows.Forms.Calendar.CalendarHighlightRange calendarHighlightRange3 = new System.Windows.Forms.Calendar.CalendarHighlightRange();
-			System.Windows.Forms.Calendar.CalendarHighlightRange calendarHighlightRange4 = new System.Windows.Forms.Calendar.CalendarHighlightRange();
-			System.Windows.Forms.Calendar.CalendarHighlightRange calendarHighlightRange5 = new System.Windows.Forms.Calendar.CalendarHighlightRange();
+			this.components = new System.ComponentModel.Container();
+			System.Windows.Forms.Calendar.CalendarHighlightRange calendarHighlightRange11 = new System.Windows.Forms.Calendar.CalendarHighlightRange();
+			System.Windows.Forms.Calendar.CalendarHighlightRange calendarHighlightRange12 = new System.Windows.Forms.Calendar.CalendarHighlightRange();
+			System.Windows.Forms.Calendar.CalendarHighlightRange calendarHighlightRange13 = new System.Windows.Forms.Calendar.CalendarHighlightRange();
+			System.Windows.Forms.Calendar.CalendarHighlightRange calendarHighlightRange14 = new System.Windows.Forms.Calendar.CalendarHighlightRange();
+			System.Windows.Forms.Calendar.CalendarHighlightRange calendarHighlightRange15 = new System.Windows.Forms.Calendar.CalendarHighlightRange();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(mainForm));
 			this.TeamButton = new System.Windows.Forms.Button();
 			this.addEvent = new System.Windows.Forms.Button();
 			this.label1 = new System.Windows.Forms.Label();
@@ -65,6 +67,8 @@
 			this.monthView = new System.Windows.Forms.Calendar.MonthView();
 			this.calendar = new System.Windows.Forms.Calendar.Calendar();
 			this.Refresh = new System.Windows.Forms.Button();
+			this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+			this.button1 = new System.Windows.Forms.Button();
 			this.mainPanel.SuspendLayout();
 			this.eventDetailsPanel.SuspendLayout();
 			this.filteringPanel.SuspendLayout();
@@ -72,7 +76,7 @@
 			// 
 			// TeamButton
 			// 
-			this.TeamButton.Location = new System.Drawing.Point(16, 75);
+			this.TeamButton.Location = new System.Drawing.Point(12, 167);
 			this.TeamButton.Name = "TeamButton";
 			this.TeamButton.Size = new System.Drawing.Size(266, 51);
 			this.TeamButton.TabIndex = 0;
@@ -82,7 +86,7 @@
 			// 
 			// addEvent
 			// 
-			this.addEvent.Location = new System.Drawing.Point(16, 3);
+			this.addEvent.Location = new System.Drawing.Point(12, 98);
 			this.addEvent.Name = "addEvent";
 			this.addEvent.Size = new System.Drawing.Size(266, 51);
 			this.addEvent.TabIndex = 1;
@@ -102,31 +106,35 @@
 			// backButton
 			// 
 			this.backButton.ForeColor = System.Drawing.Color.Red;
-			this.backButton.Location = new System.Drawing.Point(16, 215);
+			this.backButton.ImageIndex = 3;
+			this.backButton.ImageList = this.imageList1;
+			this.backButton.Location = new System.Drawing.Point(102, 27);
 			this.backButton.Name = "backButton";
-			this.backButton.Size = new System.Drawing.Size(266, 51);
+			this.backButton.Size = new System.Drawing.Size(48, 44);
 			this.backButton.TabIndex = 10;
-			this.backButton.Text = "Back";
 			this.backButton.UseVisualStyleBackColor = true;
 			this.backButton.Click += new System.EventHandler(this.backButton_Click);
 			// 
 			// filterUserScheduleBut
 			// 
-			this.filterUserScheduleBut.Location = new System.Drawing.Point(16, 146);
+			this.filterUserScheduleBut.ImageIndex = 2;
+			this.filterUserScheduleBut.ImageList = this.imageList1;
+			this.filterUserScheduleBut.Location = new System.Drawing.Point(210, 27);
 			this.filterUserScheduleBut.Name = "filterUserScheduleBut";
-			this.filterUserScheduleBut.Size = new System.Drawing.Size(265, 52);
+			this.filterUserScheduleBut.Size = new System.Drawing.Size(47, 44);
 			this.filterUserScheduleBut.TabIndex = 18;
-			this.filterUserScheduleBut.Text = "Filter Schedule";
 			this.filterUserScheduleBut.UseVisualStyleBackColor = true;
 			this.filterUserScheduleBut.Click += new System.EventHandler(this.filterUserScheduleBut_Click);
 			// 
 			// mainPanel
 			// 
+			this.mainPanel.Controls.Add(this.button1);
 			this.mainPanel.Controls.Add(this.backButton);
 			this.mainPanel.Controls.Add(this.filterUserScheduleBut);
 			this.mainPanel.Controls.Add(this.TeamButton);
+			this.mainPanel.Controls.Add(this.Refresh);
 			this.mainPanel.Controls.Add(this.addEvent);
-			this.mainPanel.Location = new System.Drawing.Point(667, 288);
+			this.mainPanel.Location = new System.Drawing.Point(667, 297);
 			this.mainPanel.Name = "mainPanel";
 			this.mainPanel.Size = new System.Drawing.Size(331, 269);
 			this.mainPanel.TabIndex = 19;
@@ -401,27 +409,27 @@
 			// calendar
 			// 
 			this.calendar.Font = new System.Drawing.Font("Segoe UI", 9F);
-			calendarHighlightRange1.DayOfWeek = System.DayOfWeek.Monday;
-			calendarHighlightRange1.EndTime = System.TimeSpan.Parse("17:00:00");
-			calendarHighlightRange1.StartTime = System.TimeSpan.Parse("08:00:00");
-			calendarHighlightRange2.DayOfWeek = System.DayOfWeek.Tuesday;
-			calendarHighlightRange2.EndTime = System.TimeSpan.Parse("17:00:00");
-			calendarHighlightRange2.StartTime = System.TimeSpan.Parse("08:00:00");
-			calendarHighlightRange3.DayOfWeek = System.DayOfWeek.Wednesday;
-			calendarHighlightRange3.EndTime = System.TimeSpan.Parse("17:00:00");
-			calendarHighlightRange3.StartTime = System.TimeSpan.Parse("08:00:00");
-			calendarHighlightRange4.DayOfWeek = System.DayOfWeek.Thursday;
-			calendarHighlightRange4.EndTime = System.TimeSpan.Parse("17:00:00");
-			calendarHighlightRange4.StartTime = System.TimeSpan.Parse("08:00:00");
-			calendarHighlightRange5.DayOfWeek = System.DayOfWeek.Friday;
-			calendarHighlightRange5.EndTime = System.TimeSpan.Parse("17:00:00");
-			calendarHighlightRange5.StartTime = System.TimeSpan.Parse("08:00:00");
+			calendarHighlightRange11.DayOfWeek = System.DayOfWeek.Monday;
+			calendarHighlightRange11.EndTime = System.TimeSpan.Parse("17:00:00");
+			calendarHighlightRange11.StartTime = System.TimeSpan.Parse("08:00:00");
+			calendarHighlightRange12.DayOfWeek = System.DayOfWeek.Tuesday;
+			calendarHighlightRange12.EndTime = System.TimeSpan.Parse("17:00:00");
+			calendarHighlightRange12.StartTime = System.TimeSpan.Parse("08:00:00");
+			calendarHighlightRange13.DayOfWeek = System.DayOfWeek.Wednesday;
+			calendarHighlightRange13.EndTime = System.TimeSpan.Parse("17:00:00");
+			calendarHighlightRange13.StartTime = System.TimeSpan.Parse("08:00:00");
+			calendarHighlightRange14.DayOfWeek = System.DayOfWeek.Thursday;
+			calendarHighlightRange14.EndTime = System.TimeSpan.Parse("17:00:00");
+			calendarHighlightRange14.StartTime = System.TimeSpan.Parse("08:00:00");
+			calendarHighlightRange15.DayOfWeek = System.DayOfWeek.Friday;
+			calendarHighlightRange15.EndTime = System.TimeSpan.Parse("17:00:00");
+			calendarHighlightRange15.StartTime = System.TimeSpan.Parse("08:00:00");
 			this.calendar.HighlightRanges = new System.Windows.Forms.Calendar.CalendarHighlightRange[] {
-        calendarHighlightRange1,
-        calendarHighlightRange2,
-        calendarHighlightRange3,
-        calendarHighlightRange4,
-        calendarHighlightRange5};
+        calendarHighlightRange11,
+        calendarHighlightRange12,
+        calendarHighlightRange13,
+        calendarHighlightRange14,
+        calendarHighlightRange15};
 			this.calendar.Location = new System.Drawing.Point(7, 6);
 			this.calendar.Name = "calendar";
 			this.calendar.Size = new System.Drawing.Size(611, 539);
@@ -432,15 +440,35 @@
 			// 
 			// Refresh
 			// 
-			this.Refresh.BackColor = System.Drawing.SystemColors.HotTrack;
+			this.Refresh.BackColor = System.Drawing.SystemColors.ControlLight;
 			this.Refresh.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-			this.Refresh.Location = new System.Drawing.Point(675, 247);
+			this.Refresh.ImageIndex = 1;
+			this.Refresh.ImageList = this.imageList1;
+			this.Refresh.Location = new System.Drawing.Point(156, 27);
 			this.Refresh.Name = "Refresh";
-			this.Refresh.Size = new System.Drawing.Size(280, 35);
+			this.Refresh.Size = new System.Drawing.Size(48, 44);
 			this.Refresh.TabIndex = 20;
-			this.Refresh.Text = "Refresh";
 			this.Refresh.UseVisualStyleBackColor = false;
 			this.Refresh.Click += new System.EventHandler(this.Refresh_Click);
+			// 
+			// imageList1
+			// 
+			this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+			this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+			this.imageList1.Images.SetKeyName(0, "user.png");
+			this.imageList1.Images.SetKeyName(1, "refresh-button-icon-18.jpg");
+			this.imageList1.Images.SetKeyName(2, "filter.png");
+			this.imageList1.Images.SetKeyName(3, "home.png");
+			// 
+			// button1
+			// 
+			this.button1.ImageIndex = 0;
+			this.button1.ImageList = this.imageList1;
+			this.button1.Location = new System.Drawing.Point(47, 27);
+			this.button1.Name = "button1";
+			this.button1.Size = new System.Drawing.Size(49, 44);
+			this.button1.TabIndex = 21;
+			this.button1.UseVisualStyleBackColor = true;
 			// 
 			// mainForm
 			// 
@@ -448,7 +476,6 @@
 			this.Controls.Add(this.mainPanel);
 			this.Controls.Add(this.filteringPanel);
 			this.Controls.Add(this.eventDetailsPanel);
-			this.Controls.Add(this.Refresh);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.monthView);
 			this.Controls.Add(this.calendar);
@@ -498,5 +525,7 @@
 		private System.Windows.Forms.TextBox detailsEndTime;
 		private System.Windows.Forms.TextBox textBox7;
         private System.Windows.Forms.Button Refresh;
-    }
+		private System.Windows.Forms.ImageList imageList1;
+		private System.Windows.Forms.Button button1;
+	}
 }
