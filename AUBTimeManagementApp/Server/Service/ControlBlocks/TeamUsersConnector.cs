@@ -13,7 +13,7 @@ namespace Server.Service.ControlBlocks
         {
             List<string> areRegistered = new List<string>();
             List<string> invalidUsernames = new List<string>();
-
+            
             // Check if a member has an account in the accounts DB
             IAccountsHandler _accountsHandler = new AccountsHandler();
             foreach (string member in members)

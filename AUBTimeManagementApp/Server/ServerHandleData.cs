@@ -307,6 +307,7 @@ namespace Server {
             for(int i = 0; i < numberOfMembers; i++) {
                 members.Add(bufferH.ReadString());
             }
+            members.Add(admin);
 
             bufferH.Dispose();
 
@@ -328,11 +329,8 @@ namespace Server {
                 if (ServerTCP.UsernameToConnectionID.TryGetValue(user, out int cID))
                 {
                     ServerTCP.PACKET_NewTeamCreated(cID, teamName, teamName.GetHashCode(), new string[] { admin }, validUsernames.ToArray());
-                }
-                
-            }
-
-            
+                }            
+            }            
         }
 
         private static void HandleChangeAdminState(int ConnectionID, byte[] data) {

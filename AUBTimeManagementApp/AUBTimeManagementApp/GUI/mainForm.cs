@@ -188,5 +188,5 @@ namespace AUBTimeManagementApp.GUI
             addedItem.eventID = eventID;
             
 		}
-	}
+    }
 }
