@@ -77,24 +77,24 @@ namespace AUBTimeManagementApp.GUI
 			{
                 mainPanel.Hide();
                 eventDetailsPanel.Show();
-                string nameAndPriority = selectedItem.Text;
-                detailsEventName.Text = nameAndPriority.Remove(nameAndPriority.Length - 1, 1);
-                detailsStartTime.Text = selectedItem.StartDate.ToString();
-                detailsEndTime.Text = selectedItem.EndDate.ToString();
-                string priority;
-                if(nameAndPriority[nameAndPriority.Length - 1] == '1')
+                detailsEventName.Text = selectedItem.Text;
+                dateTimePickerStart.Value = selectedItem.StartDate;
+                dateTimePickerEnd.Value = selectedItem.EndDate;
+                //detailsEndTime.Text = selectedItem.EndDate.ToString();
+               /* string priority;
+                if(selectedItem.priority == 1)
 				{
                     priority = "Low";
 				}
-                else if(nameAndPriority[nameAndPriority.Length - 1] == '2')
+                else if(selectedItem.priority == 2)
 				{
                     priority = "Medium";
 				}
 				else
 				{
                     priority = "High";
-                }
-                detailsPriority.Text = priority;
+                }*/
+                ModifyPriority.Value = selectedItem.priority;
                 //detailsPriority.Text = selectedItem.eventID.ToString();
                 selectedItemID = selectedItem.eventID;
 			}
@@ -161,12 +161,16 @@ namespace AUBTimeManagementApp.GUI
 		{
             //Confirm that the user wnats to delete the event.
             var result = MessageBox.Show("Are you sure you would like to save the changes to this event?",
-                "Delete Event", MessageBoxButtons.YesNo);
+                "Modify Event", MessageBoxButtons.YesNo);
             //If the yes button is pressed delete event
             if (result == DialogResult.Yes)
             {
-                //get text from text boxes and make event
-                //Client.Client.Instance.ModifyPersonalEvent(updatedEvent);
+                Event updatedEvent = new Event(selectedItem.eventID,ModifyPriority.Value, _username, detailsEventName.Text, dateTimePickerStart.Value, dateTimePickerEnd.Value);
+                _items.Remove(selectedItem);
+                calendar.Items.Remove(selectedItem);
+                _items.Add(new CalendarItem(calendar, updatedEvent.startTime, updatedEvent.endTime, updatedEvent.eventName, updatedEvent.ID, updatedEvent.priority));
+                PlaceItems();
+                Client.Client.Instance.ModifyPersonalEvent(updatedEvent);
             }
         }
 
@@ -188,5 +192,5 @@ namespace AUBTimeManagementApp.GUI
             addedItem.eventID = eventID;
             
 		}
-    }
+	}
 }

@@ -72,7 +72,11 @@ namespace Server.Service.ControlBlocks
 
         public void UpdatePersonalEvent(Event updatedEvent)
         {
-
+            //Check for timr conflict if we decide to do something in case of conflict
+            //if not move function to eventsHandler no need for connector.
+            Console.WriteLine("server is updating the event with ID = "+updatedEvent.ID);
+            IEventsHandler _eventsHandler = new EventsHandler();
+            _eventsHandler.UpdateEvent(updatedEvent);
         }
 
         public List<Event> GetEventsInDetail(string username)

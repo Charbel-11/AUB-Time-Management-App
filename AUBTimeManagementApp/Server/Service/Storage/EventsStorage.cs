@@ -175,9 +175,9 @@ namespace AUBTimeManagementApp.Service.Storage
                 command.Parameters.Add("@start", SqlDbType.DateTime).Value = _event.startTime;
                 command.Parameters.Add("@end", SqlDbType.DateTime).Value = _event.endTime;
                 command.Parameters.Add("@priority", SqlDbType.Int).Value = _event.priority;
-                command.Parameters.Add("@plannerUsername", SqlDbType.Int).Value = _event.plannerUsername;
+                command.Parameters.Add("@plannerUsername", SqlDbType.NVarChar).Value = _event.plannerUsername;
                 SqlDataReader dataReader = command.ExecuteReader();
-
+                Console.WriteLine("Updated event in db");
 
                 command.Parameters.Clear(); sqlConnection.Close();
             }

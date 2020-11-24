@@ -80,11 +80,11 @@ namespace Server.Service.Handlers
         /// <returns></returns>
         public void UpdateEvent(Event updatedEvent)
 		{
-            //get event from db
-            Event oldEvent = GetEvent(updatedEvent.ID);
-            // get event info to be updated (time, name, priority, attendees)
-            //check for conflict with the conflict checker only if there is a time update
-            //update event info in event storage if no time conflict
+            // we eant to check for conflict get start and end time of odl event and
+            // return a boolean indicating wether there was a time change
+
+            //update event in events table
+            _eventsStorage.UpdateEvent(updatedEvent);
 		}
 
         public List<Event> GetEventList(List<int> eventsIDs)

@@ -294,7 +294,7 @@ namespace AUBTimeManagementApp.Client {
         public static void Packet_ModifyPersonalEvent(Event updatedEvent)
         {
             BufferHelper bufferH = new BufferHelper();
-            bufferH.WriteInteger((int)ClientPackages.CCreatePersonalEvent);
+            bufferH.WriteInteger((int)ClientPackages.CModifyPersonalEvent);
 
             bufferH.WriteInteger(updatedEvent.ID);
             bufferH.WriteString(updatedEvent.eventName);

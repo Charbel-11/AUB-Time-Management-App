@@ -445,7 +445,7 @@ namespace Server {
             IEventScheduleConnector _eventScheduleConnector= new EventScheduleConnector();
             _eventScheduleConnector.UpdatePersonalEvent(updatedEvent);
 
-            ServerTCP.PACKET_CancelPersonalEvent(ConnectionID, true);
+            //ServerTCP.PACKET_CancelPersonalEvent(ConnectionID, true);
         }
     }
 }
