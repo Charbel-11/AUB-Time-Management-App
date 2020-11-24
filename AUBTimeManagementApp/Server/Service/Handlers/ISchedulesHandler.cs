@@ -12,7 +12,7 @@ namespace Server.Service.Handlers
         List<int> GetUserSchedule(string userID);
         void AddEventToList(string username, int eventID);
         List<int> GetTeamSchedule(int teamID);
-        bool RemoveEventFromList(string username, int eventID);
+        void RemoveEventFromList(string username, int eventID);
         bool[,] GetFreeTime(List<Schedule> membersSchedule, DateTime startDate, DateTime endDate,
             DateTime startTime, DateTime endTime, int countThreshold, int priorityThreshold);
     }

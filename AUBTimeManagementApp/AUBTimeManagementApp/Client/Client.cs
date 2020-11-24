@@ -19,6 +19,7 @@ namespace AUBTimeManagementApp.Client
         public int teamID = 0;
         private List<Team> teams;   //Might need to make it thread safe (consider case where members of same team add other members or delete or ..., we get asynchronous requests to change teams)
         private List<Event> events;
+        private Event addedEvent;
 
         //Connects the users to the active open form
         public RegistrationForm registrationForm { get; private set; }
@@ -83,13 +84,13 @@ namespace AUBTimeManagementApp.Client
 
         public void ShowEvent(Event _event)
         {
-            showEvent(_event.eventName, _event.priority, _event.startTime, _event.endTime);
+            showEvent(_event.ID, _event.eventName, _event.priority, _event.startTime, _event.endTime);
         }
 
         /* This function displays the event details for the user */
-        public void showEvent(string eventName, int priority, DateTime startDate, DateTime endDate) {
+        public void showEvent(int eventID, string eventName, int priority, DateTime startDate, DateTime endDate) {
             
-            mainForm.displayEvent(eventName, priority, startDate, endDate);
+            mainForm.displayEvent(eventID, eventName, priority, startDate, endDate);
         }
 
 		#region Account
@@ -134,21 +135,28 @@ namespace AUBTimeManagementApp.Client
 
         public void CreatePersonalEvent(string eventName, int priority, DateTime start, DateTime end)
         {
+            //addedEvent = new Event(0, priority, " ", eventName, start, end);
             ClientTCP.PACKET_CreatePersonalEvent(username, eventName, priority, start, end);
-;        }
+;       }
 
-		/// <summary>
-		/// remove event from user's schedule
-		/// </summary>
-		/// <param name="eventID"></param>
-		public void CancelPersonalEvent(int eventID)
+        public void CreatePersonalEventReply(int eventID)
+        {
+            //addedEvent.ID = eventID;
+            //ShowEvent(addedEvent);
+            mainForm.updateEventID(eventID);
+        }
+
+        /// <summary>
+        /// remove event from user's schedule
+        /// </summary>
+        /// <param name="eventID"></param>
+        public void CancelPersonalEvent(int eventID)
         {
             ClientTCP.PACKET_CancelPersonalEvent(username, eventID);
         }
 
         public void personalEventCanceled(bool isCanceled)
         {
-
         }
 
         /// <summary>
@@ -341,22 +349,23 @@ namespace AUBTimeManagementApp.Client
 		{
             for (int i = 0; i < n; i++)
             {
+                int eventID = eventsList[i].ID;
                 string name = eventsList[i].eventName;
                 int priority = eventsList[i].priority;
                 DateTime start = eventsList[i].startTime;
                 DateTime end = eventsList[i].endTime;
-
+                
                 if (mainForm.InvokeRequired)
                 {
                     //We are calling a method of the form from a different thread
                     //Need to use invoke to make it threadsafe
-                    mainForm.Invoke(new MethodInvoker(delegate { mainForm.displayEvent(name, priority, start, end); }));
+                    mainForm.Invoke(new MethodInvoker(delegate { mainForm.displayEvent(eventID, name, priority, start, end); }));
                 }
 
-                else { mainForm.displayEvent(name, priority, start, end); }
+                else { mainForm.displayEvent(eventID, name, priority, start, end); }
             }
         }
-
+        
         /// <summary>
         /// Get all the events scheduled for this team form the server
         /// </summary>
@@ -383,6 +392,7 @@ namespace AUBTimeManagementApp.Client
         {
             for (int i = 0; i < n; i++)
             {
+                int eventID = eventsList[i].ID;
                 string name = eventsList[i].eventName;
                 int priority = eventsList[i].priority;
                 DateTime start = eventsList[i].startTime;
@@ -392,10 +402,10 @@ namespace AUBTimeManagementApp.Client
                 {
                     //We are calling a method of the form from a different thread
                     //Need to use invoke to make it threadsafe
-                    mainForm.Invoke(new MethodInvoker(delegate { mainForm.displayEvent(name, priority, start, end); }));
+                    mainForm.Invoke(new MethodInvoker(delegate { mainForm.displayEvent(eventID, name, priority, start, end); }));
                 }
 
-                else { mainForm.displayEvent(name, priority, start, end); }
+                else { mainForm.displayEvent(eventID, name, priority, start, end); }
             }
         }
 

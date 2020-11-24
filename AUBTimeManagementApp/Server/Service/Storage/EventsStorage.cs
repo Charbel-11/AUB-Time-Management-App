@@ -128,6 +128,7 @@ namespace AUBTimeManagementApp.Service.Storage
                 command.Parameters.Add("@PlannerUsername", SqlDbType.NVarChar).Value = _event.plannerUsername;
                 SqlDataReader dataReader = command.ExecuteReader();
 
+                Console.WriteLine("Added event with id = " + _eventID);
                 command.Parameters.Clear(); sqlConnection.Close(); 
             }
             catch (SqlException exception) { Console.WriteLine("AddEvent: " + exception.Message); throw; }
@@ -150,7 +151,7 @@ namespace AUBTimeManagementApp.Service.Storage
                 command.Parameters.Add("@eventID", SqlDbType.Int).Value = eventID;
                 SqlDataReader dataReader = command.ExecuteReader();
 
-
+                Console.WriteLine("Removed the event with ID = " + eventID + " from the events table");
                 command.Parameters.Clear(); sqlConnection.Close();
             }
             catch (SqlException exception) { Console.WriteLine("RemoveEvent: " + exception.Message); throw; }

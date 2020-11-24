@@ -55,6 +55,12 @@ namespace System.Windows.Forms.Calendar
         private string _text;
         #endregion
 
+        #region modified
+        public int eventID { get; set; }
+        public int priority { get; set; }
+
+        #endregion
+
         #region Ctor
 
         /// <summary>
@@ -80,12 +86,14 @@ namespace System.Windows.Forms.Calendar
         /// <param name="startDate">Start date of the item</param>
         /// <param name="endDate">End date of the item</param>
         /// <param name="text">Text of the item</param>
-        public CalendarItem(Calendar calendar, DateTime startDate, DateTime endDate, string text)
+        public CalendarItem(Calendar calendar, DateTime startDate, DateTime endDate, string text, int _eventID, int _priority)
             : this(calendar)
         {
             StartDate = startDate;
             EndDate = endDate;
             Text = text;
+            eventID = _eventID;
+            priority = _priority;
         }
 
         /// <summary>
@@ -95,10 +103,10 @@ namespace System.Windows.Forms.Calendar
         /// <param name="startDate">Start date of the item</param>
         /// <param name="duration">Duration of the item</param>
         /// <param name="text">Text of the item</param>
-        public CalendarItem(Calendar calendar, DateTime startDate, TimeSpan duration, string text)
+       /* public CalendarItem(Calendar calendar, DateTime startDate, TimeSpan duration, string text)
             : this(calendar, startDate, startDate.Add(duration), text)
         { }
-
+        */
         #endregion
 
         #region Properties

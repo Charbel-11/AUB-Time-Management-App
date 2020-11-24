@@ -291,6 +291,17 @@ namespace Server {
             bufferH.Dispose();
         }
 
+        public static void PACKET_CreatePersonalEventReply(int ConnectionID, int eventID)
+		{
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteInteger((int)ServerPackages.SCreatePersonalEventReply);
+
+            bufferH.WriteInteger(eventID);
+
+            SendDataTo(ConnectionID, bufferH.ToArray());
+            bufferH.Dispose();
+        }
+
         public static void PACKET_CancelPersonalEvent(int ConnectionID, bool isCanceled)
         {
             BufferHelper bufferH = new BufferHelper();

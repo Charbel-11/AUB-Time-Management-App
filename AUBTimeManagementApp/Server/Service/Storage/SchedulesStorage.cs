@@ -50,10 +50,28 @@ namespace AUBTimeManagementApp.Service.Storage
         /// delete eventID from user schedule with ID = userID
         /// </summary>
         /// <returns> return true if successful, false otherwise </returns>
-        public void DelFromPersonalSchedule(string UserID, int EventID)
+        public void DelFromPersonalSchedule(string username, int eventID)
         {
-            
+            try
+            {
+                string connectionString = ConnectionUtil.connectionString;
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+                sqlConnection.Open();
+
+                string query = "Delete From isUserAttendee WHERE EventID = @EventID AND Username = @Username";
+
+                SqlCommand command = new SqlCommand(query, sqlConnection);
+
+                command.Parameters.Add("@EventID", SqlDbType.Int).Value = eventID;
+                command.Parameters.Add("@Username", SqlDbType.NVarChar).Value = username;
+                SqlDataReader dataReader = command.ExecuteReader();
+
+                Console.WriteLine("Removed event with eventID = " + eventID + " from user schedule");
+                command.Parameters.Clear(); sqlConnection.Close();
+            }
+            catch (SqlException exception) { Console.WriteLine("DeleteFromPersonalSchedule: " + exception.Message); throw; }
         }
+
 
         /// <summary>
         /// Get list of event IDs from isAttendee with userID = username

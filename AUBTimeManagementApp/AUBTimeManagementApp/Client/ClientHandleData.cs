@@ -39,11 +39,13 @@ namespace AUBTimeManagementApp.Client {
         private static void HandleCreatePersonalEventReply(byte[] Data)
         {
             BufferHelper bufferH = new BufferHelper();
-            bufferH.WriteBytes(Data);    
-            // Read verification result from server
+            bufferH.WriteBytes(Data);
+            int eventID = bufferH.ReadInteger();
+            /*// Read verification result from server
             int isCreated = bufferH.ReadInteger();
-            // TODO: Display something to the user
+            // TODO: Display something to the user*/
 
+            Client.Instance.CreatePersonalEventReply(eventID);
             bufferH.Dispose();
         }
 

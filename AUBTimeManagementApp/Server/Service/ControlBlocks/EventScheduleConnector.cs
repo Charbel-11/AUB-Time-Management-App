@@ -13,6 +13,10 @@ namespace Server.Service.ControlBlocks
     {
         public void AddPersonalEvent(string username, Event _event)
         {
+            //Commented throw exception cause we need to always return the id of the added event to the client.
+            // maybe we don't need to check for conflict if we're not gonna anything with the list of conflicting events
+            
+            
             //check for conflict with the conflict checker
             IConflictChecker conflictChecker = new ConflictChecker();
             List<int> conflictingEvents = conflictChecker.ConflictExists(username, _event);
@@ -26,10 +30,10 @@ namespace Server.Service.ControlBlocks
             IEventsHandler _eventsHandler = new EventsHandler();
             _eventsHandler.CreateEvent(_event);
 
-            if (conflictingEvents.Count != 0)
+           /* if (conflictingEvents.Count != 0)
             {
                 throw new ConflictException("Conflict", conflictingEvents);
-            }
+            }*/
             Console.WriteLine("Event was added"); 
         }
 
@@ -39,12 +43,18 @@ namespace Server.Service.ControlBlocks
             ISchedulesHandler _schedulesHandler = new SchedulesHandler();
             List<int> eventsIds = _schedulesHandler.GetUserSchedule(username);
             Console.WriteLine("Now we're gonna retrieve" + eventsIds.Count.ToString() + "events");
-            // Add event to the events tables
-            IEventsHandler _eventsHandler = new EventsHandler();
-            List<Event> _events = _eventsHandler.GetEventList(eventsIds);
-            Console.WriteLine("We retrieved" + _events.Count.ToString() + "events");
-            return _events;
+            
+            //Check if List is empty before getting the events details
+            List<Event> _events = new List<Event>();
+            if(eventsIds.Count()!= 0)
+			{
+                //Get events from the events tables
+                IEventsHandler _eventsHandler = new EventsHandler();
+                _events = _eventsHandler.GetEventList(eventsIds);
+                Console.WriteLine("We retrieved" + _events.Count.ToString() + "events");
+            }
 
+            return _events;
         }
         public Event GetPersonalEventInDetail(int eventID)
         {
@@ -53,7 +63,11 @@ namespace Server.Service.ControlBlocks
         }
         public void CancelPersonalEvent(string username, int eventID)
         {
+            ISchedulesHandler _schedulesHandler = new SchedulesHandler();
+            _schedulesHandler.RemoveEventFromList(username, eventID);
 
+            IEventsHandler _eventsHandler = new EventsHandler();
+            _eventsHandler.CancelEvent(eventID);
         }
 
         public void UpdatePersonalEvent(Event updatedEvent)

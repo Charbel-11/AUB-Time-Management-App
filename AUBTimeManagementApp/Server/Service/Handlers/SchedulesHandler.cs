@@ -29,11 +29,12 @@ namespace Server.Service.Handlers {
             
 		}
 
-        public bool RemoveEventFromList(string username, int eventID) {
+        public void RemoveEventFromList(string username, int eventID) {
             //gets username abd event ID
             //when user cancels event remove it from his schedule
-            return false;
-		}
+            SchedulesStorage _schedulesStorage = new SchedulesStorage();
+            _schedulesStorage.DelFromPersonalSchedule(username, eventID);
+        }
 
         /// <summary>
         /// Finds free time slots in multiple schedules

@@ -15,6 +15,8 @@ namespace AUBTimeManagementApp.GUI
     public partial class mainForm : Form {
         List<CalendarItem> _items = new List<CalendarItem>();   //Maybe we should put this in the client code (took it from the demo)
         string _username;
+        int selectedItemID;
+        CalendarItem selectedItem;
         public mainForm(string username = null) {
             Client.Client.Instance.setForm(this);
             _username = username;
@@ -28,8 +30,8 @@ namespace AUBTimeManagementApp.GUI
         public void displayTeam(string newTeam, string newMembers) {
         }
 
-        public void displayEvent(string eventName, int priority, DateTime startDate, DateTime endDate) {
-            CalendarItem curEvent = new CalendarItem(calendar, startDate, endDate, eventName + " " + priority);
+        public void displayEvent(int eventID, string eventName, int priority, DateTime startDate, DateTime endDate) {
+            CalendarItem curEvent = new CalendarItem(calendar, startDate, endDate, eventName, eventID, priority);
             calendar.Items.Add(curEvent);
             _items.Add(curEvent);
         }
@@ -65,7 +67,7 @@ namespace AUBTimeManagementApp.GUI
         private void calendar_ItemDoubleClick(object sender, CalendarItemEventArgs e) {
             //NOT SURE IT'S CORRECT
             //Check if event already exists at this time, if so open its description
-            CalendarItem selectedItem = e.Item;
+            selectedItem = e.Item;
             if(selectedItem.Selected)
 			{
                 mainPanel.Hide();
@@ -88,6 +90,8 @@ namespace AUBTimeManagementApp.GUI
                     priority = "High";
                 }
                 detailsPriority.Text = priority;
+                //detailsPriority.Text = selectedItem.eventID.ToString();
+                selectedItemID = selectedItem.eventID;
 			}
             //Else:
             else
@@ -140,11 +144,14 @@ namespace AUBTimeManagementApp.GUI
                 "Delete Event", MessageBoxButtons.YesNo);
             //If the yes button is pressed delete event
             if (result == DialogResult.Yes)
-			{
-               //Client.Client.Instance.CancelPersonalEvent(eventID);
+            { 
+               Client.Client.Instance.CancelPersonalEvent(selectedItemID);
+               eventDetailsPanel.Hide();
+                mainPanel.Show();
+                _items.Remove(selectedItem);
+                calendar.Items.Remove(selectedItem);
             }
         }
-
 		private void ModifyEventBut_Click(object sender, EventArgs e)
 		{
             //Confirm that the user wnats to delete the event.
@@ -169,5 +176,12 @@ namespace AUBTimeManagementApp.GUI
             calendar.Items.Clear();
             Client.Client.Instance.GetUserSchedule();
         }
+
+        public void updateEventID(int eventID)
+		{
+            CalendarItem addedItem = _items[_items.Count() - 1];
+            addedItem.eventID = eventID;
+            
+		}
 	}
 }

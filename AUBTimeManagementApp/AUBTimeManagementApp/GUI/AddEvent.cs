@@ -28,7 +28,7 @@ namespace AUBTimeManagementApp.GUI
 
         private void createButton_Click(object sender, EventArgs e)
         {
-            Client.Client.Instance.showEvent(eventName.Text, priority.Value, startDate.Value, endDate.Value);
+            Client.Client.Instance.showEvent(0,eventName.Text, priority.Value, startDate.Value, endDate.Value);
             Client.Client.Instance.CreatePersonalEvent(eventName.Text, priority.Value, startDate.Value, endDate.Value);
             Close();
         }

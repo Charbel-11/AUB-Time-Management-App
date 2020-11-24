@@ -282,7 +282,7 @@ namespace AUBTimeManagementApp.Client {
         public static void PACKET_CancelPersonalEvent(string username, int eventID)
         {
             BufferHelper bufferH = new BufferHelper();
-            bufferH.WriteInteger((int)ClientPackages.CCreatePersonalEvent);
+            bufferH.WriteInteger((int)ClientPackages.CCancelPersonalEvent);
 
             bufferH.WriteString(username);
             bufferH.WriteInteger(eventID);
