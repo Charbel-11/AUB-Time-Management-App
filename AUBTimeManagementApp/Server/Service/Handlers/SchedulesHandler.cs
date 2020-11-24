@@ -8,18 +8,14 @@ using Server.DataContracts;
 namespace Server.Service.Handlers {
     public class SchedulesHandler : ISchedulesHandler{
 
-        public List<int> GetUserSchedule(string username) {
+
+		#region userSchedule
+
+		public List<int> GetUserSchedule(string username) {
             // get a list of event IDs that the user is attending
             SchedulesStorage _schedulesStorage = new SchedulesStorage();
             List<int> eventList = _schedulesStorage.GetPersonalSchedule(username);
-            Console.WriteLine("Getting the schedule!");
-            return eventList;
-        }
-
-        public List<int> GetTeamSchedule(int teamID)
-        {
-            //get a list of event IDs that are scheduled for this team
-            List<int> eventList =  SchedulesStorage.GetTeamSchedule(teamID);
+            Console.WriteLine("Getting the user schedule!");
             return eventList;
         }
 
@@ -34,6 +30,34 @@ namespace Server.Service.Handlers {
             //when user cancels event remove it from his schedule
             SchedulesStorage _schedulesStorage = new SchedulesStorage();
             _schedulesStorage.DelFromPersonalSchedule(username, eventID);
+        }
+
+        #endregion
+
+        #region teamSchedule
+
+        public List<int> GetTeamSchedule(int teamID)
+        {
+            //get a list of event IDs that are scheduled for this team
+            SchedulesStorage _schedulesStorage = new SchedulesStorage();
+            List<int> eventList = _schedulesStorage.GetTeamSchedule(teamID);
+            Console.WriteLine("Getting the team schedule!");
+            return eventList;
+        }
+
+        public void AddEventToTeamList(int teamID, int eventID)
+        {
+            SchedulesStorage _scheduleStorage = new SchedulesStorage();
+            _scheduleStorage.AddToTeamSchedule(teamID, eventID);
+
+        }
+
+        public void RemoveEventFromTeamList(int teamID, int eventID)
+        {
+            //gets username abd event ID
+            //when user cancels event remove it from his schedule
+            SchedulesStorage _schedulesStorage = new SchedulesStorage();
+            _schedulesStorage.DelFromTeamSchedule(teamID, eventID);
         }
 
         /// <summary>
@@ -110,5 +134,7 @@ namespace Server.Service.Handlers {
 
             return mergedSchedule;
         }
-    }
+
+		#endregion
+	}
 }

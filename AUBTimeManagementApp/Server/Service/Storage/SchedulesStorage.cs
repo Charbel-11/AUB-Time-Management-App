@@ -9,13 +9,13 @@ namespace AUBTimeManagementApp.Service.Storage
 {
     public class SchedulesStorage
     {
-        /********************user schedule********************/
+		#region personal Schedule
 
-        /// <summary>
-        /// check if user is atteding any event in isAttendee
-        /// </summary>
-        /// <returns> return true if found, return false otherwise</returns>
-        public bool PersonalScheduleExists(string UserID)
+		/// <summary>
+		/// check if user is atteding any event in isAttendee
+		/// </summary>
+		/// <returns> return true if found, return false otherwise</returns>
+		public bool PersonalScheduleExists(string UserID)
         {
             return true;
         }
@@ -102,14 +102,15 @@ namespace AUBTimeManagementApp.Service.Storage
 
         }
 
+		#endregion
 
-        /********************team schedule********************/
+		#region Team Schedule
 
-        /// <summary>
-        /// check if team schedule with ID = teamID exists
-        /// </summary>
-        /// <returns> return true if found, return false otherwise</returns>
-        public static bool TeamScheduleExists(int TeamID)
+		/// <summary>
+		/// check if team schedule with ID = teamID exists
+		/// </summary>
+		/// <returns> return true if found, return false otherwise</returns>
+		public static bool TeamScheduleExists(int TeamID)
         {
             return true;
         }
@@ -118,29 +119,83 @@ namespace AUBTimeManagementApp.Service.Storage
         /// add eventID to team schedule with ID = teamID
         /// </summary>
         /// <returns> return true if successful, false otherwise </returns>
-        public static bool AddToTeamSchedule(int TeamID, int EventID)
+        public void AddToTeamSchedule(int teamID, int eventID)
         {
-            return true;
+            try
+            {
+                string connectionString = ConnectionUtil.connectionString;
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+                sqlConnection.Open();
+
+                string query = "INSERT INTO isTeamAttendee(EventID, TeamID) " +
+                                "VALUES (@EventID, @TeamID)";
+
+                SqlCommand command = new SqlCommand(query, sqlConnection);
+
+                command.Parameters.Add("@EventID", SqlDbType.Int).Value = eventID;
+                command.Parameters.Add("@TeamID", SqlDbType.NVarChar).Value = teamID;
+                SqlDataReader dataReader = command.ExecuteReader();
+                Console.WriteLine("Event added to team schedule");
+
+                command.Parameters.Clear(); sqlConnection.Close();
+            }
+            catch (SqlException exception) { Console.WriteLine("AddToTeamSchedule: " + exception.Message); throw; }
         }
 
         /// <summary>
         /// delete eventID from team schedule with ID = teamID
         /// </summary>
         /// <returns> return true if successful, false otherwise </returns>
-        public static bool DelFromTeamSchedule(int TeamID, int EventID)
+        public void DelFromTeamSchedule(int teamID, int eventID)
         {
-            return true;
+            try
+            {
+                string connectionString = ConnectionUtil.connectionString;
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+                sqlConnection.Open();
+
+                string query = "Delete From isTeamAttendee WHERE EventID = @EventID AND TeamID = @TeamID";
+
+                SqlCommand command = new SqlCommand(query, sqlConnection);
+
+                command.Parameters.Add("@EventID", SqlDbType.Int).Value = eventID;
+                command.Parameters.Add("@TeamID", SqlDbType.NVarChar).Value = teamID;
+                SqlDataReader dataReader = command.ExecuteReader();
+
+                Console.WriteLine("Removed event with eventID = " + eventID + " from team schedule");
+                command.Parameters.Clear(); sqlConnection.Close();
+            }
+            catch (SqlException exception) { Console.WriteLine("DeleteFromTeamSchedule: " + exception.Message); throw; }
         }
 
         /// <summary>
         /// Get list of event IDs from team schedule with ID = teamID
         /// </summary>
         /// <returns> returns a list of IDs of all events in the schedule of the team </returns>
-        public static List<int> GetTeamSchedule(int TeamID)
+        public List<int> GetTeamSchedule(int teamID)
         {
 
-            return null;
-        }
+            try
+            {
+                string connectionString = ConnectionUtil.connectionString;
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+                sqlConnection.Open();
 
-    }
+                string query = "(SELECT EventID FROM isTeamAttendee WHERE TeamID = @TeamID)";
+
+                SqlCommand command = new SqlCommand(query, sqlConnection);
+                command.Parameters.Add("@TeamID", SqlDbType.NVarChar).Value = teamID;
+                SqlDataReader dataReader = command.ExecuteReader();
+
+                List<int> eventIDs = new List<int>();
+                while (dataReader.Read()) { eventIDs.Add(dataReader.GetInt32(0)); }
+
+                sqlConnection.Close();
+                Console.WriteLine("Extracted events = " + eventIDs.Count.ToString());
+                return eventIDs;
+            }
+            catch (SqlException exception) { Console.WriteLine("GetTeamSchedule: " + exception.Message); throw; }
+        }
+		#endregion
+	}
 }
