@@ -16,8 +16,6 @@ namespace AUBTimeManagementApp.GUI
         public AddEvent(mainForm _parent)
         {
             parent = _parent;
-            Client.Client.Instance.setForm(this);
-
             InitializeComponent();
         }
 

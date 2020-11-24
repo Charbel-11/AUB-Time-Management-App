@@ -17,6 +17,7 @@ namespace AUBTimeManagementApp.GUI
         string _username;
         int selectedItemID;
         CalendarItem selectedItem;
+        AddEvent addEventForm;
         public mainForm(string username = null) {
             Client.Client.Instance.setForm(this);
             _username = username;
@@ -44,8 +45,12 @@ namespace AUBTimeManagementApp.GUI
         }
 
         private void addEvent_MouseClick(object sender, MouseEventArgs e) {
-            AddEvent addEventWindow = new AddEvent(this);
-            addEventWindow.Show();
+            if (addEventForm != null && addEventForm.Visible) {
+                addEventForm.Focus();
+                return;
+            }
+            addEventForm = new AddEvent(this);
+            addEventForm.Show();
         }
 
         private void PlaceItems() {
