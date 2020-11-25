@@ -30,6 +30,7 @@ namespace AUBTimeManagementApp.Client {
             { (int)ServerPackages.SMemberRemoved, HandleMemberRemoved },
             { (int)ServerPackages.SAddMemberReply, HandleAddMemberReply },
             { (int)ServerPackages.SMemberAdded, HandleMemberAdded },
+                {(int)ServerPackages.SCreateTeamEventReply, HandleCreateTeamReply},
             {(int)ServerPackages.SGetPersonalEventReply, HandleGetPersonalEventReply },
             {(int)ServerPackages.SCreatePersonalEventReply, HandleCreatePersonalEventReply },
                 {(int)ServerPackages.SCancelPersonalEventReply, HandleCancelPersonalEventReply }

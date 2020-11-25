@@ -87,7 +87,9 @@
     <Compile Include="Service\ControlBlocks\EventScheduleConnector.cs" />
     <Compile Include="Service\ControlBlocks\IConflictChecker.cs" />
     <Compile Include="Service\ControlBlocks\IEventScheduleConnector.cs" />
+    <Compile Include="Service\ControlBlocks\ITeamEventConnector.cs" />
     <Compile Include="Service\ControlBlocks\ITeamUsersConnector.cs" />
+    <Compile Include="Service\ControlBlocks\TeamEventConnector.cs" />
     <Compile Include="Service\ControlBlocks\TeamUsersConnector.cs" />
     <Compile Include="Service\Exceptions\ConflictException.cs" />
     <Compile Include="Service\Handlers\AccountsHandler.cs" />
@@ -95,18 +97,15 @@
     <Compile Include="Service\Handlers\IAccountHandler.cs" />
     <Compile Include="Service\Handlers\IEventsHandler.cs" />
     <Compile Include="Service\Handlers\IInvitationsHandler.cs" />
-    <Compile Include="Service\Handlers\INotificationsHandler.cs" />
     <Compile Include="Service\Handlers\InvitationsHandler.cs" />
     <Compile Include="Service\Handlers\ISchedulesHandler.cs" />
     <Compile Include="Service\Handlers\ITeamsHandler.cs" />
-    <Compile Include="Service\Handlers\NotificationsHandler.cs" />
     <Compile Include="Service\Handlers\SchedulesHandler.cs" />
     <Compile Include="Service\Handlers\TeamsHandler.cs" />
     <Compile Include="Service\Storage\AccountsStorage.cs" />
     <Compile Include="Service\Storage\ConnectionUtil.cs" />
     <Compile Include="Service\Storage\EventsStorage.cs" />
     <Compile Include="Service\Storage\InvitationsStorage.cs" />
-    <Compile Include="Service\Storage\NotificationsStorage.cs" />
     <Compile Include="Service\Storage\SchedulesStorage.cs" />
     <Compile Include="Service\Storage\TeamsStorage.cs" />
   </ItemGroup>

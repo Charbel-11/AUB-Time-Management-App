@@ -14,5 +14,6 @@ namespace Server.Service.Handlers {
         List<Team> GetPersonalTeams(string username);
         List<int> getTeamEvents(int teamID, bool low, bool mid, bool high);
         List<int> getUserTeams(string username);
+        List<string> GetTeamUsers(int teamID);
     }
 }

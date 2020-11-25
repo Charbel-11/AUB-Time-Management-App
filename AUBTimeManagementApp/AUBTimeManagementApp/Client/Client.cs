@@ -376,6 +376,12 @@ namespace AUBTimeManagementApp.Client
 
         }
 
+        public void CreateTeamEvent(int TeamID, string eventName, int priority, DateTime startDate, DateTime endDate)
+        {
+            Console.WriteLine("Sending a request to create: eventName " + eventName  + " " + priority.ToString() + " " + startDate.ToString() + " " + endDate.ToString());
+            ClientTCP.PACKET_CreateTeamEvent(TeamID, username, eventName, priority, startDate, endDate);
+        }
+
         /// <summary>
         /// get the events of specified priority that the user is attending from the srever
         /// </summary>

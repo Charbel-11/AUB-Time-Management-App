@@ -185,5 +185,10 @@ namespace AUBTimeManagementApp.GUI
             addedItem.eventID = eventID;
             
 		}
+
+        private void InvitationsButton_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -45,7 +45,7 @@ namespace Server.Service.Handlers {
             return eventList;
         }
 
-        public void AddEventToTeamList(int teamID, int eventID)
+        public void AddEventToTeam(int teamID, int eventID)
         {
             SchedulesStorage _scheduleStorage = new SchedulesStorage();
             _scheduleStorage.AddToTeamSchedule(teamID, eventID);

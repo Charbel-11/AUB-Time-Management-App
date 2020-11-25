@@ -61,5 +61,10 @@ namespace AUBTimeManagementApp.GUI {
             tDF.Show();
             Close();
         }
+
+        private void TeamsLayout_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }

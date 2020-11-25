@@ -15,7 +15,7 @@ namespace AUBTimeManagementApp.GUI {
         List<Button> memberButtons, remButtons, adminButtons;
         List<Label> adminLabels;
         bool isAdmin;
-
+        AddEvent addEventForm;
         public TeamDetailsForm(Team _team) {
             Client.Client.Instance.setForm(this);
             InitializeComponent();
@@ -180,7 +180,13 @@ namespace AUBTimeManagementApp.GUI {
         }
 
         private void scheduleEventBut_Click(object sender, EventArgs e) {
-
+            if (addEventForm != null && addEventForm.Visible)
+            {
+                addEventForm.Focus();
+                return;
+            }
+            addEventForm = new AddEvent(this);
+            addEventForm.Show();
         }
         private void teamScheduleBut_Click(object sender, EventArgs e) {
 

@@ -7,7 +7,6 @@ namespace Server.Service.Handlers
 {
     public class InvitationsHandler: IInvitationsHandler
     {
-        InvitationsStorage _invitationsStorage;
         public List<int> GetInvitationsEventsIds(int userId)
         {
 
@@ -17,6 +16,7 @@ namespace Server.Service.Handlers
         public void AcceptInvitation(int userId, int eventId)
         {
             // ...
+            InvitationsStorage _invitationsStorage = new InvitationsStorage();
             _invitationsStorage.RemoveInvitation(userId, eventId);
         }
 
@@ -25,12 +25,16 @@ namespace Server.Service.Handlers
         public void DeclineInvitation(int userId, int eventId)
         {
             // ...
+            InvitationsStorage _invitationsStorage = new InvitationsStorage();
             _invitationsStorage.RemoveInvitation(userId, eventId);
         }
+
+        // This function asks the invitation storage to add invitations for invitees to an event
         public void SendInvitations(List<int> AttendeesUserIds, int eventId, string senderUsername)
         {
             foreach (int _userId in AttendeesUserIds)
             {
+                InvitationsStorage _invitationsStorage = new InvitationsStorage();
                 _invitationsStorage.AddInvitation(_userId, eventId, senderUsername);
             } 
             

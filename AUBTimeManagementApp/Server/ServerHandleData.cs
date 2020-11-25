@@ -32,6 +32,7 @@ namespace Server {
                 { (int)ClientPackages.CChangeAdminState, HandleChangeAdminState },
                 { (int)ClientPackages.CRemoveMember, HandleRemoveMember },
                 { (int)ClientPackages.CAddMember, HandleAddMember },
+                {(int)ClientPackages.CCreateTeamEvent, HandleCreateTeamEvent},
                 {(int)ClientPackages.CCreatePersonalEvent, HandleCreatePersonalEvent },
                 {(int)ClientPackages.CGetPersonalEvent, HandleGetPersonalEvent},
                 {(int)ClientPackages.CCancelPersonalEvent, HandleCancelPersonalEvent },
@@ -371,6 +372,34 @@ namespace Server {
 
             ITeamsHandler teamsHandler = new TeamsHandler();
             teamsHandler.AddMemberRequest(ConnectionID, teamID, username);
+        }
+
+        private static void HandleCreateTeamEvent(int ConnectionID, byte[] data)
+        {
+            Console.WriteLine("Server is adding the team event");
+
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteBytes(data);
+
+            int teamID = bufferH.ReadInteger();
+            string eventPlanner = bufferH.ReadString();
+            string eventName = bufferH.ReadString();
+            int eventPriority = bufferH.ReadInteger();
+            string eventStart = bufferH.ReadString();
+            string eventEnd = bufferH.ReadString();
+            
+
+            bufferH.Dispose();
+
+            // Till now we assume that all team members are invited 
+            // It's very simple to make create an event that requires the attendance of some of the members
+            // if list of attendees is not null --> only invite the members in the list
+            // Else invite all
+            Event addedEvent = new Event(eventName.GetHashCode(), eventPriority, eventPlanner, eventName, DateTime.Parse(eventStart), DateTime.Parse(eventEnd), true);
+            ITeamEventConnector teamEventConnector = new TeamEventConnector();
+            teamEventConnector.CreateTeamEvent(teamID, addedEvent);
+
+            ServerTCP.PACKET_CreatePersonalEventReply(ConnectionID, eventName.GetHashCode());
         }
 
         private static void HandleCreatePersonalEvent(int ConnectionID, byte[] data)

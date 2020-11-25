@@ -66,6 +66,12 @@
     <Compile Include="GUI\AddTeam.Designer.cs">
       <DependentUpon>AddTeam.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\InvitationsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\InvitationsForm.Designer.cs">
+      <DependentUpon>InvitationsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\mainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -109,6 +115,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\AddTeam.resx">
       <DependentUpon>AddTeam.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\InvitationsForm.resx">
+      <DependentUpon>InvitationsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\mainForm.resx">
       <DependentUpon>mainForm.cs</DependentUpon>

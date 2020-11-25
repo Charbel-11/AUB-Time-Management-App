@@ -119,5 +119,10 @@ namespace Server.Service.Handlers
         public List<int> getUserTeams(string username) {
             return TeamsStorage.getUserTeams(username);
         }
+
+        public List<string> GetTeamUsers(int teamID)
+        {
+            return new List<string> (TeamsStorage.getTeamMembers(teamID));
+        }
     }
 }

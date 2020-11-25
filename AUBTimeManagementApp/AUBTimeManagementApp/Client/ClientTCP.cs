@@ -264,6 +264,21 @@ namespace AUBTimeManagementApp.Client {
                 ClientSocket.Close();
         }
 
+        public static void PACKET_CreateTeamEvent(int teamID, string eventPlanner, string eventName, int priority, DateTime startDate, DateTime endDate)
+        {
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteInteger((int)ClientPackages.CCreateTeamEvent);
+
+            bufferH.WriteInteger(teamID);
+            bufferH.WriteString(eventPlanner);
+            bufferH.WriteString(eventName);
+            bufferH.WriteInteger(priority);
+            bufferH.WriteString(startDate.ToString());
+            bufferH.WriteString(endDate.ToString());
+
+            SendData(bufferH.ToArray());
+            bufferH.Dispose();
+        }
         public static void PACKET_CreatePersonalEvent(string username, string eventName, int priority, DateTime start, DateTime end)
         {
             BufferHelper bufferH = new BufferHelper();
