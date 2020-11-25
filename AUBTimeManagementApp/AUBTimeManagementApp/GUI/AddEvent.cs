@@ -17,6 +17,9 @@ namespace AUBTimeManagementApp.GUI
         {
             parent = _parent;
             InitializeComponent();
+
+            startDate.Value = DateTime.Now;
+            endDate.Value = DateTime.Now.AddMinutes(30);
         }
 
         public AddEvent(mainForm _parent, DateTime _startDate, DateTime _endDate) : this(_parent) {
@@ -29,46 +32,6 @@ namespace AUBTimeManagementApp.GUI
             Client.Client.Instance.showEvent(0,eventName.Text, priority.Value, startDate.Value, endDate.Value);
             Client.Client.Instance.CreatePersonalEvent(eventName.Text, priority.Value, startDate.Value, endDate.Value);
             Close();
-        }
-
-        private void AddEvent_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void dateTimePicker2_ValueChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void numericUpDown1_ValueChanged_1(object sender, EventArgs e)
-        {
-
-        }
-
-        private void numericUpDown2_ValueChanged(object sender, EventArgs e)
-        {
-
         }
     }
 }

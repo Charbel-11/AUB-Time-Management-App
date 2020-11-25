@@ -22,13 +22,12 @@ namespace AUBTimeManagementApp.GUI
             Client.Client.Instance.setForm(this);
             _username = username;
             InitializeComponent();
+            calendar.AllowItemEdit = false;
+            calendar.AllowItemResize = false;
             label1.Text = "Welcome " + username + "!";
             label1.Show();
             filteringPanel.Hide();
             eventDetailsPanel.Hide();
-        }
-
-        public void displayTeam(string newTeam, string newMembers) {
         }
 
         public void displayEvent(int eventID, string eventName, int priority, DateTime startDate, DateTime endDate) {
@@ -98,7 +97,6 @@ namespace AUBTimeManagementApp.GUI
                 //detailsPriority.Text = selectedItem.eventID.ToString();
                 selectedItemID = selectedItem.eventID;
 			}
-            //Else:
             else
             {
                 AddEvent addEventWindow = new AddEvent(this, e.Item.StartDate, e.Item.EndDate);
@@ -174,15 +172,10 @@ namespace AUBTimeManagementApp.GUI
             }
         }
 
-		private void detailsStartTime_TextChanged(object sender, EventArgs e)
-		{
-
-		}
-
         private void Refresh_Click(object sender, EventArgs e)
         {
-            _items.Clear();
             calendar.Items.Clear();
+            _items.Clear();
             Client.Client.Instance.GetUserSchedule();
         }
 
@@ -192,5 +185,5 @@ namespace AUBTimeManagementApp.GUI
             addedItem.eventID = eventID;
             
 		}
-	}
+    }
 }

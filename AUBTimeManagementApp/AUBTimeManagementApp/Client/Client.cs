@@ -135,6 +135,7 @@ namespace AUBTimeManagementApp.Client
 
         public void CreatePersonalEvent(string eventName, int priority, DateTime start, DateTime end)
         {
+            Console.WriteLine(eventName + " " + priority + " " + start.ToString() + " " + end.ToString());
             //addedEvent = new Event(0, priority, " ", eventName, start, end);
             ClientTCP.PACKET_CreatePersonalEvent(username, eventName, priority, start, end);
 ;       }
@@ -356,13 +357,9 @@ namespace AUBTimeManagementApp.Client
                 DateTime end = eventsList[i].endTime;
                 
                 if (mainForm.InvokeRequired)
-                {
-                    //We are calling a method of the form from a different thread
-                    //Need to use invoke to make it threadsafe
                     mainForm.Invoke(new MethodInvoker(delegate { mainForm.displayEvent(eventID, name, priority, start, end); }));
-                }
-
-                else { mainForm.displayEvent(eventID, name, priority, start, end); }
+                else
+                    mainForm.displayEvent(eventID, name, priority, start, end);
             }
         }
         
