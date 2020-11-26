@@ -195,10 +195,6 @@ namespace AUBTimeManagementApp.GUI
                 return;
             }
             invitationsForm = new InvitationsForm(this);
-            foreach(Invitation invitation in Client.Client.Instance.GetInvitations())
-            {
-                invitationsForm.AddInvitationEntry(invitation);
-            }
             invitationsForm.Show();
         }
     }

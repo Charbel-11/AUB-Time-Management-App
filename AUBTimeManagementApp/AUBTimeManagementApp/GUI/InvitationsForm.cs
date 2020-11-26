@@ -44,7 +44,7 @@ namespace AUBTimeManagementApp.GUI
             AcceptButton.BackColor = Color.LimeGreen;
             AcceptButton.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
             AcceptButton.ForeColor = Color.White;
-            AcceptButton.Location = new Point(155, 4);
+            AcceptButton.Location = new Point(550, 7);
             AcceptButton.Name = "AcceptButton";
             AcceptButton.Size = new Size(87, 27);
             AcceptButton.TabIndex = 4;
@@ -55,9 +55,9 @@ namespace AUBTimeManagementApp.GUI
             // DeclineButton
             // 
             DeclineButton.BackColor = Color.LightCoral;
-            DeclineButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
-            DeclineButton.ForeColor = System.Drawing.Color.White;
-            DeclineButton.Location = new System.Drawing.Point(260, 4);
+            DeclineButton.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
+            DeclineButton.ForeColor = Color.White;
+            DeclineButton.Location = new Point(650, 7);
             DeclineButton.Name = "DeclineButton";
             DeclineButton.Size = new Size(87, 27);
             DeclineButton.TabIndex = 3;
@@ -68,13 +68,16 @@ namespace AUBTimeManagementApp.GUI
             // invitationLabel
             // 
             invitationLabel.AutoSize = true;
-            invitationLabel.BackColor = SystemColors.ControlLight;
-            invitationLabel.ForeColor = Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            invitationLabel.Location = new Point(20, 4);
+            invitationLabel.BackColor = Color.Transparent;
+            invitationLabel.ForeColor = Color.Black;
+            invitationLabel.Location = new Point(20, 10);
             invitationLabel.Name = "invitationLabel";
             invitationLabel.Size = new Size(36, 13);
             invitationLabel.TabIndex = 2;
-            invitationLabel.Text = "Invitation";
+            invitationLabel.Text = "Event: " + invitation.Event.eventName + "  |  In team: " + invitation.TeamID + "  |  Sent by: " + invitation.InvitationSender;
+            invitationLabel.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
+            DeclineButton.ForeColor = Color.Black;
+
             // 
             // groupBox1
             // 
@@ -84,7 +87,7 @@ namespace AUBTimeManagementApp.GUI
             groupBox1.Location = new Point(0, 0);
             groupBox1.Margin = new Padding(0);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(361, 36);
+            groupBox1.Size = new Size(760, 36);
             groupBox1.TabIndex = 1;
             groupBox1.TabStop = false;
 
@@ -110,6 +113,11 @@ namespace AUBTimeManagementApp.GUI
         }
 
         private void InvitationButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
         {
 
         }
