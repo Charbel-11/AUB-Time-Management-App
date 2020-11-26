@@ -88,20 +88,25 @@ namespace AUBTimeManagementApp.Service.Storage
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
                 sqlConnection.Open();
 
-                string query = "Select * From Events Where EventID = @eventID";
+                string query = "SELECT * FROM Events WHERE EventID = @eventID";
 
                 SqlCommand command = new SqlCommand(query, sqlConnection);
 
                 command.Parameters.Add("@eventID", SqlDbType.Int).Value = eventID;
                 SqlDataReader dataReader = command.ExecuteReader();
-                string eventName = dataReader.GetString(1);
-                DateTime start = dataReader.GetDateTime(2);
-                DateTime end = dataReader.GetDateTime(3);
-                int priority = dataReader.GetInt32(4);
-                string plannerUsername = dataReader.GetString(5);
-                Event fetchedEvent = new Event(eventID, priority, plannerUsername, eventName, start, end);
-
-                command.Parameters.Clear(); return fetchedEvent;
+                if (dataReader.Read())
+                {
+                    int _eventID = dataReader.GetInt32(0);
+                    string eventName = dataReader.GetString(1);
+                    DateTime start = dataReader.GetDateTime(2);
+                    DateTime end = dataReader.GetDateTime(3);
+                    int priority = dataReader.GetInt32(4);
+                    string plannerUsername = dataReader.GetString(5);
+                    Event fetchedEvent = new Event(eventID, priority, plannerUsername, eventName, start, end);
+                    command.Parameters.Clear(); return fetchedEvent;
+                }
+                return null;
+                
             }
             catch (SqlException exception) { Console.WriteLine("GetEvent: " + exception.Message); throw; }
         }
