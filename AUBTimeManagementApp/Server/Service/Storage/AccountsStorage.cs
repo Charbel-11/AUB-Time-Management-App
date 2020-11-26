@@ -1,9 +1,7 @@
 ﻿using Server.Service.Storage;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Text;
 
 namespace AUBTimeManagementApp.Service.Storage
 {

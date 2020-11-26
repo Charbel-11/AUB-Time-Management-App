@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using AUBTimeManagementApp.DataContracts;
 using AUBTimeManagementApp.GUI;
 using System.Windows.Forms;
-using System.Linq;
 
 namespace AUBTimeManagementApp.Client
 {

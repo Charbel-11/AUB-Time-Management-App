@@ -71,7 +71,7 @@ namespace AUBTimeManagementApp.GUI
 
         private void GoBack_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
     }
 }

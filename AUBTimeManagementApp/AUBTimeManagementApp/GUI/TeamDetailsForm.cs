@@ -32,7 +32,7 @@ namespace AUBTimeManagementApp.GUI {
 
             if (!isAdmin) {
                 memberState.Text = "Member";
-                this.memberState.ForeColor = System.Drawing.Color.Black;
+                this.memberState.ForeColor = Color.Black;
                 addMembersButton.Enabled = false;
                 scheduleEventBut.Enabled = false;
             }
