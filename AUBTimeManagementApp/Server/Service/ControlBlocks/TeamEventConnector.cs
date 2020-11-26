@@ -14,10 +14,10 @@ namespace Server.Service.ControlBlocks
             IEventScheduleConnector eventScheduleConnector = new EventScheduleConnector();
             eventScheduleConnector.AddPersonalEvent(_event.plannerUsername, _event);
 
-            //Add the team event to the events table
+            //Add the team event to the team schedule 
             ISchedulesHandler schedulesHandler = new SchedulesHandler();
             schedulesHandler.AddEventToTeam(teamID, _event.ID);
-            
+
             ITeamsHandler teamsHandler = new TeamsHandler();
             // Get the team members using the teams handler
             List<string> members = teamsHandler.GetTeamUsers(teamID);

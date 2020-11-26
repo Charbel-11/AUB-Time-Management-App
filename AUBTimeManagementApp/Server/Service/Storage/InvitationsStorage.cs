@@ -1,4 +1,5 @@
-﻿using Server.Service.Storage;
+﻿using Server.DataContracts;
+using Server.Service.Storage;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -32,14 +33,40 @@ namespace AUBTimeManagementApp.Service.Storage
             catch (SqlException exception) { Console.WriteLine("AddInvitation: " + exception.Message); throw; }
         }
 
+        public List<Invitation> GetUserInvitations(string username)
+        {
+            try
+            {
+                Console.WriteLine("Getting invitations from events DB");
+                string connectionString = ConnectionUtil.connectionString;
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+                sqlConnection.Open();
+
+                string query = "SELECT * FROM isInvitee WHERE Username = @Username ";
+
+                SqlCommand command = new SqlCommand(query, sqlConnection);
+                command.Parameters.Add("@Username", SqlDbType.NVarChar).Value = username.GetHashCode().ToString();
+
+                SqlDataReader dataReader = command.ExecuteReader();
+
+                List<Invitation> invitations = new List<Invitation>();
+                while (dataReader.Read())
+                {
+                    string _username = dataReader.GetString(0);
+                    int eventID = dataReader.GetInt32(1);
+                    string senderUsername = dataReader.GetString(2);
+                    Invitation invitation = new Invitation(new Event(eventID), senderUsername, 0);
+                    invitations.Add(invitation);
+                    Console.WriteLine("Retrieving invitation to event " + eventID.ToString() + " | Sent by " + senderUsername);
+                }
+                sqlConnection.Close(); return invitations;
+            }
+            catch (SqlException exception) { Console.WriteLine("GetUserInvitations: " + exception.Message); throw; }
+        }
+
         public void RemoveInvitation(int userId, int eventId)
         {
 
-        }
-
-        public List<int> GetInvitations(int userId)
-        {
-            return null;
         }
     }
 }

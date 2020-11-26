@@ -53,7 +53,7 @@ namespace AUBTimeManagementApp.Service.Storage
                 string combinedStringEventIDs = string.Join(",", eventsIDs);
                 
                 Console.WriteLine(combinedStringEventIDs);
-                string query = "Select * From Events Where EventID IN " + "(" + combinedStringEventIDs +")";
+                string query = "SELECT * FROM Events WHERE EventID IN " + "(" + combinedStringEventIDs +")";
 
                 SqlCommand command = new SqlCommand(query, sqlConnection);
 

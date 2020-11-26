@@ -17,5 +17,6 @@ namespace Server.Service.Handlers
         void RemoveEventFromTeamList(int teamID, int eventID);
         bool[,] GetFreeTime(List<Schedule> membersSchedule, DateTime startDate, DateTime endDate,
             DateTime startTime, DateTime endTime, int countThreshold, int priorityThreshold);
+        int GetEventTeam(int eventID);
     }
 }

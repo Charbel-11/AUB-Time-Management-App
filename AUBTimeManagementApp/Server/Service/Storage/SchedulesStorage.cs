@@ -168,6 +168,31 @@ namespace AUBTimeManagementApp.Service.Storage
             catch (SqlException exception) { Console.WriteLine("DeleteFromTeamSchedule: " + exception.Message); throw; }
         }
 
+        // Get the teamID for a team event with id = eventID
+        public int GetEventTeam(int eventID)
+        {
+            try
+            {
+                string connectionString = ConnectionUtil.connectionString;
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+                sqlConnection.Open();
+
+                string query = "(SELECT TeamID FROM isTeamAttendee WHERE EventID = @EventID)";
+
+                SqlCommand command = new SqlCommand(query, sqlConnection);
+                command.Parameters.Add("@EventID", SqlDbType.NVarChar).Value = eventID;
+                SqlDataReader dataReader = command.ExecuteReader();
+
+                int teamID = 0;
+                while (dataReader.Read()) { teamID = dataReader.GetInt32(0); }
+
+                sqlConnection.Close();
+                Console.WriteLine("Event " + eventID.ToString() + " corresponds to team " + teamID.ToString());
+                return teamID;
+            }
+            catch (SqlException exception) { Console.WriteLine("GetEventTeam: " + exception.Message); throw; }
+        }
+
         /// <summary>
         /// Get list of event IDs from team schedule with ID = teamID
         /// </summary>

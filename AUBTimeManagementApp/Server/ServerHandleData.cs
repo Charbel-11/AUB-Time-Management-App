@@ -36,7 +36,8 @@ namespace Server {
                 {(int)ClientPackages.CCreatePersonalEvent, HandleCreatePersonalEvent },
                 {(int)ClientPackages.CGetPersonalEvent, HandleGetPersonalEvent},
                 {(int)ClientPackages.CCancelPersonalEvent, HandleCancelPersonalEvent },
-                {(int)ClientPackages.CModifyPersonalEvent, HandleModifyPersonalEvent }                
+                {(int)ClientPackages.CModifyPersonalEvent, HandleModifyPersonalEvent },
+                {(int)ClientPackages.CGetUserInvitations, HandleGetUserInvitations }
 
             };
         }
@@ -476,5 +477,19 @@ namespace Server {
 
             //ServerTCP.PACKET_CancelPersonalEvent(ConnectionID, true);
         }
+
+        #region Invitations
+        private static void HandleGetUserInvitations(int ConnectionID, byte[]data)
+        {
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteBytes(data);
+            string username = bufferH.ReadString();
+            bufferH.Dispose();
+
+            IInvitationsConnector invitationsConnector = new InvitationConnector();
+            List<Invitation> invitations = invitationsConnector.GetInvitationsDetails(username);
+            ServerTCP.PACKET_SendGetUserInvitationsReply(ConnectionID, invitations);
+        }
+        #endregion
     }
 }

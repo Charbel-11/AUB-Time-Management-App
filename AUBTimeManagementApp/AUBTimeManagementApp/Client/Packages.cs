@@ -20,7 +20,8 @@ public enum ServerPackages {
     SCreatePersonalEventReply,
     SGetPersonalEventReply,
     SCancelPersonalEventReply,
-    SModifyPersonalEventReply
+    SModifyPersonalEventReply,
+    SGetUserInvitationsReply
 }
 public enum ClientPackages {
     CMsg,
@@ -39,5 +40,6 @@ public enum ClientPackages {
     CCreatePersonalEvent,
     CGetPersonalEvent,
     CCancelPersonalEvent,
-    CModifyPersonalEvent
+    CModifyPersonalEvent,
+    CGetUserInvitations
 }

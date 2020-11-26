@@ -26,5 +26,10 @@ namespace AUBTimeManagementApp.DataContracts {
             attendees = _attendees;
             teamEvent = _teamEvent;
         }
+
+        public Event(int _ID)
+        {
+            ID = _ID;
+        }
     }
 }

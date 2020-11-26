@@ -18,6 +18,7 @@ namespace AUBTimeManagementApp.Client
         public string username;
         public int teamID = 0;
         private List<Team> teams;   //Might need to make it thread safe (consider case where members of same team add other members or delete or ..., we get asynchronous requests to change teams)
+        private List<Invitation> Invitations;
         private List<Event> events;
         private Event addedEvent;
 
@@ -39,6 +40,7 @@ namespace AUBTimeManagementApp.Client
         {
             teams = new List<Team>();
             events = new List<Event>();
+            Invitations = new List<Invitation>();
         }
         public static Client Instance
         {
@@ -76,6 +78,8 @@ namespace AUBTimeManagementApp.Client
         }
 
         public List<Team> getTeams() { return teams; }
+
+        public List<Invitation> GetInvitations() { return Invitations; }
 
         public void addEvent(Event newEvent) {
             events.Add(newEvent);
@@ -174,7 +178,13 @@ namespace AUBTimeManagementApp.Client
 
         }
         #endregion
+        #region Invitations
+        public void GetUserInvitations()
+        {
+            ClientTCP.PACKET_GetUserInvitations(username);
+        }
 
+        #endregion
         #region Team
         public void createTeam(string teamName, string[] teamMembers) {
             ClientTCP.PACKET_CreateTeam(teamName, username, teamMembers);
@@ -330,11 +340,13 @@ namespace AUBTimeManagementApp.Client
         /// <summary>
         /// Gets all the teams this user is in from the server
         /// </summary>
-        public void GetUserTeams() {
+        public void GetUserTeams() 
+        {
             ClientTCP.PACKET_GetUserTeams(username);
         }
 
-        public void GetUserTeamsReply(List<Team> teams) {
+        public void GetUserTeamsReply(List<Team> teams) 
+        {
             this.teams = teams;
         }
 
@@ -425,6 +437,12 @@ namespace AUBTimeManagementApp.Client
             
         }
 
+        #region Invitations
+        public void GetUserInvitationsReply(List<Invitation> invitations)
+        {
+            Invitations = invitations;
+        }
 
+        #endregion
     }
 }

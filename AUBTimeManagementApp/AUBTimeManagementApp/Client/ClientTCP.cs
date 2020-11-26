@@ -145,6 +145,14 @@ namespace AUBTimeManagementApp.Client {
 
         }
 
+        public static void PACKET_GetUserInvitations(string username)
+        {
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteInteger((int)ClientPackages.CGetUserInvitations);
+            bufferH.WriteString(username);
+            SendData(bufferH.ToArray());
+            bufferH.Dispose();
+        }
         public static void PACKET_GetUserTeams(string username) 
         {
             BufferHelper bufferH = new BufferHelper();

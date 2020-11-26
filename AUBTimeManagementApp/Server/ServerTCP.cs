@@ -312,5 +312,33 @@ namespace Server {
             SendDataTo(ConnectionID, bufferH.ToArray());
             bufferH.Dispose();
         }
+
+        public static void PACKET_SendGetUserInvitationsReply(int ConnectionID, List<Invitation> invitations)
+        {
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteInteger((int)ServerPackages.SGetUserInvitationsReply);
+
+            int n = invitations.Count;
+            bufferH.WriteInteger(n);
+            for (int i = 0; i < n; i++)
+            {
+                // Write event details
+                bufferH.WriteInteger(invitations[i].Event.ID);
+                bufferH.WriteString(invitations[i].Event.eventName);
+                bufferH.WriteString(invitations[i].Event.plannerUsername);
+                bufferH.WriteInteger(invitations[i].Event.priority);
+                bufferH.WriteString(invitations[i].Event.startTime.ToString());
+                bufferH.WriteString(invitations[i].Event.endTime.ToString());
+
+                // write team id
+                bufferH.WriteInteger(invitations[i].TeamID);
+
+                // write sender username
+                bufferH.WriteString(invitations[i].InvitationSender);
+            }
+
+            SendDataTo(ConnectionID, bufferH.ToArray());
+            bufferH.Dispose();
+        }
     }
 }

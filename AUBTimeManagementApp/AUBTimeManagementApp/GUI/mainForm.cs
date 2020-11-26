@@ -18,6 +18,7 @@ namespace AUBTimeManagementApp.GUI
         int selectedItemID;
         CalendarItem selectedItem;
         AddEvent addEventForm;
+        InvitationsForm invitationsForm;
         public mainForm(string username = null) {
             Client.Client.Instance.setForm(this);
             _username = username;
@@ -188,7 +189,17 @@ namespace AUBTimeManagementApp.GUI
 
         private void InvitationsButton_Click(object sender, EventArgs e)
         {
-
+            if (invitationsForm != null && invitationsForm.Visible)
+            {
+                invitationsForm.Focus();
+                return;
+            }
+            invitationsForm = new InvitationsForm(this);
+            foreach(Invitation invitation in Client.Client.Instance.GetInvitations())
+            {
+                invitationsForm.AddInvitationEntry(invitation);
+            }
+            invitationsForm.Show();
         }
     }
 }

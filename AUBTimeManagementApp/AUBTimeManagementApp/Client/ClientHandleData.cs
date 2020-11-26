@@ -33,8 +33,41 @@ namespace AUBTimeManagementApp.Client {
                 {(int)ServerPackages.SCreateTeamEventReply, HandleCreateTeamReply},
             {(int)ServerPackages.SGetPersonalEventReply, HandleGetPersonalEventReply },
             {(int)ServerPackages.SCreatePersonalEventReply, HandleCreatePersonalEventReply },
-                {(int)ServerPackages.SCancelPersonalEventReply, HandleCancelPersonalEventReply }
+                {(int)ServerPackages.SCancelPersonalEventReply, HandleCancelPersonalEventReply},
+                {(int) ServerPackages.SGetUserInvitationsReply, HandleGetUserInvitationsReply}
             };
+        }
+
+        private static void HandleGetUserInvitationsReply(byte[] data)
+        {
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteBytes(data);
+
+            int n = bufferH.ReadInteger(); // n = number of invitations to be read
+            List<Invitation> invitations = new List<Invitation>();
+            for (int i = 0; i < n; i++)
+            {
+                // Write event details
+                int eventID = bufferH.ReadInteger();
+                string eventName = bufferH.ReadString();
+                string plannerUsername = bufferH.ReadString();
+                int priority = bufferH.ReadInteger();
+                DateTime startTime = DateTime.Parse(bufferH.ReadString());
+                DateTime endTime = DateTime.Parse(bufferH.ReadString());
+                Event _event = new Event(eventID, priority, plannerUsername, eventName, startTime, endTime, true);
+
+                // write team id
+                int teamID = bufferH.ReadInteger();
+
+                // write sender username
+                string invitationSender = bufferH.ReadString();
+
+                invitations.Add(new Invitation(_event, invitationSender, teamID));
+            }
+
+            Client.Instance.GetUserInvitationsReply(invitations);
+
+            bufferH.Dispose();
         }
 
         private static void HandleCreatePersonalEventReply(byte[] Data)
