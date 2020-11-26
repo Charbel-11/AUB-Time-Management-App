@@ -40,21 +40,21 @@ namespace AUBTimeManagementApp.GUI {
         }
 
         public void createMemberButton(string memberName) {
-            System.Windows.Forms.GroupBox groupBox1 = new System.Windows.Forms.GroupBox();
-            System.Windows.Forms.Button remBut = new System.Windows.Forms.Button();
-            System.Windows.Forms.Button adminBut = new System.Windows.Forms.Button();
-            System.Windows.Forms.Label adminLabel = new System.Windows.Forms.Label();
-            System.Windows.Forms.Button memberBut = new System.Windows.Forms.Button();
+            GroupBox groupBox1 = new GroupBox();
+            Button remBut = new Button();
+            Button adminBut = new Button();
+            Label adminLabel = new Label();
+            Button memberBut = new Button();
 
             // 
             // remBut
             // 
-            remBut.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            remBut.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            remBut.ForeColor = System.Drawing.Color.White;
-            remBut.Location = new System.Drawing.Point(260, 4);
+            remBut.BackColor = SystemColors.ControlDarkDark;
+            remBut.Font = new Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
+            remBut.ForeColor = Color.White;
+            remBut.Location = new Point(260, 4);
             remBut.Name = "remBut";
-            remBut.Size = new System.Drawing.Size(87, 27);
+            remBut.Size = new Size(87, 27);
             remBut.TabIndex = 4;
             remBut.Text = "Remove from Team";
             remBut.UseVisualStyleBackColor = false;
@@ -62,12 +62,12 @@ namespace AUBTimeManagementApp.GUI {
             // 
             // adminBut
             // 
-            adminBut.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            adminBut.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            adminBut.ForeColor = System.Drawing.Color.White;
-            adminBut.Location = new System.Drawing.Point(155, 4);
+            adminBut.BackColor = SystemColors.ControlDarkDark;
+            adminBut.Font = new Font("Microsoft Sans Serif", 6F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
+            adminBut.ForeColor = Color.White;
+            adminBut.Location = new Point(155, 4);
             adminBut.Name = "adminBut";
-            adminBut.Size = new System.Drawing.Size(87, 27);
+            adminBut.Size = new Size(87, 27);
             adminBut.TabIndex = 3;
             adminBut.Text = "Dismiss as Admin";
             adminBut.UseVisualStyleBackColor = false;
@@ -76,23 +76,23 @@ namespace AUBTimeManagementApp.GUI {
             // adminLabel
             // 
             adminLabel.AutoSize = true;
-            adminLabel.BackColor = System.Drawing.SystemColors.ControlLight;
-            adminLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            adminLabel.Location = new System.Drawing.Point(289, 12);
+            adminLabel.BackColor = SystemColors.ControlLight;
+            adminLabel.ForeColor = Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            adminLabel.Location = new Point(289, 12);
             adminLabel.Name = "adminLabel";
-            adminLabel.Size = new System.Drawing.Size(36, 13);
+            adminLabel.Size = new Size(36, 13);
             adminLabel.TabIndex = 2;
             adminLabel.Text = "Admin";
             // 
             // memberBut
             // 
-            memberBut.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            memberBut.Location = new System.Drawing.Point(0, 0);
+            memberBut.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
+            memberBut.Location = new Point(0, 0);
             memberBut.Name = "memberBut";
-            memberBut.Size = new System.Drawing.Size(361, 34);
+            memberBut.Size = new Size(361, 34);
             memberBut.TabIndex = 1;
             memberBut.Text = memberName;
-            memberBut.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            memberBut.TextAlign = ContentAlignment.MiddleLeft;
             memberBut.UseVisualStyleBackColor = true;
             memberBut.Click += membersButton_Click;
             // 
@@ -102,10 +102,10 @@ namespace AUBTimeManagementApp.GUI {
             groupBox1.Controls.Add(remBut);
             groupBox1.Controls.Add(adminLabel);
             groupBox1.Controls.Add(memberBut);
-            groupBox1.Location = new System.Drawing.Point(0, 0);
-            groupBox1.Margin = new System.Windows.Forms.Padding(0);
+            groupBox1.Location = new Point(0, 0);
+            groupBox1.Margin = new Padding(0);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new System.Drawing.Size(361, 36);
+            groupBox1.Size = new Size(361, 36);
             groupBox1.TabIndex = 1;
             groupBox1.TabStop = false;
 
@@ -132,7 +132,7 @@ namespace AUBTimeManagementApp.GUI {
 
         //If some member did a change to the team while we had it opened
         public void tryUpdatingTeam() {
-            this.SuspendLayout();
+            SuspendLayout();
 
             isAdmin = team.isAdmin(Client.Client.Instance.username);
             memberButtons.Clear();
@@ -140,18 +140,18 @@ namespace AUBTimeManagementApp.GUI {
             remButtons.Clear();
             adminLabels.Clear();
 
-            this.teamName.Text = team.teamName;
+            teamName.Text = team.teamName;
             showTeamMembers();
 
             if (!isAdmin) {
                 memberState.Text = "Member";
-                this.memberState.ForeColor = System.Drawing.Color.Black;
+                memberState.ForeColor = Color.Black;
                 addMembersButton.Enabled = false;
                 scheduleEventBut.Enabled = false;
             }
 
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         public void membersButton_Click(object sender, EventArgs e) {

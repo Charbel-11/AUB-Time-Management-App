@@ -37,10 +37,13 @@ namespace Server {
                 {(int)ClientPackages.CGetPersonalEvent, HandleGetPersonalEvent},
                 {(int)ClientPackages.CCancelPersonalEvent, HandleCancelPersonalEvent },
                 {(int)ClientPackages.CModifyPersonalEvent, HandleModifyPersonalEvent },
-                {(int)ClientPackages.CGetUserInvitations, HandleGetUserInvitations }
-
+                {(int)ClientPackages.CGetUserInvitations, HandleGetUserInvitations },
+                {(int)ClientPackages.CAcceptInvitation, HandleAcceptInvitationReply },
+                {(int)ClientPackages.CDeclineInvitation, HandleDeclineInvitationReply }
             };
         }
+
+        
 
         /// <summary>
         /// Makes sure a newly connected user is a valid user of our application
@@ -489,6 +492,38 @@ namespace Server {
             IInvitationsConnector invitationsConnector = new InvitationConnector();
             List<Invitation> invitations = invitationsConnector.GetInvitationsDetails(username);
             ServerTCP.PACKET_SendGetUserInvitationsReply(ConnectionID, invitations);
+        }
+
+        private static void HandleAcceptInvitationReply(int ConnectionID, byte[] Data)
+        {
+            Console.WriteLine("Server handling accept invitation");
+
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteBytes(Data);
+            string username = bufferH.ReadString();
+            int eventID = bufferH.ReadInteger();
+            string invitationSender = bufferH.ReadString();
+            int teamID = bufferH.ReadInteger();
+
+            IInvitationsConnector invitationsConnector = new InvitationConnector();
+            invitationsConnector.AcceptInvitation(username, eventID, teamID, invitationSender);
+
+        }
+
+        private static void HandleDeclineInvitationReply(int ConnectionID, byte[] Data)
+        {
+            Console.WriteLine("Server handling decline invitation");
+
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteBytes(Data);
+            string username = bufferH.ReadString();
+            int eventID = bufferH.ReadInteger();
+            string invitationSender = bufferH.ReadString();
+            int teamID = bufferH.ReadInteger();
+
+            IInvitationsConnector invitationsConnector = new InvitationConnector();
+            invitationsConnector.DeclineInvitation(username, eventID, teamID, invitationSender);
+
         }
         #endregion
     }

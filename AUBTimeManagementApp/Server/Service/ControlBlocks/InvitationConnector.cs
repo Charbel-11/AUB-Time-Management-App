@@ -33,5 +33,28 @@ namespace Server.Service.ControlBlocks
             // Return the list of invitations
             return invitations;
         }
+
+        public void AcceptInvitation(string username, int eventID, int teamID, string senderUsername)
+        {
+            // Add the event to the user schedule
+            ISchedulesHandler schedulesHandler = new SchedulesHandler();
+            schedulesHandler.AddEventToList(username, eventID);
+
+            // Now the event is added we can remove the invitation
+            // Note that the order is important because in case adding the event fails we don't want to loose the invitation
+            IInvitationsHandler invitationsHandler = new InvitationsHandler();
+            invitationsHandler.AcceptInvitation(username, eventID, senderUsername);
+
+            // \LATER\ teamID is an argument here in case we want to notify the invitation sender later that this user will attend
+        }
+
+        public void DeclineInvitation(string username, int eventID, int teamID, string senderUsername)
+        {
+            IInvitationsHandler invitationsHandler = new InvitationsHandler();
+            invitationsHandler.DeclineInvitation(username, eventID, senderUsername);
+
+            // \LATER\ teamID is an argument here in case we want to notify the invitation sender later that this user will not attend
+        }
+
     }
 }

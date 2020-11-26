@@ -443,6 +443,15 @@ namespace AUBTimeManagementApp.Client
             Invitations = invitations;
         }
 
+        public void AcceptInvitation(Invitation invitation)
+        {
+            ClientTCP.PACKET_AcceptInvitation(invitation, username);
+        }
+
+        public void DeclineInvitation(Invitation invitation)
+        {
+            ClientTCP.PACKET_DeclineInvitation(invitation, username);
+        }
         #endregion
     }
 }

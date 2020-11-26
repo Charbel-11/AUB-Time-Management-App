@@ -329,5 +329,35 @@ namespace AUBTimeManagementApp.Client {
             SendData(bufferH.ToArray());
             bufferH.Dispose();
         }
+
+        public static void PACKET_AcceptInvitation(Invitation invitation, string username)
+        {
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteInteger((int)ClientPackages.CAcceptInvitation);
+
+            bufferH.WriteString(username);
+            bufferH.WriteInteger(invitation.Event.ID);
+            bufferH.WriteString(invitation.InvitationSender);
+            bufferH.WriteInteger(invitation.TeamID);
+            
+
+            SendData(bufferH.ToArray());
+            bufferH.Dispose();
+        }
+
+        public static void PACKET_DeclineInvitation(Invitation invitation, string username)
+        {
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteInteger((int)ClientPackages.CDeclineInvitation);
+
+            bufferH.WriteString(username);
+            bufferH.WriteInteger(invitation.Event.ID);
+            bufferH.WriteString(invitation.InvitationSender);
+            bufferH.WriteInteger(invitation.TeamID);
+
+
+            SendData(bufferH.ToArray());
+            bufferH.Dispose();
+        }
     }
 }

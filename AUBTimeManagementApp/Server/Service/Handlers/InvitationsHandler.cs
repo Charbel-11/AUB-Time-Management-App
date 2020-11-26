@@ -13,20 +13,23 @@ namespace Server.Service.Handlers
             return null;
         }
         
-        public void AcceptInvitation(int userId, int eventId)
+        // Sender username is a parameter in case later 2 admins can send 2 different invitations to same event
+        public void AcceptInvitation(string username, int eventID, string senderUsername)
         {
-            // ...
+            // Note that although Accept and Decline Invitation in this handler do the same thing: remove the invitation
+            // We can't only use one function
+            // Because we might lately decide to do more than just deleting (Maybe storing the accepted invitations)
+
             InvitationsStorage _invitationsStorage = new InvitationsStorage();
-            _invitationsStorage.RemoveInvitation(userId, eventId);
+            _invitationsStorage.RemoveInvitation(username.GetHashCode(), eventID, senderUsername);
         }
 
         // This is called when the user declines an invitation
         // After finishing, the corresponding eventId should be removed from the DB
-        public void DeclineInvitation(int userId, int eventId)
+        public void DeclineInvitation(string username, int eventId, string senderUsername)
         {
-            // ...
             InvitationsStorage _invitationsStorage = new InvitationsStorage();
-            _invitationsStorage.RemoveInvitation(userId, eventId);
+            _invitationsStorage.RemoveInvitation(username.GetHashCode(), eventId, senderUsername);
         }
 
         // This function asks the invitation storage to add invitations for invitees to an event

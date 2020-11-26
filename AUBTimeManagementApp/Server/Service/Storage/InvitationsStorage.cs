@@ -64,8 +64,26 @@ namespace AUBTimeManagementApp.Service.Storage
             catch (SqlException exception) { Console.WriteLine("GetUserInvitations: " + exception.Message); throw; }
         }
 
-        public void RemoveInvitation(int userId, int eventId)
+        public void RemoveInvitation(int userId, int eventID, string senderUsername)
         {
+            try
+            {
+                string connectionString = ConnectionUtil.connectionString;
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+                sqlConnection.Open();
+
+                string query = "DELETE FROM isInvitee WHERE Username = @Username AND EventID = @EventID AND SenderUsername = @SenderUsername";
+                SqlCommand command = new SqlCommand(query, sqlConnection);
+                command.Parameters.Add("@Username", SqlDbType.NVarChar).Value = userId.ToString();
+                command.Parameters.Add("@EventID", SqlDbType.Int).Value = eventID;
+                command.Parameters.Add("@SenderUsername", SqlDbType.NVarChar).Value = senderUsername;
+
+                command.ExecuteNonQuery();
+                sqlConnection.Close();
+
+                Console.WriteLine("RemoveInvitation: removing invitation from the database");
+            }
+            catch (SqlException exception) { Console.WriteLine("RemoveInvitation: " + exception.Message); throw; }
 
         }
     }
