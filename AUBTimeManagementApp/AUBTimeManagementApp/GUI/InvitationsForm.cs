@@ -18,9 +18,9 @@ namespace AUBTimeManagementApp.GUI
             _parent = parent;
             AcceptButtonToInvitation = new Dictionary<Button, Invitation>();
             DeclineButtonToInvitation = new Dictionary<Button, Invitation>();
-
+            InitializeComponent();
             DisplayInvitations();
-            InitializeComponent(); 
+            
         }
 
         public void DisplayInvitations()
