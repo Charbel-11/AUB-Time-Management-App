@@ -106,7 +106,6 @@ namespace Server.Service.Handlers
             return teams;
         }
 
-
         public List<int> getTeamEvents(int teamID, bool low, bool mid, bool high)
         {
             List<int> events = new List<int>();

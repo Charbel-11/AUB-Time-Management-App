@@ -174,6 +174,13 @@ namespace AUBTimeManagementApp.Client {
             SendData(bufferH.ToArray());
             bufferH.Dispose();
         }
+        public static void PACKET_GetMergedTeamSchedule(int teamID) {
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteInteger((int)ClientPackages.CGetMergedTeamSchedule);
+            bufferH.WriteInteger(teamID);
+            SendData(bufferH.ToArray());
+            bufferH.Dispose();
+        }
 
         public static void PACKET_FilterUserSchedule(string username, bool low, bool medium, bool high)
         {

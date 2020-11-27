@@ -400,7 +400,7 @@ namespace AUBTimeManagementApp.Client
         /// </summary>
         /// <param name="teamID">The ID of the team</param>
         public void GetMergedTeamSchedule(int teamID) {
-
+            ClientTCP.PACKET_GetMergedTeamSchedule(teamID);
         }
 
         public void CreateTeamEvent(int TeamID, string eventName, int priority, DateTime startDate, DateTime endDate)

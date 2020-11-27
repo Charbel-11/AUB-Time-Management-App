@@ -58,6 +58,9 @@ namespace Server.Service.Handlers {
             SchedulesStorage _schedulesStorage = new SchedulesStorage();
             _schedulesStorage.DelFromTeamSchedule(teamID, eventID);
         }
+        public void mergeSchedules(List<List<Event>> events) {
+
+        }
 
         /// <summary>
         /// Finds free time slots in multiple schedules

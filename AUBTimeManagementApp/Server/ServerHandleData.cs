@@ -23,6 +23,7 @@ namespace Server {
                 { (int)ClientPackages.CGetUserTeams, HandleGetUserTeams },
                 { (int)ClientPackages.CGetUserSchedule, HandleGetUserSchedule },
                 { (int)ClientPackages.CGetTeamSchedule, HandleGetTeamSchedule },
+                { (int)ClientPackages.CGetMergedTeamSchedule, HandleGetMergedTeamSchedule },
                 { (int)ClientPackages.CFilterUserSchedule, HandleFilterUserSchedule },
                 { (int)ClientPackages.CFilterTeamSchedule, HandleFilterTeamSchedule },
                 { (int)ClientPackages.CCreateTeam, HandleCreateTeam },
@@ -247,6 +248,27 @@ namespace Server {
             var eventsHandler = new EventsHandler();
             List<Event> eventsList = eventsHandler.GetEventList(eventIDs);
             ServerTCP.PACKET_SendGetTeamScheduleReply(ConnectionID, teamID, eventsList);
+        }
+
+        private static void HandleGetMergedTeamSchedule(int ConnectionID, byte[] data) {
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteBytes(data);
+            int teamID = bufferH.ReadInteger();
+            bufferH.Dispose();
+
+            TeamsHandler teamsHandler = new TeamsHandler();
+            SchedulesHandler schedulesHandler = new SchedulesHandler();
+            EventsHandler eventsHandler = new EventsHandler();
+
+            List<string> members = teamsHandler.GetTeamUsers(teamID);
+            List<List<Event>> allMembersEvents = new List<List<Event>>();
+            foreach(string member in members) {
+                List<int> memberEventsID = schedulesHandler.GetUserSchedule(member);
+                List<Event> memberEvents = eventsHandler.GetEventList(memberEventsID);
+                allMembersEvents.Add(memberEvents);
+            }
+
+            //TODO: Merge them and return something useful...
         }
 
         private static void HandleFilterUserSchedule(int ConnectionID, byte[] data)

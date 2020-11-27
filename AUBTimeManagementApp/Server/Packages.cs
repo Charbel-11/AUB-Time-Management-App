@@ -32,6 +32,7 @@ public enum ClientPackages {
     CGetUserTeams,
     CGetUserSchedule,
     CGetTeamSchedule,
+    CGetMergedTeamSchedule,
     CFilterUserSchedule,
     CFilterTeamSchedule,
     CCreateTeam,

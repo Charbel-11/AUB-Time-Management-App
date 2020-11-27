@@ -16,6 +16,7 @@ namespace AUBTimeManagementApp.GUI {
         public Team team { get; set; }
         public bool mergedCalendarShown { get; set; }
         AddEvent addEventForm;
+        bool isAdmin;
 
         public TeamCalendarForm(Team _team, bool merged) {
             Client.Client.Instance.setForm(this);
@@ -23,6 +24,13 @@ namespace AUBTimeManagementApp.GUI {
 
             team = _team;
             teamNameLabel.Text = team.teamName;
+            isAdmin = team.isAdmin(Client.Client.Instance.username);
+            if (!isAdmin) {
+                merged = false;
+                addEventButton.Enabled = false;
+                calendarTypeButton.Enabled = false;
+            }
+
             mergedCalendarShown = !merged;
             changeCalendarType();
         }
