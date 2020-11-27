@@ -43,6 +43,7 @@
             this.backButton = new System.Windows.Forms.Button();
             this.filterUserScheduleBut = new System.Windows.Forms.Button();
             this.mainPanel = new System.Windows.Forms.Panel();
+            this.InvitationsButton = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.Refresh = new System.Windows.Forms.Button();
             this.eventDetailsPanel = new System.Windows.Forms.Panel();
@@ -71,7 +72,6 @@
             this.Low = new System.Windows.Forms.CheckBox();
             this.monthView = new System.Windows.Forms.Calendar.MonthView();
             this.calendar = new System.Windows.Forms.Calendar.Calendar();
-            this.InvitationsButton = new System.Windows.Forms.Button();
             this.mainPanel.SuspendLayout();
             this.eventDetailsPanel.SuspendLayout();
             this.filteringPanel.SuspendLayout();
@@ -117,7 +117,7 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(787, 4);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(46, 17);
+            this.label1.Size = new System.Drawing.Size(51, 20);
             this.label1.TabIndex = 9;
             this.label1.Text = "label1";
             // 
@@ -164,6 +164,19 @@
             this.mainPanel.Name = "mainPanel";
             this.mainPanel.Size = new System.Drawing.Size(328, 301);
             this.mainPanel.TabIndex = 19;
+            // 
+            // InvitationsButton
+            // 
+            this.InvitationsButton.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.InvitationsButton.Location = new System.Drawing.Point(32, 161);
+            this.InvitationsButton.Name = "InvitationsButton";
+            this.InvitationsButton.Size = new System.Drawing.Size(266, 40);
+            this.InvitationsButton.TabIndex = 22;
+            this.InvitationsButton.Text = "Pending Invitations ";
+            this.InvitationsButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.InvitationsButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.InvitationsButton.UseVisualStyleBackColor = true;
+            this.InvitationsButton.Click += new System.EventHandler(this.InvitationsButton_Click);
             // 
             // button1
             // 
@@ -222,7 +235,7 @@
             this.textBox5.Margin = new System.Windows.Forms.Padding(2);
             this.textBox5.Name = "textBox5";
             this.textBox5.ReadOnly = true;
-            this.textBox5.Size = new System.Drawing.Size(62, 19);
+            this.textBox5.Size = new System.Drawing.Size(62, 23);
             this.textBox5.TabIndex = 20;
             this.textBox5.Text = "high";
             this.textBox5.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -235,7 +248,7 @@
             this.textBox8.Margin = new System.Windows.Forms.Padding(2);
             this.textBox8.Name = "textBox8";
             this.textBox8.ReadOnly = true;
-            this.textBox8.Size = new System.Drawing.Size(62, 19);
+            this.textBox8.Size = new System.Drawing.Size(62, 23);
             this.textBox8.TabIndex = 19;
             this.textBox8.Text = "low";
             this.textBox8.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -257,7 +270,7 @@
             this.dateTimePickerStart.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dateTimePickerStart.Location = new System.Drawing.Point(82, 60);
             this.dateTimePickerStart.Name = "dateTimePickerStart";
-            this.dateTimePickerStart.Size = new System.Drawing.Size(221, 22);
+            this.dateTimePickerStart.Size = new System.Drawing.Size(221, 26);
             this.dateTimePickerStart.TabIndex = 12;
             this.dateTimePickerStart.Value = new System.DateTime(2020, 11, 24, 16, 51, 25, 0);
             // 
@@ -267,7 +280,7 @@
             this.dateTimePickerEnd.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dateTimePickerEnd.Location = new System.Drawing.Point(82, 93);
             this.dateTimePickerEnd.Name = "dateTimePickerEnd";
-            this.dateTimePickerEnd.Size = new System.Drawing.Size(221, 22);
+            this.dateTimePickerEnd.Size = new System.Drawing.Size(221, 26);
             this.dateTimePickerEnd.TabIndex = 11;
             // 
             // detailsEndTime
@@ -276,7 +289,7 @@
             this.detailsEndTime.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.detailsEndTime.Location = new System.Drawing.Point(82, 97);
             this.detailsEndTime.Name = "detailsEndTime";
-            this.detailsEndTime.Size = new System.Drawing.Size(144, 15);
+            this.detailsEndTime.Size = new System.Drawing.Size(144, 19);
             this.detailsEndTime.TabIndex = 0;
             // 
             // textBox7
@@ -286,7 +299,7 @@
             this.textBox7.Location = new System.Drawing.Point(14, 97);
             this.textBox7.Name = "textBox7";
             this.textBox7.ReadOnly = true;
-            this.textBox7.Size = new System.Drawing.Size(100, 15);
+            this.textBox7.Size = new System.Drawing.Size(100, 19);
             this.textBox7.TabIndex = 0;
             this.textBox7.Text = "End Time:";
             // 
@@ -297,7 +310,7 @@
             this.textBox10.Location = new System.Drawing.Point(15, 147);
             this.textBox10.Name = "textBox10";
             this.textBox10.ReadOnly = true;
-            this.textBox10.Size = new System.Drawing.Size(101, 15);
+            this.textBox10.Size = new System.Drawing.Size(101, 19);
             this.textBox10.TabIndex = 8;
             this.textBox10.Text = "Priority: ";
             // 
@@ -308,7 +321,7 @@
             this.textBox6.Location = new System.Drawing.Point(14, 60);
             this.textBox6.Name = "textBox6";
             this.textBox6.ReadOnly = true;
-            this.textBox6.Size = new System.Drawing.Size(101, 15);
+            this.textBox6.Size = new System.Drawing.Size(101, 19);
             this.textBox6.TabIndex = 4;
             this.textBox6.Text = "Start Time: ";
             // 
@@ -378,7 +391,7 @@
             this.textBox4.Location = new System.Drawing.Point(99, 11);
             this.textBox4.Name = "textBox4";
             this.textBox4.ReadOnly = true;
-            this.textBox4.Size = new System.Drawing.Size(199, 23);
+            this.textBox4.Size = new System.Drawing.Size(199, 28);
             this.textBox4.TabIndex = 8;
             this.textBox4.Text = "Choose Priority";
             // 
@@ -390,7 +403,7 @@
             this.textBox3.Location = new System.Drawing.Point(246, 78);
             this.textBox3.Name = "textBox3";
             this.textBox3.ReadOnly = true;
-            this.textBox3.Size = new System.Drawing.Size(52, 19);
+            this.textBox3.Size = new System.Drawing.Size(52, 23);
             this.textBox3.TabIndex = 7;
             this.textBox3.Text = "High";
             // 
@@ -402,7 +415,7 @@
             this.textBox2.Location = new System.Drawing.Point(154, 77);
             this.textBox2.Name = "textBox2";
             this.textBox2.ReadOnly = true;
-            this.textBox2.Size = new System.Drawing.Size(61, 19);
+            this.textBox2.Size = new System.Drawing.Size(61, 23);
             this.textBox2.TabIndex = 6;
             this.textBox2.Text = "Medium";
             // 
@@ -414,7 +427,7 @@
             this.textBox1.Location = new System.Drawing.Point(77, 77);
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(47, 19);
+            this.textBox1.Size = new System.Drawing.Size(47, 23);
             this.textBox1.TabIndex = 5;
             this.textBox1.Text = "Low";
             // 
@@ -445,7 +458,7 @@
             this.High.AutoSize = true;
             this.High.Location = new System.Drawing.Point(256, 102);
             this.High.Name = "High";
-            this.High.Size = new System.Drawing.Size(18, 17);
+            this.High.Size = new System.Drawing.Size(22, 21);
             this.High.TabIndex = 2;
             this.High.UseVisualStyleBackColor = true;
             // 
@@ -454,7 +467,7 @@
             this.Medium.AutoSize = true;
             this.Medium.Location = new System.Drawing.Point(176, 103);
             this.Medium.Name = "Medium";
-            this.Medium.Size = new System.Drawing.Size(18, 17);
+            this.Medium.Size = new System.Drawing.Size(22, 21);
             this.Medium.TabIndex = 1;
             this.Medium.UseVisualStyleBackColor = true;
             // 
@@ -463,7 +476,7 @@
             this.Low.AutoSize = true;
             this.Low.Location = new System.Drawing.Point(87, 102);
             this.Low.Name = "Low";
-            this.Low.Size = new System.Drawing.Size(18, 17);
+            this.Low.Size = new System.Drawing.Size(22, 21);
             this.Low.TabIndex = 0;
             this.Low.UseVisualStyleBackColor = true;
             // 
@@ -521,19 +534,6 @@
             this.calendar.LoadItems += new System.Windows.Forms.Calendar.Calendar.CalendarLoadEventHandler(this.calendar_LoadItems);
             this.calendar.ItemDoubleClick += new System.Windows.Forms.Calendar.Calendar.CalendarItemEventHandler(this.calendar_ItemDoubleClick);
             // 
-            // InvitationsButton
-            // 
-            this.InvitationsButton.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.InvitationsButton.Location = new System.Drawing.Point(32, 161);
-            this.InvitationsButton.Name = "InvitationsButton";
-            this.InvitationsButton.Size = new System.Drawing.Size(266, 40);
-            this.InvitationsButton.TabIndex = 22;
-            this.InvitationsButton.Text = "Pending Invitations ";
-            this.InvitationsButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.InvitationsButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.InvitationsButton.UseVisualStyleBackColor = true;
-            this.InvitationsButton.Click += new System.EventHandler(this.InvitationsButton_Click);
-            // 
             // mainForm
             // 
             this.ClientSize = new System.Drawing.Size(1013, 557);
@@ -544,7 +544,7 @@
             this.Controls.Add(this.calendar);
             this.Controls.Add(this.filteringPanel);
             this.Name = "mainForm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Time Management App";
             this.mainPanel.ResumeLayout(false);
             this.eventDetailsPanel.ResumeLayout(false);

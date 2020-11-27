@@ -237,19 +237,16 @@ namespace Server {
         {
             BufferHelper bufferH = new BufferHelper();
             bufferH.WriteBytes(data);
-
-            // Read teamID to buffer
-            int TeamID = bufferH.ReadInteger();
-
+            int teamID = bufferH.ReadInteger();
             bufferH.Dispose();
 
             // Get list of events in the schedule
             ISchedulesHandler schedulesHandler = new SchedulesHandler();
-            List<int> eventIDs = schedulesHandler.GetTeamSchedule(TeamID);
+            List<int> eventIDs = schedulesHandler.GetTeamSchedule(teamID);
             // Get the events from eventIDs list and add them to the events list
             var eventsHandler = new EventsHandler();
             List<Event> eventsList = eventsHandler.GetEventList(eventIDs);
-            ServerTCP.PACKET_SendGetUserScheduleReply(ConnectionID, eventsList);
+            ServerTCP.PACKET_SendGetTeamScheduleReply(ConnectionID, teamID, eventsList);
         }
 
         private static void HandleFilterUserSchedule(int ConnectionID, byte[] data)

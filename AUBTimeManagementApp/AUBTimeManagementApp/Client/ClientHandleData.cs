@@ -214,7 +214,7 @@ namespace AUBTimeManagementApp.Client {
         {
             BufferHelper bufferH = new BufferHelper();
             bufferH.WriteBytes(data);
-
+            int teamID = bufferH.ReadInteger();
             int n = bufferH.ReadInteger();
             List<Event> eventsList = new List<Event>();
             for (int i = 0; i < n; i++)
@@ -229,7 +229,7 @@ namespace AUBTimeManagementApp.Client {
                 Event curevent = new Event(eventID, eventPriority, planner, eventName, DateTime.Parse(eventStart),DateTime.Parse(eventEnd), isteamEvent);
                 eventsList.Add(curevent);
             }
-            Client.Instance.GetTeamScheduleReply(eventsList);
+            Client.Instance.GetTeamScheduleReply(teamID, eventsList);
 
             bufferH.Dispose();
         }
@@ -341,13 +341,14 @@ namespace AUBTimeManagementApp.Client {
 
             Client.Instance.memberRemoved(teamID, removedMember);
         }
-
+        
         public static void HandleAddMemberReply(byte[] data) {
             BufferHelper bufferH = new BufferHelper();
             bufferH.WriteBytes(data);
+            int teamID = bufferH.ReadInteger();
             bool OK = bufferH.ReadBool();
             bufferH.Dispose();
-            Client.Instance.addMemberReply(OK);
+            Client.Instance.addMemberReply(teamID, OK);
         }
 
         public static void HandleMemberAdded(byte[] data) {

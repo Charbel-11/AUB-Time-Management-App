@@ -154,13 +154,13 @@ namespace Server {
             bufferH.Dispose();
         }
 
-        public static void PACKET_SendGetTeamScheduleReply(int ConnectionID,List<Event> eventsList)
+        public static void PACKET_SendGetTeamScheduleReply(int ConnectionID, int teamID, List<Event> eventsList)
         {
             BufferHelper bufferH = new BufferHelper();
-            bufferH.WriteInteger((int)ServerPackages.SGetUserScheduleReply);
-            int n = eventsList.Count;
-            bufferH.WriteInteger(n);
-            for (int i = 0; i < n; i++)
+            bufferH.WriteInteger((int)ServerPackages.SGetTeamScheduleReply);
+            bufferH.WriteInteger(teamID);
+            bufferH.WriteInteger(eventsList.Count);
+            for (int i = 0; i < eventsList.Count; i++)
             {
                 bufferH.WriteInteger(eventsList[i].ID);
                 bufferH.WriteString(eventsList[i].plannerUsername);
@@ -272,9 +272,10 @@ namespace Server {
             bufferH.Dispose();
         }
     
-        public static void PACKET_AddMemberReply(int ConnectionID, bool OK) {
+        public static void PACKET_AddMemberReply(int ConnectionID, int teamID, bool OK) {
             BufferHelper bufferH = new BufferHelper();
             bufferH.WriteInteger((int)ServerPackages.SAddMemberReply);
+            bufferH.WriteInteger(teamID);
             bufferH.WriteBool(OK);
             SendDataTo(ConnectionID, bufferH.ToArray());
             bufferH.Dispose();

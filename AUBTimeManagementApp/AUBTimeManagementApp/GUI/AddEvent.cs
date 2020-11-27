@@ -18,7 +18,7 @@ namespace AUBTimeManagementApp.GUI
          */
 
         mainForm parent;
-        TeamDetailsForm teamParent;
+        TeamCalendarForm teamParent;
         public AddEvent(mainForm _parent)
         {
             parent = _parent;
@@ -29,7 +29,7 @@ namespace AUBTimeManagementApp.GUI
             endDate.Value = DateTime.Now.AddMinutes(30);
         }
 
-        public AddEvent(TeamDetailsForm _parent)
+        public AddEvent(TeamCalendarForm _parent)
         {
             parent = null;
             teamParent = _parent;

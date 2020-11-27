@@ -14,11 +14,9 @@ namespace AUBTimeManagementApp.Client
         private static readonly int serverPort = 8020;
 
         public string username;
-        public int teamID = 0;
         private List<Team> teams;   //Might need to make it thread safe (consider case where members of same team add other members or delete or ..., we get asynchronous requests to change teams)
         private List<Invitation> Invitations;
         private List<Event> events;
-        private Event addedEvent;
 
         //Connects the users to the active open form
         public RegistrationForm registrationForm { get; private set; }
@@ -26,6 +24,7 @@ namespace AUBTimeManagementApp.Client
         public SignInUpForm signInUpForm { get; private set; }
         public TeamsForm teamsForm { get; private set; }
         public TeamDetailsForm teamDetailsForm { get; private set; }
+        public TeamCalendarForm teamCalendarForm { get; private set; }
 
         // Explicit static constructor to tell C# compiler not to mark type as beforefieldinit
         static Client()
@@ -72,6 +71,9 @@ namespace AUBTimeManagementApp.Client
             }
             else if (form.GetType() == typeof(TeamDetailsForm)) {
                 teamDetailsForm = (TeamDetailsForm)form;
+            }
+            else if (form.GetType() == typeof(TeamCalendarForm)) {
+                teamCalendarForm = (TeamCalendarForm)form;
             }
         }
 
@@ -303,7 +305,7 @@ namespace AUBTimeManagementApp.Client
         /// Feedback of a request of the user made to add a member to a team
         /// </summary>
         /// <param name="OK">True if the member was added, false otherwise</param>
-        public void addMemberReply(bool OK) {
+        public void addMemberReply(int teamID, bool OK) {
             string feedback = (OK ? "Member added" : "The username is not valid");
             bool teamDetailsOpen = teamDetailsForm != null && teamDetailsForm.Visible && teamDetailsForm.team.teamID == teamID;
             if (teamDetailsOpen) {
@@ -372,17 +374,32 @@ namespace AUBTimeManagementApp.Client
                     mainForm.displayEvent(eventID, name, priority, start, end);
             }
         }
-        
+
         /// <summary>
         /// Get all the events scheduled for this team form the server
         /// </summary>
-        public void GetTeamSchedule()
+        /// <param name="teamID">The ID of the team</param>
+        public void GetTeamSchedule(int teamID)
         {
             ClientTCP.PACKET_GetTeamSchedule(teamID);
         }
-
-        public void GetTeamScheduleReply(List<Event> eventsList)
+        public void GetTeamScheduleReply(int teamID, List<Event> eventsList)
         {
+            if (teamCalendarForm != null && teamCalendarForm.Visible && teamCalendarForm.team.teamID == teamID && !teamCalendarForm.mergedCalendarShown) {
+                for (int i = 0; i < eventsList.Count; i++) {
+                    if (teamCalendarForm.InvokeRequired)
+                        teamCalendarForm.Invoke(new MethodInvoker(delegate { teamCalendarForm.displayEvent(eventsList[i]); }));
+                    else
+                        teamCalendarForm.displayEvent(eventsList[i]);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets the merged schedule of all members of a team
+        /// </summary>
+        /// <param name="teamID">The ID of the team</param>
+        public void GetMergedTeamSchedule(int teamID) {
 
         }
 

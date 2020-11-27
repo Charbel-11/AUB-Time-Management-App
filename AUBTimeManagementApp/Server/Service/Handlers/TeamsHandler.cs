@@ -42,7 +42,7 @@ namespace Server.Service.Handlers
                 teamsStorage.AddTeamMembers(teamID, new List<string> { userToAdd });
                 OK = true;
             }
-            ServerTCP.PACKET_AddMemberReply(ConnectionID, OK);
+            ServerTCP.PACKET_AddMemberReply(ConnectionID, teamID, OK);
             if (!OK) { return false; }
 
             string[] teamMembers = TeamsStorage.getTeamMembers(teamID);

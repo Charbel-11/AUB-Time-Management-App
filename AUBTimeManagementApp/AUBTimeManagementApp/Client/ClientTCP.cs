@@ -170,11 +170,7 @@ namespace AUBTimeManagementApp.Client {
         {
             BufferHelper bufferH = new BufferHelper();
             bufferH.WriteInteger((int)ClientPackages.CGetTeamSchedule);
-
-            // Write teamID on buffer
             bufferH.WriteInteger(teamID);
-
-            //Sends it to the server
             SendData(bufferH.ToArray());
             bufferH.Dispose();
         }
