@@ -139,10 +139,5 @@ namespace Server.Service.Handlers {
 
         #endregion
 
-        public int GetEventTeam(int eventID)
-        {
-            SchedulesStorage _schedulesStorage = new SchedulesStorage();
-            return _schedulesStorage.GetEventTeam(eventID);
-        }
     }
 }
