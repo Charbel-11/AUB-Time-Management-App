@@ -58,16 +58,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AccountsDataBase.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>AccountsDataBase.xsd</DependentUpon>
-    </Compile>
-    <Compile Include="AccountsDataBaseDataSet.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>AccountsDataBaseDataSet.xsd</DependentUpon>
-    </Compile>
     <Compile Include="BufferHelper.cs" />
     <Compile Include="ClientObject.cs" />
     <Compile Include="DataContracts\Invitation.cs" />
@@ -113,42 +103,11 @@
     <Compile Include="Service\Storage\TeamsStorage.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="AccountsDataBase.xsc">
-      <DependentUpon>AccountsDataBase.xsd</DependentUpon>
-    </None>
-    <None Include="AccountsDataBase.xsd">
-      <SubType>Designer</SubType>
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>AccountsDataBase.Designer.cs</LastGenOutput>
-    </None>
-    <None Include="AccountsDataBase.xss">
-      <DependentUpon>AccountsDataBase.xsd</DependentUpon>
-    </None>
-    <None Include="AccountsDataBaseDataSet.xsc">
-      <DependentUpon>AccountsDataBaseDataSet.xsd</DependentUpon>
-    </None>
-    <None Include="AccountsDataBaseDataSet.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>AccountsDataBaseDataSet.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="AccountsDataBaseDataSet.xss">
-      <DependentUpon>AccountsDataBaseDataSet.xsd</DependentUpon>
-    </None>
     <None Include="App.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Service\Storage\AccountsDataBase.mdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Service\Storage\AccountsDataBase_log.ldf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <DependentUpon>AccountsDataBase.mdf</DependentUpon>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
