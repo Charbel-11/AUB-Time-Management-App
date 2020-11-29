@@ -51,7 +51,7 @@ namespace AUBTimeManagementApp.Service.Storage
             catch (SqlException exception) { Console.WriteLine("AddInvitation: " + exception.Message); throw; }
         }
 
-        public void AddInvitation(string username, int invitationID) { 
+        public void AddUserInvitation(string username, int invitationID) { 
             try {
                 string connectionString = ConnectionUtil.connectionString;
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
@@ -67,7 +67,7 @@ namespace AUBTimeManagementApp.Service.Storage
 
                 command.Parameters.Clear(); sqlConnection.Close();
             }
-            catch (SqlException exception) { Console.WriteLine("AddInvitation: " + exception.Message); throw; }
+            catch (SqlException exception) { Console.WriteLine("AddUserInvitation: " + exception.Message); throw; }
         }
 
         public List<int> GetUserInvitations(string username)
@@ -117,7 +117,7 @@ namespace AUBTimeManagementApp.Service.Storage
             catch (SqlException exception) { Console.WriteLine("GetEvent: " + exception.Message); throw; }
         }
 
-        public void RemoveInvitation(string username, int invitationID)
+        public void RemoveUserInvitation(string username, int invitationID)
         {
             try {
                 string connectionString = ConnectionUtil.connectionString;
