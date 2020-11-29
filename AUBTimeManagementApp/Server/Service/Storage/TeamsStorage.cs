@@ -22,10 +22,9 @@ namespace AUBTimeManagementApp.Service.Storage
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
                 sqlConnection.Open();
 
-                string query = "INSERT INTO Teams(TeamID, TeamName) " +
-                                "VALUES (@TeamID, @TeamName)";
+                string query = "INSERT INTO Teams(TeamName) " +
+                                "VALUES (@TeamName)";
                 SqlCommand command = new SqlCommand(query, sqlConnection);
-                command.Parameters.Add("@TeamID", SqlDbType.Int).Value = teamName.GetHashCode();
                 command.Parameters.Add("@TeamName", SqlDbType.NVarChar).Value = teamName;
                
                 SqlDataReader dataReader = command.ExecuteReader();
@@ -182,6 +181,24 @@ namespace AUBTimeManagementApp.Service.Storage
         #endregion
 
         #region Get
+
+        public static int getTeamID(string teamName) {
+            try {
+                string connectionString = ConnectionUtil.connectionString;
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+                sqlConnection.Open();
+
+                string query = "SELECT TeamID FROM Teams WHERE TeamName = @Teamname";
+                SqlCommand command = new SqlCommand(query, sqlConnection);
+                command.Parameters.Add("@TeamName", SqlDbType.Int).Value = teamName;
+                SqlDataReader dataReader = command.ExecuteReader();
+
+                int res = dataReader.Read() ? dataReader.GetInt32(0) : -1;
+                command.Parameters.Clear(); sqlConnection.Close(); 
+                return res;
+            }
+            catch (SqlException exception) { Console.WriteLine("getTeamID: " + exception.Message); throw; }
+        }
 
         public static List<int> getUserTeams(string username) {
             try {
