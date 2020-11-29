@@ -19,8 +19,7 @@ namespace Server.Service.Handlers {
         }
 
         public void AddEventToList(string username, int eventID) {
-            SchedulesStorage.AddToUserSchedule(username, eventID);
-            
+            SchedulesStorage.AddToUserSchedule(username, eventID);          
 		}
 
         public void RemoveEventFromList(string username, int eventID) {
@@ -44,7 +43,6 @@ namespace Server.Service.Handlers {
         public void AddEventToTeam(int teamID, int eventID)
         {
             SchedulesStorage.AddToTeamSchedule(teamID, eventID);
-
         }
 
         public void RemoveEventFromTeamList(int teamID, int eventID)

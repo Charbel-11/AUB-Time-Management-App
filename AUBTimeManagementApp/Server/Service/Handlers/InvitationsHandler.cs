@@ -8,7 +8,6 @@ namespace Server.Service.Handlers
     {
         public List<int> GetInvitationsEventsIds(int userId)
         {
-
             return null;
         }
         
@@ -35,8 +34,7 @@ namespace Server.Service.Handlers
             foreach (string username in AttendeesUsernames)
             {
                 InvitationsStorage.AddUserInvitation(username, invitationID);
-            } 
-            
+            }           
         }
 
         public List<Invitation> getInvitations(List<int> InvitationIDs) {

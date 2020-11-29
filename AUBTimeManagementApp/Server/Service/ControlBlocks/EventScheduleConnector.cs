@@ -12,8 +12,12 @@ namespace Server.Service.ControlBlocks
         {
             //Commented throw exception cause we need to always return the id of the added event to the client.
             // maybe we don't need to check for conflict if we're not gonna anything with the list of conflicting events
-            
-           // Add event id to the user's schedule
+
+            //check for conflict with the conflict checker
+            IConflictChecker conflictChecker = new ConflictChecker();
+            List<int> conflictingEvents = conflictChecker.ConflictExists(username, _event);
+
+            // Add event id to the user's schedule
             ISchedulesHandler _schedulesHandler = new SchedulesHandler();
             _schedulesHandler.AddEventToList(username, _event.eventID);
 

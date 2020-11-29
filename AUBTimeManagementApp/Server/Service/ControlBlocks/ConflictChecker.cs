@@ -15,14 +15,16 @@ namespace Server.Service.ControlBlocks
             
         }
 
-        // Instead of returning a boolean that specifies whether there's a conflict or not
-        // This function returns a list of events ids corresponding to the events that overlaps with the new event
+        /// <summary>
+        /// Get the list of event conflicting with personalEvent
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="personalEvent">Event to check conflict with</param>
+        /// <returns>List of events ids corresponding to the events that overlaps with the new event</returns>
         public List<int> ConflictExists(string username, Event personalEvent)
         {
             /* Create an instance of the schedules handler since you can only access a user schedule through it */
             ISchedulesHandler scheduleHandler = new SchedulesHandler();
-            
-            /* Get user schedule */
             List<int> eventIds = scheduleHandler.GetUserSchedule(username);
 
             if (eventIds.Count == 0) return null;

@@ -105,8 +105,8 @@ namespace AUBTimeManagementApp.Service.Storage
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
                 sqlConnection.Open();
 
-                string query =  "INSERT INTO Users(Username, FirstName, LastName, Password, Email, DateOfBirth, Online) " +
-                                "VALUES (@Username, @FirstName, @LastName, @Password, @Email, @DateOfBirth, @Online)";
+                string query =  "INSERT INTO Users(Username, FirstName, LastName, Password, Email, DateOfBirth) " +
+                                "VALUES (@Username, @FirstName, @LastName, @Password, @Email, @DateOfBirth)";
                 SqlCommand command = new SqlCommand(query, sqlConnection);
                 command.Parameters.Add("@Username", SqlDbType.NVarChar).Value = username;
                 command.Parameters.Add("@FirstName", SqlDbType.NVarChar).Value = firstName;
@@ -114,13 +114,11 @@ namespace AUBTimeManagementApp.Service.Storage
                 command.Parameters.Add("@Password", SqlDbType.NVarChar).Value = password;
                 command.Parameters.Add("@Email", SqlDbType.NVarChar).Value = email;
                 command.Parameters.Add("@DateOfBirth", SqlDbType.DateTime).Value = dateOfBirth;
-                command.Parameters.Add("@Online", SqlDbType.Bit).Value = false;
                 SqlDataReader dataReader = command.ExecuteReader();
 
                 command.Parameters.Clear(); sqlConnection.Close(); return true;
             }
             catch (SqlException exception) { Console.WriteLine("createAccount: " + exception.Message); throw; }
         }
-
     }
 }
