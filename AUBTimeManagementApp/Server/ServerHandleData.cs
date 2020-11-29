@@ -196,7 +196,6 @@ namespace Server {
                 Console.WriteLine(username + " just signed in!");
                 ServerTCP.ClientObjects[ConnectionID].username = username;
                 ServerTCP.UsernameToConnectionID[username] = ConnectionID;
-//                accountsHandler.setOnline(username, true);
             }
             else {
                 Console.WriteLine("Invalid Username\\Password");
@@ -213,7 +212,7 @@ namespace Server {
             bufferH.Dispose();
 
             ITeamsHandler teamsHandler = new TeamsHandler();
-            List<Team> teams = teamsHandler.GetPersonalTeams(username);
+            List<Team> teams = teamsHandler.GetUserTeams(username);
             ServerTCP.PACKET_SendGetUserTeamsReply(ConnectionID, teams);
         }
 
@@ -261,7 +260,7 @@ namespace Server {
             SchedulesHandler schedulesHandler = new SchedulesHandler();
             EventsHandler eventsHandler = new EventsHandler();
 
-            List<string> members = teamsHandler.GetTeamUsers(teamID);
+            List<string> members = teamsHandler.GetTeamMembers(teamID);
             List<List<Event>> allMembersEvents = new List<List<Event>>();
             foreach(string member in members) {
                 List<int> memberEventsID = schedulesHandler.GetUserSchedule(member);

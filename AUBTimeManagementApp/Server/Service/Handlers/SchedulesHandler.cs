@@ -6,29 +6,27 @@ using Server.DataContracts;
 
 namespace Server.Service.Handlers {
     public class SchedulesHandler : ISchedulesHandler{
+        #region userSchedule
 
-
-		#region userSchedule
-
-		public List<int> GetUserSchedule(string username) {
-            // get a list of event IDs that the user is attending
-            SchedulesStorage _schedulesStorage = new SchedulesStorage();
-            List<int> eventList = _schedulesStorage.GetPersonalSchedule(username);
+        /// <summary>
+        /// Get a list of event IDs that the user is attending
+        /// </summary>
+        /// <returns>The list of event IDs</returns>
+        public List<int> GetUserSchedule(string username) {
+            List<int> eventList = SchedulesStorage.GetUserSchedule(username);
             Console.WriteLine("Getting the user schedule!");
             return eventList;
         }
 
         public void AddEventToList(string username, int eventID) {
-            SchedulesStorage _scheduleStorage = new SchedulesStorage();
-            _scheduleStorage.AddToPersonalSchedule(username, eventID);
+            SchedulesStorage.AddToUserSchedule(username, eventID);
             
 		}
 
         public void RemoveEventFromList(string username, int eventID) {
             //gets username abd event ID
             //when user cancels event remove it from his schedule
-            SchedulesStorage _schedulesStorage = new SchedulesStorage();
-            _schedulesStorage.DelFromPersonalSchedule(username, eventID);
+            SchedulesStorage.DeleteFromUserSchedule(username, eventID);
         }
 
         #endregion
@@ -38,16 +36,14 @@ namespace Server.Service.Handlers {
         public List<int> GetTeamSchedule(int teamID)
         {
             //get a list of event IDs that are scheduled for this team
-            SchedulesStorage _schedulesStorage = new SchedulesStorage();
-            List<int> eventList = _schedulesStorage.GetTeamSchedule(teamID);
+            List<int> eventList = SchedulesStorage.GetTeamSchedule(teamID);
             Console.WriteLine("Getting the team schedule!");
             return eventList;
         }
 
         public void AddEventToTeam(int teamID, int eventID)
         {
-            SchedulesStorage _scheduleStorage = new SchedulesStorage();
-            _scheduleStorage.AddToTeamSchedule(teamID, eventID);
+            SchedulesStorage.AddToTeamSchedule(teamID, eventID);
 
         }
 
@@ -55,8 +51,7 @@ namespace Server.Service.Handlers {
         {
             //gets username abd event ID
             //when user cancels event remove it from his schedule
-            SchedulesStorage _schedulesStorage = new SchedulesStorage();
-            _schedulesStorage.DelFromTeamSchedule(teamID, eventID);
+            SchedulesStorage.DeleteFromTeamSchedule(teamID, eventID);
         }
         public void mergeSchedules(List<List<Event>> events) {
 
@@ -138,6 +133,5 @@ namespace Server.Service.Handlers {
         }
 
         #endregion
-
     }
 }

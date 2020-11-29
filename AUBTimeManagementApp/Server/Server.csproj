@@ -74,9 +74,7 @@
     <Compile Include="DataContracts\Event.cs" />
     <Compile Include="DataContracts\Schedule.cs" />
     <Compile Include="DataContracts\Team.cs" />
-    <Compile Include="Service\ControlBlocks\ConflictChecker.cs" />
     <Compile Include="Service\ControlBlocks\EventScheduleConnector.cs" />
-    <Compile Include="Service\ControlBlocks\IConflictChecker.cs" />
     <Compile Include="Service\ControlBlocks\IEventScheduleConnector.cs" />
     <Compile Include="Service\ControlBlocks\IInvitationsConnector.cs" />
     <Compile Include="Service\ControlBlocks\InvitationConnector.cs" />

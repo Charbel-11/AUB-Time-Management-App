@@ -26,21 +26,13 @@ namespace Server.Service.Handlers
             return AccountsStorage.validateLogIn(username, password);
         }
 
-        public bool LogOut() {
-            return false;
-        }
-
         public int ChangePassword(string username, string oldPassword, string newPassword, string confirmPassowrd) {
 
             int checkPass = CheckPassword(newPassword, confirmPassowrd);
             if(checkPass == -1) { return -1; }
             if(checkPass == -2) { return -2; }
 
-            //
-            //UPDATE THE PASSWORD
-            //
             UpdatePassword(username, newPassword);
-
             return 1;
         }
         public bool IsRegistered(string username)

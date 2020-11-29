@@ -44,7 +44,7 @@ namespace Server.Service.Handlers
         /// <param name="ConnectionID">Connection ID of the calling user, needed to give feedback</param>
         /// <param name="teamID">ID of the team</param>
         /// <param name="userToAdd">Username of the user to add to the team</param>
-        /// <returns></returns>
+        /// <returns>True if successful, false otherwise</returns>
         public bool AddMemberRequest(int ConnectionID, int teamID, string userToAdd)
         {
             bool OK = AccountsStorage.usernameExists(userToAdd);
@@ -68,7 +68,14 @@ namespace Server.Service.Handlers
 
             return true;
         }
-
+        
+        /// <summary>
+        /// Removes a member from a team
+        /// </summary>
+        /// No need for feedback since the username must be correct (it was taken from the GUI)
+        /// <param name="teamID">ID of the team</param>
+        /// <param name="userToRemove">Username of the member to remove</param>
+        /// <returns>True if successful, false otherwise</returns>
         public bool RemoveMemberRequest(int teamID, string userToRemove)
         {
             bool b = TeamsStorage.removeTeamMember(teamID, userToRemove);
@@ -86,6 +93,13 @@ namespace Server.Service.Handlers
             return true;
         }
 
+        /// <summary>
+        /// Either sets a user to become an admin, or makes him a member again
+        /// </summary>
+        /// <param name="teamID">ID of the team</param>
+        /// <param name="username">Username of the user which will have his admin state changed</param>
+        /// <param name="isNowAdmin">True if we want to set the user as admin, false otherwise</param>
+        /// <returns>True if successful, false otherwise</returns>
         public bool ChangeAdminState(int teamID, string username, bool isNowAdmin) {
             bool b = false;
             if (isNowAdmin) {
@@ -103,18 +117,14 @@ namespace Server.Service.Handlers
             return true;
         }
 
-        public List<Team> GetPersonalTeams(string username)
-        {
-            List<int> teamsID = TeamsStorage.getUserTeams(username);
-            List<Team> teams = new List<Team>();
-
-            foreach(int ID in teamsID) {
-                teams.Add(TeamsStorage.getTeamInfo(ID));
-            }
-
-            return teams;
-        }
-
+        /// <summary>
+        /// Returns teams event with specific priorities
+        /// </summary>
+        /// <param name="teamID"></param>
+        /// <param name="low">True if we want low priority events</param>
+        /// <param name="mid">True if we want mid priority events</param>
+        /// <param name="high">True if we want high priority events</param>
+        /// <returns>A list of event IDs of the corresponding events</returns>
         public List<int> getTeamEvents(int teamID, bool low, bool mid, bool high)
         {
             List<int> events = new List<int>();
@@ -124,11 +134,28 @@ namespace Server.Service.Handlers
             return events;
         }
 
-        public List<int> getUserTeams(string username) {
-            return TeamsStorage.getUserTeams(username);
+        /// <summary>
+        /// Gets all the teams that a user belongs to
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns>The list of the teams that the user belongs to</returns>
+        public List<Team> GetUserTeams(string username) {
+            List<int> teamsID = TeamsStorage.getUserTeams(username);
+            List<Team> teams = new List<Team>();
+
+            foreach (int ID in teamsID) {
+                teams.Add(TeamsStorage.getTeamInfo(ID));
+            }
+
+            return teams;
         }
 
-        public List<string> GetTeamUsers(int teamID)
+        /// <summary>
+        /// Gets all the members of a specific team
+        /// </summary>
+        /// <param name="teamID">The ID of the team</param>
+        /// <returns></returns>
+        public List<string> GetTeamMembers(int teamID)
         {
             return new List<string> (TeamsStorage.getTeamMembers(teamID));
         }

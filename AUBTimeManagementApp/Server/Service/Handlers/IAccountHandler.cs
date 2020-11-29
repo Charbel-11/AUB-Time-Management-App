@@ -10,7 +10,6 @@ namespace Server.Service.Handlers
     {
         int ConfirmRegistration(string username, string firstName, string lastName, string email, string password, string confirmPassword, DateTime dateOfBirth);
         bool ConfirmLogIn(string username, string password);
-        bool LogOut();
         int ChangePassword(string username, string oldPassword, string newPassword, string confirmPassowrd);
 
         bool IsRegistered(string username);
