@@ -5,7 +5,6 @@ using System.Reflection.Emit;
 using System.Text;
 using Server.DataContracts;
 using Server.Service.ControlBlocks;
-using Server.Service.Exceptions;
 
 namespace Server.Service.Handlers
 {

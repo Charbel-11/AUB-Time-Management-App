@@ -488,9 +488,8 @@ namespace Server {
             string username = bufferH.ReadString();
             bufferH.Dispose();
 
-            InvitationsStorage invitationsStorage = new InvitationsStorage();
-            List<int> invitationIDs = invitationsStorage.GetUserInvitations(username);
-            List<Invitation> invitations = invitationsStorage.GetInvitations(invitationIDs);
+            List<int> invitationIDs = InvitationsStorage.GetUserInvitations(username);
+            List<Invitation> invitations = InvitationsStorage.GetInvitations(invitationIDs);
             ServerTCP.PACKET_SendGetUserInvitationsReply(ConnectionID, invitations);
         }
 
@@ -501,12 +500,10 @@ namespace Server {
             BufferHelper bufferH = new BufferHelper();
             bufferH.WriteBytes(Data);
             string username = bufferH.ReadString();
-            int eventID = bufferH.ReadInteger();
-            string invitationSender = bufferH.ReadString();
-            int teamID = bufferH.ReadInteger();
+            int invitationID = bufferH.ReadInteger();
 
             IInvitationsConnector invitationsConnector = new InvitationConnector();
-            invitationsConnector.AcceptInvitation(username, eventID, teamID, invitationSender);
+            invitationsConnector.AcceptInvitation(username, invitationID);
 
         }
 
@@ -517,12 +514,10 @@ namespace Server {
             BufferHelper bufferH = new BufferHelper();
             bufferH.WriteBytes(Data);
             string username = bufferH.ReadString();
-            int eventID = bufferH.ReadInteger();
-            string invitationSender = bufferH.ReadString();
-            int teamID = bufferH.ReadInteger();
+            int invitationID = bufferH.ReadInteger();
 
             IInvitationsConnector invitationsConnector = new InvitationConnector();
-            invitationsConnector.DeclineInvitation(username, eventID, teamID, invitationSender);
+            invitationsConnector.DeclineInvitation(username, invitationID);
 
         }
         #endregion

@@ -9,7 +9,7 @@ namespace AUBTimeManagementApp.Service.Storage
 {
     public class InvitationsStorage {
         
-        bool invitationExists(int eventID, int teamID, string senderUsername) {
+        public static bool invitationExists(int eventID, int teamID, string senderUsername) {
             try {
                 string connectionString = ConnectionUtil.connectionString;
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
@@ -30,9 +30,30 @@ namespace AUBTimeManagementApp.Service.Storage
             catch (SqlException exception) { Console.WriteLine("invitationExists: " + exception.Message); throw; }
         }
 
-        public void AddInvitation(int eventID, int teamID, string senderUsername) {
+        private static int getInvitationID(int eventID, int teamID, string senderUsername) {
             try {
-                if (!invitationExists(eventID, teamID, senderUsername)) { }
+                string connectionString = ConnectionUtil.connectionString;
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+                sqlConnection.Open();
+
+                string query = "SELECT InvitationID FROM Invitations WHERE EventID = @EvenID AND TeamID = @TeamID AND SenderUsername = @SenderUsername";
+                SqlCommand command = new SqlCommand(query, sqlConnection);
+
+                command.Parameters.Add("@EventID", SqlDbType.Int).Value = eventID;
+                command.Parameters.Add("@TeamID", SqlDbType.Int).Value = teamID;
+                command.Parameters.Add("@SenderUsername", SqlDbType.NVarChar).Value = senderUsername;
+                SqlDataReader dataReader = command.ExecuteReader();
+
+                int res = (dataReader.Read() ? dataReader.GetInt32(0) : -1);
+                command.Parameters.Clear(); sqlConnection.Close();
+                return res;
+            }
+            catch (SqlException exception) { Console.WriteLine("AddInvitation: " + exception.Message); throw; }
+        }
+
+        public static int AddInvitation(int eventID, int teamID, string senderUsername) {
+            try {
+                if (invitationExists(eventID, teamID, senderUsername)) { return getInvitationID(eventID, teamID, senderUsername); }
                 string connectionString = ConnectionUtil.connectionString;
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
                 sqlConnection.Open();
@@ -47,11 +68,13 @@ namespace AUBTimeManagementApp.Service.Storage
                 SqlDataReader dataReader = command.ExecuteReader();
 
                 command.Parameters.Clear(); sqlConnection.Close();
+
+                return getInvitationID(eventID, teamID, senderUsername);
             }
             catch (SqlException exception) { Console.WriteLine("AddInvitation: " + exception.Message); throw; }
         }
 
-        public void AddUserInvitation(string username, int invitationID) { 
+        public static void AddUserInvitation(string username, int invitationID) { 
             try {
                 string connectionString = ConnectionUtil.connectionString;
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
@@ -70,7 +93,7 @@ namespace AUBTimeManagementApp.Service.Storage
             catch (SqlException exception) { Console.WriteLine("AddUserInvitation: " + exception.Message); throw; }
         }
 
-        public List<int> GetUserInvitations(string username)
+        public static List<int> GetUserInvitations(string username)
         {
             try {
                 string connectionString = ConnectionUtil.connectionString;
@@ -90,7 +113,7 @@ namespace AUBTimeManagementApp.Service.Storage
             catch (SqlException exception) { Console.WriteLine("GetUserInvitations: " + exception.Message); throw; }
         }
 
-        public List<Invitation> GetInvitations(List<int> invitationIDs) {
+        public static List<Invitation> GetInvitations(List<int> invitationIDs) {
             try {
                 string connectionString = ConnectionUtil.connectionString;
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
@@ -117,7 +140,7 @@ namespace AUBTimeManagementApp.Service.Storage
             catch (SqlException exception) { Console.WriteLine("GetEvent: " + exception.Message); throw; }
         }
 
-        public void RemoveUserInvitation(string username, int invitationID)
+        public static void RemoveUserInvitation(string username, int invitationID)
         {
             try {
                 string connectionString = ConnectionUtil.connectionString;

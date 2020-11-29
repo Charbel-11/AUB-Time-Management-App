@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Server.Service.Handlers {
     public interface ITeamsHandler {
-        void CreateTeamRequest(int ConnectionID, string admin, string teamName, List<string> members)
+        void CreateTeamRequest(int ConnectionID, string admin, string teamName, List<string> members);
         bool AddMemberRequest(int ConnectionID, int teamID, string userToAdd);
         bool RemoveMemberRequest(int teamID, string userToRemove);
         bool ChangeAdminState(int teamID, string username, bool isNowAdmin);

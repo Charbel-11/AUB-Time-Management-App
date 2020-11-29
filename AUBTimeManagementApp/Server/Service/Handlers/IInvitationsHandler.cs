@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Server.DataContracts;
+using System.Collections.Generic;
 
 namespace Server.Service.Handlers
 {
@@ -17,5 +18,7 @@ namespace Server.Service.Handlers
 
         // Invite users to a certain event
         void SendInvitations(List<string> AttendeesUsernames, int eventID, int teamsID, string SenderUsername);
+
+        List<Invitation> getInvitations(List<int> InvitationIDs);
     }
 }
