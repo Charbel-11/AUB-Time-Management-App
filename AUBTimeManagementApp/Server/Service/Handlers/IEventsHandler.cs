@@ -10,11 +10,10 @@ namespace Server.Service.Handlers
     public interface IEventsHandler
     {
         void CreateEvent(Event _event);
-        Event GetEvent(int eventId);
         void UpdateEvent(Event updatedEvent);
         void CancelEvent(int eventID);
         void RemoveUserFromEventAttendees(int eventId, string username);
-        List<Event> GetEventList(List<int> eventsIDs);
+        List<Event> GetEvents(List<int> eventsIDs);
         List<int> getFilteredUserEvents(string username, bool low, bool mid, bool high);
     }
 }

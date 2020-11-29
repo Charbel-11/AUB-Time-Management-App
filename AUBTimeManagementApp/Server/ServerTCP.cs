@@ -141,7 +141,7 @@ namespace Server {
             bufferH.WriteInteger(n);
             for (int i = 0; i < n; i++)
             {
-                bufferH.WriteInteger(eventsList[i].ID);
+                bufferH.WriteInteger(eventsList[i].eventID);
                 bufferH.WriteString(eventsList[i].plannerUsername);
                 bufferH.WriteString(eventsList[i].eventName);
                 bufferH.WriteInteger(eventsList[i].priority);
@@ -162,7 +162,7 @@ namespace Server {
             bufferH.WriteInteger(eventsList.Count);
             for (int i = 0; i < eventsList.Count; i++)
             {
-                bufferH.WriteInteger(eventsList[i].ID);
+                bufferH.WriteInteger(eventsList[i].eventID);
                 bufferH.WriteString(eventsList[i].plannerUsername);
                 bufferH.WriteString(eventsList[i].eventName);
                 bufferH.WriteInteger(eventsList[i].priority);
@@ -183,7 +183,7 @@ namespace Server {
             bufferH.WriteInteger(n);
             for (int i = 0; i < n; i++)
             {
-                bufferH.WriteInteger(eventsList[i].ID);
+                bufferH.WriteInteger(eventsList[i].eventID);
                 bufferH.WriteString(eventsList[i].plannerUsername);
                 bufferH.WriteString(eventsList[i].eventName);
                 bufferH.WriteInteger(eventsList[i].priority);
@@ -204,7 +204,7 @@ namespace Server {
             bufferH.WriteInteger(n);
             for (int i = 0; i < n; i++)
             {
-                bufferH.WriteInteger(eventsList[i].ID);
+                bufferH.WriteInteger(eventsList[i].eventID);
                 bufferH.WriteString(eventsList[i].plannerUsername);
                 bufferH.WriteString(eventsList[i].eventName);
                 bufferH.WriteInteger(eventsList[i].priority);
@@ -324,18 +324,13 @@ namespace Server {
             for (int i = 0; i < n; i++)
             {
                 // Write event details
-                bufferH.WriteInteger(invitations[i].Event.ID);
-                bufferH.WriteString(invitations[i].Event.eventName);
-                bufferH.WriteString(invitations[i].Event.plannerUsername);
-                bufferH.WriteInteger(invitations[i].Event.priority);
-                bufferH.WriteString(invitations[i].Event.startTime.ToString());
-                bufferH.WriteString(invitations[i].Event.endTime.ToString());
+                bufferH.WriteInteger(invitations[i].eventID);
 
                 // write team id
-                bufferH.WriteInteger(invitations[i].TeamID);
+                bufferH.WriteInteger(invitations[i].teamID);
 
                 // write sender username
-                bufferH.WriteString(invitations[i].InvitationSender);
+                bufferH.WriteString(invitations[i].senderUsername);
             }
 
             SendDataTo(ConnectionID, bufferH.ToArray());

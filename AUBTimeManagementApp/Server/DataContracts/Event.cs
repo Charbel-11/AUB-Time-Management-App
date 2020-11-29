@@ -7,7 +7,7 @@ using System.Text;
 namespace Server.DataContracts
 {
     public class Event {
-        public int ID { get; set; }
+        public int eventID { get; set; }
         public int priority{get; set;}
         public string plannerUsername { get; set; }
         public string eventName { get; set; }
@@ -16,10 +16,10 @@ namespace Server.DataContracts
         public DateTime endTime { get; set; }
 
         public bool teamEvent { get; set; } //false if not a team event
-        public Event(int _ID, int _priority, string _planner, 
+        public Event(int _eventID, int _priority, string _planner, 
             string _eventName, DateTime _startTime, DateTime _endTime, bool _teamEvent=false, List<string> _attendees = null)
         {
-            ID = _ID; 
+            eventID = _eventID; 
             eventName = _eventName;
             priority = _priority;
             plannerUsername = _planner;
@@ -27,11 +27,6 @@ namespace Server.DataContracts
             endTime = _endTime;
             attendees = _attendees;
             teamEvent = _teamEvent;
-        }
-
-        public Event(int _ID)
-        {
-            ID = _ID;
         }
     }
 }

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Server.DataContracts;
 using Server.Service.ControlBlocks;
+using AUBTimeManagementApp.Service.Storage;
 
 namespace Server {
     /// <summary>
@@ -246,7 +247,7 @@ namespace Server {
             List<int> eventIDs = schedulesHandler.GetTeamSchedule(teamID);
             // Get the events from eventIDs list and add them to the events list
             var eventsHandler = new EventsHandler();
-            List<Event> eventsList = eventsHandler.GetEventList(eventIDs);
+            List<Event> eventsList = eventsHandler.GetEvents(eventIDs);
             ServerTCP.PACKET_SendGetTeamScheduleReply(ConnectionID, teamID, eventsList);
         }
 
@@ -264,7 +265,7 @@ namespace Server {
             List<List<Event>> allMembersEvents = new List<List<Event>>();
             foreach(string member in members) {
                 List<int> memberEventsID = schedulesHandler.GetUserSchedule(member);
-                List<Event> memberEvents = eventsHandler.GetEventList(memberEventsID);
+                List<Event> memberEvents = eventsHandler.GetEvents(memberEventsID);
                 allMembersEvents.Add(memberEvents);
             }
 
@@ -290,7 +291,7 @@ namespace Server {
             List<int> filteredEventIDs = new List<int>();
             List<Event> filteredEvents = new List<Event>();
             filteredEventIDs = eventsHandler.getFilteredUserEvents(username, low, medium, high);
-            filteredEvents = eventsHandler.GetEventList(filteredEventIDs);
+            filteredEvents = eventsHandler.GetEvents(filteredEventIDs);
 
             ServerTCP.PACKET_SendGetUserScheduleReply(ConnectionID, filteredEvents);
         }
@@ -313,7 +314,7 @@ namespace Server {
             List<int> filteredEventIDs = teamsHandler.getTeamEvents(teamID, low, medium, high);
             // Get the events from eventIDs list and add them to the events list
             var eventsHandler = new EventsHandler();
-            List<Event> eventsList = eventsHandler.GetEventList(filteredEventIDs);
+            List<Event> eventsList = eventsHandler.GetEvents(filteredEventIDs);
             ServerTCP.PACKET_SendGetUserScheduleReply(ConnectionID, eventsList);
         }
 
@@ -505,8 +506,9 @@ namespace Server {
             string username = bufferH.ReadString();
             bufferH.Dispose();
 
-            IInvitationsConnector invitationsConnector = new InvitationConnector();
-            List<Invitation> invitations = invitationsConnector.GetInvitationsDetails(username);
+            InvitationsStorage invitationsStorage = new InvitationsStorage();
+            List<int> invitationIDs = invitationsStorage.GetUserInvitations(username);
+            List<Invitation> invitations = invitationsStorage.GetInvitations(invitationIDs);
             ServerTCP.PACKET_SendGetUserInvitationsReply(ConnectionID, invitations);
         }
 

@@ -9,13 +9,13 @@ namespace Server.Service.Handlers
         List<int> GetInvitationsEventsIds(int userID);
         // This is called when the user accepts an invitation
         // After finishing, the corresponding eventId should be removed from the DB
-        void AcceptInvitation(string username, int eventID, string senderUsername);
+        void AcceptInvitation(string username, int invitationID);
 
         // This is called when the user declines an invitation
         // After finishing, the corresponding eventId should be removed from the DB
-        void DeclineInvitation(string username, int eventID, string senderUsername);
+        void DeclineInvitation(string username, int invitationID);
 
         // Invite users to a certain event
-        void SendInvitations(List<int> AttendeesUserIDs, int eventID, string SenderUsername);
+        void SendInvitations(List<string> AttendeesUsernames, int eventID, int teamsID, string SenderUsername);
     }
 }

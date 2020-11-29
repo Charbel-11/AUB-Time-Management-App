@@ -30,7 +30,7 @@ namespace Server.Service.ControlBlocks
             IEventsHandler eventsHandler = new EventsHandler();
             
             /* Get details about the events in the user's schedule */
-            List<Event> userEvents = eventsHandler.GetEventList(eventIds);
+            List<Event> userEvents = eventsHandler.GetEvents(eventIds);
 
             List<int> conflictingEvents = new List<int>();
 
@@ -42,11 +42,11 @@ namespace Server.Service.ControlBlocks
 
                 /* First case of conflict: [(]) */
                 if (personalEvent.startTime >= _event.startTime && personalEvent.startTime <= _event.endTime)
-                    conflictingEvents.Add(_event.ID);
+                    conflictingEvents.Add(_event.eventID);
 
                 /* Second case of conflict: ([)] */
                 else if (personalEvent.endTime >= _event.startTime && personalEvent.endTime <= _event.endTime)
-                    conflictingEvents.Add(_event.ID);
+                    conflictingEvents.Add(_event.eventID);
             }
             return conflictingEvents;
         }

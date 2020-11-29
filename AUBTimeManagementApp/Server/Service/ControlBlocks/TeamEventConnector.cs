@@ -16,7 +16,7 @@ namespace Server.Service.ControlBlocks
 
             //Add the team event to the team schedule 
             ISchedulesHandler schedulesHandler = new SchedulesHandler();
-            schedulesHandler.AddEventToTeam(teamID, _event.ID);
+            schedulesHandler.AddEventToTeam(teamID, _event.eventID);
 
             ITeamsHandler teamsHandler = new TeamsHandler();
             // Get the team members using the teams handler
@@ -24,7 +24,7 @@ namespace Server.Service.ControlBlocks
 
             // Add invitations to the team members using the Invitation 
             IInvitationsHandler invitationsHandler = new InvitationsHandler();
-            invitationsHandler.SendInvitations(members.Select(int.Parse).ToList(), _event.ID, _event.plannerUsername);
+            invitationsHandler.SendInvitations(members, _event.eventID, teamID, _event.plannerUsername);
         }
     }
 }

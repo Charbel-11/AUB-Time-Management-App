@@ -8,14 +8,16 @@ namespace Server.DataContracts
 {
     public class Invitation
     {
-        public Event Event { get; set; }
-        public string InvitationSender { get; set; }
-        public int TeamID { get; set; }
-        public Invitation(Event _event, string invitationSender, int teamID)
+        public int invitationID { get; set; }
+        public int eventID { get; set; }
+        public int teamID { get; set; }
+        public string senderUsername { get; set; }
+        public Invitation(int _invitationID, int _eventID, int _teamID, string _senderUsername)
         {
-            Event = _event;
-            InvitationSender = invitationSender;
-            TeamID = teamID;
+            invitationID = _invitationID;
+            eventID = _eventID;
+            teamID = _teamID;
+            senderUsername = _senderUsername;
         }
     }
 }

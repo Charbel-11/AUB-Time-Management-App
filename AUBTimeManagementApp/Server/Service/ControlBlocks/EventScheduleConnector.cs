@@ -21,7 +21,7 @@ namespace Server.Service.ControlBlocks
 
             // Add event id to the user's schedule
             ISchedulesHandler _schedulesHandler = new SchedulesHandler();
-            _schedulesHandler.AddEventToList(username, _event.ID);
+            _schedulesHandler.AddEventToList(username, _event.eventID);
 
             // Add event to the events tables
             IEventsHandler _eventsHandler = new EventsHandler();
@@ -47,7 +47,7 @@ namespace Server.Service.ControlBlocks
 			{
                 //Get events from the events tables
                 IEventsHandler _eventsHandler = new EventsHandler();
-                _events = _eventsHandler.GetEventList(eventsIds);
+                _events = _eventsHandler.GetEvents(eventsIds);
                 Console.WriteLine("We retrieved" + _events.Count.ToString() + "events");
             }
 
@@ -56,7 +56,8 @@ namespace Server.Service.ControlBlocks
         public Event GetPersonalEventInDetail(int eventID)
         {
             IEventsHandler _eventsHandler = new EventsHandler();
-            return _eventsHandler.GetEvent(eventID);
+            List<int> singleEvent = new List<int>{ eventID };
+            return _eventsHandler.GetEvents(singleEvent).ElementAt(0);
         }
         public void CancelPersonalEvent(string username, int eventID)
         {
@@ -71,7 +72,7 @@ namespace Server.Service.ControlBlocks
         {
             //Check for timr conflict if we decide to do something in case of conflict
             //if not move function to eventsHandler no need for connector.
-            Console.WriteLine("server is updating the event with ID = "+updatedEvent.ID);
+            Console.WriteLine("server is updating the event with ID = "+updatedEvent.eventID);
             IEventsHandler _eventsHandler = new EventsHandler();
             _eventsHandler.UpdateEvent(updatedEvent);
         }
@@ -84,7 +85,7 @@ namespace Server.Service.ControlBlocks
 
             // Exctract events in details
             IEventsHandler _eventsHandler = new EventsHandler();
-            List<Event> userEventsInDetail = _eventsHandler.GetEventList(userEvents);
+            List<Event> userEventsInDetail = _eventsHandler.GetEvents(userEvents);
 
             return userEventsInDetail;
 

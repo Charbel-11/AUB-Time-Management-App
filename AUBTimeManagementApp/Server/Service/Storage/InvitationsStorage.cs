@@ -7,23 +7,42 @@ using System.Data.SqlClient;
 
 namespace AUBTimeManagementApp.Service.Storage
 {
-    public class InvitationsStorage
-    {
-        public void AddInvitation(int userId, int eventID, string senderUsername)
-        {
-            try
-            {
+    public class InvitationsStorage {
+        
+        bool invitationExists(int eventID, int teamID, string senderUsername) {
+            try {
                 string connectionString = ConnectionUtil.connectionString;
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
                 sqlConnection.Open();
 
-                string query = "INSERT INTO isInvitee(EventID, Username, SenderUsername) " +
-                                "VALUES (@EventID, @Username, @SenderUsername)";
-
+                string query = "SELECT * FROM Invitations WHERE EventID = @EventID AND TeamID = @TeamID AND SenderUsername = @SenderUsername";
                 SqlCommand command = new SqlCommand(query, sqlConnection);
 
                 command.Parameters.Add("@EventID", SqlDbType.Int).Value = eventID;
-                command.Parameters.Add("@Username", SqlDbType.NVarChar).Value = userId.ToString();
+                command.Parameters.Add("@TeamID", SqlDbType.Int).Value = teamID;
+                command.Parameters.Add("@SenderUsername", SqlDbType.NVarChar).Value = senderUsername;
+                SqlDataReader dataReader = command.ExecuteReader();
+
+                bool res = dataReader.HasRows;
+                command.Parameters.Clear(); sqlConnection.Close();
+                return res;
+            }
+            catch (SqlException exception) { Console.WriteLine("invitationExists: " + exception.Message); throw; }
+        }
+
+        public void AddInvitation(int eventID, int teamID, string senderUsername) {
+            try {
+                if (!invitationExists(eventID, teamID, senderUsername)) { }
+                string connectionString = ConnectionUtil.connectionString;
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+                sqlConnection.Open();
+
+                string query = "INSERT INTO Invitations (EventID, TeamID, SenderUsername) " +
+                                "VALUES (@EventID, @TeamID @SenderUsername)";
+                SqlCommand command = new SqlCommand(query, sqlConnection);
+
+                command.Parameters.Add("@EventID", SqlDbType.Int).Value = eventID;
+                command.Parameters.Add("@TeamID", SqlDbType.Int).Value = teamID;
                 command.Parameters.Add("@SenderUsername", SqlDbType.NVarChar).Value = senderUsername;
                 SqlDataReader dataReader = command.ExecuteReader();
 
@@ -32,55 +51,86 @@ namespace AUBTimeManagementApp.Service.Storage
             catch (SqlException exception) { Console.WriteLine("AddInvitation: " + exception.Message); throw; }
         }
 
-        public List<Invitation> GetUserInvitations(string username)
-        {
-            try
-            {
-                Console.WriteLine("Getting invitations from events DB");
+        public void AddInvitation(string username, int invitationID) { 
+            try {
                 string connectionString = ConnectionUtil.connectionString;
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
                 sqlConnection.Open();
 
-                string query = "SELECT * FROM isInvitee WHERE Username = @Username ";
-
+                string query = "INSERT INTO isInvited (Username, InvitationID) " +
+                                "VALUES (@Username, @InvitationID)";
                 SqlCommand command = new SqlCommand(query, sqlConnection);
-                command.Parameters.Add("@Username", SqlDbType.NVarChar).Value = username.GetHashCode().ToString();
 
+                command.Parameters.Add("@Username", SqlDbType.NVarChar).Value = username;
+                command.Parameters.Add("@InvitationID", SqlDbType.Int).Value = invitationID;
                 SqlDataReader dataReader = command.ExecuteReader();
 
-                List<Invitation> invitations = new List<Invitation>();
-                while (dataReader.Read())
-                {
-                    string _username = dataReader.GetString(0);
-                    int eventID = dataReader.GetInt32(1);
-                    string senderUsername = dataReader.GetString(2);
-                    Invitation invitation = new Invitation(new Event(eventID), senderUsername, 0);
-                    invitations.Add(invitation);
-                    Console.WriteLine("Retrieving invitation to event " + eventID.ToString() + " | Sent by " + senderUsername);
-                }
+                command.Parameters.Clear(); sqlConnection.Close();
+            }
+            catch (SqlException exception) { Console.WriteLine("AddInvitation: " + exception.Message); throw; }
+        }
+
+        public List<int> GetUserInvitations(string username)
+        {
+            try {
+                string connectionString = ConnectionUtil.connectionString;
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+                sqlConnection.Open();
+
+                string query = "SELECT InvitationID FROM isInvited WHERE Username = @Username";
+
+                SqlCommand command = new SqlCommand(query, sqlConnection);
+                command.Parameters.Add("@Username", SqlDbType.NVarChar).Value = username;
+                SqlDataReader dataReader = command.ExecuteReader();
+
+                List<int> invitations = new List<int>();
+                while (dataReader.Read()) { invitations.Add(dataReader.GetInt32(0)); }
                 sqlConnection.Close(); return invitations;
             }
             catch (SqlException exception) { Console.WriteLine("GetUserInvitations: " + exception.Message); throw; }
         }
 
-        public void RemoveInvitation(int userId, int eventID, string senderUsername)
-        {
-            try
-            {
+        public List<Invitation> GetInvitations(List<int> invitationIDs) {
+            try {
                 string connectionString = ConnectionUtil.connectionString;
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
                 sqlConnection.Open();
 
-                string query = "DELETE FROM isInvitee WHERE Username = @Username AND EventID = @EventID AND SenderUsername = @SenderUsername";
+                string combinedStringInvitationIDs = string.Join(",", invitationIDs);
+                string query = "SELECT * FROM Invitations WHERE InvitationID IN " + "(" + combinedStringInvitationIDs + ")";
                 SqlCommand command = new SqlCommand(query, sqlConnection);
-                command.Parameters.Add("@Username", SqlDbType.NVarChar).Value = userId.ToString();
-                command.Parameters.Add("@EventID", SqlDbType.Int).Value = eventID;
-                command.Parameters.Add("@SenderUsername", SqlDbType.NVarChar).Value = senderUsername;
+                SqlDataReader dataReader = command.ExecuteReader();
 
-                command.ExecuteNonQuery();
-                sqlConnection.Close();
+                List<Invitation> invitations = new List<Invitation>();
+                while (dataReader.Read()) {
+                    int invitationID = dataReader.GetInt32(0);
+                    int eventID = dataReader.GetInt32(1);
+                    int teamID = dataReader.GetInt32(2);
+                    string senderUsername = dataReader.GetString(3);
 
-                Console.WriteLine("RemoveInvitation: removing invitation from the database");
+                    Invitation curInvite = new Invitation(invitationID, eventID, teamID, senderUsername);
+                    invitations.Add(curInvite);
+                }
+
+                command.Parameters.Clear(); return invitations;
+            }
+            catch (SqlException exception) { Console.WriteLine("GetEvent: " + exception.Message); throw; }
+        }
+
+        public void RemoveInvitation(string username, int invitationID)
+        {
+            try {
+                string connectionString = ConnectionUtil.connectionString;
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+                sqlConnection.Open();
+
+                string query = "DELETE FROM isInvited WHERE Username = @Username AND InvitationID = @InvitationID";
+                SqlCommand command = new SqlCommand(query, sqlConnection);
+                command.Parameters.Add("@Username", SqlDbType.NVarChar).Value = username;
+                command.Parameters.Add("@InvitationID", SqlDbType.Int).Value = invitationID;
+
+                SqlDataReader dataReader = command.ExecuteReader();
+                command.Parameters.Clear(); sqlConnection.Close();
             }
             catch (SqlException exception) { Console.WriteLine("RemoveInvitation: " + exception.Message); throw; }
 

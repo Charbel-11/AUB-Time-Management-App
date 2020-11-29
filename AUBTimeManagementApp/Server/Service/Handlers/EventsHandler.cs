@@ -87,20 +87,13 @@ namespace Server.Service.Handlers
             _eventsStorage.UpdateEvent(updatedEvent);
 		}
 
-        public List<Event> GetEventList(List<int> eventsIDs)
+        public List<Event> GetEvents(List<int> eventsIDs)
 		{
             //if (_eventStorage == null) { return new List<Event>() { }; }
             //EventsStorage _eventsStorage = new EventsStorage();
-            return _eventsStorage.GetAllEvents(eventsIDs);
+            return _eventsStorage.GetEvents(eventsIDs);
 		}
 
-
-
-        /****************************** UTILITY FUNCTIONS ********************************/
-        public Event GetEvent(int eventId)
-        {
-            return _eventsStorage.GetEvent(eventId);
-        }
         private void AddEventToUniversalEventsDB(Event _event)
         {
             _eventsStorage.AddEvent(_event);
