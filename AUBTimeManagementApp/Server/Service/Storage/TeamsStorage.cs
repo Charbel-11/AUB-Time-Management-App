@@ -14,7 +14,7 @@ namespace AUBTimeManagementApp.Service.Storage
         /// Adds a new team to the database
         /// </summary>
         /// <returns>The unique teamID of the created team, -1 if it was unsuccessful</returns>
-        public void AddTeam(string teamName) 
+        public static int AddTeam(string teamName) 
         {
             try
             {
@@ -33,12 +33,14 @@ namespace AUBTimeManagementApp.Service.Storage
                 command.Parameters.Clear(); sqlConnection.Close(); 
             }
             catch (SqlException exception) { Console.WriteLine("AddTeam: " + exception.Message); throw; }
+
+            return teamName.GetHashCode();
         }
 
         /// <summary>
         /// Adds a member or more to the team
         /// </summary>
-        public void AddTeamMembers(int teamID, List<string> members) 
+        public static void AddTeamMembers(int teamID, List<string> members) 
         {
             foreach (string member in members)
             {
@@ -65,7 +67,7 @@ namespace AUBTimeManagementApp.Service.Storage
         /// <summary>
         /// Adds an admin to the team (from the existing members)
         /// </summary>
-        public void  AddTeamAdmin(int teamID, string username)
+        public static void AddTeamAdmin(int teamID, string username)
         {
             try
             {

@@ -14,32 +14,42 @@ namespace Server.Service.Handlers
         /// <param name="admin">The admin of the team (calling user)</param>
         /// <param name="teamName">The name of the team</param>
         /// <param name="members">The list of members given by the calling user (might be invalid)</param>
-        public void CreateTeamRequest(string teamName, string admin, List<string> members)
+        public void CreateTeamRequest(int ConnectionID, string admin, string teamName, List<string> members) 
         {
-            TeamsStorage _teamsStorage = new TeamsStorage();
-            _teamsStorage.AddTeam(teamName);
+            List<string> invalidUsernames = new List<string>();
+            List<string> validUsernames = new List<string>();
 
-            // NOT THE HANDLER'S RESPONSIBILITY
-            //ServerTCP.PACKET_CreateTeamReply(ConnectionID, teamID != -1, invalidUsernames.ToArray());
+            validUsernames.Add(admin);
+            foreach (string m in members) {
+                if (AccountsStorage.usernameExists(m)) { validUsernames.Add(m); }
+                else { invalidUsernames.Add(m); }
+            }
 
-            //Send the team details to online users
-            /*
-             * IT'S NOT THIS HANDLER'S RESPONSIBILITY
+            int teamID = TeamsStorage.AddTeam(teamName);
+            TeamsStorage.AddTeamMembers(teamID, validUsernames);
+            TeamsStorage.AddTeamAdmin(teamID, admin);
+            ServerTCP.PACKET_CreateTeamReply(ConnectionID, teamID != -1, invalidUsernames);
+            if (teamID == -1) { return; }
+
+            //Send the team details to online users         
             foreach (string user in validUsernames) {
                 if (ServerTCP.UsernameToConnectionID.TryGetValue(user, out int cID))
                     ServerTCP.PACKET_NewTeamCreated(cID, teamName, teamID, new string[] { admin }, validUsernames.ToArray());
             }
-            */
-            _teamsStorage.AddTeamMembers(teamName.GetHashCode(), members);
-            _teamsStorage.AddTeamAdmin(teamName.GetHashCode(), admin);
         }
                
+        /// <summary>
+        /// Adds a member to the team and notifies online users (if the username is valid)
+        /// </summary>
+        /// <param name="ConnectionID">Connection ID of the calling user, needed to give feedback</param>
+        /// <param name="teamID">ID of the team</param>
+        /// <param name="userToAdd">Username of the user to add to the team</param>
+        /// <returns></returns>
         public bool AddMemberRequest(int ConnectionID, int teamID, string userToAdd)
         {
             bool OK = AccountsStorage.usernameExists(userToAdd);
             if (OK) {
-                var teamsStorage = new TeamsStorage();
-                teamsStorage.AddTeamMembers(teamID, new List<string> { userToAdd });
+                TeamsStorage.AddTeamMembers(teamID, new List<string> { userToAdd });
                 OK = true;
             }
             ServerTCP.PACKET_AddMemberReply(ConnectionID, teamID, OK);
@@ -79,8 +89,7 @@ namespace Server.Service.Handlers
         public bool ChangeAdminState(int teamID, string username, bool isNowAdmin) {
             bool b = false;
             if (isNowAdmin) {
-                var teamsStorage = new TeamsStorage();
-                teamsStorage.AddTeamAdmin(teamID, username);
+                TeamsStorage.AddTeamAdmin(teamID, username);
                 b = true;
             }
             else { b = TeamsStorage.removeTeamAdmin(teamID, username); }
