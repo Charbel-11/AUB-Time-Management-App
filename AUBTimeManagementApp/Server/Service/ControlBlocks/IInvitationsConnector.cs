@@ -6,7 +6,7 @@ namespace Server.Service.ControlBlocks
 {
     public interface IInvitationsConnector
     {
-        void AcceptInvitation(string username, int eventID, int teamID, string senderUsername);
-        void DeclineInvitation(string username, int eventID, int teamID, string senderUsername);
+        void AcceptInvitation(string username, int invitationID);
+        void DeclineInvitation(string username, int invitationID);
     }
 }
