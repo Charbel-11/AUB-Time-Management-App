@@ -55,6 +55,7 @@ namespace AUBTimeManagementApp.Service.Storage
         // Get all events with IDs in eventIDs
         public List<Event> GetEvents(List<int> eventsIDs)
         {
+            if(eventsIDs.Count == 0) { return new List<Event>(); }
             try
             {
                 string connectionString = ConnectionUtil.connectionString;
@@ -78,9 +79,10 @@ namespace AUBTimeManagementApp.Service.Storage
                     events.Add(currEvent);
                 }
 
-               command.Parameters.Clear(); return events;
+               command.Parameters.Clear(); sqlConnection.Close();
+               return events;
             }
-            catch (SqlException exception) { Console.WriteLine("GetEvent: " + exception.Message); throw; }
+            catch (SqlException exception) { Console.WriteLine("GetEvents: " + exception.Message); throw; }
         }
 
         // Add _event to DB

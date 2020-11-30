@@ -114,6 +114,8 @@ namespace AUBTimeManagementApp.Service.Storage
         }
 
         public static List<Invitation> GetInvitations(List<int> invitationIDs) {
+
+            if (invitationIDs.Count == 0) { return new List<Invitation>(); }
             try {
                 string connectionString = ConnectionUtil.connectionString;
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
