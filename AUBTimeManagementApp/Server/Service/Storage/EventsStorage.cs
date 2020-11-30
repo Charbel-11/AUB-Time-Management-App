@@ -31,6 +31,27 @@ namespace AUBTimeManagementApp.Service.Storage
             catch (SqlException exception) { Console.WriteLine("getUserEvents: " + exception.Message); throw; }
         }
 
+        public static List<int> getFilteredTeamEvents(int teamID, int priority) {
+            try {
+                string connectionString = ConnectionUtil.connectionString;
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+                sqlConnection.Open();
+
+                string nestedQuery = "(SELECT EventID FROM isTeamAttendee WHERE TeamID = @TeamID)";
+                string query = "SELECT EventID FROM Events WHERE Priority = @Priority AND EventID IN " + nestedQuery;
+                SqlCommand command = new SqlCommand(query, sqlConnection);
+                command.Parameters.Add("@Priority", SqlDbType.Int).Value = priority;
+                command.Parameters.Add("@TeamID", SqlDbType.Int).Value = teamID;
+                SqlDataReader dataReader = command.ExecuteReader();
+
+                List<int> events = new List<int>();
+                while (dataReader.Read()) { events.Add(dataReader.GetInt32(0)); }
+
+                sqlConnection.Close(); return events;
+            }
+            catch (SqlException exception) { Console.WriteLine("getFilteredTeamEvents: " + exception.Message); throw; }
+        }
+
         // Get all events with IDs in eventIDs
         public List<Event> GetEvents(List<int> eventsIDs)
         {

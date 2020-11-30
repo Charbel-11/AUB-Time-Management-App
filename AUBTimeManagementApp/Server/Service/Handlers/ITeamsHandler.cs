@@ -7,7 +7,7 @@ namespace Server.Service.Handlers {
         bool AddMemberRequest(int ConnectionID, int teamID, string userToAdd);
         bool RemoveMemberRequest(int teamID, string userToRemove);
         bool ChangeAdminState(int teamID, string username, bool isNowAdmin);
-        List<int> getTeamEvents(int teamID, bool low, bool mid, bool high);
+        List<int> getFilteredTeamEvents(int teamID, bool low, bool mid, bool high);
         List<Team> GetUserTeams(string username);
         List<string> GetTeamMembers(int teamID);
     }

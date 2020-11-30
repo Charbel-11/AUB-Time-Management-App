@@ -37,6 +37,13 @@ namespace Server.Service.Handlers
                     ServerTCP.PACKET_NewTeamCreated(cID, teamName, teamID, new string[] { admin }, validUsernames.ToArray());
             }
         }
+
+        private Team getTeamInfo(int teamID) {
+            string teamName = TeamsStorage.getTeamName(teamID);
+            List<string> members = TeamsStorage.getTeamMembers(teamID);
+            List<string> admins = TeamsStorage.getTeamAdmins(teamID);
+            return new Team(teamID, teamName, admins, members);
+        }
                
         /// <summary>
         /// Adds a member to the team and notifies online users (if the username is valid)
@@ -55,14 +62,14 @@ namespace Server.Service.Handlers
             ServerTCP.PACKET_AddMemberReply(ConnectionID, teamID, OK);
             if (!OK) { return false; }
 
-            string[] teamMembers = TeamsStorage.getTeamMembers(teamID);
+            List<string> teamMembers = TeamsStorage.getTeamMembers(teamID);
             foreach (string user in teamMembers) {
                 if (user == userToAdd) { continue; }
                 if (ServerTCP.UsernameToConnectionID.TryGetValue(user, out int cID))
                     ServerTCP.PACKET_MemberAdded(cID, teamID, userToAdd);
             }
 
-            Team curTeam = TeamsStorage.getTeamInfo(teamID);
+            Team curTeam = getTeamInfo(teamID);
             if (ServerTCP.UsernameToConnectionID.TryGetValue(userToAdd, out int ID))
                 ServerTCP.PACKET_NewTeamCreated(ID, curTeam.teamName, teamID, curTeam.teamAdmin.ToArray(), curTeam.teamMembers.ToArray());
 
@@ -81,7 +88,7 @@ namespace Server.Service.Handlers
             bool b = TeamsStorage.removeTeamMember(teamID, userToRemove);
             if (!b) { return false; }
 
-            string[] teamMembers = TeamsStorage.getTeamMembers(teamID);
+            List<string> teamMembers = TeamsStorage.getTeamMembers(teamID);
             foreach (string member in teamMembers) {
                 if (ServerTCP.UsernameToConnectionID.TryGetValue(member, out int cID))
                     ServerTCP.PACKET_MemberRemoved(cID, teamID, userToRemove);
@@ -109,7 +116,7 @@ namespace Server.Service.Handlers
             else { b = TeamsStorage.removeTeamAdmin(teamID, username); }
             if (!b) { return false; }
 
-            string[] teamMembers = TeamsStorage.getTeamMembers(teamID);
+            List<string> teamMembers = TeamsStorage.getTeamMembers(teamID);
             foreach (string member in teamMembers) {
                 if (ServerTCP.UsernameToConnectionID.TryGetValue(member, out int cID))
                     ServerTCP.PACKET_NewAdminState(cID, teamID, username, isNowAdmin);
@@ -125,12 +132,12 @@ namespace Server.Service.Handlers
         /// <param name="mid">True if we want mid priority events</param>
         /// <param name="high">True if we want high priority events</param>
         /// <returns>A list of event IDs of the corresponding events</returns>
-        public List<int> getTeamEvents(int teamID, bool low, bool mid, bool high)
+        public List<int> getFilteredTeamEvents(int teamID, bool low, bool mid, bool high)
         {
             List<int> events = new List<int>();
-            if (low) { events.AddRange(TeamsStorage.getTeamEvents(teamID, 1)); }
-            if (mid) { events.AddRange(TeamsStorage.getTeamEvents(teamID, 2)); }
-            if (high) { events.AddRange(TeamsStorage.getTeamEvents(teamID, 3)); }
+            if (low) { events.AddRange(EventsStorage.getFilteredTeamEvents(teamID, 1)); }
+            if (mid) { events.AddRange(EventsStorage.getFilteredTeamEvents(teamID, 2)); }
+            if (high) { events.AddRange(EventsStorage.getFilteredTeamEvents(teamID, 3)); }
             return events;
         }
 
@@ -144,7 +151,7 @@ namespace Server.Service.Handlers
             List<Team> teams = new List<Team>();
 
             foreach (int ID in teamsID) {
-                teams.Add(TeamsStorage.getTeamInfo(ID));
+                teams.Add(getTeamInfo(ID));
             }
 
             return teams;

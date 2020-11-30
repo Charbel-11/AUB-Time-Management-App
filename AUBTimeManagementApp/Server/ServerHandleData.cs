@@ -310,7 +310,7 @@ namespace Server {
 
             // Get list of events in the schedule
             ITeamsHandler teamsHandler = new TeamsHandler();
-            List<int> filteredEventIDs = teamsHandler.getTeamEvents(teamID, low, medium, high);
+            List<int> filteredEventIDs = teamsHandler.getFilteredTeamEvents(teamID, low, medium, high);
             // Get the events from eventIDs list and add them to the events list
             var eventsHandler = new EventsHandler();
             List<Event> eventsList = eventsHandler.GetEvents(filteredEventIDs);

@@ -26,22 +26,25 @@ namespace AUBTimeManagementApp.Service.Storage
                                 "VALUES (@TeamName)";
                 SqlCommand command = new SqlCommand(query, sqlConnection);
                 command.Parameters.Add("@TeamName", SqlDbType.NVarChar).Value = teamName;
-               
                 SqlDataReader dataReader = command.ExecuteReader();
 
-                command.Parameters.Clear(); sqlConnection.Close(); 
+                command.Parameters.Clear();
+                query = "SELECT LAST TeamID FROM Teams";
+                command = new SqlCommand(query, sqlConnection);
+                dataReader = command.ExecuteReader();
+
+                int teamID = dataReader.Read() ? dataReader.GetInt32(0) : -1;
+                sqlConnection.Close(); return teamID;
             }
             catch (SqlException exception) { Console.WriteLine("AddTeam: " + exception.Message); throw; }
-
-            return teamName.GetHashCode();
         }
 
         /// <summary>
         /// Adds a member or more to the team
         /// </summary>
-        public static void AddTeamMembers(int teamID, List<string> members) 
+        public static void AddTeamMembers(int teamID, List<string> usernames) 
         {
-            foreach (string member in members)
+            foreach (string username in usernames)
             {
                 try
                 {
@@ -49,12 +52,11 @@ namespace AUBTimeManagementApp.Service.Storage
                     SqlConnection sqlConnection = new SqlConnection(connectionString);
                     sqlConnection.Open();
 
-                    string query = "INSERT INTO isMember(UserID, TeamID) " +
-                                    "VALUES (@UserID, @TeamID)";
+                    string query = "INSERT INTO isMember(Username, TeamID) " +
+                                    "VALUES (@Username, @TeamID)";
                     SqlCommand command = new SqlCommand(query, sqlConnection);
-                    command.Parameters.Add("@UserID", SqlDbType.Int).Value = member.GetHashCode();
+                    command.Parameters.Add("@Username", SqlDbType.NVarChar).Value = username;
                     command.Parameters.Add("@TeamID", SqlDbType.Int).Value = teamID;
-
                     SqlDataReader dataReader = command.ExecuteReader();
 
                     command.Parameters.Clear(); sqlConnection.Close();
@@ -74,12 +76,11 @@ namespace AUBTimeManagementApp.Service.Storage
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
                 sqlConnection.Open();
 
-                string query = "INSERT INTO isAdmin(UserID, TeamID) " +
-                                "VALUES (@UserID, @TeamID)";
+                string query = "INSERT INTO isAdmin(Username, TeamID) " +
+                                "VALUES (@Username, @TeamID)";
                 SqlCommand command = new SqlCommand(query, sqlConnection);
-                command.Parameters.Add("@UserID", SqlDbType.Int).Value = username.GetHashCode();
+                command.Parameters.Add("@Username", SqlDbType.NVarChar).Value = username;
                 command.Parameters.Add("@TeamID", SqlDbType.Int).Value = teamID;
-
                 SqlDataReader dataReader = command.ExecuteReader();
 
                 command.Parameters.Clear(); sqlConnection.Close();
@@ -95,45 +96,19 @@ namespace AUBTimeManagementApp.Service.Storage
         /// </summary>
         /// <returns>True if successful, false otherwise</returns>
         public static bool removeTeamMember(int teamID, string username) {
-            try
-            {
-                // Remove
-
+            try {
                 string connectionString = ConnectionUtil.connectionString;
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
                 sqlConnection.Open();
 
-                int UserID = username.GetHashCode();
-                string query = "DELETE FROM isMember WHERE UserID = @UserID AND TeamID = @TeamID";
+                string query = "DELETE FROM isMember WHERE Username = @Username AND TeamID = @TeamID";
                 SqlCommand command = new SqlCommand(query, sqlConnection);
-                command.Parameters.Add("@UserID", SqlDbType.Int).Value = UserID;
+                command.Parameters.Add("@Username", SqlDbType.NVarChar).Value = username;
                 command.Parameters.Add("@TeamID", SqlDbType.Int).Value = teamID;
-                command.ExecuteNonQuery();
-                sqlConnection.Close();
+                command.ExecuteReader();
 
-                
-                /*
-                //If the team is now empty, remove team
+                command.Parameters.Clear(); sqlConnection.Close();
 
-                sqlConnection = new SqlConnection(connectionString);
-                sqlConnection.Open();
-
-                query = "SELECT FROM isMember WHERE TeamID = @teamID";
-                command = new SqlCommand(query, sqlConnection);
-                command.Parameters.Add("@TeamID", SqlDbType.Int).Value = teamID;
-                SqlDataReader dataReader = command.ExecuteReader();
-
-                sqlConnection.Close();
-                if (!dataReader.Read())
-                {
-                    sqlConnection = new SqlConnection(connectionString);
-                    sqlConnection.Open();
-                    query = "DELETE FROM Teams WHERE TeamID = @TeamID";
-                    command = new SqlCommand(query, sqlConnection);
-                    command.Parameters.Add("@TeamID", SqlDbType.Int).Value = teamID;
-                    sqlConnection.Close();
-                }
-                */
                 return true;
             }
             catch (SqlException exception) { Console.WriteLine("removeTeamMember: " + exception.Message); throw; }   
@@ -150,30 +125,13 @@ namespace AUBTimeManagementApp.Service.Storage
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
                 sqlConnection.Open();
 
-                int UserID = username.GetHashCode();
-                string query = "DELETE FROM isAdmin WHERE UserID = @UserID AND TeamID = @TeamID";
+                string query = "DELETE FROM isAdmin WHERE Username = @Username AND TeamID = @TeamID";
                 SqlCommand command = new SqlCommand(query, sqlConnection);
-                command.Parameters.Add("@UserID", SqlDbType.Int).Value = UserID;
+                command.Parameters.Add("@Username", SqlDbType.NVarChar).Value = username;
                 command.Parameters.Add("@TeamID", SqlDbType.Int).Value = teamID;
-                command.ExecuteNonQuery();
-                sqlConnection.Close();
+                command.ExecuteReader();
 
-                //TODO: If the team has no more admins, do something
-                /*
-                sqlConnection = new SqlConnection(connectionString);
-                sqlConnection.Open();
-
-                query = "SELECT FROM isAdmin WHERE TeamID = @teamID";
-                command = new SqlCommand(query, sqlConnection);
-                command.Parameters.Add("@TeamID", SqlDbType.Int).Value = teamID;
-                SqlDataReader dataReader = command.ExecuteReader();
-                sqlConnection.Close();
-
-                if (!dataReader.Read())
-                {
-                    // ...
-                }
-                */
+                command.Parameters.Clear(); sqlConnection.Close();
                 return true;
             }
             catch (SqlException exception) { Console.WriteLine("removeTeamAdmin: " + exception.Message); throw; }
@@ -182,22 +140,22 @@ namespace AUBTimeManagementApp.Service.Storage
 
         #region Get
 
-        public static int getTeamID(string teamName) {
+        public static string getTeamName(int teamID) {
             try {
                 string connectionString = ConnectionUtil.connectionString;
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
                 sqlConnection.Open();
 
-                string query = "SELECT TeamID FROM Teams WHERE TeamName = @Teamname";
+                string query = "SELECT TeamName FROM Teams WHERE TeamID = @TeamID";
                 SqlCommand command = new SqlCommand(query, sqlConnection);
-                command.Parameters.Add("@TeamName", SqlDbType.Int).Value = teamName;
+                command.Parameters.Add("@TeamID", SqlDbType.Int).Value = teamID;
                 SqlDataReader dataReader = command.ExecuteReader();
 
-                int res = dataReader.Read() ? dataReader.GetInt32(0) : -1;
-                command.Parameters.Clear(); sqlConnection.Close(); 
-                return res;
+                string teamName = dataReader.Read() ? dataReader.GetString(0) : "";
+                command.Parameters.Clear(); sqlConnection.Close();
+                return teamName;
             }
-            catch (SqlException exception) { Console.WriteLine("getTeamID: " + exception.Message); throw; }
+            catch (SqlException exception) { Console.WriteLine("getTeamName: " + exception.Message); throw; }
         }
 
         public static List<int> getUserTeams(string username) {
@@ -205,10 +163,10 @@ namespace AUBTimeManagementApp.Service.Storage
                 string connectionString = ConnectionUtil.connectionString;
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
                 sqlConnection.Open();
-                int UserID = username.GetHashCode();
-                string query = "SELECT TeamID FROM isMember WHERE UserID = @UserID";
+
+                string query = "SELECT TeamID FROM isMember WHERE Username = @Username";
                 SqlCommand command = new SqlCommand(query, sqlConnection);
-                command.Parameters.Add("@UserID", SqlDbType.Int).Value = UserID;
+                command.Parameters.Add("@Username", SqlDbType.NVarChar).Value = username;
                 SqlDataReader dataReader = command.ExecuteReader();
 
                 List<int> teams = new List<int>();
@@ -223,109 +181,44 @@ namespace AUBTimeManagementApp.Service.Storage
         /// Gets a list of the members of a team
         /// </summary>
         /// <returns>The usernames of each member</returns>
-        public static string[] getTeamMembers(int teamID) {
-            try
-            {
-                List<string> members = new List<string>();
-
+        public static List<string> getTeamMembers(int teamID) {
+            try  {
                 string connectionString = ConnectionUtil.connectionString;
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
                 sqlConnection.Open();
-                string query = "SELECT UserID FROM isMember WHERE TeamID = @TeamID";
+
+                string query = "SELECT Username FROM isMember WHERE TeamID = @TeamID";
                 SqlCommand command = new SqlCommand(query, sqlConnection);
                 command.Parameters.Add("@TeamID", SqlDbType.Int).Value = teamID;
                 SqlDataReader dataReader = command.ExecuteReader();
-                while (dataReader.Read()) { members.Add(dataReader.GetInt32(0).ToString()); }
-                sqlConnection.Close();
 
-                return members.ToArray();
+                List<string> members = new List<string>();
+                while (dataReader.Read()) { members.Add(dataReader.GetInt32(0).ToString()); }
+                command.Parameters.Clear(); sqlConnection.Close();
+
+                return members;
             }
             catch (SqlException exception) { Console.WriteLine("getTeamMembers: " + exception.Message); throw; }
         }
 
-        public static Team getTeamInfo(int teamID) {
-
-            string teamName = null;
-            List<string> members = new List<string>();
-            List<string> admins = new List<string>();
-
-            try
-            {
-                /* TODO: Maybe it can be done with a complex query instead of 3 */
-
-                // Get team name
-
+        public static List<string> getTeamAdmins(int teamID) {
+            try {
                 string connectionString = ConnectionUtil.connectionString;
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
                 sqlConnection.Open();
-                
-                string query = "SELECT TeamName FROM Teams WHERE TeamID = @TeamID";
+
+                string query = "SELECT Username FROM isAdmin WHERE TeamID = @TeamID";
                 SqlCommand command = new SqlCommand(query, sqlConnection);
                 command.Parameters.Add("@TeamID", SqlDbType.Int).Value = teamID;
                 SqlDataReader dataReader = command.ExecuteReader();
-                
-                while(dataReader.Read()) teamName = dataReader.GetString(0);
-                sqlConnection.Close();
 
-
-                // Get team admins
-
-                sqlConnection = new SqlConnection(connectionString);
-                sqlConnection.Open();
-                
-                query = "SELECT UserID FROM isAdmin WHERE TeamID = @TeamID";
-                command = new SqlCommand(query, sqlConnection);
-                command.Parameters.Add("@TeamID", SqlDbType.Int).Value = teamID;
-                dataReader = command.ExecuteReader();
-                
+                List<string> admins = new List<string>();
                 while (dataReader.Read()) { admins.Add(dataReader.GetInt32(0).ToString()); }
-                sqlConnection.Close();
+                command.Parameters.Clear(); sqlConnection.Close();
 
-                
-                // Get team members
-
-                sqlConnection = new SqlConnection(connectionString);
-                sqlConnection.Open();
-                
-                query = "SELECT UserID FROM isMember WHERE TeamID = @TeamID";
-                command = new SqlCommand(query, sqlConnection);
-                command.Parameters.Add("@TeamID", SqlDbType.Int).Value = teamID;
-                dataReader = command.ExecuteReader();
-                
-                while (dataReader.Read()) { members.Add(dataReader.GetInt32(0).ToString()); }
-                sqlConnection.Close();
-
-                // Return team object
-
-                return new Team(teamID, teamName, admins, members);
+                return admins;
             }
-            catch (SqlException exception) { Console.WriteLine("getTeamInfo: " + exception.Message); throw; }
-        }
-
-        public static List<int> getTeamEvents(int teamID, int priority)
-        {
-            try
-            {   // Note that priority filtering is not implemented
-
-                string connectionString = ConnectionUtil.connectionString;
-                SqlConnection sqlConnection = new SqlConnection(connectionString);
-                sqlConnection.Open();
-
-                string query = "(SELECT EventID FROM isTeamAttendee WHERE TeamID = @TeamID)";
-
-                SqlCommand command = new SqlCommand(query, sqlConnection);
-                command.Parameters.Add("@TeamID", SqlDbType.Int).Value = teamID;
-                SqlDataReader dataReader = command.ExecuteReader();
-
-                List<int> events = new List<int>();
-                while (dataReader.Read()) { events.Add(dataReader.GetInt32(0)); }
-
-                sqlConnection.Close();
-                Console.WriteLine("Extracted events = " + events.Count.ToString());
-                return events;
-            }
-            catch (SqlException exception) { Console.WriteLine("GetTeamEvents: " + exception.Message); throw; }
-
+            catch (SqlException exception) { Console.WriteLine("getTeamAdmins: " + exception.Message); throw; }
         }
         #endregion
     }
