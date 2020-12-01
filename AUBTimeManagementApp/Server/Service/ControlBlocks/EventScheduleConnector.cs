@@ -8,28 +8,25 @@ namespace Server.Service.ControlBlocks
 {
     public class EventScheduleConnector : IEventScheduleConnector
     {
-        public void AddPersonalEvent(string username, Event _event)
+        public Event AddPersonalEvent(string username, int eventPriority, string plannerUsername, string eventName, DateTime eventStart, DateTime eventEnd)
         {
             //Commented throw exception cause we need to always return the id of the added event to the client.
             // maybe we don't need to check for conflict if we're not gonna anything with the list of conflicting events
-
-            //check for conflict with the conflict checker
-            IConflictChecker conflictChecker = new ConflictChecker();
-            List<int> conflictingEvents = conflictChecker.ConflictExists(username, _event);
+            // Add event to the events tables
+            Event addedEvent = new Event(0, eventPriority, plannerUsername, eventName, eventStart, eventEnd);
+            IEventsHandler _eventsHandler = new EventsHandler();
+            int eventID = _eventsHandler.CreateEvent(addedEvent);
+            addedEvent.eventID = eventID;
 
             // Add event id to the user's schedule
             ISchedulesHandler _schedulesHandler = new SchedulesHandler();
-            _schedulesHandler.AddEventToList(username, _event.eventID);
+            _schedulesHandler.AddEventToList(username, addedEvent.eventID);
 
-            // Add event to the events tables
-            IEventsHandler _eventsHandler = new EventsHandler();
-            _eventsHandler.CreateEvent(_event);
+            //check for conflict with the conflict checker
+            IConflictChecker conflictChecker = new ConflictChecker();
+            List<int> conflictingEvents = conflictChecker.ConflictExists(username, addedEvent);
 
-           /* if (conflictingEvents.Count != 0)
-            {
-                throw new ConflictException("Conflict", conflictingEvents);
-            }*/
-            Console.WriteLine("Event was added"); 
+            return addedEvent;
         }
 
         public List<Event> GetPersonalSchedule(string username)

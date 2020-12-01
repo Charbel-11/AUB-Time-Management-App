@@ -9,7 +9,7 @@ namespace Server.Service.Handlers
 {
     public interface IEventsHandler
     {
-        void CreateEvent(Event _event);
+        int CreateEvent(Event _event);
         void UpdateEvent(Event updatedEvent);
         void CancelEvent(int eventID);
         void RemoveUserFromEventAttendees(int eventId, string username);

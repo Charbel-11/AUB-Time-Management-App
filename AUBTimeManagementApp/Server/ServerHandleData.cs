@@ -419,11 +419,10 @@ namespace Server {
 
             bufferH.Dispose();
 
-            Event addedEvent = new Event(eventName.GetHashCode(), eventPriority, username, eventName, DateTime.Parse(eventStart), DateTime.Parse(eventEnd));
             IEventScheduleConnector eventScheduleConnector = new EventScheduleConnector();
-            eventScheduleConnector.AddPersonalEvent(username, addedEvent);
+            Event addedEvent = eventScheduleConnector.AddPersonalEvent(username, eventPriority, username, eventName, DateTime.Parse(eventStart), DateTime.Parse(eventEnd));
 
-            ServerTCP.PACKET_CreatePersonalEventReply(ConnectionID, eventName.GetHashCode());
+            ServerTCP.PACKET_CreatePersonalEventReply(ConnectionID, addedEvent.eventID);
         }
 
         private static void HandleGetPersonalEvent(int ConnectionID, byte[] data)
