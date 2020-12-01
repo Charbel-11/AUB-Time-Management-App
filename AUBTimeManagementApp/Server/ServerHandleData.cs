@@ -328,7 +328,6 @@ namespace Server {
             for(int i = 0; i < numberOfMembers; i++) {
                 members.Add(bufferH.ReadString());
             }
-            members.Add(admin);
 
             bufferH.Dispose();
 

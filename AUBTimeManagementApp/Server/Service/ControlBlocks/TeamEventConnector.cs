@@ -11,7 +11,7 @@ namespace Server.Service.ControlBlocks
         {
             // Add the event to the schedule of the planner using the connector between the events and the schedules handlers
             IEventScheduleConnector eventScheduleConnector = new EventScheduleConnector();
-            eventScheduleConnector.AddPersonalEvent(_event.plannerUsername, _event);
+            eventScheduleConnector.AddPersonalEvent(_event.plannerUsername, _event.priority, _event.plannerUsername, _event.eventName, _event.startTime, _event.endTime);;
 
             //Add the team event to the team schedule 
             ISchedulesHandler schedulesHandler = new SchedulesHandler();
