@@ -24,8 +24,8 @@ namespace AUBTimeManagementApp.Service.Storage {
                 command.Parameters.Add("@TeamName", SqlDbType.NVarChar).Value = teamName;
                 SqlDataReader dataReader = command.ExecuteReader();
 
-                command.Parameters.Clear();
-                query = "SELECT LAST TeamID FROM Teams";
+                command.Parameters.Clear(); dataReader.Close();
+                query = "SELECT TOP 1 TeamID FROM Teams ORDER BY TeamID DESC";
                 command = new SqlCommand(query, sqlConnection);
                 dataReader = command.ExecuteReader();
 
