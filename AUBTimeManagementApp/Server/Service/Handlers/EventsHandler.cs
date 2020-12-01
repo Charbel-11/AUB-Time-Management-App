@@ -44,7 +44,7 @@ namespace Server.Service.Handlers
         /// <param name="eventId"></param>
         public void CancelEvent(int eventId)
         {
-//            RemoveEventFromUniversalEventsDB(eventId);
+            EventsStorage.RemoveEvent(eventId);
         }
 
   
