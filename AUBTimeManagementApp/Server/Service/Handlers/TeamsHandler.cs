@@ -150,8 +150,8 @@ namespace Server.Service.Handlers
             List<int> teamsID = TeamsStorage.getUserTeams(username);
             List<Team> teams = new List<Team>();
 
-            foreach (int ID in teamsID) {
-                teams.Add(getTeamInfo(ID));
+            foreach (int teamID in teamsID) {
+                teams.Add(getTeamInfo(teamID));
             }
 
             return teams;

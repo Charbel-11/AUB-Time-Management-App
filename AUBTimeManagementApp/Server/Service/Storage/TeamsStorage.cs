@@ -183,7 +183,7 @@ namespace AUBTimeManagementApp.Service.Storage {
                 SqlDataReader dataReader = command.ExecuteReader();
 
                 List<string> members = new List<string>();
-                while (dataReader.Read()) { members.Add(dataReader.GetInt32(0).ToString()); }
+                while (dataReader.Read()) { members.Add(dataReader.GetString(0)); }
                 
                 command.Parameters.Clear(); dataReader.Close();
                 sqlConnection.Close(); return members;
@@ -203,7 +203,7 @@ namespace AUBTimeManagementApp.Service.Storage {
                 SqlDataReader dataReader = command.ExecuteReader();
 
                 List<string> admins = new List<string>();
-                while (dataReader.Read()) { admins.Add(dataReader.GetInt32(0).ToString()); }
+                while (dataReader.Read()) { admins.Add(dataReader.GetString(0)); }
                
                 command.Parameters.Clear(); dataReader.Close();
                 sqlConnection.Close(); return admins;
