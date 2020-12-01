@@ -9,11 +9,9 @@ using Server.Service.ControlBlocks;
 namespace Server.Service.Handlers
 {
     public class EventsHandler : IEventsHandler   {
-
-        public EventsStorage _eventsStorage;
         public EventsHandler()
         {
-            _eventsStorage = new EventsStorage();
+        
         }
         // TODO: Modify
         public List<int> getFilteredUserEvents(string username, bool low, bool mid, bool high)
@@ -34,9 +32,9 @@ namespace Server.Service.Handlers
         /// <param name="username"></param>
         /// <param name="newEvent"></param>
         /// <returns></returns>
-        public void CreateEvent(Event newEvent)
+        public int CreateEvent(Event newEvent)
         {
-            _eventsStorage.AddEvent(newEvent);
+            return EventsStorage.AddEvent(newEvent);
         }
 
 
@@ -83,29 +81,14 @@ namespace Server.Service.Handlers
             // return a boolean indicating wether there was a time change
 
             //update event in events table
-            _eventsStorage.UpdateEvent(updatedEvent);
+            EventsStorage.UpdateEvent(updatedEvent);
 		}
 
         public List<Event> GetEvents(List<int> eventsIDs)
 		{
             //if (_eventStorage == null) { return new List<Event>() { }; }
             //EventsStorage _eventsStorage = new EventsStorage();
-            return _eventsStorage.GetEvents(eventsIDs);
+            return EventsStorage.GetEvents(eventsIDs);
 		}
-
-        private void AddEventToUniversalEventsDB(Event _event)
-        {
-            _eventsStorage.AddEvent(_event);
-        }
-
-        private void RemoveEventFromUniversalEventsDB(int eventId)
-        {
-            _eventsStorage.RemoveEvent(eventId);
-        }
-
-        private void UpdateEventInUniversalEventsDB(Event _event)
-        {
-            _eventsStorage.UpdateEvent(_event);
-        }
     }
 }

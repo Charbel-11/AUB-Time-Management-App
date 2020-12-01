@@ -1,4 +1,5 @@
 ﻿using Server.DataContracts;
+using System;
 using System.Collections.Generic;
 
 
@@ -6,7 +7,7 @@ namespace Server.Service.ControlBlocks
 {
     interface IEventScheduleConnector
     {
-        void AddPersonalEvent(string username, Event _event);
+        Event AddPersonalEvent(string username, int eventPriority, string plannerUsername, string eventName, DateTime eventStart, DateTime eventEnd);
         void CancelPersonalEvent(string username, int eventID);
         void UpdatePersonalEvent(Event updatedEvent);
         Event GetPersonalEventInDetail(int eventID);

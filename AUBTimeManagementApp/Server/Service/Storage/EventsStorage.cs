@@ -52,7 +52,7 @@ namespace AUBTimeManagementApp.Service.Storage
         }
 
         // Get all events with IDs in eventIDs
-        public List<Event> GetEvents(List<int> eventsIDs) {
+        public static List<Event> GetEvents(List<int> eventsIDs) {
             if(eventsIDs.Count == 0) { return new List<Event>(); }
             try {
                 string connectionString = ConnectionUtil.connectionString;
@@ -83,14 +83,14 @@ namespace AUBTimeManagementApp.Service.Storage
         }
 
         // Add _event to DB
-        public void AddEvent(Event _event) {
+        public static int AddEvent(Event _event) {
             try {
                 string connectionString = ConnectionUtil.connectionString;
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
                 sqlConnection.Open();
 
-                string query =  "INSERT INTO Events(EventID, EventName, StartTime, EndTime, Priority, PlannerUsername) " +
-                                "VALUES (@EventID, @EventName, @StartTime, @EndTime, @Priority, @PlannerUsername)";
+                string query =  "INSERT INTO Events(EventName, StartTime, EndTime, Priority, PlannerUsername) " +
+                                "VALUES (@EventName, @StartTime, @EndTime, @Priority, @PlannerUsername)";
                 
                 SqlCommand command = new SqlCommand(query, sqlConnection);
                 command.Parameters.Add("@EventName", SqlDbType.NVarChar).Value = _event.eventName;
@@ -100,14 +100,22 @@ namespace AUBTimeManagementApp.Service.Storage
                 command.Parameters.Add("@PlannerUsername", SqlDbType.NVarChar).Value = _event.plannerUsername;
                 SqlDataReader dataReader = command.ExecuteReader();
 
-                command.Parameters.Clear(); dataReader.Close(); sqlConnection.Close();
+                command.Parameters.Clear(); dataReader.Close();
+
+                query = "SELECT LAST (EventID) FROM Events";
+                command = new SqlCommand(query, sqlConnection);
+                dataReader = command.ExecuteReader();
+
+                int eventID = dataReader.Read() ? dataReader.GetInt32(0) : -1;
+                command.Parameters.Clear(); dataReader.Close();
+                sqlConnection.Close(); return eventID;
             }
             catch (SqlException exception) { Console.WriteLine("AddEvent: " + exception.Message); throw; }
         }
 
 
         // Remove event with id eventId
-        public void RemoveEvent(int eventID) {
+        public static void RemoveEvent(int eventID) {
             try {
                 string connectionString = ConnectionUtil.connectionString;
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
@@ -124,7 +132,7 @@ namespace AUBTimeManagementApp.Service.Storage
         }
 
         // Update the event with id _event->EventId
-        public void UpdateEvent(Event _event)
+        public static void UpdateEvent(Event _event)
         {
             try
             {
