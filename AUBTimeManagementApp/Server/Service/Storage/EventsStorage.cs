@@ -102,7 +102,7 @@ namespace AUBTimeManagementApp.Service.Storage
 
                 command.Parameters.Clear(); dataReader.Close();
 
-                query = "SELECT LAST (EventID) FROM Events";
+                query = "SELECT TOP 1 EventID FROM Events ORDER BY EventID DESC";
                 command = new SqlCommand(query, sqlConnection);
                 dataReader = command.ExecuteReader();
 
