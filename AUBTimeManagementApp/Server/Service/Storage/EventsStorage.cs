@@ -8,10 +8,8 @@ using System.Data.SqlClient;
 namespace AUBTimeManagementApp.Service.Storage
 {
     public class EventsStorage {
-        public static List<int> getFilteredUserEvents(string username, int priority)
-        {
-            try
-            {
+        public static List<int> getFilteredUserEvents(string username, int priority) {
+            try {
                 string connectionString = ConnectionUtil.connectionString;
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
                 sqlConnection.Open();
@@ -26,6 +24,7 @@ namespace AUBTimeManagementApp.Service.Storage
                 List<int> events = new List<int>();
                 while (dataReader.Read()) { events.Add(dataReader.GetInt32(0)); }
 
+                command.Parameters.Clear(); dataReader.Close();
                 sqlConnection.Close(); return events;
             }
             catch (SqlException exception) { Console.WriteLine("getUserEvents: " + exception.Message); throw; }
@@ -53,11 +52,9 @@ namespace AUBTimeManagementApp.Service.Storage
         }
 
         // Get all events with IDs in eventIDs
-        public List<Event> GetEvents(List<int> eventsIDs)
-        {
+        public List<Event> GetEvents(List<int> eventsIDs) {
             if(eventsIDs.Count == 0) { return new List<Event>(); }
-            try
-            {
+            try {
                 string connectionString = ConnectionUtil.connectionString;
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
                 sqlConnection.Open();
@@ -79,15 +76,14 @@ namespace AUBTimeManagementApp.Service.Storage
                     events.Add(currEvent);
                 }
 
-               command.Parameters.Clear(); sqlConnection.Close();
-               return events;
+               command.Parameters.Clear(); dataReader.Close();
+               sqlConnection.Close(); return events;
             }
             catch (SqlException exception) { Console.WriteLine("GetEvents: " + exception.Message); throw; }
         }
 
         // Add _event to DB
-        public void AddEvent(Event _event)
-        {
+        public void AddEvent(Event _event) {
             try {
                 string connectionString = ConnectionUtil.connectionString;
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
@@ -104,17 +100,15 @@ namespace AUBTimeManagementApp.Service.Storage
                 command.Parameters.Add("@PlannerUsername", SqlDbType.NVarChar).Value = _event.plannerUsername;
                 SqlDataReader dataReader = command.ExecuteReader();
 
-                command.Parameters.Clear(); sqlConnection.Close(); 
+                command.Parameters.Clear(); dataReader.Close(); sqlConnection.Close();
             }
             catch (SqlException exception) { Console.WriteLine("AddEvent: " + exception.Message); throw; }
         }
 
 
         // Remove event with id eventId
-        public void RemoveEvent(int eventID)
-        {
-            try
-            {
+        public void RemoveEvent(int eventID) {
+            try {
                 string connectionString = ConnectionUtil.connectionString;
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
                 sqlConnection.Open();
@@ -124,7 +118,7 @@ namespace AUBTimeManagementApp.Service.Storage
                 command.Parameters.Add("@eventID", SqlDbType.Int).Value = eventID;
                 SqlDataReader dataReader = command.ExecuteReader();
 
-                command.Parameters.Clear(); sqlConnection.Close();
+                command.Parameters.Clear(); dataReader.Close(); sqlConnection.Close();
             }
             catch (SqlException exception) { Console.WriteLine("RemoveEvent: " + exception.Message); throw; }
         }
@@ -150,7 +144,7 @@ namespace AUBTimeManagementApp.Service.Storage
                 command.Parameters.Add("@PlannerUsername", SqlDbType.NVarChar).Value = _event.plannerUsername;
                 SqlDataReader dataReader = command.ExecuteReader();
 
-                command.Parameters.Clear(); sqlConnection.Close();
+                command.Parameters.Clear(); dataReader.Close(); sqlConnection.Close();
             }
             catch (SqlException exception) { Console.WriteLine("UpdateEvent: " + exception.Message); throw; }
         }

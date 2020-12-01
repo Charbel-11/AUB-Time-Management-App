@@ -5,19 +5,15 @@ using System.Data.SqlClient;
 using Server.DataContracts;
 using Server.Service.Storage;
 
-namespace AUBTimeManagementApp.Service.Storage
-{
-    class TeamsStorage
-    {
+namespace AUBTimeManagementApp.Service.Storage {
+    class TeamsStorage {
         #region Add
         /// <summary>
         /// Adds a new team to the database
         /// </summary>
         /// <returns>The unique teamID of the created team, -1 if it was unsuccessful</returns>
-        public static int AddTeam(string teamName) 
-        {
-            try
-            {
+        public static int AddTeam(string teamName) {
+            try {
                 string connectionString = ConnectionUtil.connectionString;
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
                 sqlConnection.Open();
@@ -34,6 +30,7 @@ namespace AUBTimeManagementApp.Service.Storage
                 dataReader = command.ExecuteReader();
 
                 int teamID = dataReader.Read() ? dataReader.GetInt32(0) : -1;
+                command.Parameters.Clear(); dataReader.Close();
                 sqlConnection.Close(); return teamID;
             }
             catch (SqlException exception) { Console.WriteLine("AddTeam: " + exception.Message); throw; }
@@ -42,16 +39,12 @@ namespace AUBTimeManagementApp.Service.Storage
         /// <summary>
         /// Adds a member or more to the team
         /// </summary>
-        public static void AddTeamMembers(int teamID, List<string> usernames) 
-        {
-            foreach (string username in usernames)
-            {
-                try
-                {
-                    string connectionString = ConnectionUtil.connectionString;
-                    SqlConnection sqlConnection = new SqlConnection(connectionString);
-                    sqlConnection.Open();
-
+        public static void AddTeamMembers(int teamID, List<string> usernames) {
+            try {
+                string connectionString = ConnectionUtil.connectionString;
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+                sqlConnection.Open();
+                foreach (string username in usernames) {
                     string query = "INSERT INTO isMember(Username, TeamID) " +
                                     "VALUES (@Username, @TeamID)";
                     SqlCommand command = new SqlCommand(query, sqlConnection);
@@ -59,19 +52,17 @@ namespace AUBTimeManagementApp.Service.Storage
                     command.Parameters.Add("@TeamID", SqlDbType.Int).Value = teamID;
                     SqlDataReader dataReader = command.ExecuteReader();
 
-                    command.Parameters.Clear(); sqlConnection.Close();
+                    command.Parameters.Clear(); dataReader.Close();
                 }
-                catch (SqlException exception) { Console.WriteLine("AddTeamMember: " + exception.Message); throw; }
-            }
+                sqlConnection.Close();
+            } catch(SqlException exception) { Console.WriteLine("AddTeamMembers: " + exception.Message); throw; }
         }
 
         /// <summary>
         /// Adds an admin to the team (from the existing members)
         /// </summary>
-        public static void AddTeamAdmin(int teamID, string username)
-        {
-            try
-            {
+        public static void AddTeamAdmin(int teamID, string username) {
+            try {
                 string connectionString = ConnectionUtil.connectionString;
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
                 sqlConnection.Open();
@@ -83,7 +74,7 @@ namespace AUBTimeManagementApp.Service.Storage
                 command.Parameters.Add("@TeamID", SqlDbType.Int).Value = teamID;
                 SqlDataReader dataReader = command.ExecuteReader();
 
-                command.Parameters.Clear(); sqlConnection.Close();
+                command.Parameters.Clear(); dataReader.Close(); sqlConnection.Close();
             }
             catch (SqlException exception) { Console.WriteLine("AddTeamAdmin: " + exception.Message); throw; }
         }
@@ -105,11 +96,10 @@ namespace AUBTimeManagementApp.Service.Storage
                 SqlCommand command = new SqlCommand(query, sqlConnection);
                 command.Parameters.Add("@Username", SqlDbType.NVarChar).Value = username;
                 command.Parameters.Add("@TeamID", SqlDbType.Int).Value = teamID;
-                command.ExecuteReader();
+                SqlDataReader dataReader = command.ExecuteReader();
 
-                command.Parameters.Clear(); sqlConnection.Close();
-
-                return true;
+                command.Parameters.Clear(); dataReader.Close();
+                sqlConnection.Close(); return true;
             }
             catch (SqlException exception) { Console.WriteLine("removeTeamMember: " + exception.Message); throw; }   
         }
@@ -119,8 +109,7 @@ namespace AUBTimeManagementApp.Service.Storage
         /// </summary>
         /// <returns>True if successful, false otherwise</returns>
         public static bool removeTeamAdmin(int teamID, string username) {
-            try
-            {
+            try {
                 string connectionString = ConnectionUtil.connectionString;
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
                 sqlConnection.Open();
@@ -129,10 +118,10 @@ namespace AUBTimeManagementApp.Service.Storage
                 SqlCommand command = new SqlCommand(query, sqlConnection);
                 command.Parameters.Add("@Username", SqlDbType.NVarChar).Value = username;
                 command.Parameters.Add("@TeamID", SqlDbType.Int).Value = teamID;
-                command.ExecuteReader();
+                SqlDataReader dataReader = command.ExecuteReader();
 
-                command.Parameters.Clear(); sqlConnection.Close();
-                return true;
+                command.Parameters.Clear(); dataReader.Close();
+                sqlConnection.Close(); return true;
             }
             catch (SqlException exception) { Console.WriteLine("removeTeamAdmin: " + exception.Message); throw; }
         }
@@ -152,8 +141,8 @@ namespace AUBTimeManagementApp.Service.Storage
                 SqlDataReader dataReader = command.ExecuteReader();
 
                 string teamName = dataReader.Read() ? dataReader.GetString(0) : "";
-                command.Parameters.Clear(); sqlConnection.Close();
-                return teamName;
+                command.Parameters.Clear(); dataReader.Close();
+                sqlConnection.Close(); return teamName;
             }
             catch (SqlException exception) { Console.WriteLine("getTeamName: " + exception.Message); throw; }
         }
@@ -172,6 +161,7 @@ namespace AUBTimeManagementApp.Service.Storage
                 List<int> teams = new List<int>();
                 while (dataReader.Read()) { teams.Add(dataReader.GetInt32(0)); }
 
+                command.Parameters.Clear(); dataReader.Close();
                 sqlConnection.Close(); return teams;
             }
             catch (SqlException exception) { Console.WriteLine("getUserTeams: " + exception.Message); throw; }
@@ -194,9 +184,9 @@ namespace AUBTimeManagementApp.Service.Storage
 
                 List<string> members = new List<string>();
                 while (dataReader.Read()) { members.Add(dataReader.GetInt32(0).ToString()); }
-                command.Parameters.Clear(); sqlConnection.Close();
-
-                return members;
+                
+                command.Parameters.Clear(); dataReader.Close();
+                sqlConnection.Close(); return members;
             }
             catch (SqlException exception) { Console.WriteLine("getTeamMembers: " + exception.Message); throw; }
         }
@@ -214,9 +204,9 @@ namespace AUBTimeManagementApp.Service.Storage
 
                 List<string> admins = new List<string>();
                 while (dataReader.Read()) { admins.Add(dataReader.GetInt32(0).ToString()); }
-                command.Parameters.Clear(); sqlConnection.Close();
-
-                return admins;
+               
+                command.Parameters.Clear(); dataReader.Close();
+                sqlConnection.Close(); return admins;
             }
             catch (SqlException exception) { Console.WriteLine("getTeamAdmins: " + exception.Message); throw; }
         }

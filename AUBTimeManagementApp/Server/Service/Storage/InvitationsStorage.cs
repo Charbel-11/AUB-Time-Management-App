@@ -24,8 +24,8 @@ namespace AUBTimeManagementApp.Service.Storage
                 SqlDataReader dataReader = command.ExecuteReader();
 
                 bool res = dataReader.HasRows;
-                command.Parameters.Clear(); sqlConnection.Close();
-                return res;
+                command.Parameters.Clear(); dataReader.Close();
+                sqlConnection.Close(); return res;
             }
             catch (SqlException exception) { Console.WriteLine("invitationExists: " + exception.Message); throw; }
         }
@@ -45,8 +45,8 @@ namespace AUBTimeManagementApp.Service.Storage
                 SqlDataReader dataReader = command.ExecuteReader();
 
                 int res = (dataReader.Read() ? dataReader.GetInt32(0) : -1);
-                command.Parameters.Clear(); sqlConnection.Close();
-                return res;
+                command.Parameters.Clear(); dataReader.Close();
+                sqlConnection.Close(); return res;
             }
             catch (SqlException exception) { Console.WriteLine("AddInvitation: " + exception.Message); throw; }
         }
@@ -67,9 +67,8 @@ namespace AUBTimeManagementApp.Service.Storage
                 command.Parameters.Add("@SenderUsername", SqlDbType.NVarChar).Value = senderUsername;
                 SqlDataReader dataReader = command.ExecuteReader();
 
-                command.Parameters.Clear(); sqlConnection.Close();
-
-                return getInvitationID(eventID, teamID, senderUsername);
+                command.Parameters.Clear(); dataReader.Close();
+                sqlConnection.Close(); return getInvitationID(eventID, teamID, senderUsername);
             }
             catch (SqlException exception) { Console.WriteLine("AddInvitation: " + exception.Message); throw; }
         }
@@ -88,7 +87,7 @@ namespace AUBTimeManagementApp.Service.Storage
                 command.Parameters.Add("@InvitationID", SqlDbType.Int).Value = invitationID;
                 SqlDataReader dataReader = command.ExecuteReader();
 
-                command.Parameters.Clear(); sqlConnection.Close();
+                command.Parameters.Clear(); dataReader.Close(); sqlConnection.Close();
             }
             catch (SqlException exception) { Console.WriteLine("AddUserInvitation: " + exception.Message); throw; }
         }
@@ -108,6 +107,7 @@ namespace AUBTimeManagementApp.Service.Storage
 
                 List<int> invitations = new List<int>();
                 while (dataReader.Read()) { invitations.Add(dataReader.GetInt32(0)); }
+                command.Parameters.Clear(); dataReader.Close();
                 sqlConnection.Close(); return invitations;
             }
             catch (SqlException exception) { Console.WriteLine("GetUserInvitations: " + exception.Message); throw; }
@@ -137,7 +137,8 @@ namespace AUBTimeManagementApp.Service.Storage
                     invitations.Add(curInvite);
                 }
 
-                command.Parameters.Clear(); return invitations;
+                command.Parameters.Clear(); dataReader.Close();
+                sqlConnection.Close(); return invitations;
             }
             catch (SqlException exception) { Console.WriteLine("GetEvent: " + exception.Message); throw; }
         }
@@ -155,7 +156,8 @@ namespace AUBTimeManagementApp.Service.Storage
                 command.Parameters.Add("@InvitationID", SqlDbType.Int).Value = invitationID;
 
                 SqlDataReader dataReader = command.ExecuteReader();
-                command.Parameters.Clear(); sqlConnection.Close();
+                command.Parameters.Clear(); dataReader.Close();
+                sqlConnection.Close();
             }
             catch (SqlException exception) { Console.WriteLine("RemoveInvitation: " + exception.Message); throw; }
 

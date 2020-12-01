@@ -19,6 +19,7 @@ namespace AUBTimeManagementApp.Service.Storage
                 SqlDataReader dataReader = command.ExecuteReader();
 
                 bool res = dataReader.HasRows;
+                command.Parameters.Clear(); dataReader.Close();
                 sqlConnection.Close(); return res;
             }
             catch (SqlException exception) { Console.WriteLine("usernameExists: " + exception.Message); throw; }
@@ -34,15 +35,22 @@ namespace AUBTimeManagementApp.Service.Storage
                 SqlCommand command = new SqlCommand(usernameQuery, sqlConnection);
                 command.Parameters.Add("@Username", SqlDbType.NVarChar).Value = username;
                 SqlDataReader dataReader = command.ExecuteReader();
-                if (dataReader.HasRows) { sqlConnection.Close(); return -1; }
-                dataReader.Close();
+                if (dataReader.HasRows) {
+                    command.Parameters.Clear(); dataReader.Close();
+                    sqlConnection.Close(); return -1;
+                }
+                command.Parameters.Clear(); dataReader.Close();
 
                 string emailQuery = "SELECT UserID FROM Users WHERE Email = @Email";
                 command = new SqlCommand(emailQuery, sqlConnection);
                 command.Parameters.Add("@Email", SqlDbType.NVarChar).Value = email;
                 dataReader = command.ExecuteReader();
-                if (dataReader.HasRows) { sqlConnection.Close(); return -2; }
+                if (dataReader.HasRows) {
+                    command.Parameters.Clear(); dataReader.Close();
+                    sqlConnection.Close(); return - 2;
+                }
 
+                command.Parameters.Clear(); dataReader.Close();
                 sqlConnection.Close(); return 1;
             }
             catch (SqlException exception) { Console.WriteLine("validateRegistration: " + exception.Message); throw; }
@@ -60,6 +68,7 @@ namespace AUBTimeManagementApp.Service.Storage
                 SqlDataReader dataReader = command.ExecuteReader();
 
                 bool res = dataReader.Read() && dataReader.GetString(0) == password;
+                command.Parameters.Clear(); dataReader.Close();
                 sqlConnection.Close(); return res;
             }
             catch (SqlException exception) { Console.WriteLine("validateLogIn: " + exception.Message); return false; }
@@ -77,6 +86,7 @@ namespace AUBTimeManagementApp.Service.Storage
                 SqlDataReader dataReader = command.ExecuteReader();
 
                 bool res = dataReader.Read() && dataReader.GetString(0) == password;
+                command.Parameters.Clear(); dataReader.Close();
                 sqlConnection.Close(); return res;
             }
             catch (SqlException exception) { Console.WriteLine("validateChangePassword: " + exception.Message); throw; }
@@ -94,6 +104,7 @@ namespace AUBTimeManagementApp.Service.Storage
                 command.Parameters.Add("@Username", SqlDbType.NVarChar).Value = username;
                 SqlDataReader dataReader = command.ExecuteReader();
 
+                command.Parameters.Clear(); dataReader.Close();
                 sqlConnection.Close(); return true;
             }
             catch (SqlException exception) { Console.WriteLine("updatePassword: " + exception.Message); throw; }
@@ -116,7 +127,8 @@ namespace AUBTimeManagementApp.Service.Storage
                 command.Parameters.Add("@DateOfBirth", SqlDbType.DateTime).Value = dateOfBirth;
                 SqlDataReader dataReader = command.ExecuteReader();
 
-                command.Parameters.Clear(); sqlConnection.Close(); return true;
+                command.Parameters.Clear(); dataReader.Close();
+                sqlConnection.Close(); return true;
             }
             catch (SqlException exception) { Console.WriteLine("createAccount: " + exception.Message); throw; }
         }
