@@ -26,9 +26,9 @@ namespace AUBTimeManagementApp.Client {
             { (int)ServerPackages.SAddMemberReply, HandleAddMemberReply },
             { (int)ServerPackages.SMemberAdded, HandleMemberAdded },
                 {(int)ServerPackages.SCreateTeamEventReply, HandleCreateTeamReply},
-            {(int)ServerPackages.SGetPersonalEventReply, HandleGetPersonalEventReply },
-            {(int)ServerPackages.SCreatePersonalEventReply, HandleCreatePersonalEventReply },
-                {(int)ServerPackages.SCancelPersonalEventReply, HandleCancelPersonalEventReply},
+            {(int)ServerPackages.SGetUserEventReply, HandleGetUserEventReply },
+            {(int)ServerPackages.SCreateUserEventReply, HandleCreateUserEventReply },
+                {(int)ServerPackages.SCancelUserEventReply, HandleCancelUserEventReply},
                 {(int) ServerPackages.SGetUserInvitationsReply, HandleGetUserInvitationsReply}
             };
         }
@@ -65,7 +65,7 @@ namespace AUBTimeManagementApp.Client {
             bufferH.Dispose();
         }
 
-        private static void HandleCreatePersonalEventReply(byte[] Data)
+        private static void HandleCreateUserEventReply(byte[] Data)
         {
             BufferHelper bufferH = new BufferHelper();
             bufferH.WriteBytes(Data);
@@ -74,11 +74,11 @@ namespace AUBTimeManagementApp.Client {
             int isCreated = bufferH.ReadInteger();
             // TODO: Display something to the user*/
 
-            Client.Instance.CreatePersonalEventReply(eventID);
+            Client.Instance.CreateUserEventReply(eventID);
             bufferH.Dispose();
         }
 
-        private static void HandleGetPersonalEventReply(byte[] Data)
+        private static void HandleGetUserEventReply(byte[] Data)
         {
             BufferHelper bufferH = new BufferHelper();
             bufferH.WriteBytes(Data);
@@ -363,7 +363,7 @@ namespace AUBTimeManagementApp.Client {
             Client.Instance.memberAdded(teamID, addedMember);
         }
 
-        public static void HandleCancelPersonalEventReply(byte[] data)
+        public static void HandleCancelUserEventReply(byte[] data)
         {
             BufferHelper bufferH = new BufferHelper();
             bufferH.WriteBytes(data);

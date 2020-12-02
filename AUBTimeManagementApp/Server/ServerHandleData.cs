@@ -32,10 +32,10 @@ namespace Server {
                 { (int)ClientPackages.CRemoveMember, HandleRemoveMember },
                 { (int)ClientPackages.CAddMember, HandleAddMember },
                 {(int)ClientPackages.CCreateTeamEvent, HandleCreateTeamEvent},
-                {(int)ClientPackages.CCreatePersonalEvent, HandleCreatePersonalEvent },
-                {(int)ClientPackages.CGetPersonalEvent, HandleGetPersonalEvent},
-                {(int)ClientPackages.CCancelPersonalEvent, HandleCancelPersonalEvent },
-                {(int)ClientPackages.CModifyPersonalEvent, HandleModifyPersonalEvent },
+                {(int)ClientPackages.CCreateUserEvent, HandleCreateUserEvent },
+                {(int)ClientPackages.CGetUserEvent, HandleGetUserEvent},
+                {(int)ClientPackages.CCancelUserEvent, HandleCancelUserEvent },
+                {(int)ClientPackages.CModifyUserEvent, HandleModifyUserEvent },
                 {(int)ClientPackages.CGetUserInvitations, HandleGetUserInvitations },
                 {(int)ClientPackages.CAcceptInvitation, HandleAcceptInvitationReply },
                 {(int)ClientPackages.CDeclineInvitation, HandleDeclineInvitationReply }
@@ -228,7 +228,7 @@ namespace Server {
 
             // Get list of events in the schedule
             IEventScheduleConnector _eventScheduleConnector = new EventScheduleConnector();
-            List<Event> eventsList = _eventScheduleConnector.GetPersonalSchedule(username);
+            List<Event> eventsList = _eventScheduleConnector.GetUserSchedule(username);
 
             Console.WriteLine("Will show " + eventsList.Count.ToString() + "events!");
             ServerTCP.PACKET_SendGetUserScheduleReply(ConnectionID, eventsList);
@@ -400,10 +400,10 @@ namespace Server {
             ITeamEventConnector teamEventConnector = new TeamEventConnector();
             teamEventConnector.CreateTeamEvent(teamID, addedEvent);
 
-            ServerTCP.PACKET_CreatePersonalEventReply(ConnectionID, eventName.GetHashCode());
+            ServerTCP.PACKET_CreateUserEventReply(ConnectionID, eventName.GetHashCode());
         }
 
-        private static void HandleCreatePersonalEvent(int ConnectionID, byte[] data)
+        private static void HandleCreateUserEvent(int ConnectionID, byte[] data)
         {
             Console.WriteLine("Server is adding the event");
 
@@ -419,12 +419,12 @@ namespace Server {
             bufferH.Dispose();
 
             IEventScheduleConnector eventScheduleConnector = new EventScheduleConnector();
-            Event addedEvent = eventScheduleConnector.AddPersonalEvent(username, eventPriority, username, eventName, DateTime.Parse(eventStart), DateTime.Parse(eventEnd));
+            Event addedEvent = eventScheduleConnector.AddUserEvent(username, eventPriority, username, eventName, DateTime.Parse(eventStart), DateTime.Parse(eventEnd));
 
-            ServerTCP.PACKET_CreatePersonalEventReply(ConnectionID, addedEvent.eventID);
+            ServerTCP.PACKET_CreateUserEventReply(ConnectionID, addedEvent.eventID);
         }
 
-        private static void HandleGetPersonalEvent(int ConnectionID, byte[] data)
+        private static void HandleGetUserEvent(int ConnectionID, byte[] data)
         {
 
             BufferHelper bufferH = new BufferHelper();
@@ -435,11 +435,11 @@ namespace Server {
             bufferH.Dispose();
 
             IEventScheduleConnector eventScheduleConnector = new EventScheduleConnector();
-            eventScheduleConnector.GetPersonalEventInDetail(eventID);
+            eventScheduleConnector.GetUserEventInDetail(eventID);
 
-            //ServerTCP.PACKET_SendCreatePersonalEvent(ConnectionID, );
+            //ServerTCP.PACKET_SendCreateUserEvent(ConnectionID, );
         }
-        private static void HandleCancelPersonalEvent(int ConnectionID, byte[] data)
+        private static void HandleCancelUserEvent(int ConnectionID, byte[] data)
         {
             BufferHelper bufferH = new BufferHelper();
             bufferH.WriteBytes(data);
@@ -449,13 +449,13 @@ namespace Server {
 
             bufferH.Dispose();
             IEventScheduleConnector eventScheduleConnector = new EventScheduleConnector();
-            eventScheduleConnector.CancelPersonalEvent(username, eventID);
+            eventScheduleConnector.CancelUserEvent(username, eventID);
 
             // Modify this (returning true is useless here)
-            ServerTCP.PACKET_CancelPersonalEvent(ConnectionID, true);
+            ServerTCP.PACKET_CancelUserEvent(ConnectionID, true);
         }
 
-        private static void HandleModifyPersonalEvent(int ConnectionID, byte[] data)
+        private static void HandleModifyUserEvent(int ConnectionID, byte[] data)
         {
             BufferHelper bufferH = new BufferHelper();
             bufferH.WriteBytes(data);
@@ -472,9 +472,9 @@ namespace Server {
             Event updatedEvent = new Event(eventID, priority, plannerUsername, eventName, DateTime.Parse(start), DateTime.Parse(end));
 
             IEventScheduleConnector _eventScheduleConnector= new EventScheduleConnector();
-            _eventScheduleConnector.UpdatePersonalEvent(updatedEvent);
+            _eventScheduleConnector.UpdateUserEvent(updatedEvent);
 
-            //ServerTCP.PACKET_CancelPersonalEvent(ConnectionID, true);
+            //ServerTCP.PACKET_CancelUserEvent(ConnectionID, true);
         }
 
         #region Invitations

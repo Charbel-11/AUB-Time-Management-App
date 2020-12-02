@@ -292,10 +292,10 @@ namespace Server {
             bufferH.Dispose();
         }
 
-        public static void PACKET_CreatePersonalEventReply(int ConnectionID, int eventID)
+        public static void PACKET_CreateUserEventReply(int ConnectionID, int eventID)
 		{
             BufferHelper bufferH = new BufferHelper();
-            bufferH.WriteInteger((int)ServerPackages.SCreatePersonalEventReply);
+            bufferH.WriteInteger((int)ServerPackages.SCreateUserEventReply);
 
             bufferH.WriteInteger(eventID);
 
@@ -303,10 +303,10 @@ namespace Server {
             bufferH.Dispose();
         }
 
-        public static void PACKET_CancelPersonalEvent(int ConnectionID, bool isCanceled)
+        public static void PACKET_CancelUserEvent(int ConnectionID, bool isCanceled)
         {
             BufferHelper bufferH = new BufferHelper();
-            bufferH.WriteInteger((int)ServerPackages.SCancelPersonalEventReply);
+            bufferH.WriteInteger((int)ServerPackages.SCancelUserEventReply);
 
             bufferH.WriteBool(isCanceled);
 

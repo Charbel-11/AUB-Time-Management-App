@@ -10,7 +10,10 @@ namespace AUBTimeManagementApp.Client
     {
         private static readonly Client instance = new Client(); //Singleton
 
-        private static readonly string serverIP = "37.209.255.210";//"127.0.0.1";
+        private static readonly string localIP = "127.0.0.1";
+        private static readonly string onlineIP = "37.209.254.182";
+
+        private static readonly string serverIP = onlineIP;
         private static readonly int serverPort = 8020;
 
         public string username;
@@ -137,14 +140,14 @@ namespace AUBTimeManagementApp.Client
 
         #region Events
 
-        public void CreatePersonalEvent(string eventName, int priority, DateTime start, DateTime end)
+        public void CreateUserEvent(string eventName, int priority, DateTime start, DateTime end)
         {
             Console.WriteLine(eventName + " " + priority + " " + start.ToString() + " " + end.ToString());
             //addedEvent = new Event(0, priority, " ", eventName, start, end);
-            ClientTCP.PACKET_CreatePersonalEvent(username, eventName, priority, start, end);
+            ClientTCP.PACKET_CreateUserEvent(username, eventName, priority, start, end);
 ;       }
 
-        public void CreatePersonalEventReply(int eventID)
+        public void CreateUserEventReply(int eventID)
         {
             //addedEvent.ID = eventID;
             //ShowEvent(addedEvent);
@@ -155,9 +158,9 @@ namespace AUBTimeManagementApp.Client
         /// remove event from user's schedule
         /// </summary>
         /// <param name="eventID"></param>
-        public void CancelPersonalEvent(int eventID)
+        public void CancelUserEvent(int eventID)
         {
-            ClientTCP.PACKET_CancelPersonalEvent(username, eventID);
+            ClientTCP.PACKET_CancelUserEvent(username, eventID);
         }
 
         public void personalEventCanceled(bool isCanceled)
@@ -168,9 +171,9 @@ namespace AUBTimeManagementApp.Client
         /// Modify personal event
         /// </summary>
         /// <param name="eventID"></param>
-        public void ModifyPersonalEvent(Event updatedEvent)
+        public void ModifyUserEvent(Event updatedEvent)
         {
-            ClientTCP.Packet_ModifyPersonalEvent(updatedEvent);
+            ClientTCP.Packet_ModifyUserEvent(updatedEvent);
         }
 
         public void personalEventModified()

@@ -8,7 +8,7 @@ namespace Server.Service.ControlBlocks
 {
     public class EventScheduleConnector : IEventScheduleConnector
     {
-        public Event AddPersonalEvent(string username, int eventPriority, string plannerUsername, string eventName, DateTime eventStart, DateTime eventEnd)
+        public Event AddUserEvent(string username, int eventPriority, string plannerUsername, string eventName, DateTime eventStart, DateTime eventEnd)
         {
             //Commented throw exception cause we need to always return the id of the added event to the client.
             // maybe we don't need to check for conflict if we're not gonna anything with the list of conflicting events
@@ -29,7 +29,7 @@ namespace Server.Service.ControlBlocks
             return addedEvent;
         }
 
-        public List<Event> GetPersonalSchedule(string username)
+        public List<Event> GetUserSchedule(string username)
         {
             // Add event id to the user's schedule
             ISchedulesHandler _schedulesHandler = new SchedulesHandler();
@@ -48,13 +48,13 @@ namespace Server.Service.ControlBlocks
 
             return _events;
         }
-        public Event GetPersonalEventInDetail(int eventID)
+        public Event GetUserEventInDetail(int eventID)
         {
             IEventsHandler _eventsHandler = new EventsHandler();
             List<int> singleEvent = new List<int>{ eventID };
             return _eventsHandler.GetEvents(singleEvent).ElementAt(0);
         }
-        public void CancelPersonalEvent(string username, int eventID)
+        public void CancelUserEvent(string username, int eventID)
         {
             ISchedulesHandler _schedulesHandler = new SchedulesHandler();
             _schedulesHandler.RemoveEventFromList(username, eventID);
@@ -63,7 +63,7 @@ namespace Server.Service.ControlBlocks
             _eventsHandler.CancelEvent(eventID);
         }
 
-        public void UpdatePersonalEvent(Event updatedEvent)
+        public void UpdateUserEvent(Event updatedEvent)
         {
             //Check for timr conflict if we decide to do something in case of conflict
             //if not move function to eventsHandler no need for connector.

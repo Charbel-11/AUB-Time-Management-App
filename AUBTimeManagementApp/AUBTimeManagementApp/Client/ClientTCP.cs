@@ -108,7 +108,7 @@ namespace AUBTimeManagementApp.Client {
         {
             BufferHelper bufferH = new BufferHelper();
             //Writes the function ID so the server knows this is PACKAGE_Login and handles it accordingly
-            bufferH.WriteInteger((int)ClientPackages.CCreatePersonalEvent);
+            bufferH.WriteInteger((int)ClientPackages.CCreateUserEvent);
 
             // Write username and password on buffer
 
@@ -128,7 +128,7 @@ namespace AUBTimeManagementApp.Client {
             BufferHelper bufferH = new BufferHelper();
 
             //Writes the function ID so the server knows this is PACKAGE_Login and handles it accordingly
-            bufferH.WriteInteger((int)ClientPackages.CGetPersonalEvent);
+            bufferH.WriteInteger((int)ClientPackages.CGetUserEvent);
 
             // Write username and password on buffer
 
@@ -285,10 +285,10 @@ namespace AUBTimeManagementApp.Client {
             SendData(bufferH.ToArray());
             bufferH.Dispose();
         }
-        public static void PACKET_CreatePersonalEvent(string username, string eventName, int priority, DateTime start, DateTime end)
+        public static void PACKET_CreateUserEvent(string username, string eventName, int priority, DateTime start, DateTime end)
         {
             BufferHelper bufferH = new BufferHelper();
-            bufferH.WriteInteger((int)ClientPackages.CCreatePersonalEvent);
+            bufferH.WriteInteger((int)ClientPackages.CCreateUserEvent);
 
             bufferH.WriteString(username);
             bufferH.WriteString(eventName);
@@ -300,10 +300,10 @@ namespace AUBTimeManagementApp.Client {
             bufferH.Dispose();
         }
 
-        public static void PACKET_CancelPersonalEvent(string username, int eventID)
+        public static void PACKET_CancelUserEvent(string username, int eventID)
         {
             BufferHelper bufferH = new BufferHelper();
-            bufferH.WriteInteger((int)ClientPackages.CCancelPersonalEvent);
+            bufferH.WriteInteger((int)ClientPackages.CCancelUserEvent);
 
             bufferH.WriteString(username);
             bufferH.WriteInteger(eventID);
@@ -312,10 +312,10 @@ namespace AUBTimeManagementApp.Client {
             bufferH.Dispose();
         }
 
-        public static void Packet_ModifyPersonalEvent(Event updatedEvent)
+        public static void Packet_ModifyUserEvent(Event updatedEvent)
         {
             BufferHelper bufferH = new BufferHelper();
-            bufferH.WriteInteger((int)ClientPackages.CModifyPersonalEvent);
+            bufferH.WriteInteger((int)ClientPackages.CModifyUserEvent);
 
             bufferH.WriteInteger(updatedEvent.ID);
             bufferH.WriteString(updatedEvent.eventName);

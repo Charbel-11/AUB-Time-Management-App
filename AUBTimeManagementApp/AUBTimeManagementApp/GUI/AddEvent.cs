@@ -53,7 +53,7 @@ namespace AUBTimeManagementApp.GUI
             }
             else
             {
-                Client.Client.Instance.CreatePersonalEvent(eventName.Text, priority.Value, startDate.Value, endDate.Value);
+                Client.Client.Instance.CreateUserEvent(eventName.Text, priority.Value, startDate.Value, endDate.Value);
             }
             Close();
         }

@@ -149,7 +149,7 @@ namespace AUBTimeManagementApp.GUI
             //If the yes button is pressed delete event
             if (result == DialogResult.Yes)
             { 
-               Client.Client.Instance.CancelPersonalEvent(selectedItemID);
+               Client.Client.Instance.CancelUserEvent(selectedItemID);
                eventDetailsPanel.Hide();
                 mainPanel.Show();
                 _items.Remove(selectedItem);
@@ -169,7 +169,7 @@ namespace AUBTimeManagementApp.GUI
                 calendar.Items.Remove(selectedItem);
                 _items.Add(new CalendarItem(calendar, updatedEvent.startTime, updatedEvent.endTime, updatedEvent.eventName, updatedEvent.ID, updatedEvent.priority));
                 PlaceItems();
-                Client.Client.Instance.ModifyPersonalEvent(updatedEvent);
+                Client.Client.Instance.ModifyUserEvent(updatedEvent);
             }
         }
 
