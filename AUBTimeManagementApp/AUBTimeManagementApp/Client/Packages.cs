@@ -23,7 +23,8 @@ public enum ServerPackages {
     SModifyUserEventReply,
     SGetUserInvitationsReply,
     SAcceptInvitationReply,
-    SDeclineInvitationReply
+    SDeclineInvitationReply,
+    SSendMergedSchedule
 }
 public enum ClientPackages {
     CMsg,

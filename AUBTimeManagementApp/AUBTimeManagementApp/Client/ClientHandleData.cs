@@ -25,11 +25,12 @@ namespace AUBTimeManagementApp.Client {
             { (int)ServerPackages.SMemberRemoved, HandleMemberRemoved },
             { (int)ServerPackages.SAddMemberReply, HandleAddMemberReply },
             { (int)ServerPackages.SMemberAdded, HandleMemberAdded },
-                {(int)ServerPackages.SCreateTeamEventReply, HandleCreateTeamReply},
+            {(int)ServerPackages.SCreateTeamEventReply, HandleCreateTeamReply},
             {(int)ServerPackages.SGetUserEventReply, HandleGetUserEventReply },
             {(int)ServerPackages.SCreateUserEventReply, HandleCreateUserEventReply },
-                {(int)ServerPackages.SCancelUserEventReply, HandleCancelUserEventReply},
-                {(int) ServerPackages.SGetUserInvitationsReply, HandleGetUserInvitationsReply}
+            {(int)ServerPackages.SCancelUserEventReply, HandleCancelUserEventReply},
+            {(int) ServerPackages.SGetUserInvitationsReply, HandleGetUserInvitationsReply},
+            {(int) ServerPackages.SSendMergedSchedule, HandleGetMergedSchedule}
             };
         }
 
@@ -373,6 +374,27 @@ namespace AUBTimeManagementApp.Client {
             bufferH.Dispose();
 
             Client.Instance.personalEventCanceled(isCanceled);
+        }
+
+        public static void HandleGetMergedSchedule(byte[] Data) {
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteBytes(Data);
+
+            int teamID = bufferH.ReadInteger();
+            int n = bufferH.ReadInteger();
+            int m = bufferH.ReadInteger();
+            double[,] freq = new double[n,m];
+
+            for (int i = 0; i < n; i++) {
+                for(int j = 0; j < m; j++) {
+                    int num = bufferH.ReadInteger();
+                    freq[i, j] = (double)num / 100000000.0;
+                }
+            }
+
+            Client.Instance.GetMergedTeamScheduleReply(teamID, freq);
+
+            bufferH.Dispose();
         }
     }
 }

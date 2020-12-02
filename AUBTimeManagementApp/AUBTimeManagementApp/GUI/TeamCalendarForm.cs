@@ -36,6 +36,13 @@ namespace AUBTimeManagementApp.GUI {
         }
 
         private void monthView_SelectionChanged(object sender, EventArgs e) {
+            if (mergedCalendarShown) {
+                DateTime start = monthView.SelectionStart, end = monthView.SelectionEnd;
+                if (end.Subtract(start).Days > 6) {
+                    end = start; end.AddDays(7);
+                    monthView.SelectionEnd = end;
+                }
+            }
             calendar.SetViewRange(monthView.SelectionStart, monthView.SelectionEnd);
         }
 
@@ -64,7 +71,14 @@ namespace AUBTimeManagementApp.GUI {
             mergedCalendarShown = !mergedCalendarShown;
             if (mergedCalendarShown) { 
                 calendarTypeButton.Text = "Show Team Calendar";
-                Client.Client.Instance.GetMergedTeamSchedule(team.teamID);
+                DateTime start = monthView.SelectionStart, end = monthView.SelectionEnd;
+                if (end.Subtract(start).Days > 6) { 
+                    end = start; end.AddDays(7);
+                    monthView.SelectionEnd = end;
+                }
+
+                //TODO: Fix priority threshold
+                Client.Client.Instance.GetMergedTeamSchedule(team.teamID, start, end, 3);
             }
             else {
                 calendarTypeButton.Text = "Show Merged Schedule";

@@ -402,8 +402,11 @@ namespace AUBTimeManagementApp.Client
         /// Gets the merged schedule of all members of a team
         /// </summary>
         /// <param name="teamID">The ID of the team</param>
-        public void GetMergedTeamSchedule(int teamID) {
-            ClientTCP.PACKET_GetMergedTeamSchedule(teamID);
+        public void GetMergedTeamSchedule(int teamID, DateTime startTime, DateTime endTime, int priorityThreshold) {
+            ClientTCP.PACKET_GetMergedTeamSchedule(teamID, startTime, endTime, priorityThreshold);
+        }
+        public void GetMergedTeamScheduleReply(int teamID, double[,] freq) {
+
         }
 
         public void CreateTeamEvent(int TeamID, string eventName, int priority, DateTime startDate, DateTime endDate)

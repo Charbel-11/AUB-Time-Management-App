@@ -174,10 +174,13 @@ namespace AUBTimeManagementApp.Client {
             SendData(bufferH.ToArray());
             bufferH.Dispose();
         }
-        public static void PACKET_GetMergedTeamSchedule(int teamID) {
+        public static void PACKET_GetMergedTeamSchedule(int teamID, DateTime startTime, DateTime endTime, int priorityThreshold) {
             BufferHelper bufferH = new BufferHelper();
             bufferH.WriteInteger((int)ClientPackages.CGetMergedTeamSchedule);
             bufferH.WriteInteger(teamID);
+            bufferH.WriteString(startTime.ToString());
+            bufferH.WriteString(endTime.ToString());
+            bufferH.WriteInteger(priorityThreshold);
             SendData(bufferH.ToArray());
             bufferH.Dispose();
         }

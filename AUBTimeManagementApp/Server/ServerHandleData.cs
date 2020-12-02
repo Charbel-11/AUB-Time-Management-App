@@ -263,6 +263,7 @@ namespace Server {
             SchedulesHandler schedulesHandler = new SchedulesHandler();
             EventsHandler eventsHandler = new EventsHandler();
 
+            //Maybe get events between start and endtime only
             List<string> members = teamsHandler.GetTeamMembers(teamID);
             List<List<Event>> allMembersEvents = new List<List<Event>>();
             foreach(string member in members) {
@@ -272,7 +273,7 @@ namespace Server {
             }
 
             double[,] freeTimeFreq = schedulesHandler.getMergedScheduleFreq(allMembersEvents, DateTime.Parse(startTime), DateTime.Parse(endTime), priorityThreshold);
-            //TODO: Return them somehow
+            ServerTCP.PACKET_SendMergedSchedule(ConnectionID, freeTimeFreq);
         }
 
         private static void HandleFilterUserSchedule(int ConnectionID, byte[] data)

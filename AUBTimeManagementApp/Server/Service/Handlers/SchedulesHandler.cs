@@ -61,38 +61,9 @@ namespace Server.Service.Handlers {
                 schedules.Add(curSchedule);
             }
 
-            return GetFreeTime(schedules, startTime, endTime, priorityThreshold);
+            return MergeSchedules(schedules, startTime, endTime, priorityThreshold);
         }
 
-        /// <summary>
-        /// Finds free time slots in multiple schedules
-        /// <para> </para>
-        /// </summary>
-        /// <param name="membersSchedule"> Schedules to be merge </param>
-        /// <param name="startDate"> First day of the week to be considered </param>
-        /// <param name="endDate"> Last day of the week to be considered </param>
-        /// <param name="priorityThreshold"> Threshold priority of events to be considered when merging schedules </param>
-        /// <returns> A table showing the availability of each time slot (1->completely free; 0->completely busy)</returns>
-        private double[,] GetFreeTime(List<Schedule> membersSchedule, DateTime startDate, DateTime endDate, int priorityThreshold) {
-            int[,] mergedSchedule = MergeSchedules(membersSchedule, startDate, endDate, priorityThreshold);
-            double[,] result = new double[7, 24 * 60];
-
-            int start = 0, end = 60 * 24;
-            int n = membersSchedule.Count;
-
-            for(int i = 0; i < 7; i++) {
-                int j = start;
-                while (j != end) { result[i, j]++; j++; }
-            }
-
-            for(int i = 0; i < 7; i++) {
-                for(int j = 0;j < 24*60; j++) {
-                    result[i, j] /= n;
-                }
-            }
-
-            return result;
-        }
         /// <summary>
         /// Merges many schedules over 1 week
         /// </summary>
@@ -101,7 +72,7 @@ namespace Server.Service.Handlers {
         /// <param name="endDate"> Last Day of the week to be merged </param>
         /// <param name="priorityThreshold">Threshold priority of events to be considered </param>
         /// <returns> A table showing how many events overlap at any given time in that week </returns>
-        private int[,] MergeSchedules(List<Schedule> membersSchedule, DateTime startDate, DateTime endDate, int priorityThreshold)
+        private double[,] MergeSchedules(List<Schedule> membersSchedule, DateTime startDate, DateTime endDate, int priorityThreshold)
         {
             int[,] mergedSchedule = new int[7, 24 * 60 + 1];
             foreach (Schedule curSchedule in membersSchedule)
