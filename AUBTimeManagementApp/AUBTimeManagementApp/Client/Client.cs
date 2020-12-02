@@ -406,7 +406,12 @@ namespace AUBTimeManagementApp.Client
             ClientTCP.PACKET_GetMergedTeamSchedule(teamID, startTime, endTime, priorityThreshold);
         }
         public void GetMergedTeamScheduleReply(int teamID, double[,] freq) {
-
+            if (teamCalendarForm != null && teamCalendarForm.Visible && teamCalendarForm.team.teamID == teamID && !teamCalendarForm.mergedCalendarShown) {
+                if (teamCalendarForm.InvokeRequired)
+                    teamCalendarForm.Invoke(new MethodInvoker(delegate { teamCalendarForm.displayColorFreq(freq); }));
+                else
+                    teamCalendarForm.displayColorFreq(freq);
+            }
         }
 
         public void CreateTeamEvent(int TeamID, string eventName, int priority, DateTime startDate, DateTime endDate)

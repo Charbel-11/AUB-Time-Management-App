@@ -81,8 +81,27 @@ namespace AUBTimeManagementApp.GUI {
                 Client.Client.Instance.GetMergedTeamSchedule(team.teamID, start, end, 3);
             }
             else {
+                calendar.Items.Clear(); _items.Clear();
                 calendarTypeButton.Text = "Show Merged Schedule";
                 Client.Client.Instance.GetTeamSchedule(team.teamID);
+            }
+        }
+
+        public void displayColorFreq(double [,] freq) {
+            int n = freq.GetLength(0), m = freq.GetLength(1);
+            int R = 255;
+
+            DateTime start = monthView.SelectionStart, end = monthView.SelectionEnd; //Maybe take those from the server
+            calendar.Items.Clear(); _items.Clear();
+            for (int i = 0; i < n; i++) {
+                for(int j = 0; j < m; j++) {
+                    CalendarItem curItem = new CalendarItem(calendar);
+                    DateTime curS = start; curS.AddDays(i); curS.AddMinutes(j);
+                    curItem.StartDate = curS;
+                    curS.AddMinutes(1);
+                    curItem.EndDate = curS;
+                    curItem.ApplyColor(Color.FromArgb((int)(255 * freq[i, j]), 0, 0));
+                }
             }
         }
 
