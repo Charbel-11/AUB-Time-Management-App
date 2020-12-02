@@ -60,7 +60,8 @@ namespace AUBTimeManagementApp.Service.Storage
                 sqlConnection.Open();
 
                 string combinedStringEventIDs = string.Join(",", eventsIDs);
-                string query = "SELECT * FROM Events WHERE EventID IN " + "(" + combinedStringEventIDs +")";
+                string query = "SELECT EventID, EventName, StartTime, EndTime, Priority, PlannerUsername FROM Events WHERE EventID IN " 
+                                + "(" + combinedStringEventIDs +")";
                 SqlCommand command = new SqlCommand(query, sqlConnection);
                 SqlDataReader dataReader = command.ExecuteReader();
 
@@ -121,7 +122,7 @@ namespace AUBTimeManagementApp.Service.Storage
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
                 sqlConnection.Open();
 
-                string query = "DELETE From Events Where EventID = @eventID";
+                string query = "DELETE FROM Events Where EventID = @eventID";
                 SqlCommand command = new SqlCommand(query, sqlConnection);
                 command.Parameters.Add("@eventID", SqlDbType.Int).Value = eventID;
                 SqlDataReader dataReader = command.ExecuteReader();
