@@ -32,9 +32,11 @@ namespace AUBTimeManagementApp.GUI
                 return;
             }
             if (OK == -3) {
+                ErrorLabel.Text = "Username already exists!";
                 return;
             }
             if(OK == -4) {
+                ErrorLabel.Text = "Email already exists!";
                 return;
             }
             parent.Show();

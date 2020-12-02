@@ -25,14 +25,14 @@ namespace Server.Service.ControlBlocks
         {
             /* Create an instance of the schedules handler since you can only access a user schedule through it */
             ISchedulesHandler scheduleHandler = new SchedulesHandler();
-            List<int> eventIds = scheduleHandler.GetUserSchedule(username);
+            List<int> eventIDs = scheduleHandler.GetUserSchedule(username);
 
-            if (eventIds.Count == 0) return null;
+            if (eventIDs.Count == 0) return null;
             /* Create an instance of the events handler */ 
             IEventsHandler eventsHandler = new EventsHandler();
             
             /* Get details about the events in the user's schedule */
-            List<Event> userEvents = eventsHandler.GetEvents(eventIds);
+            List<Event> userEvents = eventsHandler.GetEvents(eventIDs);
 
             List<int> conflictingEvents = new List<int>();
 

@@ -48,7 +48,7 @@ namespace AUBTimeManagementApp.GUI
             }
             else
             {
-
+                ErrorLabel.Text = "Invalid Username/Password.";
             }
         }
 
