@@ -18,11 +18,11 @@ namespace Server.Service.Handlers {
             return eventList;
         }
 
-        public void AddEventToList(string username, int eventID) {
-            SchedulesStorage.AddToUserSchedule(username, eventID);          
+        public void AddEventToUserSchedule(string username, int eventID, int priority) {
+            SchedulesStorage.AddToUserSchedule(username, eventID, priority);          
 		}
 
-        public void RemoveEventFromList(string username, int eventID) {
+        public void RemoveEventFromUserSchedule(string username, int eventID) {
             //gets username abd event ID
             //when user cancels event remove it from his schedule
             SchedulesStorage.DeleteFromUserSchedule(username, eventID);
@@ -40,12 +40,12 @@ namespace Server.Service.Handlers {
             return eventList;
         }
 
-        public void AddEventToTeam(int teamID, int eventID)
+        public void AddEventToTeamSchedule(int teamID, int eventID)
         {
             SchedulesStorage.AddToTeamSchedule(teamID, eventID);
         }
 
-        public void RemoveEventFromTeamList(int teamID, int eventID)
+        public void RemoveEventFromTeamSchedule(int teamID, int eventID)
         {
             //gets username abd event ID
             //when user cancels event remove it from his schedule

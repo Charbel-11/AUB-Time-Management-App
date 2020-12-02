@@ -14,19 +14,20 @@ namespace AUBTimeManagementApp.Service.Storage
         /// add eventID to user schedule with id = userID
         /// </summary>
         /// <returns> return true if successful, false otherwise </returns>
-        public static void AddToUserSchedule(string username, int eventID) {
+        public static void AddToUserSchedule(string username, int eventID, int priority) {
             try {
                 string connectionString = ConnectionUtil.connectionString;
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
                 sqlConnection.Open();
 
-                string query = "INSERT INTO isUserAttendee(Username, EventID) " +
-                                "VALUES (@Username, @EventID)";
+                string query = "INSERT INTO isUserAttendee(Username, EventID, Priority) " +
+                                "VALUES (@Username, @EventID, @Priority)";
 
                 SqlCommand command = new SqlCommand(query, sqlConnection);
 
                 command.Parameters.Add("@Username", SqlDbType.NVarChar).Value = username;
                 command.Parameters.Add("@EventID", SqlDbType.Int).Value = eventID;
+                command.Parameters.Add("@Priority", SqlDbType.Int).Value = priority;
                 SqlDataReader dataReader = command.ExecuteReader();
 
                 command.Parameters.Clear(); dataReader.Close(); sqlConnection.Close();

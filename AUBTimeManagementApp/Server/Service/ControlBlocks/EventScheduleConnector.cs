@@ -20,7 +20,7 @@ namespace Server.Service.ControlBlocks
 
             // Add event id to the user's schedule
             ISchedulesHandler _schedulesHandler = new SchedulesHandler();
-            _schedulesHandler.AddEventToList(username, addedEvent.eventID);
+            _schedulesHandler.AddEventToUserSchedule(username, addedEvent.eventID, eventPriority);
 
             //check for conflict with the conflict checker
             IConflictChecker conflictChecker = new ConflictChecker();
@@ -57,7 +57,7 @@ namespace Server.Service.ControlBlocks
         public void CancelUserEvent(string username, int eventID)
         {
             ISchedulesHandler _schedulesHandler = new SchedulesHandler();
-            _schedulesHandler.RemoveEventFromList(username, eventID);
+            _schedulesHandler.RemoveEventFromUserSchedule(username, eventID);
 
             IEventsHandler _eventsHandler = new EventsHandler();
             _eventsHandler.CancelEvent(eventID);

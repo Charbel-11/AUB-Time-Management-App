@@ -10,11 +10,11 @@ namespace Server.Service.Handlers
     public interface ISchedulesHandler
     {
         List<int> GetUserSchedule(string userID);
-        void AddEventToList(string username, int eventID);
-        void RemoveEventFromList(string username, int eventID);
+        void AddEventToUserSchedule(string username, int eventID, int priority);
+        void RemoveEventFromUserSchedule(string username, int eventID);
         List<int> GetTeamSchedule(int teamID);
-        void AddEventToTeam(int teamID, int eventID);
-        void RemoveEventFromTeamList(int teamID, int eventID);
+        void AddEventToTeamSchedule(int teamID, int eventID);
+        void RemoveEventFromTeamSchedule(int teamID, int eventID);
         bool[,] GetFreeTime(List<Schedule> membersSchedule, DateTime startDate, DateTime endDate,
             DateTime startTime, DateTime endTime, int countThreshold, int priorityThreshold);
     }

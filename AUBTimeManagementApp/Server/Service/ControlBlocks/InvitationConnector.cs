@@ -13,9 +13,13 @@ namespace Server.Service.ControlBlocks
             IInvitationsHandler invitationsHandler = new InvitationsHandler();
             List<int> singleInvitation = new List<int> { invitationID };
             int eventID = invitationsHandler.getInvitations(singleInvitation)[0].eventID;
+
+            List<int> singleEvent = new List<int> { eventID };
+            int priority = EventsStorage.GetEvents(singleEvent)[0].priority;
+
             // Add the event to the user schedule
             ISchedulesHandler schedulesHandler = new SchedulesHandler();
-            schedulesHandler.AddEventToList(username, eventID);
+            schedulesHandler.AddEventToUserSchedule(username, eventID, priority);
 
             // Now the event is added we can remove the invitation
             // Note that the order is important because in case adding the event fails we don't want to loose the invitation
