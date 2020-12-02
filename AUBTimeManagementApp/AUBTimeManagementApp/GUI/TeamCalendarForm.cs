@@ -33,8 +33,7 @@ namespace AUBTimeManagementApp.GUI {
 
             calendar.AllowItemEdit = false;
             calendar.AllowItemResize = false;
-            monthView.SelectionStart = monthView.SelectionEnd = DateTime.Now;
-
+            monthView.SelectionStart = monthView.SelectionEnd = DateTime.Today;
             mergedCalendarShown = !merged;
             changeCalendarType();
         }
@@ -110,7 +109,7 @@ namespace AUBTimeManagementApp.GUI {
                     curS = curS.AddMinutes(j - firstJ);
                     curItem.EndDate = curS;
                     int val = (int)(255 - 255 * freq[i, j]);
-                    curItem.ApplyColor(Color.FromArgb(val, val, val));
+                    curItem.ApplyColor(Color.FromArgb(255, val, val));
                     calendar.Items.Add(curItem); _items.Add(curItem);
 
                     Console.WriteLine(curItem.StartDate.ToString() + " " + curItem.EndDate.ToString());
