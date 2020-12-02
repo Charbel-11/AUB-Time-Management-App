@@ -72,19 +72,17 @@ namespace Server.Service.Handlers {
         /// <param name="endDate"> Last Day of the week to be merged </param>
         /// <param name="priorityThreshold">Threshold priority of events to be considered </param>
         /// <returns> A table showing how many events overlap at any given time in that week </returns>
-        private double[,] MergeSchedules(List<Schedule> membersSchedule, DateTime startDate, DateTime endDate, int priorityThreshold)
-        {
-            int[,] mergedSchedule = new int[7, 24 * 60 + 1];
-            foreach (Schedule curSchedule in membersSchedule)
-            {
+        private double[,] MergeSchedules(List<Schedule> membersSchedule, DateTime startDate, DateTime endDate, int priorityThreshold) {
+            double[,] mergedSchedule = new double[7, 24 * 60 + 1]; 
+
+            foreach (Schedule curSchedule in membersSchedule) {
                 int i = 0;
-                for (DateTime curDate = startDate; curDate.CompareTo(endDate) <= 0; curDate.AddDays(1), i++)
-                {
+                for (DateTime curDate = startDate; curDate.CompareTo(endDate) <= 0; curDate.AddDays(1), i++) {
                     int day = curDate.Day, month = curDate.Month, year = curDate.Year;
                     List<Event> events = curSchedule.getDailyEvent(day, month, year);
+                    int[] userResult = new int[24 * 60 + 1];
 
-                    foreach (Event curEvent in events)
-                    {
+                    foreach (Event curEvent in events) {
                         if (curEvent.priority < priorityThreshold) { continue; }
                         DateTime eventStart = curEvent.startTime;
                         DateTime eventEnd = curEvent.endTime;
@@ -93,15 +91,19 @@ namespace Server.Service.Handlers {
 
                         int startIndex = 60 * startHour + startMinute;
                         int endIndex = 60 * endHour + endMinute;
-                        mergedSchedule[i, startIndex]++;
-                        mergedSchedule[i, endIndex + 1]--;
+                        userResult[startIndex]++;
+                        userResult[endIndex + 1]--;
                     }
+
+                    for (int j = 1; j < 24 * 60; j++) userResult[i] += userResult[i - 1];
+                    for (int j = 1; j < 24 * 60; j++) mergedSchedule[i, j] += (userResult[j] != 0) ? 1 : 0;
                 }
             }
 
+            int n = membersSchedule.Count;
             for (int i = 0; i < 7; i++)
-                for (int j = 1; j < 24 * 60; j++)
-                    mergedSchedule[i, j] += mergedSchedule[i, j - 1];
+                for (int j = 0; j < 24 * 60; j++)
+                    mergedSchedule[i, j] /= n;
 
             return mergedSchedule;
         }
