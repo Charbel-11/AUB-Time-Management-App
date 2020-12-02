@@ -337,16 +337,19 @@ namespace Server {
             bufferH.Dispose();
         }
    
-        public static void PACKET_SendMergedSchedule(int ConnectionID, double[,] freeTimeFreq) {
+        public static void PACKET_SendMergedSchedule(int ConnectionID, int teamID, double[,] freeTimeFreq) {
             BufferHelper bufferH = new BufferHelper();
             bufferH.WriteInteger((int)ServerPackages.SSendMergedSchedule);
 
             int n = freeTimeFreq.GetLength(0), m = freeTimeFreq.GetLength(1);
+            bufferH.WriteInteger(teamID);
             bufferH.WriteInteger(n);
             bufferH.WriteInteger(m);
             for (int i = 0; i < n; i++)
-                for(int j = 0; j < m; j++)
+                for (int j = 0; j < m; j++) {
+                    if (freeTimeFreq[i, j] > 0) { Console.WriteLine(freeTimeFreq[i, j] + " " + ((int)(freeTimeFreq[i, j] * 100000000))); }
                     bufferH.WriteInteger((int)(freeTimeFreq[i, j] * 100000000));
+                }
 
             SendDataTo(ConnectionID, bufferH.ToArray());
             bufferH.Dispose();

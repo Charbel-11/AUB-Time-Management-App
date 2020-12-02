@@ -389,7 +389,9 @@ namespace AUBTimeManagementApp.Client {
                 for(int j = 0; j < m; j++) {
                     int num = bufferH.ReadInteger();
                     freq[i, j] = (double)num / 100000000.0;
+                    if (freq[i,j] > 0) Console.Write(freq[i, j] + ",");
                 }
+                Console.WriteLine();
             }
 
             Client.Instance.GetMergedTeamScheduleReply(teamID, freq);

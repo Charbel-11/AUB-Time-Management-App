@@ -273,7 +273,7 @@ namespace Server {
             }
 
             double[,] freeTimeFreq = schedulesHandler.getMergedScheduleFreq(allMembersEvents, DateTime.Parse(startTime), DateTime.Parse(endTime), priorityThreshold);
-            ServerTCP.PACKET_SendMergedSchedule(ConnectionID, freeTimeFreq);
+            ServerTCP.PACKET_SendMergedSchedule(ConnectionID, teamID, freeTimeFreq);
         }
 
         private static void HandleFilterUserSchedule(int ConnectionID, byte[] data)

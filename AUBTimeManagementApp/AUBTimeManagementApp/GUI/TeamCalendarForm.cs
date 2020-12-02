@@ -39,7 +39,7 @@ namespace AUBTimeManagementApp.GUI {
             if (mergedCalendarShown) {
                 DateTime start = monthView.SelectionStart, end = monthView.SelectionEnd;
                 if (end.Subtract(start).Days > 6) {
-                    end = start; end.AddDays(7);
+                    end = start.AddDays(6);
                     monthView.SelectionEnd = end;
                 }
             }
@@ -72,13 +72,17 @@ namespace AUBTimeManagementApp.GUI {
             if (mergedCalendarShown) { 
                 calendarTypeButton.Text = "Show Team Calendar";
                 DateTime start = monthView.SelectionStart, end = monthView.SelectionEnd;
+                if (monthView.SelectionStart.Year < 2000) { 
+                    monthView.SelectionStart = start = DateTime.Now;
+                    end = start.AddDays(1);
+                }
                 if (end.Subtract(start).Days > 6) { 
-                    end = start; end.AddDays(7);
+                    end = start.AddDays(7);
                     monthView.SelectionEnd = end;
                 }
 
                 //TODO: Fix priority threshold
-                Client.Client.Instance.GetMergedTeamSchedule(team.teamID, start, end, 3);
+                Client.Client.Instance.GetMergedTeamSchedule(team.teamID, start, end, 0);
             }
             else {
                 calendar.Items.Clear(); _items.Clear();
@@ -96,13 +100,17 @@ namespace AUBTimeManagementApp.GUI {
             for (int i = 0; i < n; i++) {
                 int j = 0;
                 while (j < m) {
-                    while (j < m && freq[i, j] == freq[i, j + 1]) { j++; }
+                    while (j < m - 1 && freq[i, j] == freq[i, j + 1]) { j++; }
                     CalendarItem curItem = new CalendarItem(calendar);
-                    DateTime curS = start; curS.AddDays(i); curS.AddMinutes(j);
+                    DateTime curS = start; curS = curS.AddDays(i); curS = curS.AddMinutes(j);
                     curItem.StartDate = curS;
-                    curS.AddMinutes(j - i);
+                    curS = curS.AddMinutes(j - i - 1);
                     curItem.EndDate = curS;
                     curItem.ApplyColor(Color.FromArgb((int)(255 * freq[i, j]), 0, 0));
+                    calendar.Items.Add(curItem); _items.Add(curItem);
+
+                    Console.WriteLine(curItem.StartDate.ToString() + " " + curItem.EndDate.ToString());
+                    j++;
                 }
             }
         }
