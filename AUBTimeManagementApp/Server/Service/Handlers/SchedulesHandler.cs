@@ -51,8 +51,17 @@ namespace Server.Service.Handlers {
             //when user cancels event remove it from his schedule
             SchedulesStorage.DeleteFromTeamSchedule(teamID, eventID);
         }
-        public void mergeSchedules(List<List<Event>> events) {
+        public double[,] getMergedScheduleFreq(List<List<Event>> events, DateTime startTime, DateTime endTime, int priorityThreshold) {
+            List<Schedule> schedules = new List<Schedule>();
+            foreach(List<Event> memberEvent in events) {
+                Schedule curSchedule = new Schedule();
+                foreach(Event e in memberEvent) {
+                    curSchedule.addEvent(e);
+                }
+                schedules.Add(curSchedule);
+            }
 
+            return GetFreeTime(schedules, startTime, endTime, priorityThreshold);
         }
 
         /// <summary>
@@ -62,28 +71,24 @@ namespace Server.Service.Handlers {
         /// <param name="membersSchedule"> Schedules to be merge </param>
         /// <param name="startDate"> First day of the week to be considered </param>
         /// <param name="endDate"> Last day of the week to be considered </param>
-        /// <param name="startTime">Starting time where results are needed </param>
-        /// <param name="endTime"> Final time where results are needed </param>
-        /// <param name="countThreshold"> Threshold count for a time slot to be considered occupied (not free)</param>
         /// <param name="priorityThreshold"> Threshold priority of events to be considered when merging schedules </param>
-        /// <returns> A table showing the availability of each time slot (1->free; 0->notFree)</returns>
-        public bool[,] GetFreeTime(List<Schedule> membersSchedule, DateTime startDate, DateTime endDate, 
-            DateTime startTime, DateTime endTime, int countThreshold, int priorityThreshold) {
+        /// <returns> A table showing the availability of each time slot (1->completely free; 0->completely busy)</returns>
+        private double[,] GetFreeTime(List<Schedule> membersSchedule, DateTime startDate, DateTime endDate, int priorityThreshold) {
             int[,] mergedSchedule = MergeSchedules(membersSchedule, startDate, endDate, priorityThreshold);
-            bool[,] result = new bool[7, 24 * 60];
+            double[,] result = new double[7, 24 * 60];
 
-            int start = 60 * startTime.Hour + startTime.Minute;
-            int end = 60 * endTime.Hour + endTime.Minute;
+            int start = 0, end = 60 * 24;
+            int n = membersSchedule.Count;
 
             for(int i = 0; i < 7; i++) {
-                int j = start, k = start;
-                while(k != end + 1) {
-                    if(mergedSchedule[i, j] >= countThreshold) { j++; k++; continue; }
-                    if(mergedSchedule[i, k] < countThreshold) { k++; continue; }
+                int j = start;
+                while (j != end) { result[i, j]++; j++; }
+            }
 
-                    while(j != k) { result[i, j] = true; j++; }
+            for(int i = 0; i < 7; i++) {
+                for(int j = 0;j < 24*60; j++) {
+                    result[i, j] /= n;
                 }
-                while (j != k) { result[i, j] = true; j++; }
             }
 
             return result;
@@ -95,7 +100,7 @@ namespace Server.Service.Handlers {
         /// <param name="startDate"> First Day of the week to be merged </param>
         /// <param name="endDate"> Last Day of the week to be merged </param>
         /// <param name="priorityThreshold">Threshold priority of events to be considered </param>
-        /// <returns> A table showing how many events overlap at any given time int that week </returns>
+        /// <returns> A table showing how many events overlap at any given time in that week </returns>
         private int[,] MergeSchedules(List<Schedule> membersSchedule, DateTime startDate, DateTime endDate, int priorityThreshold)
         {
             int[,] mergedSchedule = new int[7, 24 * 60 + 1];

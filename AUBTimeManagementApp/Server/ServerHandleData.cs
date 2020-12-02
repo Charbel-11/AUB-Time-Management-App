@@ -254,6 +254,9 @@ namespace Server {
             BufferHelper bufferH = new BufferHelper();
             bufferH.WriteBytes(data);
             int teamID = bufferH.ReadInteger();
+            string startTime = bufferH.ReadString();
+            string endTime = bufferH.ReadString();
+            int priorityThreshold = bufferH.ReadInteger();
             bufferH.Dispose();
 
             TeamsHandler teamsHandler = new TeamsHandler();
@@ -268,7 +271,8 @@ namespace Server {
                 allMembersEvents.Add(memberEvents);
             }
 
-            //TODO: Merge them and return something useful...
+            double[,] freeTimeFreq = schedulesHandler.getMergedScheduleFreq(allMembersEvents, DateTime.Parse(startTime), DateTime.Parse(endTime), priorityThreshold);
+            //TODO: Return them somehow
         }
 
         private static void HandleFilterUserSchedule(int ConnectionID, byte[] data)
