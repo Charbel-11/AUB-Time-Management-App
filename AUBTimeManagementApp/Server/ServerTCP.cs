@@ -347,7 +347,6 @@ namespace Server {
             bufferH.WriteInteger(m);
             for (int i = 0; i < n; i++)
                 for (int j = 0; j < m; j++) {
-                    if (freeTimeFreq[i, j] > 0) { Console.WriteLine(freeTimeFreq[i, j] + " " + ((int)(freeTimeFreq[i, j] * 100000000))); }
                     bufferH.WriteInteger((int)(freeTimeFreq[i, j] * 100000000));
                 }
 

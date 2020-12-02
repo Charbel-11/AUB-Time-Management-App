@@ -31,6 +31,9 @@ namespace AUBTimeManagementApp.GUI {
                 calendarTypeButton.Enabled = false;
             }
 
+            calendar.AllowItemEdit = false;
+            calendar.AllowItemResize = false;
+
             mergedCalendarShown = !merged;
             changeCalendarType();
         }
@@ -42,6 +45,7 @@ namespace AUBTimeManagementApp.GUI {
                     end = start.AddDays(6);
                     monthView.SelectionEnd = end;
                 }
+                Client.Client.Instance.GetMergedTeamSchedule(team.teamID, start, end, 0);
             }
             calendar.SetViewRange(monthView.SelectionStart, monthView.SelectionEnd);
         }
@@ -98,19 +102,20 @@ namespace AUBTimeManagementApp.GUI {
             DateTime start = monthView.SelectionStart, end = monthView.SelectionEnd; //Maybe take those from the server
             calendar.Items.Clear(); _items.Clear();
             for (int i = 0; i < n; i++) {
-                int j = 0;
-                while (j < m) {
-                    while (j < m - 1 && freq[i, j] == freq[i, j + 1]) { j++; }
+                int firstJ = 0;
+                while (firstJ < m) {
+                    int j = firstJ;
+                    while (j < m - 1 &&  freq[i, j] == freq[i, j + 1]) { j++; }
                     CalendarItem curItem = new CalendarItem(calendar);
-                    DateTime curS = start; curS = curS.AddDays(i); curS = curS.AddMinutes(j);
+                    DateTime curS = start; curS = curS.AddDays(i); curS = curS.AddMinutes(firstJ);
                     curItem.StartDate = curS;
-                    curS = curS.AddMinutes(j - i - 1);
+                    curS = curS.AddMinutes(j - firstJ);
                     curItem.EndDate = curS;
                     curItem.ApplyColor(Color.FromArgb((int)(255 * freq[i, j]), 0, 0));
                     calendar.Items.Add(curItem); _items.Add(curItem);
 
                     Console.WriteLine(curItem.StartDate.ToString() + " " + curItem.EndDate.ToString());
-                    j++;
+                    firstJ = j + 1;
                 }
             }
         }

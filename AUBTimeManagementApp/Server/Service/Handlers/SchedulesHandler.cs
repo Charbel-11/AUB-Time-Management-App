@@ -89,7 +89,7 @@ namespace Server.Service.Handlers {
                         if (curEvent.priority < priorityThreshold) { continue; }
                         DateTime eventStart = curEvent.startTime;
                         DateTime eventEnd = curEvent.endTime;
-                        int startHour = eventStart.Hour - 1, startMinute = eventStart.Minute;
+                        int startHour = eventStart.Hour - 1, startMinute = eventStart.Minute; 
                         int endHour = eventEnd.Hour - 1, endMinute = eventEnd.Minute;
 
                         int startIndex = 60 * startHour + startMinute;
