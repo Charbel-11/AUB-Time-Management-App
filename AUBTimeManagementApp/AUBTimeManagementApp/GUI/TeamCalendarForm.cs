@@ -33,6 +33,7 @@ namespace AUBTimeManagementApp.GUI {
 
             calendar.AllowItemEdit = false;
             calendar.AllowItemResize = false;
+            monthView.SelectionStart = monthView.SelectionEnd = DateTime.Now;
 
             mergedCalendarShown = !merged;
             changeCalendarType();
@@ -76,10 +77,7 @@ namespace AUBTimeManagementApp.GUI {
             if (mergedCalendarShown) { 
                 calendarTypeButton.Text = "Show Team Calendar";
                 DateTime start = monthView.SelectionStart, end = monthView.SelectionEnd;
-                if (monthView.SelectionStart.Year < 2000) { 
-                    monthView.SelectionStart = start = DateTime.Now;
-                    end = start.AddDays(1);
-                }
+
                 if (end.Subtract(start).Days > 6) { 
                     end = start.AddDays(7);
                     monthView.SelectionEnd = end;
@@ -111,7 +109,8 @@ namespace AUBTimeManagementApp.GUI {
                     curItem.StartDate = curS;
                     curS = curS.AddMinutes(j - firstJ);
                     curItem.EndDate = curS;
-                    curItem.ApplyColor(Color.FromArgb((int)(255 * freq[i, j]), 0, 0));
+                    int val = (int)(255 - 255 * freq[i, j]);
+                    curItem.ApplyColor(Color.FromArgb(val, val, val));
                     calendar.Items.Add(curItem); _items.Add(curItem);
 
                     Console.WriteLine(curItem.StartDate.ToString() + " " + curItem.EndDate.ToString());

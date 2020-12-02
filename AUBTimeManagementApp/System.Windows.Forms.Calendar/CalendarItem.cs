@@ -547,8 +547,8 @@ namespace System.Windows.Forms.Calendar
         /// </summary>
         public void ApplyColor(Color color)
         {
-            BackgroundColor = color;
-            BackgroundColorLighter = Color.FromArgb(
+            BackgroundColor = BackgroundColorLighter = ForeColor = color;
+         /*   BackgroundColorLighter = Color.FromArgb(
                 color.R + (255 - color.R) / 2 + (255 - color.R) / 3,
                 color.G + (255 - color.G) / 2 + (255 - color.G) / 3,
                 color.B + (255 - color.B) / 2 + (255 - color.B) / 3);
@@ -568,6 +568,7 @@ namespace System.Windows.Forms.Calendar
             {
                 ForeColor = Color.White;
             }
+         */
         }
 
         /// <summary>
