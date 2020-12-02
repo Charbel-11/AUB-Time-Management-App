@@ -94,11 +94,13 @@ namespace AUBTimeManagementApp.GUI {
             DateTime start = monthView.SelectionStart, end = monthView.SelectionEnd; //Maybe take those from the server
             calendar.Items.Clear(); _items.Clear();
             for (int i = 0; i < n; i++) {
-                for(int j = 0; j < m; j++) {
+                int j = 0;
+                while (j < m) {
+                    while (j < m && freq[i, j] == freq[i, j + 1]) { j++; }
                     CalendarItem curItem = new CalendarItem(calendar);
                     DateTime curS = start; curS.AddDays(i); curS.AddMinutes(j);
                     curItem.StartDate = curS;
-                    curS.AddMinutes(1);
+                    curS.AddMinutes(j - i);
                     curItem.EndDate = curS;
                     curItem.ApplyColor(Color.FromArgb((int)(255 * freq[i, j]), 0, 0));
                 }
