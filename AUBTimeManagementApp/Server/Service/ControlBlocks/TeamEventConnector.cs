@@ -22,8 +22,8 @@ namespace Server.Service.ControlBlocks
             List<string> members = teamsHandler.GetTeamMembers(teamID);
 
            // Add invitations to the team members using the Invitation 
-           /*IInvitationsHandler invitationsHandler = new InvitationsHandler();
-           invitationsHandler.SendInvitations(members, _event.eventID, teamID, _event.plannerUsername);*/
+           IInvitationsHandler invitationsHandler = new InvitationsHandler();
+           invitationsHandler.SendInvitations(members, _event.eventID, teamID, _event.plannerUsername);
         }
     }
 }
