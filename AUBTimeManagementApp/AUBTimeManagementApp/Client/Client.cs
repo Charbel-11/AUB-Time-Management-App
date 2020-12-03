@@ -140,6 +140,7 @@ namespace AUBTimeManagementApp.Client
 
         #region Events
 
+        // Make it return the number of events conflicting with the recently added event 
         public void CreateUserEvent(string eventName, int priority, DateTime start, DateTime end)
         {
             Console.WriteLine(eventName + " " + priority + " " + start.ToString() + " " + end.ToString());
@@ -147,11 +148,15 @@ namespace AUBTimeManagementApp.Client
             ClientTCP.PACKET_CreateUserEvent(username, eventName, priority, start, end);
 ;       }
 
-        public void CreateUserEventReply(int eventID)
+        public void CreateUserEventReply(Event _event, List<Event> conflictingEvents)
         {
             //addedEvent.ID = eventID;
             //ShowEvent(addedEvent);
-            mainForm.updateEventID(eventID);
+            mainForm.updateEventID(_event.ID);
+            if (conflictingEvents.Count != 0)
+            {
+                mainForm.informUserAboutConflicts(_event, conflictingEvents);
+            }
         }
 
         /// <summary>

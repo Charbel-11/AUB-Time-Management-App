@@ -70,12 +70,32 @@ namespace AUBTimeManagementApp.Client {
         {
             BufferHelper bufferH = new BufferHelper();
             bufferH.WriteBytes(Data);
-            int eventID = bufferH.ReadInteger();
-            /*// Read verification result from server
-            int isCreated = bufferH.ReadInteger();
-            // TODO: Display something to the user*/
 
-            Client.Instance.CreateUserEventReply(eventID);
+            int eventID = bufferH.ReadInteger();
+            string planner = bufferH.ReadString();
+            string eventName = bufferH.ReadString();
+            int priority = bufferH.ReadInteger();
+            string eventStart = bufferH.ReadString();
+            string eventEnd = bufferH.ReadString();
+            bool isteamEvent = bufferH.ReadBool();
+
+            Event _event = new Event(eventID, priority, planner, eventName, DateTime.Parse(eventStart), DateTime.Parse(eventEnd), isteamEvent);
+
+            int conflicts = bufferH.ReadInteger();
+            List<Event> conflictingEvents = new List<Event>();
+
+            for (int i = 0; i < conflicts; i++)
+            {
+                int _eventID = bufferH.ReadInteger();
+                string _planner = bufferH.ReadString();
+                string _eventName = bufferH.ReadString();
+                int _priority = bufferH.ReadInteger();
+                string _eventStart = bufferH.ReadString();
+                string _eventEnd = bufferH.ReadString();
+                bool _isteamEvent = bufferH.ReadBool();
+                conflictingEvents.Add(new Event(_eventID, _priority, _planner, _eventName, DateTime.Parse(_eventStart), DateTime.Parse(_eventEnd), _isteamEvent));
+            }
+            Client.Instance.CreateUserEventReply(_event, conflictingEvents);
             bufferH.Dispose();
         }
 

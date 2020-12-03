@@ -9,6 +9,6 @@ namespace Server.Service.ControlBlocks
 {
     interface IConflictChecker
     {
-        List<int> ConflictExists(string username, Event personalEvent);
+        List<Event> ConflictExists(string username, Event personalEvent);
     }
 }

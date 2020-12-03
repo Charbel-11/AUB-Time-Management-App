@@ -197,5 +197,23 @@ namespace AUBTimeManagementApp.GUI
             invitationsForm = new InvitationsForm(this);
             invitationsForm.Show();
         }
+
+        // I passed an entire event object (not just a name) although I only used the name
+        // because we might display event details in the warning message
+        // simply because an event name is not a unique identifier of an event
+        public void informUserAboutConflicts(Event _event, List<Event> conflictingEvents)
+        {
+            string warning = "Warning:\n Event " + _event.eventName + " is in conflict with the following events:\n";
+            for (int i = 0; i < conflictingEvents.Count; i++)
+            {
+                warning += conflictingEvents[i].eventName;
+                if (i != conflictingEvents.Count - 1)
+                {
+                    warning += " & ";
+                }
+            }
+
+            MessageBox.Show(warning, "Conflict Warning!");
+        }
     }
 }
