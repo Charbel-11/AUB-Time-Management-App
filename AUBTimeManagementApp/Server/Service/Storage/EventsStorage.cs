@@ -27,7 +27,7 @@ namespace AUBTimeManagementApp.Service.Storage
                 command.Parameters.Clear(); dataReader.Close();
                 sqlConnection.Close(); return events;
             }
-            catch (SqlException exception) { Console.WriteLine("getUserEvents: " + exception.Message); throw; }
+            catch (Exception exception) { Console.WriteLine("getUserEvents: " + exception.Message); throw; }
         }
 
         public static List<int> getFilteredTeamEvents(int teamID, int priority) {
@@ -48,7 +48,7 @@ namespace AUBTimeManagementApp.Service.Storage
 
                 sqlConnection.Close(); return events;
             }
-            catch (SqlException exception) { Console.WriteLine("getFilteredTeamEvents: " + exception.Message); throw; }
+            catch (Exception exception) { Console.WriteLine("getFilteredTeamEvents: " + exception.Message); throw; }
         }
 
         // Get all events with IDs in eventIDs
@@ -80,7 +80,7 @@ namespace AUBTimeManagementApp.Service.Storage
                command.Parameters.Clear(); dataReader.Close();
                sqlConnection.Close(); return events;
             }
-            catch (SqlException exception) { Console.WriteLine("GetEvents: " + exception.Message); throw; }
+            catch (Exception exception) { Console.WriteLine("GetEvents: " + exception.Message); throw; }
         }
 
         // Add _event to DB
@@ -111,7 +111,7 @@ namespace AUBTimeManagementApp.Service.Storage
                 command.Parameters.Clear(); dataReader.Close();
                 sqlConnection.Close(); return eventID;
             }
-            catch (SqlException exception) { Console.WriteLine("AddEvent: " + exception.Message); throw; }
+            catch (Exception exception) { Console.WriteLine("AddEvent: " + exception.Message); throw; }
         }
 
 
@@ -129,7 +129,7 @@ namespace AUBTimeManagementApp.Service.Storage
 
                 command.Parameters.Clear(); dataReader.Close(); sqlConnection.Close();
             }
-            catch (SqlException exception) { Console.WriteLine("RemoveEvent: " + exception.Message); throw; }
+            catch (Exception exception) { Console.WriteLine("RemoveEvent: " + exception.Message); throw; }
         }
 
         // Update the event with id _event->EventId
@@ -155,7 +155,7 @@ namespace AUBTimeManagementApp.Service.Storage
 
                 command.Parameters.Clear(); dataReader.Close(); sqlConnection.Close();
             }
-            catch (SqlException exception) { Console.WriteLine("UpdateEvent: " + exception.Message); throw; }
+            catch (Exception exception) { Console.WriteLine("UpdateEvent: " + exception.Message); throw; }
         }
 
     }

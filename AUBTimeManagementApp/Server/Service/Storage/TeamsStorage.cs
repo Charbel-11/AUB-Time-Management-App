@@ -33,7 +33,7 @@ namespace AUBTimeManagementApp.Service.Storage {
                 command.Parameters.Clear(); dataReader.Close();
                 sqlConnection.Close(); return teamID;
             }
-            catch (SqlException exception) { Console.WriteLine("AddTeam: " + exception.Message); throw; }
+            catch (Exception exception) { Console.WriteLine("AddTeam: " + exception.Message); throw; }
         }
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace AUBTimeManagementApp.Service.Storage {
                     command.Parameters.Clear(); dataReader.Close();
                 }
                 sqlConnection.Close();
-            } catch(SqlException exception) { Console.WriteLine("AddTeamMembers: " + exception.Message); throw; }
+            } catch(Exception exception) { Console.WriteLine("AddTeamMembers: " + exception.Message); throw; }
         }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace AUBTimeManagementApp.Service.Storage {
 
                 command.Parameters.Clear(); dataReader.Close(); sqlConnection.Close();
             }
-            catch (SqlException exception) { Console.WriteLine("AddTeamAdmin: " + exception.Message); throw; }
+            catch (Exception exception) { Console.WriteLine("AddTeamAdmin: " + exception.Message); throw; }
         }
     
         #endregion
@@ -101,7 +101,7 @@ namespace AUBTimeManagementApp.Service.Storage {
                 command.Parameters.Clear(); dataReader.Close();
                 sqlConnection.Close(); return true;
             }
-            catch (SqlException exception) { Console.WriteLine("removeTeamMember: " + exception.Message); throw; }   
+            catch (Exception exception) { Console.WriteLine("removeTeamMember: " + exception.Message); throw; }   
         }
 
         /// <summary>
@@ -123,7 +123,7 @@ namespace AUBTimeManagementApp.Service.Storage {
                 command.Parameters.Clear(); dataReader.Close();
                 sqlConnection.Close(); return true;
             }
-            catch (SqlException exception) { Console.WriteLine("removeTeamAdmin: " + exception.Message); throw; }
+            catch (Exception exception) { Console.WriteLine("removeTeamAdmin: " + exception.Message); throw; }
         }
         #endregion
 
@@ -144,7 +144,7 @@ namespace AUBTimeManagementApp.Service.Storage {
                 command.Parameters.Clear(); dataReader.Close();
                 sqlConnection.Close(); return teamName;
             }
-            catch (SqlException exception) { Console.WriteLine("getTeamName: " + exception.Message); throw; }
+            catch (Exception exception) { Console.WriteLine("getTeamName: " + exception.Message); throw; }
         }
 
         public static List<int> getUserTeams(string username) {
@@ -164,7 +164,7 @@ namespace AUBTimeManagementApp.Service.Storage {
                 command.Parameters.Clear(); dataReader.Close();
                 sqlConnection.Close(); return teams;
             }
-            catch (SqlException exception) { Console.WriteLine("getUserTeams: " + exception.Message); throw; }
+            catch (Exception exception) { Console.WriteLine("getUserTeams: " + exception.Message); throw; }
         }
 
         /// <summary>
@@ -188,7 +188,7 @@ namespace AUBTimeManagementApp.Service.Storage {
                 command.Parameters.Clear(); dataReader.Close();
                 sqlConnection.Close(); return members;
             }
-            catch (SqlException exception) { Console.WriteLine("getTeamMembers: " + exception.Message); throw; }
+            catch (Exception exception) { Console.WriteLine("getTeamMembers: " + exception.Message); throw; }
         }
 
         public static List<string> getTeamAdmins(int teamID) {
@@ -208,7 +208,7 @@ namespace AUBTimeManagementApp.Service.Storage {
                 command.Parameters.Clear(); dataReader.Close();
                 sqlConnection.Close(); return admins;
             }
-            catch (SqlException exception) { Console.WriteLine("getTeamAdmins: " + exception.Message); throw; }
+            catch (Exception exception) { Console.WriteLine("getTeamAdmins: " + exception.Message); throw; }
         }
         #endregion
     }

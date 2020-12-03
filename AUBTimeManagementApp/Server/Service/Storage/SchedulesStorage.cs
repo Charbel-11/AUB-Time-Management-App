@@ -32,7 +32,7 @@ namespace AUBTimeManagementApp.Service.Storage
 
                 command.Parameters.Clear(); dataReader.Close(); sqlConnection.Close();
             }
-            catch (SqlException exception) { Console.WriteLine("AddToPersonalSchedule: " + exception.Message); throw; }
+            catch (Exception exception) { Console.WriteLine("AddToPersonalSchedule: " + exception.Message); throw; }
         }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace AUBTimeManagementApp.Service.Storage
                 Console.WriteLine("Removed event with eventID = " + eventID + " from user schedule");
                 command.Parameters.Clear(); dataReader.Close(); sqlConnection.Close();
             }
-            catch (SqlException exception) { Console.WriteLine("DeleteFromPersonalSchedule: " + exception.Message); throw; }
+            catch (Exception exception) { Console.WriteLine("DeleteFromPersonalSchedule: " + exception.Message); throw; }
         }
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace AUBTimeManagementApp.Service.Storage
                 command.Parameters.Clear(); dataReader.Close();
                 sqlConnection.Close(); return events;
             }
-            catch (SqlException exception) { Console.WriteLine("GetPersonalSchedule: " + exception.Message); throw; }
+            catch (Exception exception) { Console.WriteLine("GetPersonalSchedule: " + exception.Message); throw; }
 
         }
 
@@ -109,7 +109,7 @@ namespace AUBTimeManagementApp.Service.Storage
 
                 command.Parameters.Clear(); dataReader.Close(); sqlConnection.Close();
             }
-            catch (SqlException exception) { Console.WriteLine("AddToTeamSchedule: " + exception.Message); throw; }
+            catch (Exception exception) { Console.WriteLine("AddToTeamSchedule: " + exception.Message); throw; }
         }
 
         /// <summary>
@@ -133,7 +133,7 @@ namespace AUBTimeManagementApp.Service.Storage
                 Console.WriteLine("Removed event with eventID = " + eventID + " from team schedule");
                 command.Parameters.Clear(); dataReader.Close(); sqlConnection.Close();
             }
-            catch (SqlException exception) { Console.WriteLine("DeleteFromTeamSchedule: " + exception.Message); throw; }
+            catch (Exception exception) { Console.WriteLine("DeleteFromTeamSchedule: " + exception.Message); throw; }
         }
 
         /// <summary>
@@ -158,7 +158,7 @@ namespace AUBTimeManagementApp.Service.Storage
                 command.Parameters.Clear(); dataReader.Close();
                 sqlConnection.Close(); return eventIDs;
             }
-            catch (SqlException exception) { Console.WriteLine("GetTeamSchedule: " + exception.Message); throw; }
+            catch (Exception exception) { Console.WriteLine("GetTeamSchedule: " + exception.Message); throw; }
         }
 		#endregion
 	}

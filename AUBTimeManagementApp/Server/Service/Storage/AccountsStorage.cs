@@ -22,7 +22,7 @@ namespace AUBTimeManagementApp.Service.Storage
                 command.Parameters.Clear(); dataReader.Close();
                 sqlConnection.Close(); return res;
             }
-            catch (SqlException exception) { Console.WriteLine("usernameExists: " + exception.Message); throw; }
+            catch (Exception exception) { Console.WriteLine("usernameExists: " + exception.Message); throw; }
         }
 
         public static int validateRegistration(string username, string email) {
@@ -53,7 +53,7 @@ namespace AUBTimeManagementApp.Service.Storage
                 command.Parameters.Clear(); dataReader.Close();
                 sqlConnection.Close(); return 1;
             }
-            catch (SqlException exception) { Console.WriteLine("validateRegistration: " + exception.Message); throw; }
+            catch (Exception exception) { Console.WriteLine("validateRegistration: " + exception.Message); throw; }
         }
 
         public static bool validateLogIn(string username, string password) {
@@ -71,7 +71,7 @@ namespace AUBTimeManagementApp.Service.Storage
                 command.Parameters.Clear(); dataReader.Close();
                 sqlConnection.Close(); return res;
             }
-            catch (SqlException exception) { Console.WriteLine("validateLogIn: " + exception.Message); return false; }
+            catch (Exception exception) { Console.WriteLine("validateLogIn: " + exception.Message); return false; }
         }
 
         public static bool validateChangePassword(string username, string password) {
@@ -89,7 +89,7 @@ namespace AUBTimeManagementApp.Service.Storage
                 command.Parameters.Clear(); dataReader.Close();
                 sqlConnection.Close(); return res;
             }
-            catch (SqlException exception) { Console.WriteLine("validateChangePassword: " + exception.Message); throw; }
+            catch (Exception exception) { Console.WriteLine("validateChangePassword: " + exception.Message); throw; }
         }
 
         public static bool updatePassword(string username, string password) {
@@ -107,7 +107,7 @@ namespace AUBTimeManagementApp.Service.Storage
                 command.Parameters.Clear(); dataReader.Close();
                 sqlConnection.Close(); return true;
             }
-            catch (SqlException exception) { Console.WriteLine("updatePassword: " + exception.Message); throw; }
+            catch (Exception exception) { Console.WriteLine("updatePassword: " + exception.Message); throw; }
         }
 
         public static bool createAccount(string username, string firstName, string lastName, string email, string password, DateTime dateOfBirth) {
@@ -130,7 +130,7 @@ namespace AUBTimeManagementApp.Service.Storage
                 command.Parameters.Clear(); dataReader.Close();
                 sqlConnection.Close(); return true;
             }
-            catch (SqlException exception) { Console.WriteLine("createAccount: " + exception.Message); throw; }
+            catch (Exception exception) { Console.WriteLine("createAccount: " + exception.Message); throw; }
         }
     }
 }

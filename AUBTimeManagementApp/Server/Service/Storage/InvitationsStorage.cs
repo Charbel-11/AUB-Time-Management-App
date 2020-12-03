@@ -27,7 +27,7 @@ namespace AUBTimeManagementApp.Service.Storage
                 command.Parameters.Clear(); dataReader.Close();
                 sqlConnection.Close(); return res;
             }
-            catch (SqlException exception) { Console.WriteLine("invitationExists: " + exception.Message); throw; }
+            catch (Exception exception) { Console.WriteLine("invitationExists: " + exception.Message); throw; }
         }
 
         private static int getInvitationID(int eventID, int teamID, string senderUsername) {
@@ -48,7 +48,7 @@ namespace AUBTimeManagementApp.Service.Storage
                 command.Parameters.Clear(); dataReader.Close();
                 sqlConnection.Close(); return res;
             }
-            catch (SqlException exception) { Console.WriteLine("AddInvitation: " + exception.Message); throw; }
+            catch (Exception exception) { Console.WriteLine("AddInvitation: " + exception.Message); throw; }
         }
 
         public static int AddInvitation(int eventID, int teamID, string senderUsername) {
@@ -70,7 +70,7 @@ namespace AUBTimeManagementApp.Service.Storage
                 command.Parameters.Clear(); dataReader.Close();
                 sqlConnection.Close(); return getInvitationID(eventID, teamID, senderUsername);
             }
-            catch (SqlException exception) { Console.WriteLine("AddInvitation: " + exception.Message); throw; }
+            catch (Exception exception) { Console.WriteLine("AddInvitation: " + exception.Message); throw; }
         }
 
         public static void AddUserInvitation(string username, int invitationID) { 
@@ -89,7 +89,7 @@ namespace AUBTimeManagementApp.Service.Storage
 
                 command.Parameters.Clear(); dataReader.Close(); sqlConnection.Close();
             }
-            catch (SqlException exception) { Console.WriteLine("AddUserInvitation: " + exception.Message); throw; }
+            catch (Exception exception) { Console.WriteLine("AddUserInvitation: " + exception.Message); throw; }
         }
 
         public static List<int> GetUserInvitations(string username)
@@ -110,7 +110,7 @@ namespace AUBTimeManagementApp.Service.Storage
                 command.Parameters.Clear(); dataReader.Close();
                 sqlConnection.Close(); return invitations;
             }
-            catch (SqlException exception) { Console.WriteLine("GetUserInvitations: " + exception.Message); throw; }
+            catch (Exception exception) { Console.WriteLine("GetUserInvitations: " + exception.Message); throw; }
         }
 
         public static List<Invitation> GetInvitations(List<int> invitationIDs) {
@@ -140,7 +140,7 @@ namespace AUBTimeManagementApp.Service.Storage
                 command.Parameters.Clear(); dataReader.Close();
                 sqlConnection.Close(); return invitations;
             }
-            catch (SqlException exception) { Console.WriteLine("GetEvent: " + exception.Message); throw; }
+            catch (Exception exception) { Console.WriteLine("GetEvent: " + exception.Message); throw; }
         }
 
         public static void RemoveUserInvitation(string username, int invitationID)
@@ -159,7 +159,7 @@ namespace AUBTimeManagementApp.Service.Storage
                 command.Parameters.Clear(); dataReader.Close();
                 sqlConnection.Close();
             }
-            catch (SqlException exception) { Console.WriteLine("RemoveInvitation: " + exception.Message); throw; }
+            catch (Exception exception) { Console.WriteLine("RemoveInvitation: " + exception.Message); throw; }
 
         }
     }
