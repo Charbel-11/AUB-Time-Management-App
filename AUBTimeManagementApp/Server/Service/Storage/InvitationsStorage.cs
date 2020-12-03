@@ -36,7 +36,7 @@ namespace AUBTimeManagementApp.Service.Storage
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
                 sqlConnection.Open();
 
-                string query = "SELECT InvitationID FROM Invitations WHERE EventID = @EvenID AND TeamID = @TeamID AND SenderUsername = @SenderUsername";
+                string query = "SELECT InvitationID FROM Invitations WHERE EventID = @EventID AND TeamID = @TeamID AND SenderUsername = @SenderUsername";
                 SqlCommand command = new SqlCommand(query, sqlConnection);
 
                 command.Parameters.Add("@EventID", SqlDbType.Int).Value = eventID;
@@ -48,7 +48,7 @@ namespace AUBTimeManagementApp.Service.Storage
                 command.Parameters.Clear(); dataReader.Close();
                 sqlConnection.Close(); return res;
             }
-            catch (Exception exception) { Console.WriteLine("AddInvitation: " + exception.Message); throw; }
+            catch (Exception exception) { Console.WriteLine("getInvitation: " + exception.Message); throw; }
         }
 
         public static int AddInvitation(int eventID, int teamID, string senderUsername) {
@@ -59,7 +59,7 @@ namespace AUBTimeManagementApp.Service.Storage
                 sqlConnection.Open();
 
                 string query = "INSERT INTO Invitations (EventID, TeamID, SenderUsername) " +
-                                "VALUES (@EventID, @TeamID @SenderUsername)";
+                                "VALUES (@EventID, @TeamID, @SenderUsername)";
                 SqlCommand command = new SqlCommand(query, sqlConnection);
 
                 command.Parameters.Add("@EventID", SqlDbType.Int).Value = eventID;

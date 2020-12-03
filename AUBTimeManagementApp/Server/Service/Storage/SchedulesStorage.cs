@@ -104,7 +104,7 @@ namespace AUBTimeManagementApp.Service.Storage
                 SqlCommand command = new SqlCommand(query, sqlConnection);
 
                 command.Parameters.Add("@EventID", SqlDbType.Int).Value = eventID;
-                command.Parameters.Add("@TeamID", SqlDbType.NVarChar).Value = teamID;
+                command.Parameters.Add("@TeamID", SqlDbType.Int).Value = teamID;
                 SqlDataReader dataReader = command.ExecuteReader();
 
                 command.Parameters.Clear(); dataReader.Close(); sqlConnection.Close();

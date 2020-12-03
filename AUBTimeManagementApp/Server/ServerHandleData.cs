@@ -247,6 +247,7 @@ namespace Server {
             // Get the events from eventIDs list and add them to the events list
             var eventsHandler = new EventsHandler();
             List<Event> eventsList = eventsHandler.GetEvents(eventIDs);
+            Console.WriteLine("Will show " + eventsList.Count.ToString() + "events!");
             ServerTCP.PACKET_SendGetTeamScheduleReply(ConnectionID, teamID, eventsList);
         }
 
@@ -401,11 +402,14 @@ namespace Server {
             // It's very simple to make create an event that requires the attendance of some of the members
             // if list of attendees is not null --> only invite the members in the list
             // Else invite all
-            Event addedEvent = new Event(eventName.GetHashCode(), eventPriority, eventPlanner, eventName, DateTime.Parse(eventStart), DateTime.Parse(eventEnd), true);
+
+            // Add the event to the schedule of the planner using the connector between the events and the schedules handlers
+            IEventScheduleConnector eventScheduleConnector = new EventScheduleConnector();
+            Event addedEvent = eventScheduleConnector.AddUserEvent(eventPlanner, eventPriority, eventPlanner, eventName, DateTime.Parse(eventStart), DateTime.Parse(eventEnd));
             ITeamEventConnector teamEventConnector = new TeamEventConnector();
             teamEventConnector.CreateTeamEvent(teamID, addedEvent);
 
-            ServerTCP.PACKET_CreateUserEventReply(ConnectionID, eventName.GetHashCode());
+            ServerTCP.PACKET_CreateUserEventReply(ConnectionID, addedEvent.eventID);
         }
 
         private static void HandleCreateUserEvent(int ConnectionID, byte[] data)

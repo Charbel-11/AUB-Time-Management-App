@@ -7,7 +7,7 @@ namespace Server.Service.Storage {
         private static string path3 = "C:\\Users\\User\\source\\repos\\New folder\\AUBTimeManagementApp\\Server\\Service\\Storage";
         private static string pathJihad = "C:\\Users\\user\\Downloads\\AUB-Time-Management-App\\AUBTimeManagementApp\\Server\\Service\\Storage";
 
-        private static string path = pathJihad;
+        private static string path = path3;
         public static string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=" + path + "\\AccountsDataBase.mdf;Integrated Security=True";
     }
 }
