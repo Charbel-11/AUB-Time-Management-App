@@ -46,14 +46,15 @@ namespace AUBTimeManagementApp.GUI
 
         private void createButton_Click(object sender, EventArgs e)
         {
-            Client.Client.Instance.showEvent(0,eventName.Text, priority.Value, startDate.Value, endDate.Value);
             if (parent == null)
             {
                 Client.Client.Instance.CreateTeamEvent(teamParent.team.teamID, eventName.Text, priority.Value, startDate.Value, endDate.Value);
+                Client.Client.Instance.showEvent(0, eventName.Text, priority.Value, startDate.Value, endDate.Value, false);
             }
             else
             {
                 Client.Client.Instance.CreateUserEvent(eventName.Text, priority.Value, startDate.Value, endDate.Value);
+                Client.Client.Instance.showEvent(0, eventName.Text, priority.Value, startDate.Value, endDate.Value, true);
             }
             Close();
         }

@@ -31,8 +31,8 @@ namespace AUBTimeManagementApp.GUI
             eventDetailsPanel.Hide();
         }
 
-        public void displayEvent(int eventID, string eventName, int priority, DateTime startDate, DateTime endDate) {
-            CalendarItem curEvent = new CalendarItem(calendar, startDate, endDate, eventName, eventID, priority);
+        public void displayEvent(int eventID, string eventName, int priority, DateTime startDate, DateTime endDate, bool teamEvent) {
+            CalendarItem curEvent = new CalendarItem(calendar, startDate, endDate, eventName, eventID, priority, teamEvent);
             calendar.Items.Add(curEvent);
             _items.Add(curEvent);
         }
@@ -149,7 +149,7 @@ namespace AUBTimeManagementApp.GUI
             //If the yes button is pressed delete event
             if (result == DialogResult.Yes)
             { 
-               Client.Client.Instance.CancelUserEvent(selectedItemID);
+               Client.Client.Instance.CancelUserEvent(selectedItemID, selectedItem.teamEvent);
                eventDetailsPanel.Hide();
                 mainPanel.Show();
                 _items.Remove(selectedItem);
@@ -167,7 +167,7 @@ namespace AUBTimeManagementApp.GUI
                 Event updatedEvent = new Event(selectedItem.eventID,ModifyPriority.Value, _username, detailsEventName.Text, dateTimePickerStart.Value, dateTimePickerEnd.Value);
                 _items.Remove(selectedItem);
                 calendar.Items.Remove(selectedItem);
-                _items.Add(new CalendarItem(calendar, updatedEvent.startTime, updatedEvent.endTime, updatedEvent.eventName, updatedEvent.ID, updatedEvent.priority));
+                _items.Add(new CalendarItem(calendar, updatedEvent.startTime, updatedEvent.endTime, updatedEvent.eventName, updatedEvent.ID, updatedEvent.priority, updatedEvent.teamEvent));
                 PlaceItems();
                 Client.Client.Instance.ModifyUserEvent(updatedEvent);
             }

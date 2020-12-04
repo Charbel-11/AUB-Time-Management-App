@@ -8,10 +8,10 @@ namespace Server.Service.ControlBlocks
 {
     public class EventScheduleConnector : IEventScheduleConnector
     {
-        public KeyValuePair<Event, List<Event>> AddUserEvent(string username, int eventPriority, string plannerUsername, string eventName, DateTime eventStart, DateTime eventEnd)
+        public KeyValuePair<Event, List<Event>> AddUserEvent(string username, int eventPriority, string plannerUsername, string eventName, DateTime eventStart, DateTime eventEnd, bool isTeamEvent)
         {
             // Add event to the events tables
-            Event addedEvent = new Event(0, eventPriority, plannerUsername, eventName, eventStart, eventEnd);
+            Event addedEvent = new Event(0, eventPriority, plannerUsername, eventName, eventStart, eventEnd, isTeamEvent);
             IEventsHandler _eventsHandler = new EventsHandler();
             int eventID = _eventsHandler.CreateEvent(addedEvent);
             addedEvent.eventID = eventID;
@@ -52,13 +52,20 @@ namespace Server.Service.ControlBlocks
             List<int> singleEvent = new List<int>{ eventID };
             return _eventsHandler.GetEvents(singleEvent).ElementAt(0);
         }
-        public void CancelUserEvent(string username, int eventID)
+
+        public void CancelUserEvent(string username, int eventID, bool isTeamEvent)
         {
+            // Remove Event from the user's schedule
             ISchedulesHandler _schedulesHandler = new SchedulesHandler();
             _schedulesHandler.RemoveEventFromUserSchedule(username, eventID);
 
-            IEventsHandler _eventsHandler = new EventsHandler();
-            _eventsHandler.CancelEvent(eventID);
+            // if the event is a personal event, remove the event from events table
+			if (!isTeamEvent)
+			{
+                IEventsHandler _eventsHandler = new EventsHandler();
+                _eventsHandler.CancelEvent(eventID);
+            }
+            
         }
 
         public void UpdateUserEvent(Event updatedEvent)

@@ -119,7 +119,7 @@ namespace AUBTimeManagementApp.GUI {
         }
 
         public void displayEvent(Event _event) {
-            CalendarItem curEvent = new CalendarItem(calendar, _event.startTime, _event.endTime, _event.eventName, _event.ID, _event.priority);
+            CalendarItem curEvent = new CalendarItem(calendar, _event.startTime, _event.endTime, _event.eventName, _event.ID, _event.priority, _event.teamEvent);
             calendar.Items.Add(curEvent);
             _items.Add(curEvent);
         }

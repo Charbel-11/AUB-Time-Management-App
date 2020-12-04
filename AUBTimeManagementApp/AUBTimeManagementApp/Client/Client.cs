@@ -91,13 +91,13 @@ namespace AUBTimeManagementApp.Client
 
         public void ShowEvent(Event _event)
         {
-            showEvent(_event.ID, _event.eventName, _event.priority, _event.startTime, _event.endTime);
+            showEvent(_event.ID, _event.eventName, _event.priority, _event.startTime, _event.endTime, _event.teamEvent);
         }
 
         /* This function displays the event details for the user */
-        public void showEvent(int eventID, string eventName, int priority, DateTime startDate, DateTime endDate) {
+        public void showEvent(int eventID, string eventName, int priority, DateTime startDate, DateTime endDate, bool teamEvent) {
             
-            mainForm.displayEvent(eventID, eventName, priority, startDate, endDate);
+            mainForm.displayEvent(eventID, eventName, priority, startDate, endDate, teamEvent);
         }
 
 		#region Account
@@ -145,7 +145,7 @@ namespace AUBTimeManagementApp.Client
         {
             Console.WriteLine(eventName + " " + priority + " " + start.ToString() + " " + end.ToString());
             //addedEvent = new Event(0, priority, " ", eventName, start, end);
-            ClientTCP.PACKET_CreateUserEvent(username, eventName, priority, start, end);
+            ClientTCP.PACKET_CreateUserEvent(username, eventName, priority, start, end, false);
 ;       }
 
         public void CreateUserEventReply(Event _event, List<Event> conflictingEvents)
@@ -163,9 +163,9 @@ namespace AUBTimeManagementApp.Client
         /// remove event from user's schedule
         /// </summary>
         /// <param name="eventID"></param>
-        public void CancelUserEvent(int eventID)
+        public void CancelUserEvent(int eventID, bool isTeamEvent)
         {
-            ClientTCP.PACKET_CancelUserEvent(username, eventID);
+            ClientTCP.PACKET_CancelUserEvent(username, eventID, isTeamEvent);
         }
 
         public void personalEventCanceled(bool isCanceled)
@@ -192,7 +192,7 @@ namespace AUBTimeManagementApp.Client
         public void CreateTeamEvent(int TeamID, string eventName, int priority, DateTime startDate, DateTime endDate)
         {
             Console.WriteLine("Sending a request to create: eventName " + eventName + " " + priority.ToString() + " " + startDate.ToString() + " " + endDate.ToString());
-            ClientTCP.PACKET_CreateTeamEvent(TeamID, username, eventName, priority, startDate, endDate);
+            ClientTCP.PACKET_CreateTeamEvent(TeamID, username, eventName, priority, startDate, endDate, true);
         }
 
         #endregion
@@ -379,11 +379,12 @@ namespace AUBTimeManagementApp.Client
                 int priority = eventsList[i].priority;
                 DateTime start = eventsList[i].startTime;
                 DateTime end = eventsList[i].endTime;
+                bool isTeamEvent = eventsList[i].teamEvent;
                 
                 if (mainForm.InvokeRequired)
-                    mainForm.Invoke(new MethodInvoker(delegate { mainForm.displayEvent(eventID, name, priority, start, end); }));
+                    mainForm.Invoke(new MethodInvoker(delegate { mainForm.displayEvent(eventID, name, priority, start, end, isTeamEvent); }));
                 else
-                    mainForm.displayEvent(eventID, name, priority, start, end);
+                    mainForm.displayEvent(eventID, name, priority, start, end, isTeamEvent);
             }
         }
 
@@ -441,15 +442,16 @@ namespace AUBTimeManagementApp.Client
                 int priority = eventsList[i].priority;
                 DateTime start = eventsList[i].startTime;
                 DateTime end = eventsList[i].endTime;
+                bool isTeamEvent = eventsList[i].teamEvent;
 
                 if (mainForm.InvokeRequired)
                 {
                     //We are calling a method of the form from a different thread
                     //Need to use invoke to make it threadsafe
-                    mainForm.Invoke(new MethodInvoker(delegate { mainForm.displayEvent(eventID, name, priority, start, end); }));
+                    mainForm.Invoke(new MethodInvoker(delegate { mainForm.displayEvent(eventID, name, priority, start, end, isTeamEvent); }));
                 }
 
-                else { mainForm.displayEvent(eventID, name, priority, start, end); }
+                else { mainForm.displayEvent(eventID, name, priority, start, end, isTeamEvent); }
             }
         }
 

@@ -273,7 +273,7 @@ namespace AUBTimeManagementApp.Client {
                 ClientSocket.Close();
         }
 
-        public static void PACKET_CreateTeamEvent(int teamID, string eventPlanner, string eventName, int priority, DateTime startDate, DateTime endDate)
+        public static void PACKET_CreateTeamEvent(int teamID, string eventPlanner, string eventName, int priority, DateTime startDate, DateTime endDate, bool isTeamEvent)
         {
             BufferHelper bufferH = new BufferHelper();
             bufferH.WriteInteger((int)ClientPackages.CCreateTeamEvent);
@@ -284,11 +284,12 @@ namespace AUBTimeManagementApp.Client {
             bufferH.WriteInteger(priority);
             bufferH.WriteString(startDate.ToString());
             bufferH.WriteString(endDate.ToString());
+            bufferH.WriteBool(isTeamEvent);
 
             SendData(bufferH.ToArray());
             bufferH.Dispose();
         }
-        public static void PACKET_CreateUserEvent(string username, string eventName, int priority, DateTime start, DateTime end)
+        public static void PACKET_CreateUserEvent(string username, string eventName, int priority, DateTime start, DateTime end, bool isTeamEvent)
         {
             BufferHelper bufferH = new BufferHelper();
             bufferH.WriteInteger((int)ClientPackages.CCreateUserEvent);
@@ -298,18 +299,20 @@ namespace AUBTimeManagementApp.Client {
             bufferH.WriteString(start.ToString());
             bufferH.WriteString(end.ToString());
             bufferH.WriteInteger(priority);
+            bufferH.WriteBool(isTeamEvent);
 
             SendData(bufferH.ToArray());
             bufferH.Dispose();
         }
 
-        public static void PACKET_CancelUserEvent(string username, int eventID)
+        public static void PACKET_CancelUserEvent(string username, int eventID, bool isTeamEvent)
         {
             BufferHelper bufferH = new BufferHelper();
             bufferH.WriteInteger((int)ClientPackages.CCancelUserEvent);
 
             bufferH.WriteString(username);
             bufferH.WriteInteger(eventID);
+            bufferH.WriteBool(isTeamEvent);
 
             SendData(bufferH.ToArray());
             bufferH.Dispose();

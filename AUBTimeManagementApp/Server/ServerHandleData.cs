@@ -394,7 +394,7 @@ namespace Server {
             int eventPriority = bufferH.ReadInteger();
             string eventStart = bufferH.ReadString();
             string eventEnd = bufferH.ReadString();
-            
+            bool isTeamEvent = bufferH.ReadBool();
 
             bufferH.Dispose();
 
@@ -405,7 +405,7 @@ namespace Server {
 
             // Add the event to the schedule of the planner using the connector between the events and the schedules handlers
             IEventScheduleConnector eventScheduleConnector = new EventScheduleConnector();
-            KeyValuePair<Event, List<Event>> pair = eventScheduleConnector.AddUserEvent(eventPlanner, eventPriority, eventPlanner, eventName, DateTime.Parse(eventStart), DateTime.Parse(eventEnd));
+            KeyValuePair<Event, List<Event>> pair = eventScheduleConnector.AddUserEvent(eventPlanner, eventPriority, eventPlanner, eventName, DateTime.Parse(eventStart), DateTime.Parse(eventEnd), isTeamEvent);
             ITeamEventConnector teamEventConnector = new TeamEventConnector();
             teamEventConnector.CreateTeamEvent(teamID, pair.Key);
 
@@ -424,11 +424,12 @@ namespace Server {
             string eventStart = bufferH.ReadString();
             string eventEnd = bufferH.ReadString();
             int eventPriority = bufferH.ReadInteger();
+            bool isTeamEvent = bufferH.ReadBool();
 
             bufferH.Dispose();
 
             IEventScheduleConnector eventScheduleConnector = new EventScheduleConnector();
-            KeyValuePair<Event, List<Event>> pair = eventScheduleConnector.AddUserEvent(username, eventPriority, username, eventName, DateTime.Parse(eventStart), DateTime.Parse(eventEnd));
+            KeyValuePair<Event, List<Event>> pair = eventScheduleConnector.AddUserEvent(username, eventPriority, username, eventName, DateTime.Parse(eventStart), DateTime.Parse(eventEnd), isTeamEvent);
 
             ServerTCP.PACKET_CreateUserEventReply(ConnectionID, pair);
         }
@@ -455,10 +456,11 @@ namespace Server {
 
             string username = bufferH.ReadString();
             int eventID = bufferH.ReadInteger();
+            bool isTeamEvent = bufferH.ReadBool();
 
             bufferH.Dispose();
             IEventScheduleConnector eventScheduleConnector = new EventScheduleConnector();
-            eventScheduleConnector.CancelUserEvent(username, eventID);
+            eventScheduleConnector.CancelUserEvent(username, eventID, isTeamEvent);
 
             // Modify this (returning true is useless here)
             ServerTCP.PACKET_CancelUserEvent(ConnectionID, true);

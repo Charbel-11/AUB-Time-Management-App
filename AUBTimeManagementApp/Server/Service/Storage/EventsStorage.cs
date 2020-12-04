@@ -60,7 +60,7 @@ namespace AUBTimeManagementApp.Service.Storage
                 sqlConnection.Open();
 
                 string combinedStringEventIDs = string.Join(",", eventsIDs);
-                string query = "SELECT EventID, EventName, StartTime, EndTime, Priority, PlannerUsername FROM Events WHERE EventID IN " 
+                string query = "SELECT EventID, EventName, StartTime, EndTime, Priority, PlannerUsername, isTeamEvent FROM Events WHERE EventID IN " 
                                 + "(" + combinedStringEventIDs +")";
                 SqlCommand command = new SqlCommand(query, sqlConnection);
                 SqlDataReader dataReader = command.ExecuteReader();
@@ -73,7 +73,8 @@ namespace AUBTimeManagementApp.Service.Storage
                     DateTime end = dataReader.GetDateTime(3);
                     int priority = dataReader.GetInt32(4);
                     string plannerID = dataReader.GetString(5);
-                    Event currEvent = new Event(eventID, priority, plannerID, eventName, start, end);
+                    bool isTeamEvent = dataReader.GetBoolean(6);
+                    Event currEvent = new Event(eventID, priority, plannerID, eventName, start, end, isTeamEvent);
                     events.Add(currEvent);
                 }
 
@@ -90,8 +91,8 @@ namespace AUBTimeManagementApp.Service.Storage
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
                 sqlConnection.Open();
 
-                string query =  "INSERT INTO Events(EventName, StartTime, EndTime, Priority, PlannerUsername) " +
-                                "VALUES (@EventName, @StartTime, @EndTime, @Priority, @PlannerUsername)";
+                string query =  "INSERT INTO Events(EventName, StartTime, EndTime, Priority, PlannerUsername, isTeamEvent) " +
+                                "VALUES (@EventName, @StartTime, @EndTime, @Priority, @PlannerUsername, @isTeamEvent)";
                 
                 SqlCommand command = new SqlCommand(query, sqlConnection);
                 command.Parameters.Add("@EventName", SqlDbType.NVarChar).Value = _event.eventName;
@@ -99,6 +100,7 @@ namespace AUBTimeManagementApp.Service.Storage
                 command.Parameters.Add("@EndTime", SqlDbType.DateTime).Value = _event.endTime;
                 command.Parameters.Add("@Priority", SqlDbType.Int).Value = _event.priority;
                 command.Parameters.Add("@PlannerUsername", SqlDbType.NVarChar).Value = _event.plannerUsername;
+                command.Parameters.Add("@isTeamEvent", SqlDbType.Bit).Value = _event.teamEvent;
                 SqlDataReader dataReader = command.ExecuteReader();
 
                 command.Parameters.Clear(); dataReader.Close();
@@ -126,6 +128,7 @@ namespace AUBTimeManagementApp.Service.Storage
                 SqlCommand command = new SqlCommand(query, sqlConnection);
                 command.Parameters.Add("@eventID", SqlDbType.Int).Value = eventID;
                 SqlDataReader dataReader = command.ExecuteReader();
+                Console.WriteLine("removed event with eventID = " + eventID + "from events table");
 
                 command.Parameters.Clear(); dataReader.Close(); sqlConnection.Close();
             }
