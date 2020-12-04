@@ -68,13 +68,16 @@ namespace Server.Service.ControlBlocks
             
         }
 
-        public void UpdateUserEvent(Event updatedEvent)
+        public void UpdateUserEvent(Event updatedEvent, string username)
         {
             //Check for timr conflict if we decide to do something in case of conflict
             //if not move function to eventsHandler no need for connector.
             Console.WriteLine("server is updating the event with ID = "+updatedEvent.eventID);
             IEventsHandler _eventsHandler = new EventsHandler();
             _eventsHandler.UpdateEvent(updatedEvent);
+
+            ISchedulesHandler schedulesHandler = new SchedulesHandler();
+            schedulesHandler.updatePriority(updatedEvent.eventID, username, updatedEvent.priority);
         }
 
         public List<Event> GetEventsInDetail(string username)

@@ -540,8 +540,8 @@
 			// mainForm
 			// 
 			this.ClientSize = new System.Drawing.Size(1013, 557);
-			this.Controls.Add(this.mainPanel);
 			this.Controls.Add(this.eventDetailsPanel);
+			this.Controls.Add(this.mainPanel);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.monthView);
 			this.Controls.Add(this.calendar);

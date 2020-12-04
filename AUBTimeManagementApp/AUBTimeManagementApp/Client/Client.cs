@@ -178,7 +178,7 @@ namespace AUBTimeManagementApp.Client
         /// <param name="eventID"></param>
         public void ModifyUserEvent(Event updatedEvent)
         {
-            ClientTCP.Packet_ModifyUserEvent(updatedEvent);
+            ClientTCP.Packet_ModifyUserEvent(updatedEvent, username);
         }
 
         public void personalEventModified()

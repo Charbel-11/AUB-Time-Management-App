@@ -144,7 +144,7 @@ namespace AUBTimeManagementApp.Service.Storage
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
                 sqlConnection.Open();
 
-                string update = "EventName = @EventName, StartTime = @StartTime, EndTime = @EndTime, Priority = @Priority, PlannerUsername = @PlannerUsername";
+                string update = "EventName = @EventName, StartTime = @StartTime, EndTime = @EndTime, PlannerUsername = @PlannerUsername";
                 string query = "UPDATE Events SET " + update + " WHERE EventID = @EventID";
                 SqlCommand command = new SqlCommand(query, sqlConnection);
 
@@ -152,7 +152,6 @@ namespace AUBTimeManagementApp.Service.Storage
                 command.Parameters.Add("@EventName", SqlDbType.NVarChar).Value = _event.eventName;
                 command.Parameters.Add("@StartTime", SqlDbType.DateTime).Value = _event.startTime;
                 command.Parameters.Add("@EndTime", SqlDbType.DateTime).Value = _event.endTime;
-                command.Parameters.Add("@Priority", SqlDbType.Int).Value = _event.priority;
                 command.Parameters.Add("@PlannerUsername", SqlDbType.NVarChar).Value = _event.plannerUsername;
                 SqlDataReader dataReader = command.ExecuteReader();
 

@@ -9,7 +9,6 @@ namespace AUBTimeManagementApp.Service.Storage
     public class SchedulesStorage
     {
 		#region personal Schedule
-
         /// <summary>
         /// add eventID to user schedule with id = userID
         /// </summary>
@@ -84,15 +83,40 @@ namespace AUBTimeManagementApp.Service.Storage
 
         }
 
-		#endregion
+        public static void UpdateEventPrioriy(int eventID, string username, int priority)
+        {
+            try
+            {
+                string connectionString = ConnectionUtil.connectionString;
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+                sqlConnection.Open();
 
-		#region Team Schedule
+                string update = " Priority = @Priority";
+                string query = "UPDATE isUserAttendee SET " + update + " WHERE EventID = @EventID AND Username = @Username";
+                SqlCommand command = new SqlCommand(query, sqlConnection);
+
+                command.Parameters.Add("@EventID", SqlDbType.Int).Value = eventID;
+                command.Parameters.Add("@Username", SqlDbType.NVarChar).Value = username;
+                command.Parameters.Add("@Priority", SqlDbType.Int).Value = priority;
+                SqlDataReader dataReader = command.ExecuteReader();
+
+                Console.WriteLine("event priority updated");
+                command.Parameters.Clear(); dataReader.Close(); sqlConnection.Close();
+            }
+            catch (Exception exception) { Console.WriteLine("UpdateEventPriority: " + exception.Message); throw; }
+        }
+
+    
+    #endregion
+
+        #region Team Schedule
 
         /// <summary>
         /// add eventID to team schedule with ID = teamID
         /// </summary>
         /// <returns> return true if successful, false otherwise </returns>
-        public static void AddToTeamSchedule(int teamID, int eventID) {
+        public static void AddToTeamSchedule(int teamID, int eventID) 
+        {
             try {
                 string connectionString = ConnectionUtil.connectionString;
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
@@ -140,8 +164,10 @@ namespace AUBTimeManagementApp.Service.Storage
         /// Get list of event IDs from team schedule with ID = teamID
         /// </summary>
         /// <returns> returns a list of IDs of all events in the schedule of the team </returns>
-        public static List<int> GetTeamSchedule(int teamID) {
-            try {
+        public static List<int> GetTeamSchedule(int teamID)
+        {
+            try
+            {
                 string connectionString = ConnectionUtil.connectionString;
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
                 sqlConnection.Open();

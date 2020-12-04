@@ -77,26 +77,27 @@ namespace AUBTimeManagementApp.GUI
 			{
                 mainPanel.Hide();
                 eventDetailsPanel.Show();
+                // Display Selected Event Details
                 detailsEventName.Text = selectedItem.Text;
                 dateTimePickerStart.Value = selectedItem.StartDate;
                 dateTimePickerEnd.Value = selectedItem.EndDate;
-                //detailsEndTime.Text = selectedItem.EndDate.ToString();
-               /* string priority;
-                if(selectedItem.priority == 1)
+                ModifyPriority.Value = selectedItem.priority;
+                selectedItemID = selectedItem.eventID;
+
+                if(selectedItem.teamEvent)
 				{
-                    priority = "Low";
-				}
-                else if(selectedItem.priority == 2)
-				{
-                    priority = "Medium";
+                    detailsEventName.ReadOnly = true;
+                    dateTimePickerStart.Enabled= false;
+                    dateTimePickerEnd.Enabled = false;
+                    ModifyEventBut.Text = "Modify Priority";
 				}
 				else
 				{
-                    priority = "High";
-                }*/
-                ModifyPriority.Value = selectedItem.priority;
-                //detailsPriority.Text = selectedItem.eventID.ToString();
-                selectedItemID = selectedItem.eventID;
+                    detailsEventName.ReadOnly = false;
+                    dateTimePickerStart.Enabled = true;
+                    dateTimePickerEnd.Enabled = true;
+                    ModifyEventBut.Text = "Modify";
+                }
 			}
             else
             {
@@ -164,7 +165,7 @@ namespace AUBTimeManagementApp.GUI
             //If the yes button is pressed delete event
             if (result == DialogResult.Yes)
             {
-                Event updatedEvent = new Event(selectedItem.eventID,ModifyPriority.Value, _username, detailsEventName.Text, dateTimePickerStart.Value, dateTimePickerEnd.Value);
+                Event updatedEvent = new Event(selectedItem.eventID,ModifyPriority.Value, _username, detailsEventName.Text, dateTimePickerStart.Value, dateTimePickerEnd.Value, selectedItem.teamEvent);
                 _items.Remove(selectedItem);
                 calendar.Items.Remove(selectedItem);
                 _items.Add(new CalendarItem(calendar, updatedEvent.startTime, updatedEvent.endTime, updatedEvent.eventName, updatedEvent.ID, updatedEvent.priority, updatedEvent.teamEvent));

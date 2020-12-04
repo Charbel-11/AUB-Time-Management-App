@@ -318,7 +318,7 @@ namespace AUBTimeManagementApp.Client {
             bufferH.Dispose();
         }
 
-        public static void Packet_ModifyUserEvent(Event updatedEvent)
+        public static void Packet_ModifyUserEvent(Event updatedEvent, string username)
         {
             BufferHelper bufferH = new BufferHelper();
             bufferH.WriteInteger((int)ClientPackages.CModifyUserEvent);
@@ -329,6 +329,7 @@ namespace AUBTimeManagementApp.Client {
             bufferH.WriteString(updatedEvent.endTime.ToString());
             bufferH.WriteInteger(updatedEvent.priority);
             bufferH.WriteString(updatedEvent.plannerUsername);
+            bufferH.WriteString(username);
 
             SendData(bufferH.ToArray());
             bufferH.Dispose();

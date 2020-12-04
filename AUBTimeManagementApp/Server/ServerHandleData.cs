@@ -477,13 +477,14 @@ namespace Server {
             string end = bufferH.ReadString();
             int priority = bufferH.ReadInteger();
             string plannerUsername = bufferH.ReadString();
+            string username = bufferH.ReadString();
 
             bufferH.Dispose();
 
             Event updatedEvent = new Event(eventID, priority, plannerUsername, eventName, DateTime.Parse(start), DateTime.Parse(end));
 
             IEventScheduleConnector _eventScheduleConnector= new EventScheduleConnector();
-            _eventScheduleConnector.UpdateUserEvent(updatedEvent);
+            _eventScheduleConnector.UpdateUserEvent(updatedEvent, username);
 
             //ServerTCP.PACKET_CancelUserEvent(ConnectionID, true);
         }

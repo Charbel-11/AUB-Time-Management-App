@@ -9,6 +9,18 @@ namespace Server.Service.Handlers {
         #region userSchedule
 
         /// <summary>
+        /// change the priority of the event in isUserAttendee table
+        /// </summary>
+        /// <param name="eventID"></param>
+        /// <param name="username"></param>
+        /// <param name="priority"></param>
+        public void updatePriority(int eventID, string username, int priority)
+        {
+            SchedulesStorage.UpdateEventPrioriy(eventID, username, priority);
+        }
+
+
+        /// <summary>
         /// Get a list of event IDs that the user is attending
         /// </summary>
         /// <returns>The list of event IDs</returns>
