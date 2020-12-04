@@ -15,6 +15,7 @@ namespace AUBTimeManagementApp.GUI {
         List<CalendarItem> _items = new List<CalendarItem>();
         public Team team { get; set; }
         public bool mergedCalendarShown { get; set; }
+        CalendarItem selectedItem;
         AddEvent addEventForm;
         bool isAdmin;
 
@@ -28,14 +29,19 @@ namespace AUBTimeManagementApp.GUI {
             if (!isAdmin) {
                 merged = false;
                 addEventButton.Enabled = false;
-                calendarTypeButton.Enabled = false;
+                teamSchedButton.Enabled = true;
+                mergedSchedButton.Enabled = false;
+                memberState.Text = "Member";
+                this.memberState.ForeColor = Color.Black;
             }
-
+ 
             calendar.AllowItemEdit = false;
             calendar.AllowItemResize = false;
             monthView.SelectionStart = monthView.SelectionEnd = DateTime.Today;
-            mergedCalendarShown = !merged;
-            changeCalendarType();
+            mergedCalendarShown = merged;
+            if (merged) { mergedSchedButton_Click(null, null); }
+            else { priorityBoxBackButton_Click(null, null); }
+            teamSchedButton_Click(null, null);
         }
 
         private void monthView_SelectionChanged(object sender, EventArgs e) {
@@ -59,37 +65,9 @@ namespace AUBTimeManagementApp.GUI {
             addEventForm.Show();
         }
 
-        private void calendarTypeButton_Click(object sender, EventArgs e) {
-            changeCalendarType();
-        }
-
         private void backButton_Click(object sender, EventArgs e) {
             TeamDetailsForm newForm = new TeamDetailsForm(team);
             newForm.Show(); Close();
-        }
-
-        /// <summary>
-        /// Swaps between team calendar and merged calendar for the team
-        /// </summary>
-        private void changeCalendarType() {
-            mergedCalendarShown = !mergedCalendarShown;
-            if (mergedCalendarShown) { 
-                calendarTypeButton.Text = "Show Team Calendar";
-                DateTime start = monthView.SelectionStart, end = monthView.SelectionEnd;
-
-                if (end.Subtract(start).Days > 6) { 
-                    end = start.AddDays(7);
-                    monthView.SelectionEnd = end;
-                }
-
-                //TODO: Fix priority threshold
-                Client.Client.Instance.GetMergedTeamSchedule(team.teamID, start, end, 0);
-            }
-            else {
-                calendar.Items.Clear(); _items.Clear();
-                calendarTypeButton.Text = "Show Merged Schedule";
-                Client.Client.Instance.GetTeamSchedule(team.teamID);
-            }
         }
 
         public void displayColorFreq(double [,] freq) {
@@ -122,6 +100,73 @@ namespace AUBTimeManagementApp.GUI {
             CalendarItem curEvent = new CalendarItem(calendar, _event.startTime, _event.endTime, _event.eventName, _event.ID, _event.priority, _event.teamEvent);
             calendar.Items.Add(curEvent);
             _items.Add(curEvent);
+        }
+
+        private void teamSchedButton_Click(object sender, EventArgs e) {
+            mergedCalendarShown = false;
+            calendar.Items.Clear(); _items.Clear();
+            Client.Client.Instance.GetTeamSchedule(team.teamID);
+        }
+
+        private void mergedSchedButton_Click(object sender, EventArgs e) {
+            priorityBox.Show();
+            addEventButton.Hide();
+            teamSchedButton.Hide();
+            mergedSchedButton.Hide();
+            backButton.Hide();
+        }
+
+        private void priorityBoxBackButton_Click(object sender, EventArgs e) {
+            addEventButton.Show();
+            teamSchedButton.Show();
+            mergedSchedButton.Show();
+            backButton.Show();
+            priorityBox.Hide();
+        }
+
+        private void SubmitButton_Click(object sender, EventArgs e) {
+            mergedCalendarShown = true;
+            DateTime start = monthView.SelectionStart, end = monthView.SelectionEnd;
+            if (end.Subtract(start).Days > 6) {
+                end = start.AddDays(7);
+                monthView.SelectionEnd = end;
+            }
+            Client.Client.Instance.GetMergedTeamSchedule(team.teamID, start, end, ModifyPriority.Value);
+            priorityBoxBackButton_Click(null, null);
+        }
+
+        private void calendar_ItemDoubleClick(object sender, CalendarItemEventArgs e) {
+            selectedItem = e.Item;
+            if (selectedItem.Selected) {
+                /*
+                mainPanel.Hide();
+                eventDetailsPanel.Show();
+                // Display Selected Event Details
+                detailsEventName.Text = selectedItem.Text;
+                dateTimePickerStart.Value = selectedItem.StartDate;
+                dateTimePickerEnd.Value = selectedItem.EndDate;
+                ModifyPriority.Value = selectedItem.priority;
+                selectedItemID = selectedItem.eventID;
+
+                if (selectedItem.teamEvent) {
+                    detailsEventName.ReadOnly = true;
+                    dateTimePickerStart.Enabled = false;
+                    dateTimePickerEnd.Enabled = false;
+                    ModifyEventBut.Text = "Modify Priority";
+                }
+                else {
+                    detailsEventName.ReadOnly = false;
+                    dateTimePickerStart.Enabled = true;
+                    dateTimePickerEnd.Enabled = true;
+                    ModifyEventBut.Text = "Modify";
+                }
+                */
+            }
+            else {
+                AddEvent addEventWindow = new AddEvent(this, e.Item.StartDate, e.Item.EndDate);
+                calendar.Items.Remove(e.Item);
+                addEventWindow.Show();
+            }
         }
     }
 }

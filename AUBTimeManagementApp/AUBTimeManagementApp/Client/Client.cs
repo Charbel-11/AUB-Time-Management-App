@@ -212,7 +212,7 @@ namespace AUBTimeManagementApp.Client
                 }
             }
 
-            if (teamsForm != null && teamsForm.Visible) {
+            if (teamsForm != null && teamsForm.Enabled) {
                 if (teamsForm.InvokeRequired) {
                     teamsForm.Invoke(new MethodInvoker(delegate { teamsForm.showMessage(title, info); }));
                 }
@@ -226,7 +226,7 @@ namespace AUBTimeManagementApp.Client
             foreach(string a in admins) { newTeam.addAdmin(a); }
             teams.Add(newTeam);
 
-            if (teamsForm != null && teamsForm.Visible) {
+            if (teamsForm != null && teamsForm.Enabled) {
                 if (teamsForm.InvokeRequired) {
                     teamsForm.Invoke(new MethodInvoker(delegate { teamsForm.addTeamEntry(newTeam); }));
                 }
@@ -257,7 +257,7 @@ namespace AUBTimeManagementApp.Client
             if (isNowAdmin) { teams[idx].teamAdmin.Add(username); }
             else { teams[idx].teamAdmin.Remove(username); }
 
-            if (teamDetailsForm != null && teamDetailsForm.Visible && teamDetailsForm.team.teamID == teamID) {
+            if (teamDetailsForm != null && teamDetailsForm.Enabled && teamDetailsForm.team.teamID == teamID) {
                 if (teamDetailsForm.InvokeRequired) {
                     teamDetailsForm.Invoke(new MethodInvoker(delegate { teamDetailsForm.tryUpdatingTeam(); }));
                 }
@@ -283,7 +283,7 @@ namespace AUBTimeManagementApp.Client
             int idx = teams.FindIndex(a => a.teamID == teamID);
             if (idx == -1) { return; }
 
-            bool teamDetailsOpen = teamDetailsForm != null && teamDetailsForm.Visible && teamDetailsForm.team.teamID == teamID;
+            bool teamDetailsOpen = teamDetailsForm != null && teamDetailsForm.Enabled && teamDetailsForm.team.teamID == teamID;
             if (username == this.username) { 
                 teams.RemoveAt(idx); 
                 if (teamDetailsOpen) {
@@ -319,7 +319,7 @@ namespace AUBTimeManagementApp.Client
         /// <param name="OK">True if the member was added, false otherwise</param>
         public void addMemberReply(int teamID, bool OK) {
             string feedback = (OK ? "Member added" : "The username is not valid");
-            bool teamDetailsOpen = teamDetailsForm != null && teamDetailsForm.Visible && teamDetailsForm.team.teamID == teamID;
+            bool teamDetailsOpen = teamDetailsForm != null && teamDetailsForm.Enabled && teamDetailsForm.team.teamID == teamID;
             if (teamDetailsOpen) {
                 if (teamDetailsForm.InvokeRequired) {
                     teamDetailsForm.Invoke(new MethodInvoker(delegate { teamDetailsForm.addMemberFeedback(feedback); }));
@@ -338,7 +338,7 @@ namespace AUBTimeManagementApp.Client
             if (idx == -1) { return; }
 
             teams[idx].addMember(username);
-            bool teamDetailsOpen = teamDetailsForm != null && teamDetailsForm.Visible && teamDetailsForm.team.teamID == teamID;
+            bool teamDetailsOpen = teamDetailsForm != null && teamDetailsForm.Enabled && teamDetailsForm.team.teamID == teamID;
             if (teamDetailsOpen) {
                 if (teamDetailsForm.InvokeRequired) {
                     teamDetailsForm.Invoke(new MethodInvoker(delegate { teamDetailsForm.tryUpdatingTeam(); }));
@@ -398,7 +398,7 @@ namespace AUBTimeManagementApp.Client
         }
         public void GetTeamScheduleReply(int teamID, List<Event> eventsList)
         {
-            if (teamCalendarForm != null && teamCalendarForm.Visible && teamCalendarForm.team.teamID == teamID && !teamCalendarForm.mergedCalendarShown) {
+            if (teamCalendarForm != null && teamCalendarForm.Enabled && teamCalendarForm.team.teamID == teamID && !teamCalendarForm.mergedCalendarShown) {
                 for (int i = 0; i < eventsList.Count; i++) {
                     if (teamCalendarForm.InvokeRequired)
                         teamCalendarForm.Invoke(new MethodInvoker(delegate { teamCalendarForm.displayEvent(eventsList[i]); }));
@@ -416,7 +416,7 @@ namespace AUBTimeManagementApp.Client
             ClientTCP.PACKET_GetMergedTeamSchedule(teamID, startTime, endTime, priorityThreshold);
         }
         public void GetMergedTeamScheduleReply(int teamID, double[,] freq) {
-            if (teamCalendarForm != null && teamCalendarForm.Visible && teamCalendarForm.team.teamID == teamID && teamCalendarForm.mergedCalendarShown) {
+            if (teamCalendarForm != null && teamCalendarForm.Enabled && teamCalendarForm.team.teamID == teamID && teamCalendarForm.mergedCalendarShown) {
                 if (teamCalendarForm.InvokeRequired)
                     teamCalendarForm.Invoke(new MethodInvoker(delegate { teamCalendarForm.displayColorFreq(freq); }));
                 else

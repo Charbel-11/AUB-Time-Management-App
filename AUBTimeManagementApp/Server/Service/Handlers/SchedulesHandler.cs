@@ -66,9 +66,6 @@ namespace Server.Service.Handlers {
         public double[,] getMergedScheduleFreq(List<List<Event>> events, DateTime startTime, DateTime endTime, int priorityThreshold) {
             List<Schedule> schedules = new List<Schedule>();
             foreach(List<Event> memberEvent in events) {
-                DateTime ss = DateTime.Now;
-                ss = ss.AddMinutes(30);
-                memberEvent.Add(new Event(0, 0, "", "SS", DateTime.Now, ss));
                 Schedule curSchedule = new Schedule();
                 foreach(Event e in memberEvent) {
                     curSchedule.addEvent(e);
@@ -101,8 +98,8 @@ namespace Server.Service.Handlers {
                         if (curEvent.priority < priorityThreshold) { continue; }
                         DateTime eventStart = curEvent.startTime;
                         DateTime eventEnd = curEvent.endTime;
-                        int startHour = eventStart.Hour - 1, startMinute = eventStart.Minute; 
-                        int endHour = eventEnd.Hour - 1, endMinute = eventEnd.Minute;
+                        int startHour = eventStart.Hour, startMinute = eventStart.Minute; 
+                        int endHour = eventEnd.Hour, endMinute = eventEnd.Minute;
 
                         int startIndex = 60 * startHour + startMinute;
                         int endIndex = 60 * endHour + endMinute;

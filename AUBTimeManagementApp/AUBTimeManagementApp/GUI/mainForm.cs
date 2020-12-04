@@ -70,8 +70,6 @@ namespace AUBTimeManagementApp.GUI
         }
 
         private void calendar_ItemDoubleClick(object sender, CalendarItemEventArgs e) {
-            //NOT SURE IT'S CORRECT
-            //Check if event already exists at this time, if so open its description
             selectedItem = e.Item;
             if(selectedItem.Selected)
 			{

@@ -51,6 +51,7 @@ namespace AUBTimeManagementApp.GUI {
         private void backButton_Click(object sender, EventArgs e) {
             mainForm mF = new mainForm();
             mF.Show();
+            Client.Client.Instance.GetUserSchedule();
             Close();
         }
 

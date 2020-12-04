@@ -44,6 +44,11 @@ namespace AUBTimeManagementApp.GUI
             endDate.Value = _endDate;
         }
 
+        public AddEvent(TeamCalendarForm _parent, DateTime _startDate, DateTime _endDate) : this(_parent) {
+            startDate.Value = _startDate;
+            endDate.Value = _endDate;
+        }
+
         private void createButton_Click(object sender, EventArgs e)
         {
             if (parent == null)

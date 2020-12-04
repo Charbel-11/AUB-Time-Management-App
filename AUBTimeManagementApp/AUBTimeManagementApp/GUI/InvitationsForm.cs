@@ -11,6 +11,7 @@ namespace AUBTimeManagementApp.GUI
         mainForm _parent;
         public Dictionary<Button, Invitation> AcceptButtonToInvitation;
         public Dictionary<Button, Invitation> DeclineButtonToInvitation;
+        Dictionary<Invitation, GroupBox> InvitationToGroup; 
         List<Button> AcceptButtons; // To know which button is pressed
         List<Button> DeclineButtons;
         List<Label> Labels;
@@ -19,6 +20,7 @@ namespace AUBTimeManagementApp.GUI
             _parent = parent;
             AcceptButtonToInvitation = new Dictionary<Button, Invitation>();
             DeclineButtonToInvitation = new Dictionary<Button, Invitation>();
+            InvitationToGroup = new Dictionary<Invitation, GroupBox>();
             AcceptButtons = new List<Button>();
             DeclineButtons = new List<Button>();
             Labels = new List<Label>();
@@ -31,12 +33,12 @@ namespace AUBTimeManagementApp.GUI
         {
             AcceptButtonToInvitation.Clear();
             DeclineButtonToInvitation.Clear();
+            InvitationToGroup.Clear();
             List<Invitation> userInvitations = Client.Client.Instance.GetInvitations();
             foreach (Invitation invitation in userInvitations) { AddInvitationEntry(invitation); }
         }
         public void AddInvitationEntry(Invitation invitation)
         {
-
             GroupBox groupBox1 = new GroupBox();
             Button AcceptButton = new Button();
             Button DeclineButton = new Button();
@@ -103,26 +105,23 @@ namespace AUBTimeManagementApp.GUI
             flowLayoutPanel1.Controls.Add(groupBox1);
             AcceptButtonToInvitation[AcceptButton] = invitation;
             DeclineButtonToInvitation[DeclineButton] = invitation;
+            InvitationToGroup[invitation] = groupBox1;
         }
-
 
         private void AcceptButton_Click(object sender, EventArgs e)
         {
             int idx = AcceptButtons.FindIndex(a => a == sender);
-            AcceptButtons[idx].Hide();
-            DeclineButtons[idx].Hide();
-            Labels[idx].Hide();
-            Client.Client.Instance.AcceptInvitation(AcceptButtonToInvitation[AcceptButtons[idx]]);
+            Invitation inv = AcceptButtonToInvitation[AcceptButtons[idx]];
+            InvitationToGroup[inv].Hide();
+            Client.Client.Instance.AcceptInvitation(inv);
         }
 
         private void DeclineButton_Click(object sender, EventArgs e)
         {
             int idx = DeclineButtons.FindIndex(a => a == sender);
-            AcceptButtons[idx].Hide();
-            DeclineButtons[idx].Hide();
-            Labels[idx].Hide();
-            Client.Client.Instance.DeclineInvitation(AcceptButtonToInvitation[AcceptButtons[idx]]);
+            Invitation inv = AcceptButtonToInvitation[AcceptButtons[idx]];
+            InvitationToGroup[inv].Hide();
+            Client.Client.Instance.DeclineInvitation(inv);
         }
-
     }
 }
