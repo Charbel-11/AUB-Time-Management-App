@@ -6,9 +6,10 @@ namespace Server.Service.Handlers
 {
     public class InvitationsHandler: IInvitationsHandler
     {
-        public List<int> GetInvitationsEventsIds(int userId)
+        public List<int> GetInvitationsIDs(string username)
         {
-            return null;
+            List<int> invitationIDs = InvitationsStorage.GetUserInvitations(username);
+            return invitationIDs;
         }
         
         // Sender username is a parameter in case later 2 admins can send 2 different invitations to same event
@@ -31,10 +32,13 @@ namespace Server.Service.Handlers
         // This function asks the invitation storage to add invitations for invitees to an event
         public void SendInvitations(List<string> AttendeesUsernames, int eventID, int teamID, string senderUsername) {
             int invitationID = InvitationsStorage.AddInvitation(eventID, teamID, senderUsername);
-           /* foreach (string username in AttendeesUsernames)
+            foreach (string username in AttendeesUsernames)
             {
-                InvitationsStorage.AddUserInvitation(username, invitationID);
-            }         */  
+                if (username != senderUsername)
+                {
+                    InvitationsStorage.AddUserInvitation(username, invitationID);
+                }
+            }       
         }
 
         public List<Invitation> getInvitations(List<int> InvitationIDs) {

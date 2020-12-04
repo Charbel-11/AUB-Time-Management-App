@@ -34,70 +34,6 @@ namespace AUBTimeManagementApp.Client {
             };
         }
 
-        private static void HandleGetUserInvitationsReply(byte[] data)
-        {
-            BufferHelper bufferH = new BufferHelper();
-            bufferH.WriteBytes(data);
-
-            int n = bufferH.ReadInteger(); // n = number of invitations to be read
-            List<Invitation> invitations = new List<Invitation>();
-            for (int i = 0; i < n; i++)
-            {
-                // Write event details
-                int eventID = bufferH.ReadInteger();
-                string eventName = bufferH.ReadString();
-                string plannerUsername = bufferH.ReadString();
-                int priority = bufferH.ReadInteger();
-                DateTime startTime = DateTime.Parse(bufferH.ReadString());
-                DateTime endTime = DateTime.Parse(bufferH.ReadString());
-                Event _event = new Event(eventID, priority, plannerUsername, eventName, startTime, endTime, true);
-
-                // write team id
-                int teamID = bufferH.ReadInteger();
-
-                // write sender username
-                string invitationSender = bufferH.ReadString();
-
-                invitations.Add(new Invitation(_event, invitationSender, teamID));
-            }
-
-            Client.Instance.GetUserInvitationsReply(invitations);
-
-            bufferH.Dispose();
-        }
-
-        private static void HandleCreateUserEventReply(byte[] Data)
-        {
-            BufferHelper bufferH = new BufferHelper();
-            bufferH.WriteBytes(Data);
-            int eventID = bufferH.ReadInteger();
-            /*// Read verification result from server
-            int isCreated = bufferH.ReadInteger();
-            // TODO: Display something to the user*/
-
-            Client.Instance.CreateUserEventReply(eventID);
-            bufferH.Dispose();
-        }
-
-        private static void HandleGetUserEventReply(byte[] Data)
-        {
-            BufferHelper bufferH = new BufferHelper();
-            bufferH.WriteBytes(Data);
-
-            int eventID = bufferH.ReadInteger();
-            string planner = bufferH.ReadString();
-            string eventName = bufferH.ReadString();
-            int eventPriority = bufferH.ReadInteger();
-            string eventStart = bufferH.ReadString();
-            string eventEnd = bufferH.ReadString();
-            bool isteamEvent = bufferH.ReadBool();
-            Event _event = new Event(eventID, eventPriority, planner, eventName, DateTime.Parse(eventStart), DateTime.Parse(eventEnd), isteamEvent);
-
-            Client.Instance.ShowEvent(_event);
-
-            bufferH.Dispose();
-        }
-
         public static void HandleData(byte[] data) {
             if (data == null) { return; }
 
@@ -133,22 +69,11 @@ namespace AUBTimeManagementApp.Client {
 
             if (pLength < 4) { ClientBufferH.Clear(); }
         }
+
         public static void HandleMessage(byte[] data) {
             BufferHelper bufferH = new BufferHelper();
             bufferH.WriteBytes(data);
             string msg = bufferH.ReadString();
-
-            bufferH.Dispose();
-        }
-
-        public static void HandleRegisterReply(byte[] data)
-        {
-            BufferHelper bufferH = new BufferHelper();
-            bufferH.WriteBytes(data);    //Add the byte[] array to our buffer helper so that we can parse it
-
-            // Read verification result from accounts handler
-            int isRegistered = bufferH.ReadInteger();
-            Client.Instance.registerReply(isRegistered);
 
             bufferH.Dispose();
         }
@@ -161,6 +86,18 @@ namespace AUBTimeManagementApp.Client {
             // Read verification result from accounts handler
             bool isUser = bufferH.ReadBool();
             Client.Instance.logInReply(isUser);
+
+            bufferH.Dispose();
+        }
+
+        public static void HandleRegisterReply(byte[] data)
+        {
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteBytes(data);    //Add the byte[] array to our buffer helper so that we can parse it
+
+            // Read verification result from accounts handler
+            int isRegistered = bufferH.ReadInteger();
+            Client.Instance.registerReply(isRegistered);
 
             bufferH.Dispose();
         }
@@ -364,6 +301,38 @@ namespace AUBTimeManagementApp.Client {
             Client.Instance.memberAdded(teamID, addedMember);
         }
 
+        private static void HandleGetUserEventReply(byte[] Data)
+        {
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteBytes(Data);
+
+            int eventID = bufferH.ReadInteger();
+            string planner = bufferH.ReadString();
+            string eventName = bufferH.ReadString();
+            int eventPriority = bufferH.ReadInteger();
+            string eventStart = bufferH.ReadString();
+            string eventEnd = bufferH.ReadString();
+            bool isteamEvent = bufferH.ReadBool();
+            Event _event = new Event(eventID, eventPriority, planner, eventName, DateTime.Parse(eventStart), DateTime.Parse(eventEnd), isteamEvent);
+
+            Client.Instance.ShowEvent(_event);
+
+            bufferH.Dispose();
+        }
+
+        private static void HandleCreateUserEventReply(byte[] Data)
+        {
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteBytes(Data);
+            int eventID = bufferH.ReadInteger();
+            /*// Read verification result from server
+            int isCreated = bufferH.ReadInteger();
+            // TODO: Display something to the user*/
+
+            Client.Instance.CreateUserEventReply(eventID);
+            bufferH.Dispose();
+        }
+
         public static void HandleCancelUserEventReply(byte[] data)
         {
             BufferHelper bufferH = new BufferHelper();
@@ -374,6 +343,41 @@ namespace AUBTimeManagementApp.Client {
             bufferH.Dispose();
 
             Client.Instance.personalEventCanceled(isCanceled);
+        }
+
+        private static void HandleGetUserInvitationsReply(byte[] data)
+        {
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteBytes(data);
+
+            int n = bufferH.ReadInteger(); // n = number of invitations to be read
+            List<Invitation> invitations = new List<Invitation>();
+            for (int i = 0; i < n; i++)
+            {
+                //Read invitationID
+                int invitationID = bufferH.ReadInteger();
+
+                // Read event details
+                int eventID = bufferH.ReadInteger();
+                string eventName = bufferH.ReadString();
+                string plannerUsername = bufferH.ReadString();
+                int priority = bufferH.ReadInteger();
+                DateTime startTime = DateTime.Parse(bufferH.ReadString());
+                DateTime endTime = DateTime.Parse(bufferH.ReadString());
+                Event _event = new Event(eventID, priority, plannerUsername, eventName, startTime, endTime, true);
+
+                // Read team id
+                int teamID = bufferH.ReadInteger();
+
+                // Read sender username
+                string invitationSender = bufferH.ReadString();
+
+                invitations.Add(new Invitation(invitationID, _event, invitationSender, teamID));
+            }
+
+            Client.Instance.GetUserInvitationsReply(invitations);
+
+            bufferH.Dispose();
         }
 
         public static void HandleGetMergedSchedule(byte[] Data) {

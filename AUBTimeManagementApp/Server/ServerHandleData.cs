@@ -406,6 +406,7 @@ namespace Server {
             // Add the event to the schedule of the planner using the connector between the events and the schedules handlers
             IEventScheduleConnector eventScheduleConnector = new EventScheduleConnector();
             Event addedEvent = eventScheduleConnector.AddUserEvent(eventPlanner, eventPriority, eventPlanner, eventName, DateTime.Parse(eventStart), DateTime.Parse(eventEnd));
+            
             ITeamEventConnector teamEventConnector = new TeamEventConnector();
             teamEventConnector.CreateTeamEvent(teamID, addedEvent);
 
@@ -494,9 +495,26 @@ namespace Server {
             string username = bufferH.ReadString();
             bufferH.Dispose();
 
-            List<int> invitationIDs = InvitationsStorage.GetUserInvitations(username);
+            IInvitationsHandler invitationsHandler = new InvitationsHandler();
+            IEventsHandler eventsHandler = new EventsHandler();
+
+            // Get list of invitation IDs sent to the user
+            List<int> invitationIDs = invitationsHandler.GetInvitationsIDs(username);
+
+            // get a list of invitation objects containing the details of the invitations sent to the user
             List<Invitation> invitations = InvitationsStorage.GetInvitations(invitationIDs);
-            ServerTCP.PACKET_SendGetUserInvitationsReply(ConnectionID, invitations);
+
+            //make a list of eventIDs
+            List<int> eventIDs = new List<int>();
+            foreach (Invitation invitation in invitations)
+            {
+                eventIDs.Add(invitation.eventID);
+            }
+            // Get list of eventobjects containing the details of the events the user is invited to
+            List<Event> eventsList = eventsHandler.GetEvents(eventIDs);
+
+
+            ServerTCP.PACKET_SendGetUserInvitationsReply(ConnectionID, invitations, eventsList);
         }
 
         private static void HandleAcceptInvitationReply(int ConnectionID, byte[] Data)

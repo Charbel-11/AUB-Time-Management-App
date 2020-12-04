@@ -314,7 +314,7 @@ namespace Server {
             bufferH.Dispose();
         }
 
-        public static void PACKET_SendGetUserInvitationsReply(int ConnectionID, List<Invitation> invitations)
+        public static void PACKET_SendGetUserInvitationsReply(int ConnectionID, List<Invitation> invitations, List<Event> eventsList)
         {
             BufferHelper bufferH = new BufferHelper();
             bufferH.WriteInteger((int)ServerPackages.SGetUserInvitationsReply);
@@ -324,7 +324,13 @@ namespace Server {
             for (int i = 0; i < n; i++)
             {
                 // Write event details
+                bufferH.WriteInteger(invitations[i].invitationID);
                 bufferH.WriteInteger(invitations[i].eventID);
+                bufferH.WriteString(eventsList[i].eventName);
+                bufferH.WriteString(eventsList[i].plannerUsername);
+                bufferH.WriteInteger(eventsList[i].priority);
+                bufferH.WriteString(eventsList[i].startTime.ToString());
+                bufferH.WriteString(eventsList[i].endTime.ToString());
 
                 // write team id
                 bufferH.WriteInteger(invitations[i].teamID);

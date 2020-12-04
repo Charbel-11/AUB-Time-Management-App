@@ -138,7 +138,7 @@ namespace AUBTimeManagementApp.Client
         }
         #endregion
 
-        #region Events
+        #region PersonalEvents
 
         public void CreateUserEvent(string eventName, int priority, DateTime start, DateTime end)
         {
@@ -181,13 +181,17 @@ namespace AUBTimeManagementApp.Client
 
         }
         #endregion
-        #region Invitations
-        public void GetUserInvitations()
+
+        #region TeamEvents
+
+        public void CreateTeamEvent(int TeamID, string eventName, int priority, DateTime startDate, DateTime endDate)
         {
-            ClientTCP.PACKET_GetUserInvitations(username);
+            Console.WriteLine("Sending a request to create: eventName " + eventName + " " + priority.ToString() + " " + startDate.ToString() + " " + endDate.ToString());
+            ClientTCP.PACKET_CreateTeamEvent(TeamID, username, eventName, priority, startDate, endDate);
         }
 
         #endregion
+
         #region Team
         public void createTeam(string teamName, string[] teamMembers) {
             ClientTCP.PACKET_CreateTeam(teamName, username, teamMembers);
@@ -338,25 +342,25 @@ namespace AUBTimeManagementApp.Client
             }
         }
 
-        #endregion
-
         /// <summary>
         /// Gets all the teams this user is in from the server
         /// </summary>
-        public void GetUserTeams() 
+        public void GetUserTeams()
         {
             ClientTCP.PACKET_GetUserTeams(username);
         }
 
-        public void GetUserTeamsReply(List<Team> teams) 
+        public void GetUserTeamsReply(List<Team> teams)
         {
             this.teams = teams;
         }
+		#endregion
 
-        /// <summary>
-        /// Gets all the events this user is attending from the server
-        /// </summary>
-        public void GetUserSchedule()
+		#region User and Team Schedules
+		/// <summary>
+		/// Gets all the events this user is attending from the server
+		/// </summary>
+		public void GetUserSchedule()
         {
             ClientTCP.PACKET_GetUserSchedule(username);
         }
@@ -414,12 +418,6 @@ namespace AUBTimeManagementApp.Client
             }
         }
 
-        public void CreateTeamEvent(int TeamID, string eventName, int priority, DateTime startDate, DateTime endDate)
-        {
-            Console.WriteLine("Sending a request to create: eventName " + eventName  + " " + priority.ToString() + " " + startDate.ToString() + " " + endDate.ToString());
-            ClientTCP.PACKET_CreateTeamEvent(TeamID, username, eventName, priority, startDate, endDate);
-        }
-
         /// <summary>
         /// get the events of specified priority that the user is attending from the srever
         /// </summary>
@@ -428,7 +426,7 @@ namespace AUBTimeManagementApp.Client
             ClientTCP.PACKET_FilterUserSchedule(username, low, medium, high);
         }
 
-      
+
         public void FilterUserScheduleReply(int n, List<Event> eventsList)
         {
             for (int i = 0; i < n; i++)
@@ -460,10 +458,18 @@ namespace AUBTimeManagementApp.Client
 
         public void FilterTeamScheduleReply(int n, List<Event> eventsList)
         {
-            
+
         }
 
+        #endregion
+
         #region Invitations
+
+        public void GetUserInvitations()
+        {
+            ClientTCP.PACKET_GetUserInvitations(username);
+        }
+
         public void GetUserInvitationsReply(List<Invitation> invitations)
         {
             Invitations = invitations;
