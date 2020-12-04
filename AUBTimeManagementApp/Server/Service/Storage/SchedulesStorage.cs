@@ -115,20 +115,21 @@ namespace AUBTimeManagementApp.Service.Storage
         /// add eventID to team schedule with ID = teamID
         /// </summary>
         /// <returns> return true if successful, false otherwise </returns>
-        public static void AddToTeamSchedule(int teamID, int eventID) 
+        public static void AddToTeamSchedule(int teamID, int eventID, int priority) 
         {
             try {
                 string connectionString = ConnectionUtil.connectionString;
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
                 sqlConnection.Open();
 
-                string query = "INSERT INTO isTeamAttendee(EventID, TeamID) " +
-                                "VALUES (@EventID, @TeamID)";
+                string query = "INSERT INTO isTeamAttendee(EventID, TeamID, Priority) " +
+                                "VALUES (@EventID, @TeamID, @Priority)";
 
                 SqlCommand command = new SqlCommand(query, sqlConnection);
 
                 command.Parameters.Add("@EventID", SqlDbType.Int).Value = eventID;
                 command.Parameters.Add("@TeamID", SqlDbType.Int).Value = teamID;
+                command.Parameters.Add("@Priority", SqlDbType.Int).Value = priority;
                 SqlDataReader dataReader = command.ExecuteReader();
 
                 command.Parameters.Clear(); dataReader.Close(); sqlConnection.Close();

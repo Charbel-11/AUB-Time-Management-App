@@ -12,10 +12,10 @@ namespace Server.Service.ControlBlocks
 
             IInvitationsHandler invitationsHandler = new InvitationsHandler();
             List<int> singleInvitation = new List<int> { invitationID };
-            int eventID = invitationsHandler.getInvitations(singleInvitation)[0].eventID;
-
+            Invitation _Invitation = invitationsHandler.getInvitations(singleInvitation)[0];
+            int eventID = _Invitation.eventID;
             List<int> singleEvent = new List<int> { eventID };
-            int priority = EventsStorage.GetEvents(singleEvent)[0].priority;
+            int priority = EventsStorage.GetEvents(singleEvent, " ", _Invitation.teamID, true)[0].priority;
 
             // Add the event to the user schedule
             ISchedulesHandler schedulesHandler = new SchedulesHandler();

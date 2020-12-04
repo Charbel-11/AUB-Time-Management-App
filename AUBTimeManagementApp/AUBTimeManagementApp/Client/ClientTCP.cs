@@ -123,7 +123,7 @@ namespace AUBTimeManagementApp.Client {
             bufferH.Dispose();
         }
 
-        public static void PACKET_GetEventInDetail(int eventId)
+        public static void PACKET_GetEventInDetail(int eventId, string username)
         {
             BufferHelper bufferH = new BufferHelper();
 
@@ -133,7 +133,7 @@ namespace AUBTimeManagementApp.Client {
             // Write username and password on buffer
 
             bufferH.WriteInteger(eventId);
-
+            bufferH.WriteString(username);
             //Sends it to the server
             SendData(bufferH.ToArray());
             bufferH.Dispose();

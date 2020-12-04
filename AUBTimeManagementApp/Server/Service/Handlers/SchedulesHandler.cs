@@ -52,9 +52,9 @@ namespace Server.Service.Handlers {
             return eventList;
         }
 
-        public void AddEventToTeamSchedule(int teamID, int eventID)
+        public void AddEventToTeamSchedule(int teamID, int eventID, int priority)
         {
-            SchedulesStorage.AddToTeamSchedule(teamID, eventID);
+            SchedulesStorage.AddToTeamSchedule(teamID, eventID, priority);
         }
 
         public void RemoveEventFromTeamSchedule(int teamID, int eventID)

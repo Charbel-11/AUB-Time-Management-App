@@ -241,12 +241,12 @@ namespace Server {
             int teamID = bufferH.ReadInteger();
             bufferH.Dispose();
 
+
             // Get list of events in the schedule
-            ISchedulesHandler schedulesHandler = new SchedulesHandler();
-            List<int> eventIDs = schedulesHandler.GetTeamSchedule(teamID);
-            // Get the events from eventIDs list and add them to the events list
-            var eventsHandler = new EventsHandler();
-            List<Event> eventsList = eventsHandler.GetEvents(eventIDs);
+            IEventScheduleConnector _eventScheduleConnector = new EventScheduleConnector();
+            List<Event> eventsList = _eventScheduleConnector.GetTeamSchedule(teamID);
+
+
             Console.WriteLine("Will show " + eventsList.Count.ToString() + "events!");
             ServerTCP.PACKET_SendGetTeamScheduleReply(ConnectionID, teamID, eventsList);
         }
@@ -269,7 +269,7 @@ namespace Server {
             List<List<Event>> allMembersEvents = new List<List<Event>>();
             foreach(string member in members) {
                 List<int> memberEventsID = schedulesHandler.GetUserSchedule(member);
-                List<Event> memberEvents = eventsHandler.GetEvents(memberEventsID);
+                List<Event> memberEvents = eventsHandler.GetEvents(memberEventsID, false, member, 0);
                 allMembersEvents.Add(memberEvents);
             }
 
@@ -296,7 +296,7 @@ namespace Server {
             List<int> filteredEventIDs = new List<int>();
             List<Event> filteredEvents = new List<Event>();
             filteredEventIDs = eventsHandler.getFilteredUserEvents(username, low, medium, high);
-            filteredEvents = eventsHandler.GetEvents(filteredEventIDs);
+            filteredEvents = eventsHandler.GetEvents(filteredEventIDs, false, username, 0);
 
             ServerTCP.PACKET_SendGetUserScheduleReply(ConnectionID, filteredEvents);
         }
@@ -319,7 +319,7 @@ namespace Server {
             List<int> filteredEventIDs = teamsHandler.getFilteredTeamEvents(teamID, low, medium, high);
             // Get the events from eventIDs list and add them to the events list
             var eventsHandler = new EventsHandler();
-            List<Event> eventsList = eventsHandler.GetEvents(filteredEventIDs);
+            List<Event> eventsList = eventsHandler.GetEvents(filteredEventIDs, true, " ", teamID);
             ServerTCP.PACKET_SendGetUserScheduleReply(ConnectionID, eventsList);
         }
 
@@ -441,11 +441,11 @@ namespace Server {
             bufferH.WriteBytes(data);
 
             int eventID = bufferH.ReadInteger();
-
+            string username = bufferH.ReadString();
             bufferH.Dispose();
 
             IEventScheduleConnector eventScheduleConnector = new EventScheduleConnector();
-            eventScheduleConnector.GetUserEventInDetail(eventID);
+            eventScheduleConnector.GetUserEventInDetail(eventID, username);
 
             //ServerTCP.PACKET_SendCreateUserEvent(ConnectionID, );
         }
@@ -513,7 +513,9 @@ namespace Server {
                 eventIDs.Add(invitation.eventID);
             }
             // Get list of eventobjects containing the details of the events the user is invited to
-            List<Event> eventsList = eventsHandler.GetEvents(eventIDs);
+            List<Event> eventsList = eventsHandler.GetEvents(eventIDs, true, " ", 0);
+
+            // Get event priority from isTeamAttendee
 
 
             ServerTCP.PACKET_SendGetUserInvitationsReply(ConnectionID, invitations, eventsList);

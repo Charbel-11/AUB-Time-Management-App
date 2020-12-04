@@ -32,7 +32,7 @@ namespace Server.Service.ControlBlocks
             IEventsHandler eventsHandler = new EventsHandler();
             
             /* Get details about the events in the user's schedule */
-            List<Event> userEvents = eventsHandler.GetEvents(eventIDs);
+            List<Event> userEvents = eventsHandler.GetEvents(eventIDs, false, username, 0);
 
             List<Event> conflictingEvents = new List<Event>();
 
