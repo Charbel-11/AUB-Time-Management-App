@@ -8,7 +8,8 @@ namespace Server.Service.ControlBlocks
 {
     public class EventScheduleConnector : IEventScheduleConnector
     {
-        public KeyValuePair<Event, List<Event>> AddUserEvent(string username, int eventPriority, string plannerUsername, string eventName, DateTime eventStart, DateTime eventEnd, bool isTeamEvent)
+		#region user related
+		public KeyValuePair<Event, List<Event>> AddUserEvent(string username, int eventPriority, string plannerUsername, string eventName, DateTime eventStart, DateTime eventEnd, bool isTeamEvent)
         {
             // Add event to the events tables
             Event addedEvent = new Event(0, eventPriority, plannerUsername, eventName, eventStart, eventEnd, isTeamEvent);
@@ -40,17 +41,18 @@ namespace Server.Service.ControlBlocks
 			{
                 //Get events from the events tables
                 IEventsHandler _eventsHandler = new EventsHandler();
-                _events = _eventsHandler.GetEvents(eventsIds);
+                _events = _eventsHandler.GetEvents(eventsIds, false, username, 0);
                 Console.WriteLine("We retrieved" + _events.Count.ToString() + "events");
             }
 
             return _events;
         }
-        public Event GetUserEventInDetail(int eventID)
+
+        public Event GetUserEventInDetail(int eventID, string username)
         {
             IEventsHandler _eventsHandler = new EventsHandler();
             List<int> singleEvent = new List<int>{ eventID };
-            return _eventsHandler.GetEvents(singleEvent).ElementAt(0);
+            return _eventsHandler.GetEvents(singleEvent,false, username, 0).ElementAt(0);
         }
 
         public void CancelUserEvent(string username, int eventID, bool isTeamEvent)
@@ -88,10 +90,35 @@ namespace Server.Service.ControlBlocks
 
             // Exctract events in details
             IEventsHandler _eventsHandler = new EventsHandler();
-            List<Event> userEventsInDetail = _eventsHandler.GetEvents(userEvents);
+            List<Event> userEventsInDetail = _eventsHandler.GetEvents(userEvents, false, username,0);
 
             return userEventsInDetail;
 
         }
+
+        #endregion
+
+        #region team related
+        public List<Event> GetTeamSchedule(int teamID)
+		{
+            // Add event id to the user's schedule
+            ISchedulesHandler schedulesHandler = new SchedulesHandler();
+            List<int> eventIDs = schedulesHandler.GetTeamSchedule(teamID);
+            Console.WriteLine("Now we're gonna retrieve" + eventIDs.Count.ToString() + "events");
+
+            //Check if List is empty before getting the events details
+            List<Event> _events = new List<Event>();
+            if (eventIDs.Count() != 0)
+            {
+                // Get the events from eventIDs list and add them to the events list
+                var eventsHandler = new EventsHandler();
+                List<Event> eventsList = eventsHandler.GetEvents(eventIDs, true, "", teamID);
+                Console.WriteLine("We retrieved" + _events.Count.ToString() + "events");
+            }
+
+            return _events;
+        }
+
+        #endregion
     }
 }

@@ -84,11 +84,10 @@ namespace Server.Service.Handlers
             EventsStorage.UpdateEvent(updatedEvent);
 		}
 
-        public List<Event> GetEvents(List<int> eventsIDs)
+        // get the details of the events with Ids in the list
+        public List<Event> GetEvents(List<int> eventsIDs, bool getTeamEvents, string username, int teamID)
 		{
-            //if (_eventStorage == null) { return new List<Event>() { }; }
-            //EventsStorage _eventsStorage = new EventsStorage();
-            return EventsStorage.GetEvents(eventsIDs);
+            return EventsStorage.GetEvents(eventsIDs, username, teamID, getTeamEvents);
 		}
     }
 }

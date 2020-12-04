@@ -12,7 +12,7 @@ namespace Server.Service.Handlers {
         void AddEventToUserSchedule(string username, int eventID, int priority);
         void RemoveEventFromUserSchedule(string username, int eventID);
         List<int> GetTeamSchedule(int teamID);
-        void AddEventToTeamSchedule(int teamID, int eventID);
+        void AddEventToTeamSchedule(int teamID, int eventID, int priority);
         void RemoveEventFromTeamSchedule(int teamID, int eventID);
         double[,] getMergedScheduleFreq(List<List<Event>> events, DateTime startTime, DateTime endTime, int priorityThreshold);
     }
