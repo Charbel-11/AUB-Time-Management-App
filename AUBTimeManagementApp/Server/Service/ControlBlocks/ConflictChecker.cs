@@ -21,7 +21,7 @@ namespace Server.Service.ControlBlocks
         /// <param name="username"></param>
         /// <param name="personalEvent">Event to check conflict with</param>
         /// <returns>List of events ids corresponding to the events that overlaps with the new event</returns>
-        public List<int> ConflictExists(string username, Event personalEvent)
+        public List<Event> ConflictExists(string username, Event personalEvent)
         {
             /* Create an instance of the schedules handler since you can only access a user schedule through it */
             ISchedulesHandler scheduleHandler = new SchedulesHandler();
@@ -34,7 +34,7 @@ namespace Server.Service.ControlBlocks
             /* Get details about the events in the user's schedule */
             List<Event> userEvents = eventsHandler.GetEvents(eventIDs);
 
-            List<int> conflictingEvents = new List<int>();
+            List<Event> conflictingEvents = new List<Event>();
 
             /* Iterate over the list of events and check for conflict with the new event */
 
@@ -42,13 +42,17 @@ namespace Server.Service.ControlBlocks
             {
                 /* _event: [] and personalEvent: () */
 
-                /* First case of conflict: [(]) */
+                /* First case of conflict: [(]) or [()] */
                 if (personalEvent.startTime >= _event.startTime && personalEvent.startTime <= _event.endTime)
-                    conflictingEvents.Add(_event.eventID);
+                    conflictingEvents.Add(_event);
 
                 /* Second case of conflict: ([)] */
                 else if (personalEvent.endTime >= _event.startTime && personalEvent.endTime <= _event.endTime)
-                    conflictingEvents.Add(_event.eventID);
+                    conflictingEvents.Add(_event);
+
+                /* Third case of conflict ([]) */
+                else if (personalEvent.endTime >= _event.endTime && personalEvent.startTime <= _event.startTime)
+                    conflictingEvents.Add(_event);
             }
             return conflictingEvents;
         }

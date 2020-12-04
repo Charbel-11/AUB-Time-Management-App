@@ -292,12 +292,32 @@ namespace Server {
             bufferH.Dispose();
         }
 
-        public static void PACKET_CreateUserEventReply(int ConnectionID, int eventID)
+        // Note that here we are passing the newly added event and the conflicting event to the client
+        // In case we decide later that we only need eventName, it's easy to modify
+        public static void PACKET_CreateUserEventReply(int ConnectionID, KeyValuePair<Event, List<Event>> eventAndConflicts)
 		{
             BufferHelper bufferH = new BufferHelper();
             bufferH.WriteInteger((int)ServerPackages.SCreateUserEventReply);
 
-            bufferH.WriteInteger(eventID);
+            bufferH.WriteInteger(eventAndConflicts.Key.eventID);
+            bufferH.WriteString(eventAndConflicts.Key.plannerUsername);
+            bufferH.WriteString(eventAndConflicts.Key.eventName);
+            bufferH.WriteInteger(eventAndConflicts.Key.priority);
+            bufferH.WriteString(eventAndConflicts.Key.startTime.ToString());
+            bufferH.WriteString(eventAndConflicts.Key.endTime.ToString());
+            bufferH.WriteBool(eventAndConflicts.Key.teamEvent);
+
+            bufferH.WriteInteger(eventAndConflicts.Value.Count);
+            for (int i = 0; i < eventAndConflicts.Value.Count; i++)
+            {
+                bufferH.WriteInteger(eventAndConflicts.Value[i].eventID);
+                bufferH.WriteString(eventAndConflicts.Value[i].plannerUsername);
+                bufferH.WriteString(eventAndConflicts.Value[i].eventName);
+                bufferH.WriteInteger(eventAndConflicts.Value[i].priority);
+                bufferH.WriteString(eventAndConflicts.Value[i].startTime.ToString());
+                bufferH.WriteString(eventAndConflicts.Value[i].endTime.ToString());
+                bufferH.WriteBool(eventAndConflicts.Value[i].teamEvent);
+            }
 
             SendDataTo(ConnectionID, bufferH.ToArray());
             bufferH.Dispose();

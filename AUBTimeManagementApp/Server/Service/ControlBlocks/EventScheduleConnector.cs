@@ -8,25 +8,23 @@ namespace Server.Service.ControlBlocks
 {
     public class EventScheduleConnector : IEventScheduleConnector
     {
-        public Event AddUserEvent(string username, int eventPriority, string plannerUsername, string eventName, DateTime eventStart, DateTime eventEnd)
+        public KeyValuePair<Event, List<Event>> AddUserEvent(string username, int eventPriority, string plannerUsername, string eventName, DateTime eventStart, DateTime eventEnd)
         {
-            //Commented throw exception cause we need to always return the id of the added event to the client.
-            // maybe we don't need to check for conflict if we're not gonna anything with the list of conflicting events
             // Add event to the events tables
             Event addedEvent = new Event(0, eventPriority, plannerUsername, eventName, eventStart, eventEnd);
             IEventsHandler _eventsHandler = new EventsHandler();
             int eventID = _eventsHandler.CreateEvent(addedEvent);
             addedEvent.eventID = eventID;
 
+            //check for conflict with the conflict checker
+            IConflictChecker conflictChecker = new ConflictChecker();
+            List<Event> conflictingEvents = conflictChecker.ConflictExists(username, addedEvent);
+
             // Add event id to the user's schedule
             ISchedulesHandler _schedulesHandler = new SchedulesHandler();
             _schedulesHandler.AddEventToUserSchedule(username, addedEvent.eventID, eventPriority);
 
-            //check for conflict with the conflict checker
-            IConflictChecker conflictChecker = new ConflictChecker();
-            List<int> conflictingEvents = conflictChecker.ConflictExists(username, addedEvent);
-
-            return addedEvent;
+            return new KeyValuePair<Event, List<Event>>(addedEvent, conflictingEvents);
         }
 
         public List<Event> GetUserSchedule(string username)

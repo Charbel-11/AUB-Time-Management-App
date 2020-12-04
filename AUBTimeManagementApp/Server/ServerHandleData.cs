@@ -405,12 +405,11 @@ namespace Server {
 
             // Add the event to the schedule of the planner using the connector between the events and the schedules handlers
             IEventScheduleConnector eventScheduleConnector = new EventScheduleConnector();
-            Event addedEvent = eventScheduleConnector.AddUserEvent(eventPlanner, eventPriority, eventPlanner, eventName, DateTime.Parse(eventStart), DateTime.Parse(eventEnd));
-            
+            KeyValuePair<Event, List<Event>> pair = eventScheduleConnector.AddUserEvent(eventPlanner, eventPriority, eventPlanner, eventName, DateTime.Parse(eventStart), DateTime.Parse(eventEnd));
             ITeamEventConnector teamEventConnector = new TeamEventConnector();
-            teamEventConnector.CreateTeamEvent(teamID, addedEvent);
+            teamEventConnector.CreateTeamEvent(teamID, pair.Key);
 
-            ServerTCP.PACKET_CreateUserEventReply(ConnectionID, addedEvent.eventID);
+            ServerTCP.PACKET_CreateUserEventReply(ConnectionID, pair);
         }
 
         private static void HandleCreateUserEvent(int ConnectionID, byte[] data)
@@ -429,9 +428,9 @@ namespace Server {
             bufferH.Dispose();
 
             IEventScheduleConnector eventScheduleConnector = new EventScheduleConnector();
-            Event addedEvent = eventScheduleConnector.AddUserEvent(username, eventPriority, username, eventName, DateTime.Parse(eventStart), DateTime.Parse(eventEnd));
+            KeyValuePair<Event, List<Event>> pair = eventScheduleConnector.AddUserEvent(username, eventPriority, username, eventName, DateTime.Parse(eventStart), DateTime.Parse(eventEnd));
 
-            ServerTCP.PACKET_CreateUserEventReply(ConnectionID, addedEvent.eventID);
+            ServerTCP.PACKET_CreateUserEventReply(ConnectionID, pair);
         }
 
         private static void HandleGetUserEvent(int ConnectionID, byte[] data)
