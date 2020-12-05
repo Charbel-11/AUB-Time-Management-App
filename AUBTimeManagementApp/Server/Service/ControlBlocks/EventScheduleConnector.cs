@@ -104,19 +104,19 @@ namespace Server.Service.ControlBlocks
             // Add event id to the user's schedule
             ISchedulesHandler schedulesHandler = new SchedulesHandler();
             List<int> eventIDs = schedulesHandler.GetTeamSchedule(teamID);
-            Console.WriteLine("Now we're gonna retrieve" + eventIDs.Count.ToString() + "events");
+            Console.WriteLine("Now we're gonna retrieve" + eventIDs.Count + "events");
 
             //Check if List is empty before getting the events details
-            List<Event> _events = new List<Event>();
-            if (eventIDs.Count() != 0)
+            List<Event> eventsList = new List<Event>();
+            if (eventIDs.Count != 0)
             {
                 // Get the events from eventIDs list and add them to the events list
                 var eventsHandler = new EventsHandler();
-                List<Event> eventsList = eventsHandler.GetEvents(eventIDs, true, "", teamID);
-                Console.WriteLine("We retrieved" + _events.Count.ToString() + "events");
+                eventsList = eventsHandler.GetEvents(eventIDs, true, "", teamID);
+                Console.WriteLine("We retrieved" + eventsList.Count + "events");
             }
 
-            return _events;
+            return eventsList;
         }
 
         #endregion

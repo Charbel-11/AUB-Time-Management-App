@@ -247,7 +247,7 @@ namespace Server {
             List<Event> eventsList = _eventScheduleConnector.GetTeamSchedule(teamID);
 
 
-            Console.WriteLine("Will show " + eventsList.Count.ToString() + "events!");
+            Console.WriteLine("Will show " + eventsList.Count + "events!");
             ServerTCP.PACKET_SendGetTeamScheduleReply(ConnectionID, teamID, eventsList);
         }
 

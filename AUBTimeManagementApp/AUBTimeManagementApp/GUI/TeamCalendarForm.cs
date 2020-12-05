@@ -42,6 +42,7 @@ namespace AUBTimeManagementApp.GUI {
             if (merged) { mergedSchedButton_Click(null, null); }
             else { priorityBoxBackButton_Click(null, null); }
             teamSchedButton_Click(null, null);
+            eventDetailsPanel.Hide();
         }
 
         private void monthView_SelectionChanged(object sender, EventArgs e) {
@@ -138,29 +139,24 @@ namespace AUBTimeManagementApp.GUI {
         private void calendar_ItemDoubleClick(object sender, CalendarItemEventArgs e) {
             selectedItem = e.Item;
             if (selectedItem.Selected) {
-                /*
-                mainPanel.Hide();
+               
                 eventDetailsPanel.Show();
+                priorityBox.Hide();
                 // Display Selected Event Details
                 detailsEventName.Text = selectedItem.Text;
                 dateTimePickerStart.Value = selectedItem.StartDate;
                 dateTimePickerEnd.Value = selectedItem.EndDate;
                 ModifyPriority.Value = selectedItem.priority;
-                selectedItemID = selectedItem.eventID;
 
-                if (selectedItem.teamEvent) {
+                if (!isAdmin) {
                     detailsEventName.ReadOnly = true;
                     dateTimePickerStart.Enabled = false;
                     dateTimePickerEnd.Enabled = false;
-                    ModifyEventBut.Text = "Modify Priority";
+                    ModifyEventBut.Enabled = false;
+                    DeleteEventBut.Enabled = false;
                 }
-                else {
-                    detailsEventName.ReadOnly = false;
-                    dateTimePickerStart.Enabled = true;
-                    dateTimePickerEnd.Enabled = true;
-                    ModifyEventBut.Text = "Modify";
-                }
-                */
+                
+                
             }
             else {
                 AddEvent addEventWindow = new AddEvent(this, e.Item.StartDate, e.Item.EndDate);

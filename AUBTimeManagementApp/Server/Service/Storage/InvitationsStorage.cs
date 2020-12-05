@@ -51,20 +51,21 @@ namespace AUBTimeManagementApp.Service.Storage
             catch (Exception exception) { Console.WriteLine("getInvitation: " + exception.Message); throw; }
         }
 
-        public static int AddInvitation(int eventID, int teamID, string senderUsername) {
+        public static int AddInvitation(int eventID, int teamID, string senderUsername, int numberOfInvitees) {
             try {
                 if (invitationExists(eventID, teamID, senderUsername)) { return getInvitationID(eventID, teamID, senderUsername); }
                 string connectionString = ConnectionUtil.connectionString;
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
                 sqlConnection.Open();
 
-                string query = "INSERT INTO Invitations (EventID, TeamID, SenderUsername) " +
-                                "VALUES (@EventID, @TeamID, @SenderUsername)";
+                string query = "INSERT INTO Invitations (EventID, TeamID, SenderUsername, WaitingForResponse) " +
+                                "VALUES (@EventID, @TeamID, @SenderUsername, @numberOfInvitees)";
                 SqlCommand command = new SqlCommand(query, sqlConnection);
 
                 command.Parameters.Add("@EventID", SqlDbType.Int).Value = eventID;
                 command.Parameters.Add("@TeamID", SqlDbType.Int).Value = teamID;
                 command.Parameters.Add("@SenderUsername", SqlDbType.NVarChar).Value = senderUsername;
+                command.Parameters.Add("@numberOfInvitees", SqlDbType.Int).Value = numberOfInvitees;
                 SqlDataReader dataReader = command.ExecuteReader();
 
                 command.Parameters.Clear(); dataReader.Close();

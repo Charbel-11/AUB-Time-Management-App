@@ -106,6 +106,7 @@ namespace AUBTimeManagementApp.Service.Storage
                     i++;
                 }
 
+                
                 command.Parameters.Clear(); dataReader.Close();
                sqlConnection.Close(); return events;
             }
