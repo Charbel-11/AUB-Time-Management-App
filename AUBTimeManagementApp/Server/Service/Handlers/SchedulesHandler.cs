@@ -8,6 +8,10 @@ namespace Server.Service.Handlers {
     public class SchedulesHandler : ISchedulesHandler{
         #region userSchedule
 
+        public void RemoveEventFromSchedules(int eventID)
+		{
+            SchedulesStorage.DeleteEventFromSchedules(eventID);
+		}
         /// <summary>
         /// change the priority of the event in isUserAttendee table
         /// </summary>

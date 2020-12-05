@@ -141,7 +141,7 @@ namespace Server.Service.ControlBlocks
             _eventsHandler.UpdateEvent(updatedEvent);
 
             ISchedulesHandler schedulesHandler = new SchedulesHandler();
-            schedulesHandler.updatePriority(updatedEvent.eventID, username, updatedEvent.priority);/*
+            schedulesHandler.updatePriority(updatedEvent.eventID, username, updatedEvent.priority);*/
         }
 
 

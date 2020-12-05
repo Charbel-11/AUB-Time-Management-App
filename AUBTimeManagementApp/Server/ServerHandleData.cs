@@ -567,10 +567,13 @@ namespace Server {
             bufferH.Dispose();
 
 
-
+            // remove event from isTeamAttendee and events table
             IEventScheduleConnector _eventScheduleConnector = new EventScheduleConnector();
             _eventScheduleConnector.CancelTeamEvent(teamID, eventID);
 
+            //remove event with ID = eventID from the schedules of the team members
+            ISchedulesHandler schedulesHandler = new SchedulesHandler();
+            schedulesHandler.RemoveEventFromSchedules(eventID);
             //ServerTCP.PACKET_CancelUserEvent(ConnectionID, true);
         }
 
