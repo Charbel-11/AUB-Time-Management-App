@@ -15,5 +15,6 @@ namespace Server.Service.Handlers
         void RemoveUserFromEventAttendees(int eventId, string username);
         List<Event> GetEvents(List<int> eventsIDs, bool getTeamEvents, string username, int teamID);
         List<int> getFilteredUserEvents(string username, bool low, bool mid, bool high);
+        List<int> GetIDsOfUpcomingTeamEvents(int teamID, DateTime minStartDate);
     }
 }

@@ -98,6 +98,8 @@ namespace AUBTimeManagementApp.Service.Storage {
                 command.Parameters.Add("@TeamID", SqlDbType.Int).Value = teamID;
                 SqlDataReader dataReader = command.ExecuteReader();
 
+                Console.WriteLine("removed member with username = " + username + "from team with ID = " + teamID);
+
                 command.Parameters.Clear(); dataReader.Close();
                 sqlConnection.Close(); return true;
             }
@@ -120,6 +122,7 @@ namespace AUBTimeManagementApp.Service.Storage {
                 command.Parameters.Add("@TeamID", SqlDbType.Int).Value = teamID;
                 SqlDataReader dataReader = command.ExecuteReader();
 
+                Console.WriteLine(username + " is no longer a team Admin");
                 command.Parameters.Clear(); dataReader.Close();
                 sqlConnection.Close(); return true;
             }

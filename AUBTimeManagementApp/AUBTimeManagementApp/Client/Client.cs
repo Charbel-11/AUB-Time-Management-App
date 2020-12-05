@@ -32,7 +32,7 @@ namespace AUBTimeManagementApp.Client
         // Explicit static constructor to tell C# compiler not to mark type as beforefieldinit
         static Client()
         {
-
+            
         }
     
         //Constructor executed once the first time Client is used
@@ -213,7 +213,6 @@ namespace AUBTimeManagementApp.Client
         /// <param name="eventID"></param>
         public void ModifyTeamEvent(Event updatedEvent, int teamID)
         {
-            updatedEvent.plannerUsername = username;
             ClientTCP.Packet_ModifyTeamEvent(updatedEvent, teamID);
         }
 

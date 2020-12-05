@@ -86,18 +86,7 @@ namespace Server.Service.Handlers
         public bool RemoveMemberRequest(int teamID, string userToRemove)
         {
             bool b = TeamsStorage.removeTeamMember(teamID, userToRemove);
-            if (!b) { return false; }
-
-            List<string> teamMembers = TeamsStorage.getTeamMembers(teamID);
-            foreach (string member in teamMembers) {
-                if (ServerTCP.UsernameToConnectionID.TryGetValue(member, out int cID))
-                    ServerTCP.PACKET_MemberRemoved(cID, teamID, userToRemove);
-            }
-
-            if (ServerTCP.UsernameToConnectionID.TryGetValue(userToRemove, out int ID))
-                ServerTCP.PACKET_MemberRemoved(ID, teamID, userToRemove);
-
-            return true;
+            return b;
         }
 
         /// <summary>

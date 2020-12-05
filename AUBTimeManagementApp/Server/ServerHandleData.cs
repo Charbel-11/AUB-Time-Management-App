@@ -366,8 +366,8 @@ namespace Server {
 
             bufferH.Dispose();
 
-            ITeamsHandler teamsHandler = new TeamsHandler();
-            teamsHandler.RemoveMemberRequest(teamID, username);
+            ITeamEventConnector teamEventConnector = new TeamEventConnector();
+            teamEventConnector.RemoveTeamMember(teamID, username, DateTime.Now);
 
 
         }

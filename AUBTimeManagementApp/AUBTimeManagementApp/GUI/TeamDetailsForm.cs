@@ -188,7 +188,15 @@ namespace AUBTimeManagementApp.GUI {
         }
 
         private void leaveTeamBut_Click(object sender, EventArgs e) {
-            Client.Client.Instance.removeMember(team.teamID, Client.Client.Instance.username);
+            // make sure the user wants to leave this team
+            var result = MessageBox.Show("Are you sure you would like to leave this team?",
+                "Leave Team", MessageBoxButtons.YesNo);
+            //If the yes button is pressed remove user from team
+            if (result == DialogResult.Yes)
+            {
+                Client.Client.Instance.removeMember(team.teamID, Client.Client.Instance.username);
+            }
+           
         }
 
         private void backFromAddBut_Click(object sender, EventArgs e) {

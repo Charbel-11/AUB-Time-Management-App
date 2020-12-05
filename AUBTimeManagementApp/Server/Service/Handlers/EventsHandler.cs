@@ -89,5 +89,10 @@ namespace Server.Service.Handlers
 		{
             return EventsStorage.GetEvents(eventsIDs, username, teamID, getTeamEvents);
 		}
+
+        public List<int> GetIDsOfUpcomingTeamEvents(int teamID, DateTime minStartDate)
+		{
+           return EventsStorage.getIDsOfUpcomingTeamEvents(teamID, minStartDate);
+		}
     }
 }

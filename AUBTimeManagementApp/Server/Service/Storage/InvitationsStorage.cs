@@ -48,7 +48,7 @@ namespace AUBTimeManagementApp.Service.Storage
                 command.Parameters.Clear(); dataReader.Close();
                 sqlConnection.Close(); return res;
             }
-            catch (Exception exception) { Console.WriteLine("getInvitation: " + exception.Message); throw; }
+            catch (Exception exception) { Console.WriteLine("getInvitationID: " + exception.Message); throw; }
         }
 
         public static int AddInvitation(int eventID, int teamID, string senderUsername) {
@@ -168,12 +168,12 @@ namespace AUBTimeManagementApp.Service.Storage
 
                 string query = "DELETE FROM Invitations WHERE InvitationID = @InvitationID";
                 SqlCommand command = new SqlCommand(query, sqlConnection);
-                command.Parameters.Add("@InvitatonID", SqlDbType.Int).Value = invitationID;
+                command.Parameters.Add("@InvitationID", SqlDbType.Int).Value = invitationID;
 
                 SqlDataReader dataReader = command.ExecuteReader();
                 command.Parameters.Clear(); dataReader.Close(); sqlConnection.Close();
             }
-            catch (Exception exception) { Console.WriteLine("AddInvitation: " + exception.Message); throw; }
+            catch (Exception exception) { Console.WriteLine("RemoveInvitation: " + exception.Message); throw; }
         }
 
         public static void RemoveUserInvitation(string username, int invitationID)
@@ -204,12 +204,41 @@ namespace AUBTimeManagementApp.Service.Storage
                 command.Parameters.Add("@Pending", SqlDbType.Int).Value = pending - 1;
                 command.Parameters.Add("@InvitationID", SqlDbType.Int).Value = invitationID;
 
+                Console.WriteLine("Removed invitation with ID = " + invitationID + "from the user's invitations");
+
                 dataReader = command.ExecuteReader();
                 command.Parameters.Clear(); dataReader.Close(); sqlConnection.Close(); 
                 if(pending == 1) { RemoveInvitation(invitationID); }
             }
             catch (Exception exception) { Console.WriteLine("RemoveInvitation: " + exception.Message); throw; }
 
+        }
+
+        //Get ID of invitations with specific teamID
+        public static List<int> getTeamInvitationIDs(int teamID)
+        {
+            try
+            {
+                string connectionString = ConnectionUtil.connectionString;
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+                sqlConnection.Open();
+
+                string query = "SELECT InvitationID FROM Invitations WHERE TeamID = @TeamID";
+                SqlCommand command = new SqlCommand(query, sqlConnection);
+
+                command.Parameters.Add("@TeamID", SqlDbType.Int).Value = teamID;
+                SqlDataReader dataReader = command.ExecuteReader();
+
+                List<int> invitationIDs = new List<int>();
+
+                while (dataReader.Read()) { invitationIDs.Add(dataReader.GetInt32(0)); }
+
+                Console.WriteLine("got ID of " + invitationIDs.Count + "invitations to events of team with ID = " + teamID);
+                
+                command.Parameters.Clear(); dataReader.Close();
+                sqlConnection.Close(); return invitationIDs;
+            }
+            catch (Exception exception) { Console.WriteLine("getTeamInvitationIDs: " + exception.Message); throw; }
         }
     }
 }

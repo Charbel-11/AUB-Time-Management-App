@@ -189,5 +189,29 @@ namespace AUBTimeManagementApp.Service.Storage
             catch (Exception exception) { Console.WriteLine("UpdateEvent: " + exception.Message); throw; }
         }
 
+        //Get all upcoming events related to team with ID = teamID
+        public static List<int> getIDsOfUpcomingTeamEvents(int teamID, DateTime minStartDate)
+        {
+            try
+            {
+                string connectionString = ConnectionUtil.connectionString;
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+                sqlConnection.Open();
+
+                string nestedQuery = "(SELECT EventID FROM isTeamAttendee WHERE TeamID = @TeamID )";
+                string query = "Select EventID FROM Events WHERE StartTime > @minStartDate AND EventID IN " + nestedQuery;
+                SqlCommand command = new SqlCommand(query, sqlConnection);
+                command.Parameters.Add("@minStartDate", SqlDbType.DateTime).Value = minStartDate;
+                command.Parameters.Add("@TeamID", SqlDbType.Int).Value = teamID;
+                SqlDataReader dataReader = command.ExecuteReader();
+
+                List<int> eventIDs = new List<int>();
+                while (dataReader.Read()) { eventIDs.Add(dataReader.GetInt32(0)); }
+                Console.WriteLine("got ID of " + eventIDs.Count + " upcoming team events");
+                sqlConnection.Close(); return eventIDs;
+            }
+            catch (Exception exception) { Console.WriteLine("GetIDsOfUpcomingTeamEvents: " + exception.Message); throw; }
+        }
+
     }
 }

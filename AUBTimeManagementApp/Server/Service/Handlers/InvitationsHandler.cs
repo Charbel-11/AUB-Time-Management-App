@@ -40,9 +40,22 @@ namespace Server.Service.Handlers
                 }
             }       
         }
-
+        
         public List<Invitation> getInvitations(List<int> InvitationIDs) {
             return InvitationsStorage.GetInvitations(InvitationIDs);
+        }
+
+        // removes all invitations related to a specific team sent to the user
+        public void RemoveSpecificUserInvitations(int teamID, string username)
+		{
+            // get list of IDs of invitations related to team with id = teamID
+            List<int> invitationIDs = InvitationsStorage.getTeamInvitationIDs(teamID);
+            //Remove all Invitations with ID in the list sent to the user
+            foreach(int invitationID in invitationIDs)
+			{
+                InvitationsStorage.RemoveUserInvitation(username, invitationID);
+			}
+
         }
     }
 }

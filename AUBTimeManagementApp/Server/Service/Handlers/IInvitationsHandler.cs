@@ -21,5 +21,8 @@ namespace Server.Service.Handlers
         void SendInvitations(List<string> AttendeesUsernames, int eventID, int teamsID, string SenderUsername);
 
         List<Invitation> getInvitations(List<int> InvitationIDs);
+
+        // Remove invitations related to team with ID = teamID sent to user
+        void RemoveSpecificUserInvitations(int teamID, string username);
     }
 }
