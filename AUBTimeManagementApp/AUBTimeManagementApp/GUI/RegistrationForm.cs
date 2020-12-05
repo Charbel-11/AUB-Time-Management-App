@@ -28,7 +28,7 @@ namespace AUBTimeManagementApp.GUI
                 return;
             }
             if (OK == -2) {
-                ErrorLabel.Text = "The password should contain at least 8 characters!";
+                ErrorLabel.Text = "The password does not follow the specified format!";
                 return;
             }
             if (OK == -3) {
