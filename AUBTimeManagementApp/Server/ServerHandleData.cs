@@ -366,6 +366,8 @@ namespace Server {
 
             ITeamsHandler teamsHandler = new TeamsHandler();
             teamsHandler.RemoveMemberRequest(teamID, username);
+
+
         }
 
         private static void HandleAddMember(int ConnectionID, byte[] data) {
@@ -529,10 +531,13 @@ namespace Server {
             bufferH.WriteBytes(Data);
             string username = bufferH.ReadString();
             int invitationID = bufferH.ReadInteger();
+            int eventID = bufferH.ReadInteger();
+            int teamID = bufferH.ReadInteger();
 
             IInvitationsConnector invitationsConnector = new InvitationConnector();
-            invitationsConnector.AcceptInvitation(username, invitationID);
+            Event acceptedEvent = invitationsConnector.AcceptInvitation(username, invitationID, eventID, teamID);
 
+            ServerTCP.PACKET_AcceptInvitationReply(ConnectionID, acceptedEvent);
         }
 
         private static void HandleDeclineInvitationReply(int ConnectionID, byte[] Data)

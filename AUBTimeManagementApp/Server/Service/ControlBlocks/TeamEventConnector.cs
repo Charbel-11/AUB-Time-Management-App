@@ -25,5 +25,7 @@ namespace Server.Service.ControlBlocks
            IInvitationsHandler invitationsHandler = new InvitationsHandler();
            invitationsHandler.SendInvitations(members, _event.eventID, teamID, _event.plannerUsername);
         }
+
+
     }
 }

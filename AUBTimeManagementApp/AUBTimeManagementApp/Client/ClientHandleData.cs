@@ -2,13 +2,16 @@
 using System.Collections.Generic;
 using AUBTimeManagementApp.DataContracts;
 
-namespace AUBTimeManagementApp.Client {
-    class ClientHandleData {
+namespace AUBTimeManagementApp.Client
+{
+    class ClientHandleData
+    {
         private static BufferHelper ClientBufferH;
         public delegate void PacketF(byte[] Data);
         public static Dictionary<int, PacketF> PacketListener;
 
-        public static void InitializePacketListener() {
+        public static void InitializePacketListener()
+        {
             PacketListener = new Dictionary<int, PacketF>
             {
             { (int)ServerPackages.SMsg, HandleMessage },
@@ -30,11 +33,13 @@ namespace AUBTimeManagementApp.Client {
             {(int)ServerPackages.SCreateUserEventReply, HandleCreateUserEventReply },
             {(int)ServerPackages.SCancelUserEventReply, HandleCancelUserEventReply},
             {(int) ServerPackages.SGetUserInvitationsReply, HandleGetUserInvitationsReply},
-            {(int) ServerPackages.SSendMergedSchedule, HandleGetMergedSchedule}
+            {(int) ServerPackages.SSendMergedSchedule, HandleGetMergedSchedule},
+            {(int) ServerPackages.SAcceptInvitationReply, HandleAcceptInvitationReply }
             };
         }
 
-        public static void HandleData(byte[] data) {
+        public static void HandleData(byte[] data)
+        {
             if (data == null) { return; }
 
             int pLength = 0;    //Packet length
@@ -50,16 +55,18 @@ namespace AUBTimeManagementApp.Client {
             }
 
             pLength = ClientBufferH.ReadInteger(false);      //Doesn't advance before all the packet is here
-            while (pLength >= 4 && pLength <= ClientBufferH.Length() - 4) {
+            while (pLength >= 4 && pLength <= ClientBufferH.Length() - 4)
+            {
                 ClientBufferH.ReadInteger();
                 int packageID = ClientBufferH.ReadInteger();
                 pLength -= 4;
                 data = ClientBufferH.ReadBytes(pLength);
                 if (PacketListener.TryGetValue(packageID, out PacketF packet))
                     packet.Invoke(data);
-                else {
+                else
+                {
                     //Wrong function ID
-                    break; 
+                    break;
                 }
 
                 pLength = 0;
@@ -70,7 +77,8 @@ namespace AUBTimeManagementApp.Client {
             if (pLength < 4) { ClientBufferH.Clear(); }
         }
 
-        public static void HandleMessage(byte[] data) {
+        public static void HandleMessage(byte[] data)
+        {
             BufferHelper bufferH = new BufferHelper();
             bufferH.WriteBytes(data);
             string msg = bufferH.ReadString();
@@ -102,22 +110,24 @@ namespace AUBTimeManagementApp.Client {
             bufferH.Dispose();
         }
 
-        public static void HandleGetUserTeamsReply(byte[] data) {
+        public static void HandleGetUserTeamsReply(byte[] data)
+        {
             BufferHelper bufferH = new BufferHelper();
             bufferH.WriteBytes(data);
 
             int n = bufferH.ReadInteger();
             List<Team> teams = new List<Team>();
-            for (int i = 0; i < n; i++) {
+            for (int i = 0; i < n; i++)
+            {
                 int teamID = bufferH.ReadInteger();
                 string teamName = bufferH.ReadString();
                 Team curTeam = new Team(teamID, teamName);
-                
+
                 int nA = bufferH.ReadInteger();
-                for(int j = 0; j < nA; j++) { curTeam.addAdmin(bufferH.ReadString()); }
+                for (int j = 0; j < nA; j++) { curTeam.addAdmin(bufferH.ReadString()); }
                 int nM = bufferH.ReadInteger();
-                for(int j = 0; j < nM; j++) { curTeam.addMember(bufferH.ReadString()); }
-                teams.Add(curTeam);            
+                for (int j = 0; j < nM; j++) { curTeam.addMember(bufferH.ReadString()); }
+                teams.Add(curTeam);
             }
             Client.Instance.GetUserTeamsReply(teams);
 
@@ -164,7 +174,7 @@ namespace AUBTimeManagementApp.Client {
                 string eventStart = bufferH.ReadString();
                 string eventEnd = bufferH.ReadString();
                 bool isteamEvent = bufferH.ReadBool();
-                Event curevent = new Event(eventID, eventPriority, planner, eventName, DateTime.Parse(eventStart),DateTime.Parse(eventEnd), isteamEvent);
+                Event curevent = new Event(eventID, eventPriority, planner, eventName, DateTime.Parse(eventStart), DateTime.Parse(eventEnd), isteamEvent);
                 eventsList.Add(curevent);
             }
             Client.Instance.GetTeamScheduleReply(teamID, eventsList);
@@ -220,15 +230,17 @@ namespace AUBTimeManagementApp.Client {
             bufferH.Dispose();
         }
 
-        public static void HandleCreateTeamReply(byte[] data) {
+        public static void HandleCreateTeamReply(byte[] data)
+        {
             BufferHelper bufferH = new BufferHelper();
             bufferH.WriteBytes(data);
 
             bool OK = bufferH.ReadBool();
             List<string> invalidUsernames = new List<string>();
-            if (OK) {
+            if (OK)
+            {
                 int n = bufferH.ReadInteger();
-                for(int i = 0; i < n; i++) { invalidUsernames.Add(bufferH.ReadString()); }
+                for (int i = 0; i < n; i++) { invalidUsernames.Add(bufferH.ReadString()); }
             }
 
             bufferH.Dispose();
@@ -236,7 +248,8 @@ namespace AUBTimeManagementApp.Client {
             Client.Instance.createTeamReply(OK, invalidUsernames.ToArray());
         }
 
-        public static void HandleNewTeamCreated(byte[] data) {
+        public static void HandleNewTeamCreated(byte[] data)
+        {
             BufferHelper bufferH = new BufferHelper();
             bufferH.WriteBytes(data);
 
@@ -248,14 +261,15 @@ namespace AUBTimeManagementApp.Client {
             int nA = bufferH.ReadInteger();
             for (int i = 0; i < nA; i++) { admins.Add(bufferH.ReadString()); }
             int n = bufferH.ReadInteger();
-            for(int i = 0; i < n; i++) { members.Add(bufferH.ReadString()); }
+            for (int i = 0; i < n; i++) { members.Add(bufferH.ReadString()); }
 
             bufferH.Dispose();
 
             Client.Instance.addedToATeam(teamName, teamID, admins, members);
         }
 
-        public static void HandleNewAdminState(byte[] data) {
+        public static void HandleNewAdminState(byte[] data)
+        {
             BufferHelper bufferH = new BufferHelper();
             bufferH.WriteBytes(data);
 
@@ -268,7 +282,8 @@ namespace AUBTimeManagementApp.Client {
             Client.Instance.adminStateChanged(teamID, username, isNowAdmin);
         }
 
-        public static void HandleMemberRemoved(byte[] data) {
+        public static void HandleMemberRemoved(byte[] data)
+        {
             BufferHelper bufferH = new BufferHelper();
             bufferH.WriteBytes(data);
 
@@ -279,8 +294,9 @@ namespace AUBTimeManagementApp.Client {
 
             Client.Instance.memberRemoved(teamID, removedMember);
         }
-        
-        public static void HandleAddMemberReply(byte[] data) {
+
+        public static void HandleAddMemberReply(byte[] data)
+        {
             BufferHelper bufferH = new BufferHelper();
             bufferH.WriteBytes(data);
             int teamID = bufferH.ReadInteger();
@@ -289,7 +305,8 @@ namespace AUBTimeManagementApp.Client {
             Client.Instance.addMemberReply(teamID, OK);
         }
 
-        public static void HandleMemberAdded(byte[] data) {
+        public static void HandleMemberAdded(byte[] data)
+        {
             BufferHelper bufferH = new BufferHelper();
             bufferH.WriteBytes(data);
 
@@ -401,17 +418,20 @@ namespace AUBTimeManagementApp.Client {
             bufferH.Dispose();
         }
 
-        public static void HandleGetMergedSchedule(byte[] Data) {
+        public static void HandleGetMergedSchedule(byte[] Data)
+        {
             BufferHelper bufferH = new BufferHelper();
             bufferH.WriteBytes(Data);
 
             int teamID = bufferH.ReadInteger();
             int n = bufferH.ReadInteger();
             int m = bufferH.ReadInteger();
-            double[,] freq = new double[n,m];
+            double[,] freq = new double[n, m];
 
-            for (int i = 0; i < n; i++) {
-                for(int j = 0; j < m; j++) {
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = 0; j < m; j++)
+                {
                     int num = bufferH.ReadInteger();
                     freq[i, j] = (double)num / 100000000.0;
                 }
@@ -421,6 +441,27 @@ namespace AUBTimeManagementApp.Client {
             Client.Instance.GetMergedTeamScheduleReply(teamID, freq);
 
             bufferH.Dispose();
+        }
+
+        public static void HandleAcceptInvitationReply(byte[] Data)
+        {
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteBytes(Data);
+
+            int eventID = bufferH.ReadInteger();
+            int priority = bufferH.ReadInteger();
+            string eventName = bufferH.ReadString();
+            string plannerUsername = bufferH.ReadString();
+            string start = bufferH.ReadString();
+            string end = bufferH.ReadString();
+            bool isTeamEvent = bufferH.ReadBool();
+
+            Event acceptedEvent = new Event(eventID, priority, plannerUsername, eventName, DateTime.Parse(start), DateTime.Parse(end), isTeamEvent);
+            Client.Instance.ShowEvent(acceptedEvent);
+
+            bufferH.Dispose();
+
+
         }
     }
 }

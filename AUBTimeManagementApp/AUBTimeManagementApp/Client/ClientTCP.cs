@@ -342,6 +342,8 @@ namespace AUBTimeManagementApp.Client {
 
             bufferH.WriteString(username);
             bufferH.WriteInteger(invitation.invitationID);
+            bufferH.WriteInteger(invitation.Event.ID);
+            bufferH.WriteInteger(invitation.TeamID);
 
             SendData(bufferH.ToArray());
             bufferH.Dispose();

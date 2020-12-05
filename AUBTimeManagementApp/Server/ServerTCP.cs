@@ -379,5 +379,23 @@ namespace Server {
             SendDataTo(ConnectionID, bufferH.ToArray());
             bufferH.Dispose();
         }
+
+
+        public static void PACKET_AcceptInvitationReply(int ConnectionID, Event acceptedEvent)
+        {
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteInteger((int)ServerPackages.SAcceptInvitationReply);
+
+            bufferH.WriteInteger(acceptedEvent.eventID);
+            bufferH.WriteInteger(acceptedEvent.priority);
+            bufferH.WriteString(acceptedEvent.eventName);
+            bufferH.WriteString(acceptedEvent.plannerUsername);
+            bufferH.WriteString(acceptedEvent.startTime.ToString());
+            bufferH.WriteString(acceptedEvent.endTime.ToString());
+            bufferH.WriteBool(acceptedEvent.teamEvent);
+
+            SendDataTo(ConnectionID, bufferH.ToArray());
+            bufferH.Dispose();
+        }
     }
 }
