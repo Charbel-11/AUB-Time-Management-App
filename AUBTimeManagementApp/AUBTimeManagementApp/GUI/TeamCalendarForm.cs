@@ -179,7 +179,7 @@ namespace AUBTimeManagementApp.GUI {
             //If the yes button is pressed delete event
             if (result == DialogResult.Yes)
             {
-                Client.Client.Instance.CancelTeamEvent(team.teamID, selectedItem.eventID);
+                Client.Client.Instance.CancelTeamEvent(selectedItem.eventID);
                 eventDetailsPanel.Hide();
                 _items.Remove(selectedItem);
                 calendar.Items.Remove(selectedItem);

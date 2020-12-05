@@ -16,7 +16,6 @@ namespace Server.Service.ControlBlocks
 
         List<Event> GetTeamSchedule(int teamID);
 
-        void CancelTeamEvent(int teamID, int eventID);
         void UpdateTeamEvent(int teamID, Event updatedevent);
     }
 }

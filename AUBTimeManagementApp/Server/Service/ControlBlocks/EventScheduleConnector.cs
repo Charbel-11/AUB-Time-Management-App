@@ -57,15 +57,18 @@ namespace Server.Service.ControlBlocks
 
         public void CancelUserEvent(string username, int eventID, bool isTeamEvent)
         {
-            // Remove Event from the user's schedule
-            ISchedulesHandler _schedulesHandler = new SchedulesHandler();
-            _schedulesHandler.RemoveEventFromUserSchedule(username, eventID);
-
-            // if the event is a personal event, remove the event from events table
+            // if the event is a personal event, remove the event from events table and isAttendee table
 			if (!isTeamEvent)
 			{
                 IEventsHandler _eventsHandler = new EventsHandler();
                 _eventsHandler.CancelEvent(eventID);
+            }
+
+            // if the Event is a team event, remove Event from the user's schedule only (isAttendee table)
+            else
+            {
+                ISchedulesHandler _schedulesHandler = new SchedulesHandler();
+                _schedulesHandler.RemoveEventFromUserSchedule(username, eventID);
             }
             
         }
@@ -119,29 +122,9 @@ namespace Server.Service.ControlBlocks
             return eventsList;
         }
 
-        public void CancelTeamEvent(int  teamID, int eventID)
-        {
-            // Send notification to all team members
-
-            // Remove Event from the team's schedule
-            ISchedulesHandler _schedulesHandler = new SchedulesHandler();
-            _schedulesHandler.RemoveEventFromTeamSchedule(teamID, eventID);
-
-            // remove the event from events table
-            IEventsHandler _eventsHandler = new EventsHandler();
-             _eventsHandler.CancelEvent(eventID);
-
-        }
         public void UpdateTeamEvent(int  teamID, Event updatedEvent)
         {
-            //Check for time conflict if we decide to do something in case of conflict
-            //if not move function to eventsHandler no need for connector.
-            /*Console.WriteLine("server is updating the event with ID = " + updatedEvent.eventID);
-            IEventsHandler _eventsHandler = new EventsHandler();
-            _eventsHandler.UpdateEvent(updatedEvent);
-
-            ISchedulesHandler schedulesHandler = new SchedulesHandler();
-            schedulesHandler.updatePriority(updatedEvent.eventID, username, updatedEvent.priority);*/
+            
         }
 
 

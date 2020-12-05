@@ -9,26 +9,6 @@ namespace AUBTimeManagementApp.Service.Storage
     public class SchedulesStorage
     {
         #region personal Schedule
-        public static void DeleteEventFromSchedules(int eventID)
-        {
-            try
-            {
-                string connectionString = ConnectionUtil.connectionString;
-                SqlConnection sqlConnection = new SqlConnection(connectionString);
-                sqlConnection.Open();
-
-                string query = "DELETE FROM isUserAttendee WHERE EventID = @EventID";
-
-                SqlCommand command = new SqlCommand(query, sqlConnection);
-
-                command.Parameters.Add("@EventID", SqlDbType.Int).Value = eventID;
-                SqlDataReader dataReader = command.ExecuteReader();
-
-                Console.WriteLine("Removed event with eventID = " + eventID);
-                command.Parameters.Clear(); dataReader.Close(); sqlConnection.Close();
-            }
-            catch (Exception exception) { Console.WriteLine("DeleteFromPersonalSchedule: " + exception.Message); throw; }
-        }
         /// <summary>
         /// add eventID to user schedule with id = userID
         /// </summary>

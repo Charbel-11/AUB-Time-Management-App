@@ -561,15 +561,14 @@ namespace Server {
             BufferHelper bufferH = new BufferHelper();
             bufferH.WriteBytes(data);
 
-            int teamID = bufferH.ReadInteger();
             int eventID = bufferH.ReadInteger();
 
             bufferH.Dispose();
 
 
-            // remove event from isTeamAttendee and events table
-            IEventScheduleConnector _eventScheduleConnector = new EventScheduleConnector();
-            _eventScheduleConnector.CancelTeamEvent(teamID, eventID);
+            // remove event from all tables, remove invitations to this event
+            IEventsHandler eventsHandler = new EventsHandler();
+            eventsHandler.CancelEvent(eventID);
 
         }
 
