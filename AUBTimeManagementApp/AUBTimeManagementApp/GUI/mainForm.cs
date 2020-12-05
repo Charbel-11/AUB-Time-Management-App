@@ -29,6 +29,9 @@ namespace AUBTimeManagementApp.GUI
             label1.Show();
             filteringPanel.Hide();
             eventDetailsPanel.Hide();
+            Low.Checked = true;
+            Medium.Checked = true;
+            High.Checked = true;
         }
 
         public void displayEvent(int eventID, string eventName, int priority, DateTime startDate, DateTime endDate, bool teamEvent) {
@@ -116,7 +119,6 @@ namespace AUBTimeManagementApp.GUI
 		{
             mainPanel.Hide();
             filteringPanel.Show();
-
         }
 
 		private void filterBackBut_Click(object sender, EventArgs e)
@@ -213,6 +215,10 @@ namespace AUBTimeManagementApp.GUI
             }
 
             MessageBox.Show(warning, "Conflict Warning!");
+        }
+
+        private void eventDetailsPanel_Paint(object sender, PaintEventArgs e) {
+
         }
     }
 }
