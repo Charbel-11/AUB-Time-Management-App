@@ -31,7 +31,7 @@ namespace Server.Service.Handlers
 
         // This function asks the invitation storage to add invitations for invitees to an event
         public void SendInvitations(List<string> AttendeesUsernames, int eventID, int teamID, string senderUsername) {
-            int invitationID = InvitationsStorage.AddInvitation(eventID, teamID, senderUsername, AttendeesUsernames.Count);
+            int invitationID = InvitationsStorage.AddInvitation(eventID, teamID, senderUsername);
             foreach (string username in AttendeesUsernames)
             {
                 if (username != senderUsername)
