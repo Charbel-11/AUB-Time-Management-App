@@ -38,7 +38,8 @@ namespace Server {
                 {(int)ClientPackages.CModifyUserEvent, HandleModifyUserEvent },
                 {(int)ClientPackages.CGetUserInvitations, HandleGetUserInvitations },
                 {(int)ClientPackages.CAcceptInvitation, HandleAcceptInvitationReply },
-                {(int)ClientPackages.CDeclineInvitation, HandleDeclineInvitationReply }
+                {(int)ClientPackages.CDeclineInvitation, HandleDeclineInvitationReply },
+                {(int)ClientPackages.CCancelTeamEvent, HandleCancelTeamEvent }
             };
         }
 
@@ -554,5 +555,24 @@ namespace Server {
 
         }
         #endregion
+
+        private static void HandleCancelTeamEvent(int ConnectionID, byte[] data)
+        {
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteBytes(data);
+
+            int teamID = bufferH.ReadInteger();
+            int eventID = bufferH.ReadInteger();
+
+            bufferH.Dispose();
+
+
+
+            IEventScheduleConnector _eventScheduleConnector = new EventScheduleConnector();
+            _eventScheduleConnector.CancelTeamEvent(teamID, eventID);
+
+            //ServerTCP.PACKET_CancelUserEvent(ConnectionID, true);
+        }
+
     }
 }

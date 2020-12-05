@@ -119,6 +119,32 @@ namespace Server.Service.ControlBlocks
             return eventsList;
         }
 
+        public void CancelTeamEvent(int  teamID, int eventID)
+        {
+            // Send notification to all team members
+
+            // Remove Event from the team's schedule
+            ISchedulesHandler _schedulesHandler = new SchedulesHandler();
+            _schedulesHandler.RemoveEventFromTeamSchedule(teamID, eventID);
+
+            // remove the event from events table
+            IEventsHandler _eventsHandler = new EventsHandler();
+             _eventsHandler.CancelEvent(eventID);
+
+        }
+        public void UpdateTeamEvent(int  teamID, Event updatedEvent)
+        {
+            //Check for timr conflict if we decide to do something in case of conflict
+            //if not move function to eventsHandler no need for connector.
+            /*Console.WriteLine("server is updating the event with ID = " + updatedEvent.eventID);
+            IEventsHandler _eventsHandler = new EventsHandler();
+            _eventsHandler.UpdateEvent(updatedEvent);
+
+            ISchedulesHandler schedulesHandler = new SchedulesHandler();
+            schedulesHandler.updatePriority(updatedEvent.eventID, username, updatedEvent.priority);/*
+        }
+
+
         #endregion
     }
 }

@@ -152,6 +152,7 @@ namespace AUBTimeManagementApp.GUI {
                     detailsEventName.ReadOnly = true;
                     dateTimePickerStart.Enabled = false;
                     dateTimePickerEnd.Enabled = false;
+                    ModifyPriority.Enabled = false;
                     ModifyEventBut.Enabled = false;
                     DeleteEventBut.Enabled = false;
                 }
@@ -164,5 +165,30 @@ namespace AUBTimeManagementApp.GUI {
                 addEventWindow.Show();
             }
         }
-    }
+
+		private void eventDetailsBackBut_Click(object sender, EventArgs e)
+		{
+            eventDetailsPanel.Hide();
+		}
+
+		private void DeleteEventBut_Click(object sender, EventArgs e)
+		{
+            //Confirm that the user wnats to delete the event.
+            var result = MessageBox.Show("Are you sure you would like to delete this event from your schedule?",
+                "Delete Event", MessageBoxButtons.YesNo);
+            //If the yes button is pressed delete event
+            if (result == DialogResult.Yes)
+            {
+                Client.Client.Instance.CancelTeamEvent(team.teamID, selectedItem.eventID);
+                eventDetailsPanel.Hide();
+                _items.Remove(selectedItem);
+                calendar.Items.Remove(selectedItem);
+            }
+        }
+
+		private void ModifyEventBut_Click(object sender, EventArgs e)
+		{
+
+		}
+	}
 }

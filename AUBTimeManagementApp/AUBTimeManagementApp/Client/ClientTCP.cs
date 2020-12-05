@@ -364,5 +364,18 @@ namespace AUBTimeManagementApp.Client {
             SendData(bufferH.ToArray());
             bufferH.Dispose();
         }
+
+        public static void PACKET_CancelTeamEvent(int teamID, int eventID)
+        {
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteInteger((int)ClientPackages.CCancelTeamEvent);
+
+            bufferH.WriteInteger(teamID);
+            bufferH.WriteInteger(eventID);
+
+
+            SendData(bufferH.ToArray());
+            bufferH.Dispose();
+        }
     }
 }
