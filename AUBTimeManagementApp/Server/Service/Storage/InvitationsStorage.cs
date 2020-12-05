@@ -51,21 +51,21 @@ namespace AUBTimeManagementApp.Service.Storage
             catch (Exception exception) { Console.WriteLine("getInvitation: " + exception.Message); throw; }
         }
 
-        public static int AddInvitation(int eventID, int teamID, string senderUsername, int numberOfInvitees) {
+        public static int AddInvitation(int eventID, int teamID, string senderUsername) {
             try {
                 if (invitationExists(eventID, teamID, senderUsername)) { return getInvitationID(eventID, teamID, senderUsername); }
                 string connectionString = ConnectionUtil.connectionString;
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
                 sqlConnection.Open();
 
-                string query = "INSERT INTO Invitations (EventID, TeamID, SenderUsername, WaitingForResponse) " +
+                string query = "INSERT INTO Invitations (EventID, TeamID, SenderUsername, Pending) " +
                                 "VALUES (@EventID, @TeamID, @SenderUsername, @numberOfInvitees)";
                 SqlCommand command = new SqlCommand(query, sqlConnection);
 
                 command.Parameters.Add("@EventID", SqlDbType.Int).Value = eventID;
                 command.Parameters.Add("@TeamID", SqlDbType.Int).Value = teamID;
                 command.Parameters.Add("@SenderUsername", SqlDbType.NVarChar).Value = senderUsername;
-                command.Parameters.Add("@numberOfInvitees", SqlDbType.Int).Value = numberOfInvitees;
+                command.Parameters.Add("@numberOfInvitees", SqlDbType.Int).Value = 0;
                 SqlDataReader dataReader = command.ExecuteReader();
 
                 command.Parameters.Clear(); dataReader.Close();
@@ -88,6 +88,22 @@ namespace AUBTimeManagementApp.Service.Storage
                 command.Parameters.Add("@InvitationID", SqlDbType.Int).Value = invitationID;
                 SqlDataReader dataReader = command.ExecuteReader();
 
+                command.Parameters.Clear(); dataReader.Close();
+
+                query = "SELECT Pending FROM Invitations WHERE InvitationID = @InvitationID";
+                command = new SqlCommand(query, sqlConnection);
+                command.Parameters.Add("@InvitationID", SqlDbType.Int).Value = invitationID;
+
+                dataReader = command.ExecuteReader();
+                int pending = dataReader.Read() ? dataReader.GetInt32(0) : 0;
+                command.Parameters.Clear(); dataReader.Close();
+
+                query = "UPDATE Invitations SET Pending = @Pending WHERE InvitationID = @InvitationID";
+                command = new SqlCommand(query, sqlConnection);
+                command.Parameters.Add("@Pending", SqlDbType.Int).Value = pending + 1;
+                command.Parameters.Add("@InvitationID", SqlDbType.Int).Value = invitationID;
+
+                dataReader = command.ExecuteReader();
                 command.Parameters.Clear(); dataReader.Close(); sqlConnection.Close();
             }
             catch (Exception exception) { Console.WriteLine("AddUserInvitation: " + exception.Message); throw; }
@@ -144,6 +160,22 @@ namespace AUBTimeManagementApp.Service.Storage
             catch (Exception exception) { Console.WriteLine("GetEvent: " + exception.Message); throw; }
         }
 
+        public static void RemoveInvitation(int invitationID) {
+            try {
+                string connectionString = ConnectionUtil.connectionString;
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+                sqlConnection.Open();
+
+                string query = "DELETE FROM Invitations WHERE InvitationID = @InvitationID";
+                SqlCommand command = new SqlCommand(query, sqlConnection);
+                command.Parameters.Add("@InvitatonID", SqlDbType.Int).Value = invitationID;
+
+                SqlDataReader dataReader = command.ExecuteReader();
+                command.Parameters.Clear(); dataReader.Close(); sqlConnection.Close();
+            }
+            catch (Exception exception) { Console.WriteLine("AddInvitation: " + exception.Message); throw; }
+        }
+
         public static void RemoveUserInvitation(string username, int invitationID)
         {
             try {
@@ -158,7 +190,23 @@ namespace AUBTimeManagementApp.Service.Storage
 
                 SqlDataReader dataReader = command.ExecuteReader();
                 command.Parameters.Clear(); dataReader.Close();
-                sqlConnection.Close();
+
+                query = "SELECT Pending FROM Invitations WHERE InvitationID = @InvitationID";
+                command = new SqlCommand(query, sqlConnection);
+                command.Parameters.Add("@InvitationID", SqlDbType.Int).Value = invitationID;
+
+                dataReader = command.ExecuteReader();
+                int pending = dataReader.Read() ? dataReader.GetInt32(0) : 1;
+                command.Parameters.Clear(); dataReader.Close();
+
+                query = "UPDATE Invitations SET Pending = @Pending WHERE InvitationID = @InvitationID";
+                command = new SqlCommand(query, sqlConnection);
+                command.Parameters.Add("@Pending", SqlDbType.Int).Value = pending - 1;
+                command.Parameters.Add("@InvitationID", SqlDbType.Int).Value = invitationID;
+
+                dataReader = command.ExecuteReader();
+                command.Parameters.Clear(); dataReader.Close(); sqlConnection.Close(); 
+                if(pending == 1) { RemoveInvitation(invitationID); }
             }
             catch (Exception exception) { Console.WriteLine("RemoveInvitation: " + exception.Message); throw; }
 
