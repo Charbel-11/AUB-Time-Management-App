@@ -54,12 +54,12 @@ namespace AUBTimeManagementApp.GUI
             if (parent == null)
             {
                 Client.Client.Instance.CreateTeamEvent(teamParent.team.teamID, eventName.Text, priority.Value, startDate.Value, endDate.Value);
-                Client.Client.Instance.showEvent(0, eventName.Text, priority.Value, startDate.Value, endDate.Value, false);
+                Client.Client.Instance.showEvent(0, eventName.Text, priority.Value, startDate.Value, endDate.Value, true);
             }
             else
             {
                 Client.Client.Instance.CreateUserEvent(eventName.Text, priority.Value, startDate.Value, endDate.Value);
-                Client.Client.Instance.showEvent(0, eventName.Text, priority.Value, startDate.Value, endDate.Value, true);
+                Client.Client.Instance.showEvent(0, eventName.Text, priority.Value, startDate.Value, endDate.Value, false);
             }
             Close();
         }
