@@ -13,9 +13,9 @@ namespace Server.Service.Handlers {
         /// <param name="eventID"></param>
         /// <param name="username"></param>
         /// <param name="priority"></param>
-        public void updatePriority(int eventID, string username, int priority)
+        public void updateUserEventPriority(int eventID, string username, int priority)
         {
-            SchedulesStorage.UpdateEventPrioriy(eventID, username, priority);
+            SchedulesStorage.UpdateUserEventPrioriy(eventID, username, priority);
         }
 
 
@@ -43,6 +43,11 @@ namespace Server.Service.Handlers {
 
         #region teamSchedule
 
+        public void updateTeamEventPriority(int eventID, int teamID, int priority)
+        {
+            SchedulesStorage.UpdateTeamEventPrioriy(eventID, teamID, priority);
+        }
+
         public List<int> GetTeamSchedule(int teamID)
         {
             //get a list of event IDs that are scheduled for this team
@@ -56,12 +61,6 @@ namespace Server.Service.Handlers {
             SchedulesStorage.AddToTeamSchedule(teamID, eventID, priority);
         }
 
-        public void RemoveEventFromTeamSchedule(int teamID, int eventID)
-        {
-            //gets username abd event ID
-            //when user cancels event remove it from his schedule
-            SchedulesStorage.DeleteFromTeamSchedule(teamID, eventID);
-        }
         public double[,] getMergedScheduleFreq(List<List<Event>> events, DateTime startTime, DateTime endTime, int priorityThreshold) {
             List<Schedule> schedules = new List<Schedule>();
             foreach(List<Event> memberEvent in events) {

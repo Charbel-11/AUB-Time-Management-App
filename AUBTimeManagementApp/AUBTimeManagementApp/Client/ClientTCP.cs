@@ -376,5 +376,23 @@ namespace AUBTimeManagementApp.Client {
             SendData(bufferH.ToArray());
             bufferH.Dispose();
         }
+
+        public static void Packet_ModifyTeamEvent(Event updatedEvent, int teamID)
+        {
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteInteger((int)ClientPackages.CModifyTeamEvent);
+
+            bufferH.WriteInteger(teamID);
+            bufferH.WriteInteger(updatedEvent.ID);
+            bufferH.WriteInteger(updatedEvent.priority);
+            bufferH.WriteString(updatedEvent.eventName);
+            bufferH.WriteString(updatedEvent.startTime.ToString());
+            bufferH.WriteString(updatedEvent.endTime.ToString());
+            bufferH.WriteString(updatedEvent.plannerUsername);
+
+
+            SendData(bufferH.ToArray());
+            bufferH.Dispose();
+        }
     }
 }

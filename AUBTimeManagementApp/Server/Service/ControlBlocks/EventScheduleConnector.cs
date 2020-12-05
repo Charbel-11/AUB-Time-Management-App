@@ -73,7 +73,7 @@ namespace Server.Service.ControlBlocks
             
         }
 
-        public void UpdateUserEvent(Event updatedEvent, string username)
+        public void ModifyUserEvent(Event updatedEvent, string username)
         {
             //Check for timr conflict if we decide to do something in case of conflict
             //if not move function to eventsHandler no need for connector.
@@ -82,7 +82,7 @@ namespace Server.Service.ControlBlocks
             _eventsHandler.UpdateEvent(updatedEvent);
 
             ISchedulesHandler schedulesHandler = new SchedulesHandler();
-            schedulesHandler.updatePriority(updatedEvent.eventID, username, updatedEvent.priority);
+            schedulesHandler.updateUserEventPriority(updatedEvent.eventID, username, updatedEvent.priority);
         }
 
         public List<Event> GetEventsInDetail(string username)
@@ -122,9 +122,16 @@ namespace Server.Service.ControlBlocks
             return eventsList;
         }
 
-        public void UpdateTeamEvent(int  teamID, Event updatedEvent)
+        public void ModifyTeamEvent(int  teamID, Event updatedEvent)
         {
-            
+            //Check for timr conflict if we decide to do something in case of conflict
+            //if not move function to eventsHandler no need for connector.
+            Console.WriteLine("server is updating the event with ID = " + updatedEvent.eventID);
+            IEventsHandler _eventsHandler = new EventsHandler();
+            _eventsHandler.UpdateEvent(updatedEvent);
+
+            ISchedulesHandler schedulesHandler = new SchedulesHandler();
+            schedulesHandler.updateTeamEventPriority(updatedEvent.eventID, teamID, updatedEvent.priority);
         }
 
 

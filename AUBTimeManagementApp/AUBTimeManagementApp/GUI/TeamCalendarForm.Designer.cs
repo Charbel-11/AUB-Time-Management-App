@@ -23,11 +23,11 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
-			System.Windows.Forms.Calendar.CalendarHighlightRange calendarHighlightRange21 = new System.Windows.Forms.Calendar.CalendarHighlightRange();
-			System.Windows.Forms.Calendar.CalendarHighlightRange calendarHighlightRange22 = new System.Windows.Forms.Calendar.CalendarHighlightRange();
-			System.Windows.Forms.Calendar.CalendarHighlightRange calendarHighlightRange23 = new System.Windows.Forms.Calendar.CalendarHighlightRange();
-			System.Windows.Forms.Calendar.CalendarHighlightRange calendarHighlightRange24 = new System.Windows.Forms.Calendar.CalendarHighlightRange();
-			System.Windows.Forms.Calendar.CalendarHighlightRange calendarHighlightRange25 = new System.Windows.Forms.Calendar.CalendarHighlightRange();
+			System.Windows.Forms.Calendar.CalendarHighlightRange calendarHighlightRange1 = new System.Windows.Forms.Calendar.CalendarHighlightRange();
+			System.Windows.Forms.Calendar.CalendarHighlightRange calendarHighlightRange2 = new System.Windows.Forms.Calendar.CalendarHighlightRange();
+			System.Windows.Forms.Calendar.CalendarHighlightRange calendarHighlightRange3 = new System.Windows.Forms.Calendar.CalendarHighlightRange();
+			System.Windows.Forms.Calendar.CalendarHighlightRange calendarHighlightRange4 = new System.Windows.Forms.Calendar.CalendarHighlightRange();
+			System.Windows.Forms.Calendar.CalendarHighlightRange calendarHighlightRange5 = new System.Windows.Forms.Calendar.CalendarHighlightRange();
 			this.calendar = new System.Windows.Forms.Calendar.Calendar();
 			this.priorityBox = new System.Windows.Forms.Panel();
 			this.textBox1 = new System.Windows.Forms.TextBox();
@@ -65,27 +65,27 @@
 			// calendar
 			// 
 			this.calendar.Font = new System.Drawing.Font("Segoe UI", 9F);
-			calendarHighlightRange21.DayOfWeek = System.DayOfWeek.Monday;
-			calendarHighlightRange21.EndTime = System.TimeSpan.Parse("17:00:00");
-			calendarHighlightRange21.StartTime = System.TimeSpan.Parse("08:00:00");
-			calendarHighlightRange22.DayOfWeek = System.DayOfWeek.Tuesday;
-			calendarHighlightRange22.EndTime = System.TimeSpan.Parse("17:00:00");
-			calendarHighlightRange22.StartTime = System.TimeSpan.Parse("08:00:00");
-			calendarHighlightRange23.DayOfWeek = System.DayOfWeek.Wednesday;
-			calendarHighlightRange23.EndTime = System.TimeSpan.Parse("17:00:00");
-			calendarHighlightRange23.StartTime = System.TimeSpan.Parse("08:00:00");
-			calendarHighlightRange24.DayOfWeek = System.DayOfWeek.Thursday;
-			calendarHighlightRange24.EndTime = System.TimeSpan.Parse("17:00:00");
-			calendarHighlightRange24.StartTime = System.TimeSpan.Parse("08:00:00");
-			calendarHighlightRange25.DayOfWeek = System.DayOfWeek.Friday;
-			calendarHighlightRange25.EndTime = System.TimeSpan.Parse("17:00:00");
-			calendarHighlightRange25.StartTime = System.TimeSpan.Parse("08:00:00");
+			calendarHighlightRange1.DayOfWeek = System.DayOfWeek.Monday;
+			calendarHighlightRange1.EndTime = System.TimeSpan.Parse("17:00:00");
+			calendarHighlightRange1.StartTime = System.TimeSpan.Parse("08:00:00");
+			calendarHighlightRange2.DayOfWeek = System.DayOfWeek.Tuesday;
+			calendarHighlightRange2.EndTime = System.TimeSpan.Parse("17:00:00");
+			calendarHighlightRange2.StartTime = System.TimeSpan.Parse("08:00:00");
+			calendarHighlightRange3.DayOfWeek = System.DayOfWeek.Wednesday;
+			calendarHighlightRange3.EndTime = System.TimeSpan.Parse("17:00:00");
+			calendarHighlightRange3.StartTime = System.TimeSpan.Parse("08:00:00");
+			calendarHighlightRange4.DayOfWeek = System.DayOfWeek.Thursday;
+			calendarHighlightRange4.EndTime = System.TimeSpan.Parse("17:00:00");
+			calendarHighlightRange4.StartTime = System.TimeSpan.Parse("08:00:00");
+			calendarHighlightRange5.DayOfWeek = System.DayOfWeek.Friday;
+			calendarHighlightRange5.EndTime = System.TimeSpan.Parse("17:00:00");
+			calendarHighlightRange5.StartTime = System.TimeSpan.Parse("08:00:00");
 			this.calendar.HighlightRanges = new System.Windows.Forms.Calendar.CalendarHighlightRange[] {
-        calendarHighlightRange21,
-        calendarHighlightRange22,
-        calendarHighlightRange23,
-        calendarHighlightRange24,
-        calendarHighlightRange25};
+        calendarHighlightRange1,
+        calendarHighlightRange2,
+        calendarHighlightRange3,
+        calendarHighlightRange4,
+        calendarHighlightRange5};
 			this.calendar.Location = new System.Drawing.Point(12, 12);
 			this.calendar.Name = "calendar";
 			this.calendar.Size = new System.Drawing.Size(611, 539);
@@ -437,8 +437,8 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
 			this.ClientSize = new System.Drawing.Size(1013, 557);
 			this.Controls.Add(this.eventDetailsPanel);
-			this.Controls.Add(this.memberState);
 			this.Controls.Add(this.priorityBox);
+			this.Controls.Add(this.memberState);
 			this.Controls.Add(this.mergedSchedButton);
 			this.Controls.Add(this.backButton);
 			this.Controls.Add(this.teamSchedButton);

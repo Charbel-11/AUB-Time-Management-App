@@ -83,7 +83,7 @@ namespace AUBTimeManagementApp.Service.Storage
 
         }
 
-        public static void UpdateEventPrioriy(int eventID, string username, int priority)
+        public static void UpdateUserEventPrioriy(int eventID, string username, int priority)
         {
             try
             {
@@ -103,7 +103,7 @@ namespace AUBTimeManagementApp.Service.Storage
                 Console.WriteLine("event priority updated");
                 command.Parameters.Clear(); dataReader.Close(); sqlConnection.Close();
             }
-            catch (Exception exception) { Console.WriteLine("UpdateEventPriority: " + exception.Message); throw; }
+            catch (Exception exception) { Console.WriteLine("UpdateUserEventPriority: " + exception.Message); throw; }
         }
 
     
@@ -141,7 +141,7 @@ namespace AUBTimeManagementApp.Service.Storage
         /// delete eventID from team schedule with ID = teamID
         /// </summary>
         /// <returns> return true if successful, false otherwise </returns>
-        public static void DeleteFromTeamSchedule(int teamID, int eventID) {
+       /* public static void DeleteFromTeamSchedule(int teamID, int eventID) {
             try {
                 string connectionString = ConnectionUtil.connectionString;
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
@@ -159,7 +159,7 @@ namespace AUBTimeManagementApp.Service.Storage
                 command.Parameters.Clear(); dataReader.Close(); sqlConnection.Close();
             }
             catch (Exception exception) { Console.WriteLine("DeleteFromTeamSchedule: " + exception.Message); throw; }
-        }
+        }*/
 
         /// <summary>
         /// Get list of event IDs from team schedule with ID = teamID
@@ -187,6 +187,29 @@ namespace AUBTimeManagementApp.Service.Storage
             }
             catch (Exception exception) { Console.WriteLine("GetTeamSchedule: " + exception.Message); throw; }
         }
-		#endregion
-	}
+
+        public static void UpdateTeamEventPrioriy(int eventID, int teamID, int priority)
+        {
+            try
+            {
+                string connectionString = ConnectionUtil.connectionString;
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+                sqlConnection.Open();
+
+                string update = " Priority = @Priority";
+                string query = "UPDATE isTeamAttendee SET " + update + " WHERE EventID = @EventID AND TeamID = @TeamID";
+                SqlCommand command = new SqlCommand(query, sqlConnection);
+
+                command.Parameters.Add("@EventID", SqlDbType.Int).Value = eventID;
+                command.Parameters.Add("@TeamID", SqlDbType.Int).Value = teamID;
+                command.Parameters.Add("@Priority", SqlDbType.Int).Value = priority;
+                SqlDataReader dataReader = command.ExecuteReader();
+
+                Console.WriteLine("event priority updated");
+                command.Parameters.Clear(); dataReader.Close(); sqlConnection.Close();
+            }
+            catch (Exception exception) { Console.WriteLine("UpdateTeamEventPriority: " + exception.Message); throw; }
+        }
+        #endregion
+    }
 }

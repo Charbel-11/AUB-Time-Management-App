@@ -181,24 +181,41 @@ namespace AUBTimeManagementApp.Client
             ClientTCP.Packet_ModifyUserEvent(updatedEvent, username);
         }
 
-        public void personalEventModified()
-        {
-
-        }
         #endregion
 
         #region TeamEvents
-
+        /// <summary>
+        /// Create team event
+        /// </summary>
+        /// <param name="TeamID"></param>
+        /// <param name="eventName"></param>
+        /// <param name="priority"></param>
+        /// <param name="startDate"></param>
+        /// <param name="endDate"></param>
         public void CreateTeamEvent(int TeamID, string eventName, int priority, DateTime startDate, DateTime endDate)
         {
             Console.WriteLine("Sending a request to create: eventName " + eventName + " " + priority.ToString() + " " + startDate.ToString() + " " + endDate.ToString());
             ClientTCP.PACKET_CreateTeamEvent(TeamID, username, eventName, priority, startDate, endDate, true);
         }
 
+        /// <summary>
+        /// Cancel team event
+        /// </summary>
+        /// <param name="eventID"></param>
         public void CancelTeamEvent( int eventID)
 		{
             ClientTCP.PACKET_CancelTeamEvent(eventID);
 		}
+
+        /// <summary>
+        /// Modify team event
+        /// </summary>
+        /// <param name="eventID"></param>
+        public void ModifyTeamEvent(Event updatedEvent, int teamID)
+        {
+            updatedEvent.plannerUsername = username;
+            ClientTCP.Packet_ModifyTeamEvent(updatedEvent, teamID);
+        }
 
         #endregion
 

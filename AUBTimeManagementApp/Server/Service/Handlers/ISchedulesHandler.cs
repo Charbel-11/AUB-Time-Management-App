@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace Server.Service.Handlers {
     public interface ISchedulesHandler {
-        void updatePriority(int eventID, string username, int priority);
+        void updateUserEventPriority(int eventID, string username, int priority);
         List<int> GetUserSchedule(string userID);
         void AddEventToUserSchedule(string username, int eventID, int priority);
         void RemoveEventFromUserSchedule(string username, int eventID);
+        void updateTeamEventPriority(int eventID, int teamID, int priority);
         List<int> GetTeamSchedule(int teamID);
         void AddEventToTeamSchedule(int teamID, int eventID, int priority);
-        void RemoveEventFromTeamSchedule(int teamID, int eventID);
         double[,] getMergedScheduleFreq(List<List<Event>> events, DateTime startTime, DateTime endTime, int priorityThreshold);
     }
 }

@@ -188,7 +188,17 @@ namespace AUBTimeManagementApp.GUI {
 
 		private void ModifyEventBut_Click(object sender, EventArgs e)
 		{
-
-		}
+            //Confirm that the user wnats to delete the event.
+            var result = MessageBox.Show("Are you sure you would like to save the changes to this event?",
+                "Modify Event", MessageBoxButtons.YesNo);
+            //If the yes button is pressed delete event
+            if (result == DialogResult.Yes)
+            {
+                Event updatedEvent = new Event(selectedItem.eventID, ModifyPriority.Value, "" , detailsEventName.Text, dateTimePickerStart.Value, dateTimePickerEnd.Value, selectedItem.teamEvent);
+                _items.Remove(selectedItem);
+                //displayEvent(updatedEvent);
+                Client.Client.Instance.ModifyTeamEvent(updatedEvent, team.teamID);
+            }
+        }
 	}
 }

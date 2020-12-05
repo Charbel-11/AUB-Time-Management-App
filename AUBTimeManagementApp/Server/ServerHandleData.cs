@@ -39,7 +39,8 @@ namespace Server {
                 {(int)ClientPackages.CGetUserInvitations, HandleGetUserInvitations },
                 {(int)ClientPackages.CAcceptInvitation, HandleAcceptInvitationReply },
                 {(int)ClientPackages.CDeclineInvitation, HandleDeclineInvitationReply },
-                {(int)ClientPackages.CCancelTeamEvent, HandleCancelTeamEvent }
+                {(int)ClientPackages.CCancelTeamEvent, HandleCancelTeamEvent },
+                {(int)ClientPackages.CModifyTeamEvent, HandleModifyTeamEvent }
             };
         }
 
@@ -487,7 +488,7 @@ namespace Server {
             Event updatedEvent = new Event(eventID, priority, plannerUsername, eventName, DateTime.Parse(start), DateTime.Parse(end));
 
             IEventScheduleConnector _eventScheduleConnector= new EventScheduleConnector();
-            _eventScheduleConnector.UpdateUserEvent(updatedEvent, username);
+            _eventScheduleConnector.ModifyUserEvent(updatedEvent, username);
 
             //ServerTCP.PACKET_CancelUserEvent(ConnectionID, true);
         }
@@ -569,6 +570,30 @@ namespace Server {
             // remove event from all tables, remove invitations to this event
             IEventsHandler eventsHandler = new EventsHandler();
             eventsHandler.CancelEvent(eventID);
+
+        }
+
+        private static void HandleModifyTeamEvent(int ConnectionID, byte[] data)
+        {
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteBytes(data);
+
+            int teamID = bufferH.ReadInteger();
+            int eventID = bufferH.ReadInteger();
+            int priority = bufferH.ReadInteger();
+            string eventName = bufferH.ReadString();
+            string start = bufferH.ReadString();
+            string end = bufferH.ReadString();
+           string planner = bufferH.ReadString();
+
+            bufferH.Dispose();
+
+            Event updatedEvent = new Event(eventID, priority, planner, eventName, DateTime.Parse(start), DateTime.Parse(end), true);
+            Console.WriteLine("modifying event with name = " + eventName);
+
+            // update team Event
+            IEventScheduleConnector _eventScheduleConnector = new EventScheduleConnector();
+            _eventScheduleConnector.ModifyTeamEvent(teamID, updatedEvent);
 
         }
 
