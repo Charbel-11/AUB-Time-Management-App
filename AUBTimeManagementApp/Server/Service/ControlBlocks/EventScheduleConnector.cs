@@ -134,7 +134,7 @@ namespace Server.Service.ControlBlocks
         }
         public void UpdateTeamEvent(int  teamID, Event updatedEvent)
         {
-            //Check for timr conflict if we decide to do something in case of conflict
+            //Check for time conflict if we decide to do something in case of conflict
             //if not move function to eventsHandler no need for connector.
             /*Console.WriteLine("server is updating the event with ID = " + updatedEvent.eventID);
             IEventsHandler _eventsHandler = new EventsHandler();
