@@ -569,7 +569,7 @@ namespace Server {
 
 
             IEventScheduleConnector _eventScheduleConnector = new EventScheduleConnector();
-           // _eventScheduleConnector.UpdateUserEvent(updatedEvent, username);
+            _eventScheduleConnector.CancelTeamEvent(teamID, eventID);
 
             //ServerTCP.PACKET_CancelUserEvent(ConnectionID, true);
         }
