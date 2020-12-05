@@ -195,6 +195,11 @@ namespace AUBTimeManagementApp.Client
             ClientTCP.PACKET_CreateTeamEvent(TeamID, username, eventName, priority, startDate, endDate, true);
         }
 
+        public void CancelTeamEvent(int teamID, int eventID)
+		{
+            ClientTCP.PACKET_CancelTeamEvent(teamID, eventID);
+		}
+
         #endregion
 
         #region Team

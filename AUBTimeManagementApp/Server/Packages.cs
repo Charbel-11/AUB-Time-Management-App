@@ -24,7 +24,9 @@ public enum ServerPackages {
     SGetUserInvitationsReply,
     SAcceptInvitationReply,
     SDeclineInvitationReply,
-    SSendMergedSchedule
+    SSendMergedSchedule,
+    SCancelTeamEventReply,
+    SModifyTeamEventReply
 }
 public enum ClientPackages {
     CMsg,
@@ -47,5 +49,7 @@ public enum ClientPackages {
     CModifyUserEvent,
     CGetUserInvitations,
     CAcceptInvitation,
-    CDeclineInvitation
+    CDeclineInvitation,
+    CCancelTeamEvent,
+    CModifyTeamEvent
 }
