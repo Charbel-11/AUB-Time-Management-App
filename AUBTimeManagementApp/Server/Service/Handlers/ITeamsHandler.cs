@@ -6,6 +6,7 @@ namespace Server.Service.Handlers {
         int CreateTeamRequest(string admin, string teamName, List<string> members);
         void AddMemberRequest(int teamID, string userToAdd);
         bool RemoveMemberRequest(int teamID, string userToRemove);
+        void RemoveTeam(int teamID);
         bool ChangeAdminState(int teamID, string username, bool isNowAdmin);
         List<int> getFilteredTeamEvents(int teamID, bool low, bool mid, bool high);
         List<Team> GetUserTeams(string username);

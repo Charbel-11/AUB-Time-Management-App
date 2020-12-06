@@ -37,7 +37,7 @@ namespace AUBTimeManagementApp.Service.Storage {
         }
 
         /// <summary>
-        /// Adds a member or more to the team
+        /// Adds a member or more to the team and update number of members in the team
         /// </summary>
         public static void AddTeamMembers(int teamID, List<string> usernames) {
             try {
@@ -48,10 +48,27 @@ namespace AUBTimeManagementApp.Service.Storage {
                     string query = "INSERT INTO isMember(Username, TeamID) " +
                                     "VALUES (@Username, @TeamID)";
                     SqlCommand command = new SqlCommand(query, sqlConnection);
+
                     command.Parameters.Add("@Username", SqlDbType.NVarChar).Value = username;
                     command.Parameters.Add("@TeamID", SqlDbType.Int).Value = teamID;
                     SqlDataReader dataReader = command.ExecuteReader();
 
+                    command.Parameters.Clear(); dataReader.Close();
+
+                    query = "SELECT Count(*) FROM isMember WHERE TeamID = @TeamID";
+                    command = new SqlCommand(query, sqlConnection);
+                    command.Parameters.Add("@teamID", SqlDbType.Int).Value = teamID;
+
+                    dataReader = command.ExecuteReader();
+                    int membersNumber = dataReader.Read() ? dataReader.GetInt32(0) : 0;
+                    command.Parameters.Clear(); dataReader.Close();
+
+                    query = "UPDATE Teams SET MembersNumber = @membersNumber WHERE TeamID = @teamID";
+                    command = new SqlCommand(query, sqlConnection);
+                    command.Parameters.Add("@membersNumber", SqlDbType.Int).Value = membersNumber;
+                    command.Parameters.Add("@TeamID", SqlDbType.Int).Value = teamID;
+
+                    dataReader = command.ExecuteReader();
                     command.Parameters.Clear(); dataReader.Close();
                 }
                 sqlConnection.Close();
@@ -83,9 +100,33 @@ namespace AUBTimeManagementApp.Service.Storage {
 
         #region Remove
         /// <summary>
-        /// Removes a member from the team
+        /// Remove a team from the teams table, since teamID is a foreign key to the following tables: isAdmin, isMember
+        /// deleting the team from teams table will delete all entries in the tables mentioned above that have the ID of the team 
         /// </summary>
-        /// <returns>True if successful, false otherwise</returns>
+        /// <param name="teamID"></param>
+        public static void removeTeam(int teamID)
+		{
+            try
+            {
+                string connectionString = ConnectionUtil.connectionString;
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+                sqlConnection.Open();
+
+                string query = "DELETE FROM Teams WHERE TeamID = @teamID";
+                SqlCommand command = new SqlCommand(query, sqlConnection);
+                command.Parameters.Add("@TeamID", SqlDbType.Int).Value = teamID;
+                SqlDataReader dataReader = command.ExecuteReader();
+
+                Console.WriteLine("Team " + teamID + " is no longer in the teams table");
+                command.Parameters.Clear(); dataReader.Close();
+                sqlConnection.Close();
+            }
+            catch (Exception exception) { Console.WriteLine("RemoveTeam: " + exception.Message); throw; }
+        }
+        /// <summary>
+        /// Removes a member from the team and update number of members in the team
+        /// </summary>
+        /// <returns>True if team becomes empty, false otherwise</returns>
         public static bool removeTeamMember(int teamID, string username) {
             try {
                 string connectionString = ConnectionUtil.connectionString;
@@ -98,10 +139,31 @@ namespace AUBTimeManagementApp.Service.Storage {
                 command.Parameters.Add("@TeamID", SqlDbType.Int).Value = teamID;
                 SqlDataReader dataReader = command.ExecuteReader();
 
-                Console.WriteLine("removed member with username = " + username + "from team with ID = " + teamID);
-
                 command.Parameters.Clear(); dataReader.Close();
-                sqlConnection.Close(); return true;
+
+                query = "SELECT Count(*) FROM isMember WHERE TeamID = @TeamID";
+                command = new SqlCommand(query, sqlConnection);
+                command.Parameters.Add("@teamID", SqlDbType.Int).Value = teamID;
+
+                dataReader = command.ExecuteReader();
+                int MembersNumber = dataReader.Read() ? dataReader.GetInt32(0) : 0;
+                command.Parameters.Clear(); dataReader.Close();
+
+                query = "UPDATE Teams SET MembersNumber = @membersNumber WHERE TeamID = @teamID";
+                command = new SqlCommand(query, sqlConnection);
+                command.Parameters.Add("@membersNumber", SqlDbType.Int).Value = MembersNumber;
+                command.Parameters.Add("@TeamID", SqlDbType.Int).Value = teamID;
+
+                dataReader = command.ExecuteReader();
+                command.Parameters.Clear(); dataReader.Close();
+                Console.WriteLine(" team with ID = " + teamID + " the team now has " + MembersNumber + " members left");
+                
+                sqlConnection.Close();
+
+
+                if (MembersNumber == 0) { return true; }
+
+                return false;
             }
             catch (Exception exception) { Console.WriteLine("removeTeamMember: " + exception.Message); throw; }   
         }

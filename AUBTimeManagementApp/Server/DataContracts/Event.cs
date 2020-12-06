@@ -11,13 +11,11 @@ namespace Server.DataContracts
         public int priority{get; set;}
         public string plannerUsername { get; set; }
         public string eventName { get; set; }
-        public List<string> attendees { get; set; }
         public DateTime startTime { get; set; } 
         public DateTime endTime { get; set; }
-
         public bool teamEvent { get; set; } //false if not a team event
         public Event(int _eventID, int _priority, string _planner, 
-            string _eventName, DateTime _startTime, DateTime _endTime, bool _teamEvent=false, List<string> _attendees = null)
+            string _eventName, DateTime _startTime, DateTime _endTime, bool _teamEvent=false)
         {
             eventID = _eventID; 
             eventName = _eventName;
@@ -25,7 +23,6 @@ namespace Server.DataContracts
             plannerUsername = _planner;
             startTime = _startTime;
             endTime = _endTime;
-            attendees = _attendees;
             teamEvent = _teamEvent;
         }
     }
