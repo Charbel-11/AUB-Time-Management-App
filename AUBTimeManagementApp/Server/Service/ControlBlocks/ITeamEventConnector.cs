@@ -12,7 +12,7 @@ namespace Server.Service.ControlBlocks
         /// </summary>
         /// <param name="teamID"></param>
         /// <param name="_event"></param>
-        void CreateTeamEvent(int teamID, Event addedEvent);
+        void CreateTeamEvent(int teamID, Event _event);
 
         /// <summary>
         /// Removes a team member from the team, removes all team evnst invitations sent to him

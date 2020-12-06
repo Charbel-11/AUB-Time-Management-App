@@ -21,6 +21,7 @@ public enum ServerPackages {
     SCancelUserEventReply,
     SModifyUserEventReply,
     SGetUserInvitationsReply,
+    SSendInvitation,
     SAcceptInvitationReply,
     SDeclineInvitationReply,
     SSendMergedSchedule,

@@ -8,7 +8,6 @@ namespace Server.Service.ControlBlocks
 {
     public class InvitationConnector : IInvitationsConnector
     {
-
         public Event AcceptInvitation(string username, int invitationID, int eventID, int teamID) {
    
             List<int> singleEvent = new List<int> { eventID };
@@ -38,13 +37,13 @@ namespace Server.Service.ControlBlocks
         {
             //get all upcoming events related to this team in his schedule
             IEventsHandler eventsHandler = new EventsHandler();
-            List<int> upcomingTeamEvents = eventsHandler.GetIDsOfUpcomingTeamEvents(teamID, DateTime.Now);
+            List<int> upcomingTeamEventsID = eventsHandler.GetIDsOfUpcomingTeamEvents(teamID, DateTime.Now);
+            List<Event> upcomingTeamEvents = eventsHandler.GetEvents(upcomingTeamEventsID, true, username, teamID);
 
             //Get invitationsIDs of these events
             //Send all the invitations with ID in the invitationIDs list to the newly added member
             IInvitationsHandler invitationsHandler = new InvitationsHandler();
             invitationsHandler.SendInvitationsToNewMember(upcomingTeamEvents, teamID, username);
         }
-
     }
 }

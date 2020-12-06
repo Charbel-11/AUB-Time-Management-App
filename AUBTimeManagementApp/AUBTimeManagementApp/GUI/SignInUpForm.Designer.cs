@@ -50,7 +50,6 @@
             Title.Size = new System.Drawing.Size(654, 44);
             Title.TabIndex = 0;
             Title.Text = "AUB Time Management Application";
-            Title.Click += new System.EventHandler(this.label1_Click);
             // 
             // SignUpButton
             // 
@@ -150,10 +149,8 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form2";
             this.TransparencyKey = System.Drawing.Color.Red;
-            this.Load += new System.EventHandler(this.Form2_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
 
         #endregion

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace AUBTimeManagementApp.DataContracts {
     public class Event {
-        public int ID { get; set; }
-        public int priority { get; set; }
-        public string plannerUsername { get; set; }
+        public int ID { get; set; } //Identifies event uniquely
+        public int priority { get; set; } //Can be low, medium, high (0, 1, 2)
+        public string plannerUsername { get; set; } //User who created the event
         public string eventName { get; set; }
         public DateTime startTime { get; set; }
         public DateTime endTime { get; set; }
@@ -21,11 +21,6 @@ namespace AUBTimeManagementApp.DataContracts {
             endTime = _endTime;
             teamEvent = _teamEvent;
             link = _link;
-        }
-
-        public Event(int _ID)
-        {
-            ID = _ID;
         }
     }
 }

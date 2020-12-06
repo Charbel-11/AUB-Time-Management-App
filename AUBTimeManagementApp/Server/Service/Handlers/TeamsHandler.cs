@@ -8,7 +8,7 @@ namespace Server.Service.Handlers
 {
     public class TeamsHandler: ITeamsHandler
     {
-        // Create a team gievn an admin username and a list of members usernames
+        // Create a team given an admin username and a list of members usernames
         public int CreateTeamRequest(string admin, string teamName, List<string> members) 
         {
             int teamID = TeamsStorage.AddTeam(teamName);

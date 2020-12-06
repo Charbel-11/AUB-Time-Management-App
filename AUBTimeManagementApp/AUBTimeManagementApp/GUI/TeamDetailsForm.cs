@@ -10,6 +10,10 @@ namespace AUBTimeManagementApp.GUI {
         List<Button> memberButtons, remButtons, adminButtons;
         List<Label> adminLabels;
         bool isAdmin;
+
+        /// <summary>
+        /// Initializes the form with the team members and the buttons according to the user's admin state
+        /// </summary>
         public TeamDetailsForm(Team _team) {
             Client.Client.Instance.setForm(this);
             InitializeComponent();
@@ -33,6 +37,10 @@ namespace AUBTimeManagementApp.GUI {
             addMemberBox.Hide();
         }
 
+        /// <summary>
+        /// Creates a new group box in the gui for a team member
+        /// </summary>
+        /// <param name="memberName"></param>
         public void createMemberButton(string memberName) {
             GroupBox groupBox1 = new GroupBox();
             Button remBut = new Button();
@@ -117,14 +125,20 @@ namespace AUBTimeManagementApp.GUI {
             adminLabels.Add(adminLabel);
         }
 
+        /// <summary>
+        /// Resets the team member box and adds the members again
+        /// </summary>
         public void showTeamMembers() {
             flowLayoutPanel1.Controls.Clear();
             foreach (string member in team.teamMembers){
                 createMemberButton(member);
             }
         }
-
-        //If some member did a change to the team while we had it opened
+        
+        /// <summary>
+        /// In case some changes happened to the team (e.g. added member, changed admin, ...)
+        /// We reset the current panel to show these changes
+        /// </summary>
         public void tryUpdatingTeam() {
             SuspendLayout();
 
@@ -148,6 +162,9 @@ namespace AUBTimeManagementApp.GUI {
             PerformLayout();
         }
 
+        /// <summary>
+        /// Once we press on a member's group box, show/hide the related buttons
+        /// </summary>
         public void membersButton_Click(object sender, EventArgs e) {
             int idx = memberButtons.FindIndex(a => a == sender);
             if (!isAdmin || team.teamMembers[idx] == Client.Client.Instance.username) { return; }
@@ -156,7 +173,38 @@ namespace AUBTimeManagementApp.GUI {
             if (adminButtons[idx].Visible) { adminButtons[idx].Hide(); }
             else { adminButtons[idx].Show(); }
         }
+        /// <summary>
+        /// Sets the GUI back to the initial buttons
+        /// </summary>
+        private void backFromAddBut_Click(object sender, EventArgs e) {
+            addMemberBox.Hide();
+            buttonsBox.Show();
+        }
 
+        /// <summary>
+        /// Sends a request to the server to add a member to the team
+        /// </summary>
+        private void addBut_Click(object sender, EventArgs e) {
+            string memberToAdd = textField.Text;
+            if (memberToAdd == "") { return; }
+            if (team.teamMembers.Contains(memberToAdd)) {
+                feedbackText.Text = "This user is already a member of the team";
+                return;
+            }
+
+            textField.Text = "";
+            Client.Client.Instance.addMember(team.teamID, memberToAdd);
+        }
+        /// <summary>
+        /// Shows the received feedback when trying to add a member
+        /// </summary>
+        public void addMemberFeedback(string feedback) {
+            feedbackText.Text = feedback;
+        }
+
+        /// <summary>
+        /// Sends a remove member request to the server
+        /// </summary>
         public void removeMember_Click(object sender, EventArgs e) {
             int idx = remButtons.FindIndex(a => a == sender);
             // make sure the user wants to leave this team
@@ -169,26 +217,41 @@ namespace AUBTimeManagementApp.GUI {
             }
         }
 
+        /// <summary>
+        /// Sends a change admin request to the server
+        /// </summary>
         public void changeAdminState_Click(object sender, EventArgs e) {
             int idx = adminButtons.FindIndex(a => a == sender);
             Client.Client.Instance.changeAdminState(team.teamID, team.teamMembers[idx], !adminLabels[idx].Visible);
         }
 
+        /// <summary>
+        /// Shows the GUI to add a member
+        /// </summary>
         private void addMembersButton_Click(object sender, EventArgs e) {
             feedbackText.Text = "";
             buttonsBox.Hide();
             addMemberBox.Show();
         }
 
+        /// <summary>
+        /// Opens the team's calendar with the merged schedule
+        /// </summary>
         private void scheduleEventBut_Click(object sender, EventArgs e) {
             TeamCalendarForm newForm = new TeamCalendarForm(team, true);
             newForm.Show(); Close();
         }
+        /// <summary>
+        /// Opens the team's calendar
+        /// </summary>
         private void teamScheduleBut_Click(object sender, EventArgs e) {
             TeamCalendarForm newForm = new TeamCalendarForm(team, false);
             newForm.Show(); Close();
         }
 
+        /// <summary>
+        /// Sends a request to the server to leave the team
+        /// </summary>
         private void leaveTeamBut_Click(object sender, EventArgs e) {
             // make sure the user wants to leave this team
             var result = MessageBox.Show("Are you sure you would like to leave this team?",
@@ -201,31 +264,15 @@ namespace AUBTimeManagementApp.GUI {
            
         }
 
-        private void backFromAddBut_Click(object sender, EventArgs e) {
-            addMemberBox.Hide();
-            buttonsBox.Show();
-        }
-
-        private void addBut_Click(object sender, EventArgs e) {
-            string memberToAdd = textField.Text;
-            if (memberToAdd == "") { return; }
-            if (team.teamMembers.Contains(memberToAdd)) {
-                feedbackText.Text = "This user is already a member of the team";
-                return;
-            }
-
-            textField.Text = "";
-            Client.Client.Instance.addMember(team.teamID, memberToAdd);
-        }
-
+        /// <summary>
+        /// Go back to the team selection screen
+        /// </summary>
         private void backBut_Click(object sender, EventArgs e) {
             goBack();
         }
-
-        public void addMemberFeedback(string feedback) {
-            feedbackText.Text = feedback;
-        }
-
+        /// <summary>
+        /// Go back to the team selection screen
+        /// </summary>
         public void goBack() {
             TeamsForm teamsF = new TeamsForm();
             teamsF.Show();

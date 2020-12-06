@@ -17,9 +17,8 @@ namespace AUBTimeManagementApp.Client
         private static readonly int serverPort = 8020;
 
         public string username;
-        private List<Team> teams;   //Might need to make it thread safe (consider case where members of same team add other members or delete or ..., we get asynchronous requests to change teams)
+        private List<Team> teams;   
         private List<Invitation> Invitations;
-        private List<Event> events;
 
         //Connects the users to the active open form
         public RegistrationForm registrationForm { get; private set; }
@@ -28,6 +27,7 @@ namespace AUBTimeManagementApp.Client
         public TeamsForm teamsForm { get; private set; }
         public TeamDetailsForm teamDetailsForm { get; private set; }
         public TeamCalendarForm teamCalendarForm { get; private set; }
+        public InvitationsForm invitationsForm { get; private set; }
 
         // Explicit static constructor to tell C# compiler not to mark type as beforefieldinit
         static Client()
@@ -39,7 +39,6 @@ namespace AUBTimeManagementApp.Client
         private Client()
         {
             teams = new List<Team>();
-            events = new List<Event>();
             Invitations = new List<Invitation>();
         }
         public static Client Instance
@@ -59,7 +58,7 @@ namespace AUBTimeManagementApp.Client
         /// Stores a pointer to the currently opened form in Client
         /// </summary>
         /// <param name="form">The form to connect</param>
-        public void setForm(Form form) { 
+        public void setForm(Form form) {
             if (form.GetType() == typeof(RegistrationForm)) {
                 registrationForm = (RegistrationForm)form;
             }
@@ -78,8 +77,9 @@ namespace AUBTimeManagementApp.Client
             else if (form.GetType() == typeof(TeamCalendarForm)) {
                 teamCalendarForm = (TeamCalendarForm)form;
             }
+            else if (form.GetType() == typeof(InvitationsForm))
+                invitationsForm = (InvitationsForm)form;
         }
-
 
 		#region Account
 		public void createAccount(string username, string firstName, string lastName, string password, string confirmPassword, string email, DateTime dateOfBirth) {            
@@ -110,18 +110,19 @@ namespace AUBTimeManagementApp.Client
 
         public void logOut()
         {
-            teams.Clear(); events.Clear();
-        }
-
-        public void changePassword(string oldPassword, string oldPasswordCheck, string newPassword)
-        {
-
+            teams.Clear(); Invitations.Clear();
         }
         #endregion
 
         #region PersonalEvents
 
-        // Make it return the number of events conflicting with the recently added event 
+        /// <summary>
+        /// Relays to the server the user's request to create a new event
+        /// </summary>
+        /// <param name="eventName">The name of thee event</param>
+        /// <param name="priority">The priority of the event</param>
+        /// <param name="start">The start time of the event</param>
+        /// <param name="end">The end time of the event</param>
         public void CreateUserEvent(string eventName, int priority, DateTime start, DateTime end, string Link)
         {
             Console.WriteLine(eventName + " " + priority + " " + start.ToString() + " " + end.ToString());
@@ -180,15 +181,23 @@ namespace AUBTimeManagementApp.Client
             ClientTCP.Packet_ModifyUserEvent(updatedEvent, username);
         }
 
+        /// <summary>
+        /// Displays thee event on the calendar
+        /// </summary>
         public void ShowEvent(Event _event)
         {
             showEvent(_event.ID, _event.eventName, _event.priority, _event.startTime, _event.endTime, _event.teamEvent);
         }
 
-        /* This function displays the event details for the user */
+        /// <summary>
+        /// Displays the event on the calendar
+        /// </summary
         public void showEvent(int eventID, string eventName, int priority, DateTime startDate, DateTime endDate, bool teamEvent)
         {
-            mainForm.displayEvent(eventID, eventName, priority, startDate, endDate, teamEvent);
+            if (mainForm.InvokeRequired)
+                mainForm.Invoke(new MethodInvoker(delegate { mainForm.displayEvent(eventID, eventName, priority, startDate, endDate, teamEvent); }));
+            else
+                mainForm.displayEvent(eventID, eventName, priority, startDate, endDate, teamEvent);
         }
 
         #endregion
@@ -323,6 +332,20 @@ namespace AUBTimeManagementApp.Client
                         teamDetailsForm.Invoke(new MethodInvoker(delegate { teamDetailsForm.goBack(); }));
                     }
                     else { teamDetailsForm.goBack(); }
+                }
+
+                //Remove related invitations
+                List<Invitation> newInvitations = new List<Invitation>();
+                foreach (Invitation inv in Invitations) {
+                    if (inv.TeamID != teamID) { newInvitations.Add(inv); }
+                }
+                Invitations = newInvitations;
+                updateInvitationNotification();
+                if (invitationsForm != null && invitationsForm.Enabled) {
+                    if (invitationsForm.InvokeRequired) {
+                        invitationsForm.Invoke(new MethodInvoker(delegate { invitationsForm.DisplayInvitations(); }));
+                    }
+                    else { invitationsForm.DisplayInvitations(); }
                 }
             }
             else {
@@ -512,16 +535,39 @@ namespace AUBTimeManagementApp.Client
         public void GetUserInvitationsReply(List<Invitation> invitations)
         {
             Invitations = invitations;
+            updateInvitationNotification();
+        }
+        public void receivedInvitation(Invitation invitation) {
+            Invitations.Add(invitation);
+            updateInvitationNotification();
+
+            if (invitationsForm != null && invitationsForm.Enabled) {
+                if (invitationsForm.InvokeRequired) {
+                    invitationsForm.Invoke(new MethodInvoker(delegate { invitationsForm.AddInvitationEntry(invitation); }));
+                }
+                else { invitationsForm.AddInvitationEntry(invitation); }
+            }
         }
 
         public void AcceptInvitation(Invitation invitation)
         {
             ClientTCP.PACKET_AcceptInvitation(invitation, username);
+            Invitations.Remove(invitation);
+            updateInvitationNotification();
         }
-
         public void DeclineInvitation(Invitation invitation)
         {
             ClientTCP.PACKET_DeclineInvitation(invitation, username);
+            Invitations.Remove(invitation);
+            updateInvitationNotification();
+        }
+        private void updateInvitationNotification() {
+            if (mainForm != null && mainForm.Enabled) {
+                if (mainForm.InvokeRequired) {
+                    mainForm.Invoke(new MethodInvoker(delegate { mainForm.updateInvitationNotification(Invitations.Count); }));
+                }
+                else { mainForm.updateInvitationNotification(Invitations.Count); }
+            }
         }
 
         public List<Invitation> GetInvitations() { return Invitations; }

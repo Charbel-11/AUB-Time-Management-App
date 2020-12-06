@@ -349,7 +349,25 @@ namespace Server {
             SendDataTo(ConnectionID, bufferH.ToArray());
             bufferH.Dispose();
         }
-   
+
+        public static void PACKET_SendInvitation(int ConnectionID, Invitation invitation, Event _event) {
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteInteger((int)ServerPackages.SSendInvitation);
+
+            bufferH.WriteInteger(invitation.invitationID);
+            bufferH.WriteInteger(invitation.eventID);
+            bufferH.WriteString(_event.eventName);
+            bufferH.WriteString(_event.plannerUsername);
+            bufferH.WriteInteger(_event.priority);
+            bufferH.WriteString(_event.startTime.ToString());
+            bufferH.WriteString(_event.endTime.ToString());
+            bufferH.WriteInteger(invitation.teamID);
+            bufferH.WriteString(invitation.senderUsername);
+
+            SendDataTo(ConnectionID, bufferH.ToArray());
+            bufferH.Dispose();
+        }
+       
         public static void PACKET_SendMergedSchedule(int ConnectionID, int teamID, double[,] freeTimeFreq) {
             BufferHelper bufferH = new BufferHelper();
             bufferH.WriteInteger((int)ServerPackages.SSendMergedSchedule);

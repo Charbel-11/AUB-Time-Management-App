@@ -9,7 +9,7 @@ using System.Windows.Forms.Calendar;
 namespace AUBTimeManagementApp.GUI
 {
     public partial class mainForm : Form {
-        List<CalendarItem> _items = new List<CalendarItem>();   //Maybe we should put this in the client code (took it from the demo)
+        List<CalendarItem> _items = new List<CalendarItem>();
         string _username;
         int selectedItemID;
         CalendarItem selectedItem;
@@ -28,6 +28,7 @@ namespace AUBTimeManagementApp.GUI
             Low.Checked = true;
             Medium.Checked = true;
             High.Checked = true;
+            updateInvitationNotification(Client.Client.Instance.GetInvitations().Count);
 
             monthView.SelectionStart = DateTime.Today;
             monthView.SelectionEnd = DateTime.Today.AddDays(2);
@@ -207,9 +208,24 @@ namespace AUBTimeManagementApp.GUI
             invitationsForm.Show();
         }
 
-        // I passed an entire event object (not just a name) although I only used the name
-        // because we might display event details in the warning message
-        // simply because an event name is not a unique identifier of an event
+        public void updateInvitationNotification(int n) {
+            if (n == 0) {
+                invitationsNum.Hide();
+            }
+            else {
+                invitationsNum.Show();
+                invitationsNum.Text = n.ToString();
+            }
+        }
+
+        /// <summary>
+        /// Notifies the user about the events that conflict with the newly created event
+        /// </summary>
+        ///The entire event object (not just a name) although we only used the name
+        /// because we might display event details in the warning message
+        /// simply because an event name is not a unique identifier of an event
+        /// <param name="_event">The newly created event</param>
+        /// <param name="conflictingEvents">A list of conflicting events</param>
         public void informUserAboutConflicts(Event _event, List<Event> conflictingEvents)
         {
             string warning = "Warning:\n Event " + _event.eventName + " is in conflict with the following events:\n";

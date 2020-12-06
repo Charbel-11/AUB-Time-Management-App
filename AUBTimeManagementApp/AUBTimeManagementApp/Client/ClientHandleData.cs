@@ -32,6 +32,7 @@ namespace AUBTimeManagementApp.Client
             {(int)ServerPackages.SCreateUserEventReply, HandleCreateUserEventReply },
             {(int)ServerPackages.SCancelUserEventReply, HandleCancelUserEventReply},
             {(int) ServerPackages.SGetUserInvitationsReply, HandleGetUserInvitationsReply},
+            {(int) ServerPackages.SSendInvitation, HandleSendInvitation},
             {(int) ServerPackages.SSendMergedSchedule, HandleGetMergedSchedule},
             {(int) ServerPackages.SAcceptInvitationReply, HandleAcceptInvitationReply }
             };
@@ -410,6 +411,27 @@ namespace AUBTimeManagementApp.Client
             bufferH.Dispose();
         }
 
+        private static void HandleSendInvitation(byte[] data) {
+            BufferHelper bufferH = new BufferHelper();
+            bufferH.WriteBytes(data);
+
+            int invitationID = bufferH.ReadInteger();
+            int eventID = bufferH.ReadInteger();
+            string eventName = bufferH.ReadString();
+            string plannerUsername = bufferH.ReadString();
+            int priority = bufferH.ReadInteger();
+            DateTime startTime = DateTime.Parse(bufferH.ReadString());
+            DateTime endTime = DateTime.Parse(bufferH.ReadString());
+            int teamID = bufferH.ReadInteger();
+            string invitationSender = bufferH.ReadString();
+
+            Event _event = new Event(eventID, priority, plannerUsername, eventName, startTime, endTime, true);
+            Invitation invitation = new Invitation(invitationID, _event, invitationSender, teamID);
+            Client.Instance.receivedInvitation(invitation);
+
+            bufferH.Dispose();
+        }
+
         public static void HandleGetMergedSchedule(byte[] Data)
         {
             BufferHelper bufferH = new BufferHelper();
@@ -452,8 +474,6 @@ namespace AUBTimeManagementApp.Client
             Client.Instance.ShowEvent(acceptedEvent);
 
             bufferH.Dispose();
-
-
         }
     }
 }

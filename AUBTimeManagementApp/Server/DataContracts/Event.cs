@@ -3,9 +3,9 @@
 namespace Server.DataContracts
 {
     public class Event {
-        public int eventID { get; set; }
-        public int priority{get; set;}
-        public string plannerUsername { get; set; }
+        public int eventID { get; set; } //identifies the event uniquely
+        public int priority{get; set;} //Could be low, medium, high (0, 1, 2)
+        public string plannerUsername { get; set; } //User who created the event
         public string eventName { get; set; }
         public DateTime startTime { get; set; } 
         public DateTime endTime { get; set; }

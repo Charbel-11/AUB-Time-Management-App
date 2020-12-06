@@ -12,16 +12,6 @@ namespace AUBTimeManagementApp.GUI
             InitializeComponent();
         }
 
-        private void Form2_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void LoginButton_Click(object sender, EventArgs e) {
             username = UsernameTextBox.Text;
             string password = PasswordTextBox.Text;
