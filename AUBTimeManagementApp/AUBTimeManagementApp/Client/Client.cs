@@ -122,11 +122,10 @@ namespace AUBTimeManagementApp.Client
         #region PersonalEvents
 
         // Make it return the number of events conflicting with the recently added event 
-        public void CreateUserEvent(string eventName, int priority, DateTime start, DateTime end)
+        public void CreateUserEvent(string eventName, int priority, DateTime start, DateTime end, string Link)
         {
             Console.WriteLine(eventName + " " + priority + " " + start.ToString() + " " + end.ToString());
-            //addedEvent = new Event(0, priority, " ", eventName, start, end);
-            ClientTCP.PACKET_CreateUserEvent(username, eventName, priority, start, end, false);
+            ClientTCP.PACKET_CreateUserEvent(username, eventName, priority, start, end, Link);
 ;       }
 
         /// <summary>
@@ -192,12 +191,6 @@ namespace AUBTimeManagementApp.Client
             mainForm.displayEvent(eventID, eventName, priority, startDate, endDate, teamEvent);
         }
 
-        public void addEvent(Event newEvent)
-        {
-            events.Add(newEvent);
-            ClientTCP.PACKET_CreateEvent(newEvent);
-        }
-
         #endregion
 
         #region TeamEvents
@@ -209,9 +202,9 @@ namespace AUBTimeManagementApp.Client
         /// <param name="priority">The priority of the event</param>
         /// <param name="startDate">The start time of the event</param>
         /// <param name="endDate">The end time of the event</param>
-        public void CreateTeamEvent(int TeamID, string eventName, int priority, DateTime startDate, DateTime endDate)
+        public void CreateTeamEvent(int TeamID, string eventName, int priority, DateTime startDate, DateTime endDate, string Link)
         {
-            ClientTCP.PACKET_CreateTeamEvent(TeamID, username, eventName, priority, startDate, endDate);
+            ClientTCP.PACKET_CreateTeamEvent(TeamID, username, eventName, priority, startDate, endDate, Link);
         }
 
         /// <summary>

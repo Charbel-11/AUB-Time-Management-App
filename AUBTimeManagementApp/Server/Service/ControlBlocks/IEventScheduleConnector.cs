@@ -17,8 +17,9 @@ namespace Server.Service.ControlBlocks
         /// <param name="eventStart"></param>
         /// <param name="eventEnd"></param>
         /// <param name="isTeamEvent"></param>
+        /// <param name="Link"></param>
         /// <returns> return a pair consisting of an event object containing the event details and a list of events that conflict the added event</returns>
-        KeyValuePair<Event, List<Event>> AddUserEvent(string username, int eventPriority, string plannerUsername, string eventName, DateTime eventStart, DateTime eventEnd, bool isTeamEvent);
+        KeyValuePair<Event, List<Event>> AddUserEvent(string username, int eventPriority, string plannerUsername, string eventName, DateTime eventStart, DateTime eventEnd, bool isTeamEvent, string Link);
 
 
         /// <summary>

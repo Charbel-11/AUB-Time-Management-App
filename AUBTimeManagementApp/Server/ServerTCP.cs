@@ -291,6 +291,7 @@ namespace Server {
             bufferH.WriteString(eventAndConflicts.Key.startTime.ToString());
             bufferH.WriteString(eventAndConflicts.Key.endTime.ToString());
             bufferH.WriteBool(eventAndConflicts.Key.teamEvent);
+            bufferH.WriteString(eventAndConflicts.Key.Link);
 
             bufferH.WriteInteger(eventAndConflicts.Value.Count);
             for (int i = 0; i < eventAndConflicts.Value.Count; i++)
@@ -302,6 +303,7 @@ namespace Server {
                 bufferH.WriteString(eventAndConflicts.Value[i].startTime.ToString());
                 bufferH.WriteString(eventAndConflicts.Value[i].endTime.ToString());
                 bufferH.WriteBool(eventAndConflicts.Value[i].teamEvent);
+                bufferH.WriteString(eventAndConflicts.Value[i].Link);
             }
 
             SendDataTo(ConnectionID, bufferH.ToArray());

@@ -94,24 +94,7 @@ namespace AUBTimeManagementApp.Client {
             bufferH.Dispose();
         }
 
-        public static void PACKET_CreateEvent(Event _event)
-        {
-            BufferHelper bufferH = new BufferHelper();
-            //Writes the function ID so the server knows this is PACKAGE_Login and handles it accordingly
-            bufferH.WriteInteger((int)ClientPackages.CCreateUserEvent);
-
-            // Write username and password on buffer
-
-            bufferH.WriteInteger(_event.ID);
-            bufferH.WriteString(_event.eventName);
-            bufferH.WriteString ((_event.startTime).ToString());
-            bufferH.WriteString((_event.endTime).ToString());
-            bufferH.WriteString(_event.plannerUsername);
-            bufferH.WriteInteger(_event.priority);
-            //Sends it to the server
-            SendData(bufferH.ToArray());
-            bufferH.Dispose();
-        }
+        
 
         public static void PACKET_GetEventInDetail(int eventId, string username)
         {
@@ -258,7 +241,7 @@ namespace AUBTimeManagementApp.Client {
             bufferH.Dispose();
         }
 
-        public static void PACKET_CreateTeamEvent(int teamID, string eventPlanner, string eventName, int priority, DateTime startDate, DateTime endDate)
+        public static void PACKET_CreateTeamEvent(int teamID, string eventPlanner, string eventName, int priority, DateTime startDate, DateTime endDate, string Link)
         {
             BufferHelper bufferH = new BufferHelper();
             bufferH.WriteInteger((int)ClientPackages.CCreateTeamEvent);
@@ -269,11 +252,12 @@ namespace AUBTimeManagementApp.Client {
             bufferH.WriteInteger(priority);
             bufferH.WriteString(startDate.ToString());
             bufferH.WriteString(endDate.ToString());
+            bufferH.WriteString(Link);
 
             SendData(bufferH.ToArray());
             bufferH.Dispose();
         }
-        public static void PACKET_CreateUserEvent(string username, string eventName, int priority, DateTime start, DateTime end, bool isTeamEvent)
+        public static void PACKET_CreateUserEvent(string username, string eventName, int priority, DateTime start, DateTime end, string Link)
         {
             BufferHelper bufferH = new BufferHelper();
             bufferH.WriteInteger((int)ClientPackages.CCreateUserEvent);
@@ -283,7 +267,7 @@ namespace AUBTimeManagementApp.Client {
             bufferH.WriteString(start.ToString());
             bufferH.WriteString(end.ToString());
             bufferH.WriteInteger(priority);
-            bufferH.WriteBool(isTeamEvent);
+            bufferH.WriteString(Link);
 
             SendData(bufferH.ToArray());
             bufferH.Dispose();

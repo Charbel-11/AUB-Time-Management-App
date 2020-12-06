@@ -10,8 +10,9 @@ namespace Server.DataContracts
         public DateTime startTime { get; set; } 
         public DateTime endTime { get; set; }
         public bool teamEvent { get; set; } //false if not a team event
-        public Event(int _eventID, int _priority, string _planner, 
-            string _eventName, DateTime _startTime, DateTime _endTime, bool _teamEvent=false)
+        public string Link { get; set; }
+        public Event(int _eventID, int _priority, string _planner,
+            string _eventName, DateTime _startTime, DateTime _endTime, bool _teamEvent=false, string _link=" ")
         {
             eventID = _eventID; 
             eventName = _eventName;
@@ -19,6 +20,7 @@ namespace Server.DataContracts
             plannerUsername = _planner;
             startTime = _startTime;
             endTime = _endTime;
+            Link = _link;
             teamEvent = _teamEvent;
         }
     }

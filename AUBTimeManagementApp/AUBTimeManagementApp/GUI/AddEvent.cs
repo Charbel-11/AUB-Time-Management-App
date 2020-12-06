@@ -68,9 +68,9 @@ namespace AUBTimeManagementApp.GUI
             DateTime startDate = datePickerStart.Value.Date + timePickerStart.Value.TimeOfDay;
             DateTime endDate = datePickerEnd.Value.Date + timePickerEnd.Value.TimeOfDay;
             if (parent == null)
-                Client.Client.Instance.CreateTeamEvent(teamParent.team.teamID, eventName.Text, priority.Value, startDate, endDate);
+                Client.Client.Instance.CreateTeamEvent(teamParent.team.teamID, eventName.Text, priority.Value, startDate, endDate, linkTextBox.Text);
             else
-                Client.Client.Instance.CreateUserEvent(eventName.Text, priority.Value, startDate, endDate);
+                Client.Client.Instance.CreateUserEvent(eventName.Text, priority.Value, startDate, endDate, linkTextBox.Text);
 
             Close();
         }

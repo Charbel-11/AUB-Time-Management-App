@@ -21,8 +21,6 @@ namespace Server.Service.ControlBlocks
             /* Create an instance of the schedules handler since you can only access a user schedule through it */
             ISchedulesHandler scheduleHandler = new SchedulesHandler();
             List<int> eventIDs = scheduleHandler.GetUserSchedule(username);
-
-            if (eventIDs.Count == 0) return null;
             /* Create an instance of the events handler */ 
             IEventsHandler eventsHandler = new EventsHandler();
             
