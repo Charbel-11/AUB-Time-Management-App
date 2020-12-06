@@ -1524,7 +1524,7 @@ namespace System.Windows.Forms.Calendar
         protected override void OnKeyDown(KeyEventArgs e)
         {
             base.OnKeyDown(e);
-            
+            return;
             bool shiftPressed = (ModifierKeys & Keys.Shift) == Keys.Shift;
             int jump = (int)TimeScale;
             ICalendarSelectableElement sStart = null;
