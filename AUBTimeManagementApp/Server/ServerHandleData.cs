@@ -43,32 +43,6 @@ namespace Server {
         }     
 
         /// <summary>
-        /// Makes sure a newly connected user is a valid user of our application
-        /// </summary>
-        /// <param name="ConnectionID"></param>
-        /// <returns></returns>
-        public static bool HandleAuth(int ConnectionID) {
-            if (ServerTCP.ClientObjects[ConnectionID].bufferH.Length() < 12) {
-                ServerTCP.ClientObjects[ConnectionID].CloseConnection();
-                return false;
-            }
-
-            int len = ServerTCP.ClientObjects[ConnectionID].bufferH.ReadInteger();
-            int id1 = ServerTCP.ClientObjects[ConnectionID].bufferH.ReadInteger();
-            int id2 = ServerTCP.ClientObjects[ConnectionID].bufferH.ReadInteger();
-            if (len == 8 && id1 == 19239485 && id2 == 5680973) {
-                ServerTCP.ClientObjects[ConnectionID].authenticated = true;
-                Console.WriteLine(ConnectionID + " was successfully authenticated");
-                return true;
-            }
-            else {
-                ServerTCP.ClientObjects[ConnectionID].CloseConnection();
-                Console.WriteLine(ConnectionID + " is fake");
-                return false;
-            }
-        }
-
-        /// <summary>
         /// Makes sure that we process every byte of every packet received
         /// </summary>
         /// <param name="ConnectionID"></param>
@@ -97,12 +71,6 @@ namespace Server {
                     ServerTCP.ClientObjects[ConnectionID].bufferH = new BufferHelper();
 
                 ServerTCP.ClientObjects[ConnectionID].bufferH.WriteBytes(buffer);
-                if (!ServerTCP.ClientObjects[ConnectionID].authenticated) {
-                    bool a = HandleAuth(ConnectionID);
-                    if (!a) { return; }
-                    if (ServerTCP.ClientObjects[ConnectionID].bufferH.Length() == 0) { return; }
-                }
-
                 if (ServerTCP.ClientObjects[ConnectionID].bufferH.Length() < 4) {
                     Console.WriteLine("Buffer is too empty");
                     ServerTCP.ClientObjects[ConnectionID].bufferH.Clear();

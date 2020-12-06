@@ -16,7 +16,6 @@ namespace Server {
         public int ConnectionID;
         public string username;
         public string IP;
-        public bool authenticated;
         public bool StopReading = false;
 
         /// <summary>
@@ -40,7 +39,7 @@ namespace Server {
             ReceiveBuffer = new byte[4096];
             myStream = Socket.GetStream();
 
-            StopReading = authenticated = false;
+            StopReading = false;
             IP = Socket.Client.RemoteEndPoint.ToString();
 
             //Starting to listen to the stream
@@ -90,7 +89,6 @@ namespace Server {
         /// </summary>
         public void CloseConnection() {
             Console.WriteLine("Connection from {0} has been terminated", IP);
-            authenticated = false;
 
             if (bufferH != null) { bufferH.Dispose(); bufferH = null; }
             if (Socket != null) { Socket.Close(); Socket = null; }
