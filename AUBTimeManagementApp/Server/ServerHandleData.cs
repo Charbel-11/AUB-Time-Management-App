@@ -87,6 +87,7 @@ namespace Server {
                 foreach (byte bb in data) { Console.Write((char)bb); }
                 Console.Write('\n');
                 */
+                Console.Write(' ');
 
                 if (data == null) { Console.WriteLine("No data..."); return; }
 

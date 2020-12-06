@@ -23,6 +23,8 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TeamDetailsForm));
             this.teamName = new System.Windows.Forms.Label();
             this.memberState = new System.Windows.Forms.Label();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
@@ -43,6 +45,7 @@
             this.teamScheduleBut = new System.Windows.Forms.Button();
             this.scheduleEventBut = new System.Windows.Forms.Button();
             this.addMembersButton = new System.Windows.Forms.Button();
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.flowLayoutPanel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.addMemberBox.SuspendLayout();
@@ -162,6 +165,7 @@
             // 
             // addBut
             // 
+            this.addBut.ImageList = this.imageList1;
             this.addBut.Location = new System.Drawing.Point(46, 188);
             this.addBut.Name = "addBut";
             this.addBut.Size = new System.Drawing.Size(256, 53);
@@ -197,7 +201,7 @@
             this.addMemberBox.Controls.Add(this.backFromAddBut);
             this.addMemberBox.Controls.Add(this.feedbackText);
             this.addMemberBox.Controls.Add(this.addBut);
-            this.addMemberBox.Location = new System.Drawing.Point(648, 153);
+            this.addMemberBox.Location = new System.Drawing.Point(649, 153);
             this.addMemberBox.Name = "addMemberBox";
             this.addMemberBox.Size = new System.Drawing.Size(343, 358);
             this.addMemberBox.TabIndex = 25;
@@ -216,53 +220,86 @@
             // 
             // backBut
             // 
+            this.backBut.ImageIndex = 2;
+            this.backBut.ImageList = this.imageList1;
             this.backBut.Location = new System.Drawing.Point(22, 354);
             this.backBut.Name = "backBut";
             this.backBut.Size = new System.Drawing.Size(256, 53);
             this.backBut.TabIndex = 18;
-            this.backBut.Text = "Back";
+            this.backBut.Text = "     Back    ";
+            this.backBut.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.backBut.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.backBut.UseVisualStyleBackColor = true;
             this.backBut.Click += new System.EventHandler(this.backBut_Click);
             // 
             // leaveTeamBut
             // 
+            this.leaveTeamBut.ImageIndex = 6;
+            this.leaveTeamBut.ImageList = this.imageList1;
             this.leaveTeamBut.Location = new System.Drawing.Point(22, 270);
             this.leaveTeamBut.Name = "leaveTeamBut";
             this.leaveTeamBut.Size = new System.Drawing.Size(256, 53);
             this.leaveTeamBut.TabIndex = 17;
-            this.leaveTeamBut.Text = "Leave Team";
+            this.leaveTeamBut.Text = "     Leave Team";
+            this.leaveTeamBut.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.leaveTeamBut.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.leaveTeamBut.UseVisualStyleBackColor = true;
             this.leaveTeamBut.Click += new System.EventHandler(this.leaveTeamBut_Click);
             // 
             // teamScheduleBut
             // 
+            this.teamScheduleBut.ImageIndex = 5;
+            this.teamScheduleBut.ImageList = this.imageList1;
             this.teamScheduleBut.Location = new System.Drawing.Point(22, 184);
             this.teamScheduleBut.Name = "teamScheduleBut";
             this.teamScheduleBut.Size = new System.Drawing.Size(256, 53);
             this.teamScheduleBut.TabIndex = 16;
             this.teamScheduleBut.Text = "Team Schedule";
+            this.teamScheduleBut.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.teamScheduleBut.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.teamScheduleBut.UseVisualStyleBackColor = true;
             this.teamScheduleBut.Click += new System.EventHandler(this.teamScheduleBut_Click);
             // 
             // scheduleEventBut
             // 
+            this.scheduleEventBut.ImageIndex = 5;
+            this.scheduleEventBut.ImageList = this.imageList1;
             this.scheduleEventBut.Location = new System.Drawing.Point(22, 96);
             this.scheduleEventBut.Name = "scheduleEventBut";
             this.scheduleEventBut.Size = new System.Drawing.Size(256, 53);
             this.scheduleEventBut.TabIndex = 15;
             this.scheduleEventBut.Text = "Schedule Event";
+            this.scheduleEventBut.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.scheduleEventBut.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.scheduleEventBut.UseVisualStyleBackColor = true;
             this.scheduleEventBut.Click += new System.EventHandler(this.scheduleEventBut_Click);
             // 
             // addMembersButton
             // 
+            this.addMembersButton.ImageIndex = 7;
+            this.addMembersButton.ImageList = this.imageList1;
             this.addMembersButton.Location = new System.Drawing.Point(22, 10);
             this.addMembersButton.Name = "addMembersButton";
             this.addMembersButton.Size = new System.Drawing.Size(256, 53);
             this.addMembersButton.TabIndex = 14;
-            this.addMembersButton.Text = "Add Member";
+            this.addMembersButton.Text = "  Add Member";
+            this.addMembersButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.addMembersButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.addMembersButton.UseVisualStyleBackColor = true;
             this.addMembersButton.Click += new System.EventHandler(this.addMembersButton_Click);
+            // 
+            // imageList1
+            // 
+            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList1.Images.SetKeyName(0, "refresh-button-icon-18.jpg");
+            this.imageList1.Images.SetKeyName(1, "filter.png");
+            this.imageList1.Images.SetKeyName(2, "home.png");
+            this.imageList1.Images.SetKeyName(3, "group.png");
+            this.imageList1.Images.SetKeyName(4, "Invitations.jpg");
+            this.imageList1.Images.SetKeyName(5, "calendar.png");
+            this.imageList1.Images.SetKeyName(6, "exit.png");
+            this.imageList1.Images.SetKeyName(7, "add.png");
             // 
             // TeamDetailsForm
             // 
@@ -311,5 +348,6 @@
         private System.Windows.Forms.Button teamScheduleBut;
         private System.Windows.Forms.Button scheduleEventBut;
         private System.Windows.Forms.Button addMembersButton;
+        private System.Windows.Forms.ImageList imageList1;
     }
 }
