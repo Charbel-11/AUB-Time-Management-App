@@ -2,7 +2,6 @@
 //S is for server functions, C is for client functions
 
 public enum ServerPackages {
-    SMsg,
     SLoginReply,
     SRegisterReply,
     SGetUserTeamsReply,
@@ -29,7 +28,6 @@ public enum ServerPackages {
     SModifyTeamEventReply
 }
 public enum ClientPackages {
-    CMsg,
     CLogin,
     CRegister,
     CGetUserTeams,

@@ -37,11 +37,12 @@ namespace AUBTimeManagementApp.GUI {
  
             calendar.AllowItemEdit = false;
             calendar.AllowItemResize = false;
+            mergedCalendarShown = false;
             monthView.SelectionStart = monthView.SelectionEnd = DateTime.Today;
             mergedCalendarShown = merged;
-            if (merged) { mergedSchedButton_Click(null, null); }
-            else { priorityBoxBackButton_Click(null, null); }
-            teamSchedButton_Click(null, null);
+            priorityBoxBackButton_Click(null, null);
+            if (merged) { SubmitButton_Click(null, null); }
+            else { teamSchedButton_Click(null, null); }
             eventDetailsPanel.Hide();
         }
 
@@ -54,7 +55,17 @@ namespace AUBTimeManagementApp.GUI {
                 }
                 Client.Client.Instance.GetMergedTeamSchedule(team.teamID, start, end, 0);
             }
+            Console.WriteLine(calendar.Items.Count);
             calendar.SetViewRange(monthView.SelectionStart, monthView.SelectionEnd);
+            Console.WriteLine(calendar.Items.Count);
+        }
+
+        private void PlaceItems() {
+            foreach (CalendarItem item in _items) {
+                if (calendar.ViewIntersects(item)) {
+                    calendar.Items.Add(item);
+                }
+            }
         }
 
         private void addEvent_Click(object sender, EventArgs e) {
@@ -101,9 +112,13 @@ namespace AUBTimeManagementApp.GUI {
             CalendarItem curEvent = new CalendarItem(calendar, _event.startTime, _event.endTime, _event.eventName, _event.ID, _event.priority, _event.teamEvent);
             calendar.Items.Add(curEvent);
             _items.Add(curEvent);
+            int priority = curEvent.priority;
+            if (priority == 1) { curEvent.BackgroundColor = curEvent.BackgroundColorLighter = Color.LightBlue; }
+            else if (priority == 2) { curEvent.BackgroundColor = curEvent.BackgroundColorLighter = Color.LightGreen; }
+            else { curEvent.BackgroundColor = curEvent.BackgroundColorLighter = Color.PaleVioletRed; }
         }
 
-        private void teamSchedButton_Click(object sender, EventArgs e) {
+        public void teamSchedButton_Click(object sender, EventArgs e) {
             mergedCalendarShown = false;
             calendar.Items.Clear(); _items.Clear();
             Client.Client.Instance.GetTeamSchedule(team.teamID);
@@ -125,7 +140,7 @@ namespace AUBTimeManagementApp.GUI {
             priorityBox.Hide();
         }
 
-        private void SubmitButton_Click(object sender, EventArgs e) {
+        public void SubmitButton_Click(object sender, EventArgs e) {
             mergedCalendarShown = true;
             DateTime start = monthView.SelectionStart, end = monthView.SelectionEnd;
             if (end.Subtract(start).Days > 6) {
@@ -137,9 +152,9 @@ namespace AUBTimeManagementApp.GUI {
         }
 
         private void calendar_ItemDoubleClick(object sender, CalendarItemEventArgs e) {
+            if (mergedCalendarShown) { return; }
             selectedItem = e.Item;
-            if (selectedItem.Selected) {
-               
+            if (selectedItem.Selected) {              
                 eventDetailsPanel.Show();
                 priorityBox.Hide();
                 // Display Selected Event Details
@@ -155,9 +170,7 @@ namespace AUBTimeManagementApp.GUI {
                     ModifyPriority.Enabled = false;
                     ModifyEventBut.Enabled = false;
                     DeleteEventBut.Enabled = false;
-                }
-                
-                
+                }              
             }
             else {
                 AddEvent addEventWindow = new AddEvent(this, e.Item.StartDate, e.Item.EndDate);
@@ -191,14 +204,20 @@ namespace AUBTimeManagementApp.GUI {
             //Confirm that the user wnats to delete the event.
             var result = MessageBox.Show("Are you sure you would like to save the changes to this event?",
                 "Modify Event", MessageBoxButtons.YesNo);
-            //If the yes button is pressed delete event
+            //If the yes button is pressed modify event
             if (result == DialogResult.Yes)
             {
                 Event updatedEvent = new Event(selectedItem.eventID, ModifyPriority.Value, Client.Client.Instance.username , detailsEventName.Text, dateTimePickerStart.Value, dateTimePickerEnd.Value, selectedItem.teamEvent);
                 _items.Remove(selectedItem);
-                //displayEvent(updatedEvent);
+                calendar.Items.Remove(selectedItem);
+                _items.Add(new CalendarItem(calendar, updatedEvent.startTime, updatedEvent.endTime, updatedEvent.eventName, updatedEvent.ID, updatedEvent.priority, updatedEvent.teamEvent));
+                PlaceItems();
                 Client.Client.Instance.ModifyTeamEvent(updatedEvent, team.teamID);
             }
         }
-	}
+
+        private void calendar_LoadItems(object sender, CalendarLoadEventArgs e) {
+            PlaceItems();
+        }
+    }
 }

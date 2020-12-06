@@ -9,37 +9,27 @@ namespace Server.Service.Handlers
     public class TeamsHandler: ITeamsHandler
     {
         /// <summary>
-        /// Creates a new team in the database and notifies all online users
+        /// Adds the new team's information to the database
         /// </summary>
-        /// <param name="admin">The admin of the team (calling user)</param>
-        /// <param name="teamName">The name of the team</param>
-        /// <param name="members">The list of members given by the calling user (might be invalid)</param>
-        public void CreateTeamRequest(int ConnectionID, string admin, string teamName, List<string> members) 
+        /// <param name="admin">The admin of the new team</param>
+        /// <param name="teamName">The name of the new team</param>
+        /// <param name="members">A list of the members of the new team</param>
+        /// <returns>The team ID if succesfful, -1 otherwise</returns>
+        public int CreateTeamRequest(string admin, string teamName, List<string> members) 
         {
-            List<string> invalidUsernames = new List<string>();
-            List<string> validUsernames = new List<string>();
-
-            validUsernames.Add(admin);
-            foreach (string m in members) {
-                if (AccountsStorage.usernameExists(m)) { validUsernames.Add(m); }
-                else { invalidUsernames.Add(m); }
-            }
-
-            Console.WriteLine(validUsernames.Count + " valid usernames were provided");
             int teamID = TeamsStorage.AddTeam(teamName);
-            TeamsStorage.AddTeamMembers(teamID, validUsernames);
+            if (teamID == -1) { return -1; }
+            TeamsStorage.AddTeamMembers(teamID, members);
             TeamsStorage.AddTeamAdmin(teamID, admin);
-            ServerTCP.PACKET_CreateTeamReply(ConnectionID, teamID != -1, invalidUsernames);
-            if (teamID == -1) { return; }
-
-            //Send the team details to online users         
-            foreach (string user in validUsernames) {
-                if (ServerTCP.UsernameToConnectionID.TryGetValue(user, out int cID))
-                    ServerTCP.PACKET_NewTeamCreated(cID, teamName, teamID, new string[] { admin }, validUsernames.ToArray());
-            }
+            return teamID;
         }
 
-        private Team getTeamInfo(int teamID) {
+        /// <summary>
+        /// Returns a Team instance that contains all the information of a team specified by its teamID
+        /// </summary>
+        /// <param name="teamID">The ID of the team we are querying</param>
+        /// <returns>A team instance</returns>
+        public Team getTeamInfo(int teamID) {
             string teamName = TeamsStorage.getTeamName(teamID);
             List<string> members = TeamsStorage.getTeamMembers(teamID);
             List<string> admins = TeamsStorage.getTeamAdmins(teamID);
@@ -47,34 +37,13 @@ namespace Server.Service.Handlers
         }
                
         /// <summary>
-        /// Adds a member to the team and notifies online users (if the username is valid)
+        /// Adds a member to a team
         /// </summary>
-        /// <param name="ConnectionID">Connection ID of the calling user, needed to give feedback</param>
         /// <param name="teamID">ID of the team</param>
-        /// <param name="userToAdd">Username of the user to add to the team</param>
-        /// <returns>True if successful, false otherwise</returns>
-        public bool AddMemberRequest(int ConnectionID, int teamID, string userToAdd)
+        /// <param name="userToAdd">Username of the member to add</param>
+        public void AddMemberRequest(int teamID, string userToAdd)
         {
-            bool OK = AccountsStorage.usernameExists(userToAdd);
-            if (OK) {
-                TeamsStorage.AddTeamMembers(teamID, new List<string> { userToAdd });
-                OK = true;
-            }
-            ServerTCP.PACKET_AddMemberReply(ConnectionID, teamID, OK);
-            if (!OK) { return false; }
-
-            List<string> teamMembers = TeamsStorage.getTeamMembers(teamID);
-            foreach (string user in teamMembers) {
-                if (user == userToAdd) { continue; }
-                if (ServerTCP.UsernameToConnectionID.TryGetValue(user, out int cID))
-                    ServerTCP.PACKET_MemberAdded(cID, teamID, userToAdd);
-            }
-
-            Team curTeam = getTeamInfo(teamID);
-            if (ServerTCP.UsernameToConnectionID.TryGetValue(userToAdd, out int ID))
-                ServerTCP.PACKET_NewTeamCreated(ID, curTeam.teamName, teamID, curTeam.teamAdmin.ToArray(), curTeam.teamMembers.ToArray());
-
-            return true;
+            TeamsStorage.AddTeamMembers(teamID, new List<string> { userToAdd });
         }
         
         /// <summary>
@@ -86,8 +55,7 @@ namespace Server.Service.Handlers
         /// <returns>True if successful, false otherwise</returns>
         public bool RemoveMemberRequest(int teamID, string userToRemove)
         {
-            bool b = TeamsStorage.removeTeamMember(teamID, userToRemove);
-            return b;
+            return TeamsStorage.removeTeamMember(teamID, userToRemove);
         }
 
         public void RemoveTeam(int TeamID)
