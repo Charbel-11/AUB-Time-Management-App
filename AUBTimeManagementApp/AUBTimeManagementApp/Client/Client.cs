@@ -168,10 +168,6 @@ namespace AUBTimeManagementApp.Client
             ClientTCP.PACKET_CancelUserEvent(username, eventID, isTeamEvent);
         }
 
-        public void personalEventCanceled(bool isCanceled)
-        {
-        }
-
         /// <summary>
         /// Modify personal event
         /// </summary>
@@ -239,9 +235,18 @@ namespace AUBTimeManagementApp.Client
 
         #region Team
         public List<Team> getTeams() { return teams; }
+        /// <summary>
+        /// Relays the request to the server to create a team
+        /// </summary>
+        /// <param name="teamName"></param>
+        /// <param name="teamMembers"></param>
         public void createTeam(string teamName, string[] teamMembers) {
             ClientTCP.PACKET_CreateTeam(teamName, username, teamMembers);
         }
+        /// <summary>
+        /// Receives from the server feedback for the create team request
+        /// Displays the invalid usernames if any
+        /// </summary>
         public void createTeamReply(bool OK, string[] invalidUsernames) {
             string title = OK ? "The team was successfully created!" : "There was an error, the team was not created";
             string info = "";
@@ -261,6 +266,9 @@ namespace AUBTimeManagementApp.Client
             }
         }
 
+        /// <summary>
+        /// Executes when the user gets added to a team; adds the team to the list
+        /// </summary>
         public void addedToATeam(string teamName, int teamID, List<string> admins, List<string> members) {
             Team newTeam = new Team(teamID, teamName);
             foreach (string m in members) { newTeam.addMember(m); }
@@ -410,6 +418,10 @@ namespace AUBTimeManagementApp.Client
             ClientTCP.PACKET_GetUserTeams(username);
         }
 
+        /// <summary>
+        /// Updates the teams according to the server's reply
+        /// </summary>
+        /// <param name="teams"></param>
         public void GetUserTeamsReply(List<Team> teams)
         {
             this.teams = teams;
@@ -425,6 +437,11 @@ namespace AUBTimeManagementApp.Client
             ClientTCP.PACKET_GetUserSchedule(username);
         }
 
+        /// <summary>
+        /// Displays the events received from the server
+        /// </summary>
+        /// <param name="n">Number of events</param>
+        /// <param name="eventsList">List of events to display</param>
         public void GetUserScheduleReply(int n, List<Event> eventsList)
 		{
             for (int i = 0; i < n; i++)
@@ -452,6 +469,11 @@ namespace AUBTimeManagementApp.Client
         {
             ClientTCP.PACKET_GetTeamSchedule(teamID);
         }
+        /// <summary>
+        /// Displays the events corresponding to a specific team
+        /// </summary>
+        /// <param name="teamID">ID of the team in question</param>
+        /// <param name="eventsList">List of events to display</param>
         public void GetTeamScheduleReply(int teamID, List<Event> eventsList)
         {
             if (teamCalendarForm != null && teamCalendarForm.Enabled && teamCalendarForm.team.teamID == teamID && !teamCalendarForm.mergedCalendarShown) {
@@ -471,6 +493,11 @@ namespace AUBTimeManagementApp.Client
         public void GetMergedTeamSchedule(int teamID, DateTime startTime, DateTime endTime, int priorityThreshold) {
             ClientTCP.PACKET_GetMergedTeamSchedule(teamID, startTime, endTime, priorityThreshold);
         }
+       /// <summary>
+       /// Displays the merged schedule according to the received frequency
+       /// </summary>
+       /// <param name="teamID">The ID of the team</param>
+       /// <param name="freq">Shows the ratio of busy people each point in time</param>
         public void GetMergedTeamScheduleReply(int teamID, double[,] freq) {
             if (teamCalendarForm != null && teamCalendarForm.Enabled && teamCalendarForm.team.teamID == teamID && teamCalendarForm.mergedCalendarShown) {
                 if (teamCalendarForm.InvokeRequired)
@@ -488,6 +515,9 @@ namespace AUBTimeManagementApp.Client
             ClientTCP.PACKET_FilterUserSchedule(username, low, medium, high);
         }
 
+        /// <summary>
+        /// Shows the received events which are filtered according to what was requested
+        /// </summary>
         public void FilterUserScheduleReply(int n, List<Event> eventsList)
         {
             for (int i = 0; i < n; i++)

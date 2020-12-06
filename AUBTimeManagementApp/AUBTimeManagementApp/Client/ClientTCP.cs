@@ -23,7 +23,6 @@ namespace AUBTimeManagementApp.Client {
             ClientSocket.NoDelay = true;
             myStream = ClientSocket.GetStream();
             myStream.BeginRead(receiveBuffer, 0, 4096 * 2, ReceiveCallBack, null);
-            Authenticate();
             if (ClientSocket.Connected == false) { return; }
         }
         private static void ReceiveCallBack(IAsyncResult result) {
@@ -47,13 +46,6 @@ namespace AUBTimeManagementApp.Client {
             bufferH.WriteBytes(data);
             byte[] tmp = bufferH.ToArray();
             myStream.Write(tmp, 0, tmp.Length);
-            bufferH.Dispose();
-        }
-
-        public static void Authenticate() {
-            BufferHelper bufferH = new BufferHelper();
-            bufferH.WriteInteger(19239485); bufferH.WriteInteger(5680973);
-            ClientTCP.SendData(bufferH.ToArray());
             bufferH.Dispose();
         }
 
