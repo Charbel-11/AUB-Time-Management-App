@@ -51,7 +51,6 @@
             this.TeamsLayout.Size = new System.Drawing.Size(690, 297);
             this.TeamsLayout.TabIndex = 1;
             this.TeamsLayout.WrapContents = false;
-            this.TeamsLayout.Paint += new System.Windows.Forms.PaintEventHandler(this.TeamsLayout_Paint);
             // 
             // backButton
             // 

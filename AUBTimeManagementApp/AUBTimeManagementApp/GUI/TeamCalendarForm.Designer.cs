@@ -47,10 +47,7 @@
             this.eventDetailsPanel = new System.Windows.Forms.Panel();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.textBox3 = new System.Windows.Forms.TextBox();
-            this.hScrollBar1 = new System.Windows.Forms.HScrollBar();
-            this.dateTimePickerStart = new System.Windows.Forms.DateTimePicker();
-            this.dateTimePickerEnd = new System.Windows.Forms.DateTimePicker();
-            this.detailsEndTime = new System.Windows.Forms.TextBox();
+            this.modifyEventPriority = new System.Windows.Forms.HScrollBar();
             this.textBox7 = new System.Windows.Forms.TextBox();
             this.textBox4 = new System.Windows.Forms.TextBox();
             this.textBox6 = new System.Windows.Forms.TextBox();
@@ -58,6 +55,10 @@
             this.ModifyEventBut = new System.Windows.Forms.Button();
             this.DeleteEventBut = new System.Windows.Forms.Button();
             this.eventDetailsBackBut = new System.Windows.Forms.Button();
+            this.timePickerEnd = new System.Windows.Forms.DateTimePicker();
+            this.timePickerStart = new System.Windows.Forms.DateTimePicker();
+            this.datePickerStart = new System.Windows.Forms.DateTimePicker();
+            this.datePickerEnd = new System.Windows.Forms.DateTimePicker();
             this.priorityBox.SuspendLayout();
             this.eventDetailsPanel.SuspendLayout();
             this.SuspendLayout();
@@ -275,28 +276,29 @@
             // eventDetailsPanel
             // 
             this.eventDetailsPanel.Controls.Add(this.textBox2);
+            this.eventDetailsPanel.Controls.Add(this.timePickerEnd);
             this.eventDetailsPanel.Controls.Add(this.textBox3);
-            this.eventDetailsPanel.Controls.Add(this.hScrollBar1);
-            this.eventDetailsPanel.Controls.Add(this.dateTimePickerStart);
-            this.eventDetailsPanel.Controls.Add(this.dateTimePickerEnd);
-            this.eventDetailsPanel.Controls.Add(this.detailsEndTime);
-            this.eventDetailsPanel.Controls.Add(this.textBox7);
+            this.eventDetailsPanel.Controls.Add(this.timePickerStart);
+            this.eventDetailsPanel.Controls.Add(this.modifyEventPriority);
             this.eventDetailsPanel.Controls.Add(this.textBox4);
+            this.eventDetailsPanel.Controls.Add(this.datePickerStart);
             this.eventDetailsPanel.Controls.Add(this.textBox6);
+            this.eventDetailsPanel.Controls.Add(this.datePickerEnd);
             this.eventDetailsPanel.Controls.Add(this.detailsEventName);
             this.eventDetailsPanel.Controls.Add(this.ModifyEventBut);
             this.eventDetailsPanel.Controls.Add(this.DeleteEventBut);
             this.eventDetailsPanel.Controls.Add(this.eventDetailsBackBut);
-            this.eventDetailsPanel.Location = new System.Drawing.Point(651, 264);
+            this.eventDetailsPanel.Controls.Add(this.textBox7);
+            this.eventDetailsPanel.Location = new System.Drawing.Point(631, 264);
             this.eventDetailsPanel.Name = "eventDetailsPanel";
-            this.eventDetailsPanel.Size = new System.Drawing.Size(350, 287);
+            this.eventDetailsPanel.Size = new System.Drawing.Size(372, 287);
             this.eventDetailsPanel.TabIndex = 24;
             // 
             // textBox2
             // 
             this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox2.Location = new System.Drawing.Point(264, 159);
+            this.textBox2.Location = new System.Drawing.Point(273, 157);
             this.textBox2.Margin = new System.Windows.Forms.Padding(2);
             this.textBox2.Name = "textBox2";
             this.textBox2.ReadOnly = true;
@@ -309,7 +311,7 @@
             // 
             this.textBox3.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox3.Location = new System.Drawing.Point(95, 159);
+            this.textBox3.Location = new System.Drawing.Point(147, 157);
             this.textBox3.Margin = new System.Windows.Forms.Padding(2);
             this.textBox3.Name = "textBox3";
             this.textBox3.ReadOnly = true;
@@ -318,50 +320,22 @@
             this.textBox3.Text = "low";
             this.textBox3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // hScrollBar1
+            // modifyEventPriority
             // 
-            this.hScrollBar1.LargeChange = 1;
-            this.hScrollBar1.Location = new System.Drawing.Point(95, 176);
-            this.hScrollBar1.Maximum = 3;
-            this.hScrollBar1.Minimum = 1;
-            this.hScrollBar1.Name = "hScrollBar1";
-            this.hScrollBar1.Size = new System.Drawing.Size(224, 26);
-            this.hScrollBar1.TabIndex = 31;
-            this.hScrollBar1.Value = 1;
-            // 
-            // dateTimePickerStart
-            // 
-            this.dateTimePickerStart.CustomFormat = "MM/dd/yyyy hh:mm:ss";
-            this.dateTimePickerStart.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePickerStart.Location = new System.Drawing.Point(98, 93);
-            this.dateTimePickerStart.Name = "dateTimePickerStart";
-            this.dateTimePickerStart.Size = new System.Drawing.Size(221, 26);
-            this.dateTimePickerStart.TabIndex = 30;
-            this.dateTimePickerStart.Value = new System.DateTime(2020, 11, 24, 16, 51, 25, 0);
-            // 
-            // dateTimePickerEnd
-            // 
-            this.dateTimePickerEnd.CustomFormat = "MM/dd/yyyy hh:mm:ss";
-            this.dateTimePickerEnd.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePickerEnd.Location = new System.Drawing.Point(98, 126);
-            this.dateTimePickerEnd.Name = "dateTimePickerEnd";
-            this.dateTimePickerEnd.Size = new System.Drawing.Size(221, 26);
-            this.dateTimePickerEnd.TabIndex = 29;
-            // 
-            // detailsEndTime
-            // 
-            this.detailsEndTime.BackColor = System.Drawing.SystemColors.Control;
-            this.detailsEndTime.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.detailsEndTime.Location = new System.Drawing.Point(98, 130);
-            this.detailsEndTime.Name = "detailsEndTime";
-            this.detailsEndTime.Size = new System.Drawing.Size(144, 19);
-            this.detailsEndTime.TabIndex = 21;
+            this.modifyEventPriority.LargeChange = 1;
+            this.modifyEventPriority.Location = new System.Drawing.Point(122, 176);
+            this.modifyEventPriority.Maximum = 3;
+            this.modifyEventPriority.Minimum = 1;
+            this.modifyEventPriority.Name = "modifyEventPriority";
+            this.modifyEventPriority.Size = new System.Drawing.Size(224, 26);
+            this.modifyEventPriority.TabIndex = 31;
+            this.modifyEventPriority.Value = 1;
             // 
             // textBox7
             // 
             this.textBox7.BackColor = System.Drawing.SystemColors.Control;
             this.textBox7.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox7.Location = new System.Drawing.Point(30, 130);
+            this.textBox7.Location = new System.Drawing.Point(23, 129);
             this.textBox7.Name = "textBox7";
             this.textBox7.ReadOnly = true;
             this.textBox7.Size = new System.Drawing.Size(100, 19);
@@ -372,7 +346,7 @@
             // 
             this.textBox4.BackColor = System.Drawing.SystemColors.Control;
             this.textBox4.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox4.Location = new System.Drawing.Point(31, 180);
+            this.textBox4.Location = new System.Drawing.Point(25, 176);
             this.textBox4.Name = "textBox4";
             this.textBox4.ReadOnly = true;
             this.textBox4.Size = new System.Drawing.Size(101, 19);
@@ -383,7 +357,7 @@
             // 
             this.textBox6.BackColor = System.Drawing.SystemColors.Control;
             this.textBox6.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox6.Location = new System.Drawing.Point(30, 93);
+            this.textBox6.Location = new System.Drawing.Point(25, 93);
             this.textBox6.Name = "textBox6";
             this.textBox6.ReadOnly = true;
             this.textBox6.Size = new System.Drawing.Size(101, 19);
@@ -404,9 +378,9 @@
             // 
             // ModifyEventBut
             // 
-            this.ModifyEventBut.Location = new System.Drawing.Point(239, 226);
+            this.ModifyEventBut.Location = new System.Drawing.Point(261, 226);
             this.ModifyEventBut.Name = "ModifyEventBut";
-            this.ModifyEventBut.Size = new System.Drawing.Size(84, 39);
+            this.ModifyEventBut.Size = new System.Drawing.Size(96, 39);
             this.ModifyEventBut.TabIndex = 25;
             this.ModifyEventBut.Text = "Modify";
             this.ModifyEventBut.UseVisualStyleBackColor = true;
@@ -414,9 +388,9 @@
             // 
             // DeleteEventBut
             // 
-            this.DeleteEventBut.Location = new System.Drawing.Point(131, 225);
+            this.DeleteEventBut.Location = new System.Drawing.Point(145, 225);
             this.DeleteEventBut.Name = "DeleteEventBut";
-            this.DeleteEventBut.Size = new System.Drawing.Size(86, 40);
+            this.DeleteEventBut.Size = new System.Drawing.Size(95, 40);
             this.DeleteEventBut.TabIndex = 24;
             this.DeleteEventBut.Text = "Delete";
             this.DeleteEventBut.UseVisualStyleBackColor = true;
@@ -425,13 +399,59 @@
             // eventDetailsBackBut
             // 
             this.eventDetailsBackBut.ForeColor = System.Drawing.Color.Red;
-            this.eventDetailsBackBut.Location = new System.Drawing.Point(30, 225);
+            this.eventDetailsBackBut.Location = new System.Drawing.Point(23, 226);
             this.eventDetailsBackBut.Name = "eventDetailsBackBut";
-            this.eventDetailsBackBut.Size = new System.Drawing.Size(81, 40);
+            this.eventDetailsBackBut.Size = new System.Drawing.Size(96, 40);
             this.eventDetailsBackBut.TabIndex = 23;
             this.eventDetailsBackBut.Text = "Back";
             this.eventDetailsBackBut.UseVisualStyleBackColor = true;
             this.eventDetailsBackBut.Click += new System.EventHandler(this.eventDetailsBackBut_Click);
+            // 
+            // timePickerEnd
+            // 
+            this.timePickerEnd.CustomFormat = "MM/dd/yyyy hh:mm:ss";
+            this.timePickerEnd.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.timePickerEnd.Location = new System.Drawing.Point(238, 121);
+            this.timePickerEnd.MaxDate = new System.DateTime(2050, 12, 31, 0, 0, 0, 0);
+            this.timePickerEnd.MinDate = new System.DateTime(1950, 1, 1, 0, 0, 0, 0);
+            this.timePickerEnd.Name = "timePickerEnd";
+            this.timePickerEnd.ShowUpDown = true;
+            this.timePickerEnd.Size = new System.Drawing.Size(134, 26);
+            this.timePickerEnd.TabIndex = 22;
+            this.timePickerEnd.Value = new System.DateTime(2020, 12, 6, 12, 8, 0, 0);
+            // 
+            // timePickerStart
+            // 
+            this.timePickerStart.CustomFormat = "MM/dd/yyyy hh:mm:ss";
+            this.timePickerStart.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.timePickerStart.Location = new System.Drawing.Point(238, 90);
+            this.timePickerStart.Name = "timePickerStart";
+            this.timePickerStart.ShowUpDown = true;
+            this.timePickerStart.Size = new System.Drawing.Size(134, 26);
+            this.timePickerStart.TabIndex = 21;
+            this.timePickerStart.Value = new System.DateTime(2020, 11, 24, 16, 51, 25, 0);
+            // 
+            // datePickerStart
+            // 
+            this.datePickerStart.CustomFormat = "MM/dd/yyyy hh:mm:ss";
+            this.datePickerStart.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.datePickerStart.Location = new System.Drawing.Point(88, 90);
+            this.datePickerStart.Name = "datePickerStart";
+            this.datePickerStart.Size = new System.Drawing.Size(144, 26);
+            this.datePickerStart.TabIndex = 12;
+            this.datePickerStart.Value = new System.DateTime(2020, 11, 24, 16, 51, 25, 0);
+            // 
+            // datePickerEnd
+            // 
+            this.datePickerEnd.CustomFormat = "MM/dd/yyyy hh:mm:ss";
+            this.datePickerEnd.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.datePickerEnd.Location = new System.Drawing.Point(88, 122);
+            this.datePickerEnd.MaxDate = new System.DateTime(2050, 12, 31, 0, 0, 0, 0);
+            this.datePickerEnd.MinDate = new System.DateTime(1950, 1, 1, 0, 0, 0, 0);
+            this.datePickerEnd.Name = "datePickerEnd";
+            this.datePickerEnd.Size = new System.Drawing.Size(144, 26);
+            this.datePickerEnd.TabIndex = 11;
+            this.datePickerEnd.Value = new System.DateTime(2020, 12, 6, 12, 8, 0, 0);
             // 
             // TeamCalendarForm
             // 
@@ -480,10 +500,7 @@
 		private System.Windows.Forms.Panel eventDetailsPanel;
 		private System.Windows.Forms.TextBox textBox2;
 		private System.Windows.Forms.TextBox textBox3;
-		private System.Windows.Forms.HScrollBar hScrollBar1;
-		private System.Windows.Forms.DateTimePicker dateTimePickerStart;
-		private System.Windows.Forms.DateTimePicker dateTimePickerEnd;
-		private System.Windows.Forms.TextBox detailsEndTime;
+		private System.Windows.Forms.HScrollBar modifyEventPriority;
 		private System.Windows.Forms.TextBox textBox7;
 		private System.Windows.Forms.TextBox textBox4;
 		private System.Windows.Forms.TextBox textBox6;
@@ -491,5 +508,9 @@
 		private System.Windows.Forms.Button ModifyEventBut;
 		private System.Windows.Forms.Button DeleteEventBut;
 		private System.Windows.Forms.Button eventDetailsBackBut;
-	}
+        private System.Windows.Forms.DateTimePicker timePickerEnd;
+        private System.Windows.Forms.DateTimePicker timePickerStart;
+        private System.Windows.Forms.DateTimePicker datePickerStart;
+        private System.Windows.Forms.DateTimePicker datePickerEnd;
+    }
 }
