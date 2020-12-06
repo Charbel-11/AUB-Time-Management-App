@@ -38,6 +38,10 @@ namespace AUBTimeManagementApp.GUI
             CalendarItem curEvent = new CalendarItem(calendar, startDate, endDate, eventName, eventID, priority, teamEvent);
             calendar.Items.Add(curEvent);
             _items.Add(curEvent);
+
+            if (priority == 1) { curEvent.BackgroundColor = curEvent.BackgroundColorLighter = Color.LightBlue; }
+            else if (priority == 2) { curEvent.BackgroundColor = curEvent.BackgroundColorLighter = Color.LightGreen; }
+            else { curEvent.BackgroundColor = curEvent.BackgroundColorLighter = Color.PaleVioletRed; }
         }
 
 

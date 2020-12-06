@@ -148,6 +148,11 @@ namespace AUBTimeManagementApp.Client
             ClientTCP.PACKET_CreateUserEvent(username, eventName, priority, start, end, false);
 ;       }
 
+        /// <summary>
+        /// Is executed when the client receives a reply from the server regarding an event created by the client
+        /// </summary>
+        /// <param name="_event">The created event</param>
+        /// <param name="conflictingEvents">A list of conflicting events</param>
         public void CreateUserEventReply(Event _event, List<Event> conflictingEvents)
         {
             //addedEvent.ID = eventID;
@@ -156,6 +161,21 @@ namespace AUBTimeManagementApp.Client
             if (conflictingEvents.Count != 0)
             {
                 mainForm.informUserAboutConflicts(_event, conflictingEvents);
+            }
+
+            if (teamCalendarForm != null && teamCalendarForm.Enabled) {
+                if (teamCalendarForm.mergedCalendarShown) {
+                    if (teamCalendarForm.InvokeRequired)
+                        teamCalendarForm.Invoke(new MethodInvoker(delegate { teamCalendarForm.SubmitButton_Click(null, null); }));
+                    else
+                        teamCalendarForm.SubmitButton_Click(null, null); 
+                }
+                else {
+                    if (teamCalendarForm.InvokeRequired)
+                        teamCalendarForm.Invoke(new MethodInvoker(delegate { teamCalendarForm.teamSchedButton_Click(null, null); }));
+                    else
+                        teamCalendarForm.teamSchedButton_Click(null, null);
+                }
             }
         }
 

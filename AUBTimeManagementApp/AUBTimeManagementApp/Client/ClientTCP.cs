@@ -57,16 +57,6 @@ namespace AUBTimeManagementApp.Client {
             bufferH.Dispose();
         }
 
-        public static void PACKET_Message(string msg) {
-            BufferHelper bufferH = new BufferHelper();
-            bufferH.WriteInteger((int)ClientPackages.CMsg);
-
-            bufferH.WriteString(msg);
-
-            SendData(bufferH.ToArray());
-            bufferH.Dispose();
-        }
-
         public static void PACKET_Register(string username, string firstName, string lastName, string password, string confirmPassword, string email, DateTime dateOfBirth)
         {
             BufferHelper bufferH = new BufferHelper();

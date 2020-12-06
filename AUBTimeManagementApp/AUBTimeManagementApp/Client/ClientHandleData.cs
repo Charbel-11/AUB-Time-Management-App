@@ -14,7 +14,6 @@ namespace AUBTimeManagementApp.Client
         {
             PacketListener = new Dictionary<int, PacketF>
             {
-            { (int)ServerPackages.SMsg, HandleMessage },
             { (int)ServerPackages.SLoginReply, HandleLoginReply },
             { (int)ServerPackages.SRegisterReply, HandleRegisterReply },
             { (int)ServerPackages.SGetUserTeamsReply, HandleGetUserTeamsReply },
@@ -75,15 +74,6 @@ namespace AUBTimeManagementApp.Client
             }
 
             if (pLength < 4) { ClientBufferH.Clear(); }
-        }
-
-        public static void HandleMessage(byte[] data)
-        {
-            BufferHelper bufferH = new BufferHelper();
-            bufferH.WriteBytes(data);
-            string msg = bufferH.ReadString();
-
-            bufferH.Dispose();
         }
 
         public static void HandleLoginReply(byte[] data)

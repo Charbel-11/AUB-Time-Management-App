@@ -76,19 +76,6 @@ namespace Server {
             buffer.Dispose();
         }
 
-        /// <summary>
-        /// Sends a string to the user
-        /// </summary>
-        /// <param name="ConnectionID">Connection ID of the target user</param>
-        /// <param name="msg">Message to be sent</param>
-        public static void PACKET_SendMessage(int ConnectionID, string msg) {
-            BufferHelper bufferH = new BufferHelper();
-            bufferH.WriteInteger((int)ServerPackages.SMsg);
-            bufferH.WriteString(msg);
-            SendDataTo(ConnectionID, bufferH.ToArray());
-            bufferH.Dispose();
-        }
-
         public static void PACKET_SendRegisterReply(int ConnectionID, int isRegistered)
         {
             BufferHelper bufferH = new BufferHelper();

@@ -82,7 +82,9 @@
     <Compile Include="Service\ControlBlocks\IEventScheduleConnector.cs" />
     <Compile Include="Service\ControlBlocks\IInvitationsConnector.cs" />
     <Compile Include="Service\ControlBlocks\InvitationConnector.cs" />
+    <Compile Include="Service\ControlBlocks\ITeamAccountConnector.cs" />
     <Compile Include="Service\ControlBlocks\ITeamEventConnector.cs" />
+    <Compile Include="Service\ControlBlocks\TeamAccountConnector.cs" />
     <Compile Include="Service\ControlBlocks\TeamEventConnector.cs" />
     <Compile Include="Service\Handlers\AccountsHandler.cs" />
     <Compile Include="Service\Handlers\EventsHandler.cs" />

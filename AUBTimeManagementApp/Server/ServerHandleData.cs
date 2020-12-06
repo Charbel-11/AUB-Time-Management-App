@@ -18,7 +18,6 @@ namespace Server {
         /// </summary>
         public static void InitializePacketListener() {
             PacketListener = new Dictionary<int, PacketF> {
-                { (int)ClientPackages.CMsg, HandleMessage },
                 { (int)ClientPackages.CLogin, HandleLogin },
                 { (int)ClientPackages.CRegister, HandleRegister },
                 { (int)ClientPackages.CGetUserTeams, HandleGetUserTeams },
@@ -82,12 +81,13 @@ namespace Server {
         public static void HandleData(int ConnectionID, byte[] data)        //Static method is fine since each thread has its own stack 
         {
             try {
+                /*
                 //Writing on the console what is received (for debugging)
-                
                 foreach (byte bb in data) { Console.Write(bb + " "); }
                 Console.Write('\n');
                 foreach (byte bb in data) { Console.Write((char)bb); }
                 Console.Write('\n');
+                */
 
                 if (data == null) { Console.WriteLine("No data..."); return; }
 
@@ -138,15 +138,6 @@ namespace Server {
             catch (Exception e) {
                 Console.WriteLine(e.Message);
             }
-        }
-
-
-        private static void HandleMessage(int ConnectionID, byte[] data) {
-            BufferHelper bufferH = new BufferHelper();
-            bufferH.WriteBytes(data);
-            string msg = bufferH.ReadString();
-            Console.WriteLine(msg);
-            bufferH.Dispose();
         }
 
         private static void HandleRegister(int ConnectionID, byte[] data)
@@ -339,8 +330,8 @@ namespace Server {
 
             bufferH.Dispose();
 
-            TeamsHandler teamsHandler = new TeamsHandler();
-            teamsHandler.CreateTeamRequest(ConnectionID, admin, teamName, members);          
+            ITeamAccountConnector teamAccountConnector = new TeamAccountConnector();
+            teamAccountConnector.createTeam(ConnectionID, admin, teamName, members);
         }
 
         private static void HandleChangeAdminState(int ConnectionID, byte[] data) {
@@ -368,8 +359,6 @@ namespace Server {
 
             ITeamEventConnector teamEventConnector = new TeamEventConnector();
             teamEventConnector.RemoveTeamMember(teamID, username, DateTime.Now);
-
-
         }
 
         private static void HandleAddMember(int ConnectionID, byte[] data) {
@@ -381,8 +370,8 @@ namespace Server {
 
             bufferH.Dispose();
 
-            ITeamsHandler teamsHandler = new TeamsHandler();
-            teamsHandler.AddMemberRequest(ConnectionID, teamID, username);
+            ITeamAccountConnector teamAccountConnector = new TeamAccountConnector();
+            teamAccountConnector.addMember(ConnectionID, teamID, username);
         }
 
         private static void HandleCreateTeamEvent(int ConnectionID, byte[] data)
