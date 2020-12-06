@@ -29,7 +29,6 @@ namespace AUBTimeManagementApp.Client
             {(int)ServerPackages.SCreateTeamEventReply, HandleCreateTeamReply},
             {(int)ServerPackages.SGetUserEventReply, HandleGetUserEventReply },
             {(int)ServerPackages.SCreateUserEventReply, HandleCreateUserEventReply },
-            {(int)ServerPackages.SCancelUserEventReply, HandleCancelUserEventReply},
             {(int) ServerPackages.SGetUserInvitationsReply, HandleGetUserInvitationsReply},
             {(int) ServerPackages.SSendInvitation, HandleSendInvitation},
             {(int) ServerPackages.SSendMergedSchedule, HandleGetMergedSchedule},
@@ -339,19 +338,6 @@ namespace AUBTimeManagementApp.Client
             }
             Client.Instance.CreateUserEventReply(_event, conflictingEvents);
             bufferH.Dispose();
-        }
-
-
-        public static void HandleCancelUserEventReply(byte[] data)
-        {
-            BufferHelper bufferH = new BufferHelper();
-            bufferH.WriteBytes(data);
-
-            bool isCanceled = bufferH.ReadBool();
-
-            bufferH.Dispose();
-
-            Client.Instance.personalEventCanceled(isCanceled);
         }
 
         private static void HandleGetUserInvitationsReply(byte[] data)

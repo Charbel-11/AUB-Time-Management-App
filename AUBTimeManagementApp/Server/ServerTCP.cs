@@ -292,17 +292,6 @@ namespace Server {
             bufferH.Dispose();
         }
 
-        public static void PACKET_CancelUserEvent(int ConnectionID, bool isCanceled)
-        {
-            BufferHelper bufferH = new BufferHelper();
-            bufferH.WriteInteger((int)ServerPackages.SCancelUserEventReply);
-
-            bufferH.WriteBool(isCanceled);
-
-            SendDataTo(ConnectionID, bufferH.ToArray());
-            bufferH.Dispose();
-        }
-
         public static void PACKET_SendGetUserInvitationsReply(int ConnectionID, List<Invitation> invitations, List<Event> eventsList)
         {
             BufferHelper bufferH = new BufferHelper();

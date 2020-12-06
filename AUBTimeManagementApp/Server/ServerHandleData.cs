@@ -40,9 +40,7 @@ namespace Server {
                 {(int)ClientPackages.CCancelTeamEvent, HandleCancelTeamEvent },
                 {(int)ClientPackages.CModifyTeamEvent, HandleModifyTeamEvent }
             };
-        }
-
-        
+        }     
 
         /// <summary>
         /// Makes sure a newly connected user is a valid user of our application
@@ -451,9 +449,6 @@ namespace Server {
             //Cancel the event in the user's schedule
             IEventScheduleConnector eventScheduleConnector = new EventScheduleConnector();
             eventScheduleConnector.CancelUserEvent(username, eventID, isTeamEvent);
-
-            // Modify this (returning true is useless here)
-            ServerTCP.PACKET_CancelUserEvent(ConnectionID, true);
         }
 
         private static void HandleModifyUserEvent(int ConnectionID, byte[] data)

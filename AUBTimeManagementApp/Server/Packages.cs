@@ -17,7 +17,6 @@ public enum ServerPackages {
     SCreateTeamEventReply,
     SCreateUserEventReply,
     SGetUserEventReply,
-    SCancelUserEventReply,
     SModifyUserEventReply,
     SGetUserInvitationsReply,
     SSendInvitation,
