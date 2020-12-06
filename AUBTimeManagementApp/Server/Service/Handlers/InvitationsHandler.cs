@@ -6,7 +6,7 @@ namespace Server.Service.Handlers
 {
     public class InvitationsHandler: IInvitationsHandler
     {
-        public List<int> GetInvitationsIDs(string username)
+        public List<int> GetUserInvitationsIDs(string username)
         {
             List<int> invitationIDs = InvitationsStorage.GetUserInvitations(username);
             return invitationIDs;
@@ -57,5 +57,25 @@ namespace Server.Service.Handlers
 			}
 
         }
+
+        
+        public void SendInvitationsToNewMember(List<int> eventIDs, int teamID, string username)
+		{
+            //get the list of invitationIDs of team events that are in the list 
+            List<int> invitationIDs = new List<int>();
+            foreach(int eventID in eventIDs)
+			{
+                int invitationID = InvitationsStorage.getInvitationID(eventID, teamID);
+                invitationIDs.Add(invitationID);
+			}
+
+            //Send all the invitations with ID in the invitationIDs list to the newly added member
+            foreach(int invitationID in invitationIDs)
+			{
+                InvitationsStorage.AddUserInvitation(username, invitationID);
+			}
+        }
+
+
     }
 }

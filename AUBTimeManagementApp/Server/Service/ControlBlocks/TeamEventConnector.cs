@@ -30,13 +30,13 @@ namespace Server.Service.ControlBlocks
 
         // Remove a member from a certain team
         public void RemoveTeamMember(int teamID, string userToRemove, DateTime removalDate)
-		{
+        {
 
             //Remove the member from isMemberTable
             ITeamsHandler teamsHandler = new TeamsHandler();
             bool isEmpty = teamsHandler.RemoveMemberRequest(teamID, userToRemove);
 
-            //Remove all upcoming events related to this team from his schedule
+            //get all upcoming events related to this team
             IEventsHandler eventsHandler = new EventsHandler();
             List<int> upcomingTeamEvents = eventsHandler.GetIDsOfUpcomingTeamEvents(teamID, removalDate);
 
@@ -56,11 +56,12 @@ namespace Server.Service.ControlBlocks
                 }
             }
 
-			else
-			{
+            else
+            {
                 //If user was admin remove him from isAdmin table
                 teamsHandler.ChangeAdminState(teamID, userToRemove, false);
 
+                //Remove all upcoming events related to this team from his schedule
                 ISchedulesHandler schedulesHandler = new SchedulesHandler();
                 foreach (int eventID in upcomingTeamEvents)
                 {
@@ -84,6 +85,5 @@ namespace Server.Service.ControlBlocks
                 ServerTCP.PACKET_MemberRemoved(ID, teamID, userToRemove);
 
         }
-
     }
 }

@@ -12,5 +12,8 @@ namespace Server.Service.ControlBlocks
         // Decline Invitation
         // Only remove invitation from the DB
         void DeclineInvitation(string username, int invitationID);
+
+        //send invitations to newly added team member
+        void InviteNewMemberToEvents(string username, int teamID);
     }
 }

@@ -9,6 +9,13 @@ namespace AUBTimeManagementApp.Service.Storage
 {
     public class InvitationsStorage {
         
+        /// <summary>
+        /// check if an invitation for the given event exists in the invitations table
+        /// </summary>
+        /// <param name="eventID"></param>
+        /// <param name="teamID"></param>
+        /// <param name="senderUsername"></param>
+        /// <returns></returns>
         public static bool invitationExists(int eventID, int teamID, string senderUsername) {
             try {
                 string connectionString = ConnectionUtil.connectionString;
@@ -30,18 +37,24 @@ namespace AUBTimeManagementApp.Service.Storage
             catch (Exception exception) { Console.WriteLine("invitationExists: " + exception.Message); throw; }
         }
 
-        private static int getInvitationID(int eventID, int teamID, string senderUsername) {
+        /// <summary>
+        /// get the ID of an invitation in the Invitations table
+        /// </summary>
+        /// <param name="eventID"></param>
+        /// <param name="teamID"></param>
+        /// <param name="senderUsername"></param>
+        /// <returns></returns>
+        public static int getInvitationID(int eventID, int teamID) {
             try {
                 string connectionString = ConnectionUtil.connectionString;
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
                 sqlConnection.Open();
 
-                string query = "SELECT InvitationID FROM Invitations WHERE EventID = @EventID AND TeamID = @TeamID AND SenderUsername = @SenderUsername";
+                string query = "SELECT InvitationID FROM Invitations WHERE EventID = @EventID AND TeamID = @TeamID";
                 SqlCommand command = new SqlCommand(query, sqlConnection);
 
                 command.Parameters.Add("@EventID", SqlDbType.Int).Value = eventID;
                 command.Parameters.Add("@TeamID", SqlDbType.Int).Value = teamID;
-                command.Parameters.Add("@SenderUsername", SqlDbType.NVarChar).Value = senderUsername;
                 SqlDataReader dataReader = command.ExecuteReader();
 
                 int res = (dataReader.Read() ? dataReader.GetInt32(0) : -1);
@@ -51,9 +64,16 @@ namespace AUBTimeManagementApp.Service.Storage
             catch (Exception exception) { Console.WriteLine("getInvitationID: " + exception.Message); throw; }
         }
 
+        /// <summary>
+        /// add invitation to the invitations table
+        /// </summary>
+        /// <param name="eventID"></param>
+        /// <param name="teamID"></param>
+        /// <param name="senderUsername"></param>
+        /// <returns></returns>
         public static int AddInvitation(int eventID, int teamID, string senderUsername) {
             try {
-                if (invitationExists(eventID, teamID, senderUsername)) { return getInvitationID(eventID, teamID, senderUsername); }
+                if (invitationExists(eventID, teamID, senderUsername)) { return getInvitationID(eventID, teamID); }
                 string connectionString = ConnectionUtil.connectionString;
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
                 sqlConnection.Open();
@@ -69,11 +89,15 @@ namespace AUBTimeManagementApp.Service.Storage
                 SqlDataReader dataReader = command.ExecuteReader();
 
                 command.Parameters.Clear(); dataReader.Close();
-                sqlConnection.Close(); return getInvitationID(eventID, teamID, senderUsername);
+                sqlConnection.Close(); return getInvitationID(eventID, teamID);
             }
             catch (Exception exception) { Console.WriteLine("AddInvitation: " + exception.Message); throw; }
         }
-
+        /// <summary>
+        /// add invitation to the list of invitations sent to a user and increment the number of pending responses
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="invitationID"></param>
         public static void AddUserInvitation(string username, int invitationID) { 
             try {
                 string connectionString = ConnectionUtil.connectionString;
@@ -108,7 +132,11 @@ namespace AUBTimeManagementApp.Service.Storage
             }
             catch (Exception exception) { Console.WriteLine("AddUserInvitation: " + exception.Message); throw; }
         }
-
+        /// <summary>
+        /// get the IDs of the invitations sent to a specific user
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns>list of invitationsIDs</returns>
         public static List<int> GetUserInvitations(string username)
         {
             try {
@@ -130,6 +158,11 @@ namespace AUBTimeManagementApp.Service.Storage
             catch (Exception exception) { Console.WriteLine("GetUserInvitations: " + exception.Message); throw; }
         }
 
+        /// <summary>
+        /// get the details of the invitations with ID in the list
+        /// </summary>
+        /// <param name="invitationIDs"></param>
+        /// <returns>list of Invitation objects containing the details of the invitations</returns>
         public static List<Invitation> GetInvitations(List<int> invitationIDs) {
 
             if (invitationIDs.Count == 0) { return new List<Invitation>(); }
@@ -160,6 +193,10 @@ namespace AUBTimeManagementApp.Service.Storage
             catch (Exception exception) { Console.WriteLine("GetEvent: " + exception.Message); throw; }
         }
 
+        /// <summary>
+        /// dleete invitation with invitation Id from invitations table
+        /// </summary>
+        /// <param name="invitationID"></param>
         public static void RemoveInvitation(int invitationID) {
             try {
                 string connectionString = ConnectionUtil.connectionString;
@@ -176,6 +213,13 @@ namespace AUBTimeManagementApp.Service.Storage
             catch (Exception exception) { Console.WriteLine("RemoveInvitation: " + exception.Message); throw; }
         }
 
+        /// <summary>
+        /// remove invitation from sent to the user from isInvited 
+        /// and update the count of pending responses once it reaches zero
+        /// call RemoveInvitation from Invitations table, there is no use for it anymore
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="invitationID"></param>
         public static void RemoveUserInvitation(string username, int invitationID)
         {
             try {
@@ -214,7 +258,11 @@ namespace AUBTimeManagementApp.Service.Storage
 
         }
 
-        //Get ID of invitations with specific teamID
+        /// <summary>
+        /// Get ID of invitations with specific teamID
+        /// </summary>
+        /// <param name="teamID"></param>
+        /// <returns></returns>
         public static List<int> getTeamInvitationIDs(int teamID)
         {
             try

@@ -7,7 +7,7 @@ namespace Server.Service.Handlers
     {
 
         //returns a list of invitationIDs for a certain user
-        List<int> GetInvitationsIDs(string username);
+        List<int> GetUserInvitationsIDs(string username);
 
         // This is called when the user accepts an invitation
         // After finishing, the corresponding eventId should be removed from the DB
@@ -25,5 +25,8 @@ namespace Server.Service.Handlers
 
         // Remove invitations related to team with ID = teamID sent to user
         void RemoveSpecificUserInvitations(int teamID, string username);
+
+        // send invitations to upcoming team events to a newly added team member
+        void SendInvitationsToNewMember(List<int> eventIDs, int teamID, string username);
     }
 }
