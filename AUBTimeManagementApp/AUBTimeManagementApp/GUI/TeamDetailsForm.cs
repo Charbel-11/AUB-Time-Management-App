@@ -164,7 +164,14 @@ namespace AUBTimeManagementApp.GUI {
 
         public void removeMember_Click(object sender, EventArgs e) {
             int idx = remButtons.FindIndex(a => a == sender);
-            Client.Client.Instance.removeMember(team.teamID, team.teamMembers[idx]);
+            // make sure the user wants to leave this team
+            var result = MessageBox.Show("Are you sure you would like to Remove "+ team.teamMembers[idx]+ " from this team?",
+                "Remove Member", MessageBoxButtons.YesNo);
+            //If the yes button is pressed remove user from team
+            if (result == DialogResult.Yes)
+            {
+                Client.Client.Instance.removeMember(team.teamID, team.teamMembers[idx]);
+            }
         }
 
         public void changeAdminState_Click(object sender, EventArgs e) {
