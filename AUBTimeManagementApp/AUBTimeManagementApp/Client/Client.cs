@@ -80,25 +80,6 @@ namespace AUBTimeManagementApp.Client
             }
         }
 
-        public List<Team> getTeams() { return teams; }
-
-        public List<Invitation> GetInvitations() { return Invitations; }
-
-        public void addEvent(Event newEvent) {
-            events.Add(newEvent);
-            ClientTCP.PACKET_CreateEvent(newEvent);
-        }
-
-        public void ShowEvent(Event _event)
-        {
-            showEvent(_event.ID, _event.eventName, _event.priority, _event.startTime, _event.endTime, _event.teamEvent);
-        }
-
-        /* This function displays the event details for the user */
-        public void showEvent(int eventID, string eventName, int priority, DateTime startDate, DateTime endDate, bool teamEvent) {
-            
-            mainForm.displayEvent(eventID, eventName, priority, startDate, endDate, teamEvent);
-        }
 
 		#region Account
 		public void createAccount(string username, string firstName, string lastName, string password, string confirmPassword, string email, DateTime dateOfBirth) {            
@@ -200,6 +181,24 @@ namespace AUBTimeManagementApp.Client
             ClientTCP.Packet_ModifyUserEvent(updatedEvent, username);
         }
 
+        public void ShowEvent(Event _event)
+        {
+            showEvent(_event.ID, _event.eventName, _event.priority, _event.startTime, _event.endTime, _event.teamEvent);
+        }
+
+        /* This function displays the event details for the user */
+        public void showEvent(int eventID, string eventName, int priority, DateTime startDate, DateTime endDate, bool teamEvent)
+        {
+
+            mainForm.displayEvent(eventID, eventName, priority, startDate, endDate, teamEvent);
+        }
+
+        public void addEvent(Event newEvent)
+        {
+            events.Add(newEvent);
+            ClientTCP.PACKET_CreateEvent(newEvent);
+        }
+
         #endregion
 
         #region TeamEvents
@@ -238,6 +237,7 @@ namespace AUBTimeManagementApp.Client
         #endregion
 
         #region Team
+        public List<Team> getTeams() { return teams; }
         public void createTeam(string teamName, string[] teamMembers) {
             ClientTCP.PACKET_CreateTeam(teamName, username, teamMembers);
         }
@@ -531,6 +531,9 @@ namespace AUBTimeManagementApp.Client
         {
             ClientTCP.PACKET_DeclineInvitation(invitation, username);
         }
+
+        public List<Invitation> GetInvitations() { return Invitations; }
+
         #endregion
     }
 }
