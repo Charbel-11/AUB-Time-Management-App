@@ -184,7 +184,14 @@ namespace AUBTimeManagementApp.GUI
                 Event updatedEvent = new Event(selectedItem.eventID,ModifyPriority.Value, _username, detailsEventName.Text, startDate, endDate, selectedItem.teamEvent, LinkBox.Text);
                 _items.Remove(selectedItem);
                 calendar.Items.Remove(selectedItem);
-                displayEvent(updatedEvent.ID, updatedEvent.eventName, updatedEvent.priority, updatedEvent.startTime, updatedEvent.endTime, updatedEvent.teamEvent, updatedEvent.link);
+
+                CalendarItem curEvent = new CalendarItem(calendar, startDate, endDate, updatedEvent.eventName, 
+                    updatedEvent.ID, updatedEvent.priority, updatedEvent.teamEvent, updatedEvent.link);
+                calendar.Items.Add(curEvent); _items.Add(curEvent); selectedItem = curEvent;
+
+                if (updatedEvent.priority == 1) { curEvent.BackgroundColor = curEvent.BackgroundColorLighter = Color.LightBlue; }
+                else if (updatedEvent.priority == 2) { curEvent.BackgroundColor = curEvent.BackgroundColorLighter = Color.LightGreen; }
+                else { curEvent.BackgroundColor = curEvent.BackgroundColorLighter = Color.PaleVioletRed; }
                 Client.Client.Instance.ModifyUserEvent(updatedEvent);
             }
         }

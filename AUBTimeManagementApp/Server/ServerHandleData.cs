@@ -80,13 +80,11 @@ namespace Server {
         public static void HandleData(int ConnectionID, byte[] data)        //Static method is fine since each thread has its own stack 
         {
             try {
-                /*
                 //Writing on the console what is received (for debugging)
-                foreach (byte bb in data) { Console.Write(bb + " "); }
+               // foreach (byte bb in data) { Console.Write(bb + " "); }
                 Console.Write('\n');
-                foreach (byte bb in data) { Console.Write((char)bb); }
+                //foreach (byte bb in data) { Console.Write((char)bb); }
                 Console.Write('\n');
-                */
                 Console.Write("");
 
                 if (data == null) { Console.WriteLine("No data..."); return; }
