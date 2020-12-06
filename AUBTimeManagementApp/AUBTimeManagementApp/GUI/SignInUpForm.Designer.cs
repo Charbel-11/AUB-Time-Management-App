@@ -99,7 +99,6 @@
             this.PasswordTextBox.PasswordChar = '*';
             this.PasswordTextBox.Size = new System.Drawing.Size(217, 28);
             this.PasswordTextBox.TabIndex = 4;
-            this.PasswordTextBox.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
             // UsernameLabel
             // 

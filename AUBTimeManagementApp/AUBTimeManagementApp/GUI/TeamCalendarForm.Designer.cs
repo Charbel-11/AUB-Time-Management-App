@@ -46,19 +46,19 @@
             this.memberState = new System.Windows.Forms.Label();
             this.eventDetailsPanel = new System.Windows.Forms.Panel();
             this.textBox2 = new System.Windows.Forms.TextBox();
+            this.timePickerEnd = new System.Windows.Forms.DateTimePicker();
             this.textBox3 = new System.Windows.Forms.TextBox();
+            this.timePickerStart = new System.Windows.Forms.DateTimePicker();
             this.modifyEventPriority = new System.Windows.Forms.HScrollBar();
-            this.textBox7 = new System.Windows.Forms.TextBox();
             this.textBox4 = new System.Windows.Forms.TextBox();
+            this.datePickerStart = new System.Windows.Forms.DateTimePicker();
             this.textBox6 = new System.Windows.Forms.TextBox();
+            this.datePickerEnd = new System.Windows.Forms.DateTimePicker();
             this.detailsEventName = new System.Windows.Forms.TextBox();
             this.ModifyEventBut = new System.Windows.Forms.Button();
             this.DeleteEventBut = new System.Windows.Forms.Button();
             this.eventDetailsBackBut = new System.Windows.Forms.Button();
-            this.timePickerEnd = new System.Windows.Forms.DateTimePicker();
-            this.timePickerStart = new System.Windows.Forms.DateTimePicker();
-            this.datePickerStart = new System.Windows.Forms.DateTimePicker();
-            this.datePickerEnd = new System.Windows.Forms.DateTimePicker();
+            this.textBox7 = new System.Windows.Forms.TextBox();
             this.priorityBox.SuspendLayout();
             this.eventDetailsPanel.SuspendLayout();
             this.SuspendLayout();
@@ -307,6 +307,19 @@
             this.textBox2.Text = "high";
             this.textBox2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
+            // timePickerEnd
+            // 
+            this.timePickerEnd.CustomFormat = "MM/dd/yyyy hh:mm:ss";
+            this.timePickerEnd.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.timePickerEnd.Location = new System.Drawing.Point(238, 121);
+            this.timePickerEnd.MaxDate = new System.DateTime(2050, 12, 31, 0, 0, 0, 0);
+            this.timePickerEnd.MinDate = new System.DateTime(1950, 1, 1, 0, 0, 0, 0);
+            this.timePickerEnd.Name = "timePickerEnd";
+            this.timePickerEnd.ShowUpDown = true;
+            this.timePickerEnd.Size = new System.Drawing.Size(134, 26);
+            this.timePickerEnd.TabIndex = 22;
+            this.timePickerEnd.Value = new System.DateTime(2020, 12, 6, 12, 8, 0, 0);
+            // 
             // textBox3
             // 
             this.textBox3.BorderStyle = System.Windows.Forms.BorderStyle.None;
@@ -320,6 +333,17 @@
             this.textBox3.Text = "low";
             this.textBox3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
+            // timePickerStart
+            // 
+            this.timePickerStart.CustomFormat = "MM/dd/yyyy hh:mm:ss";
+            this.timePickerStart.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.timePickerStart.Location = new System.Drawing.Point(238, 90);
+            this.timePickerStart.Name = "timePickerStart";
+            this.timePickerStart.ShowUpDown = true;
+            this.timePickerStart.Size = new System.Drawing.Size(134, 26);
+            this.timePickerStart.TabIndex = 21;
+            this.timePickerStart.Value = new System.DateTime(2020, 11, 24, 16, 51, 25, 0);
+            // 
             // modifyEventPriority
             // 
             this.modifyEventPriority.LargeChange = 1;
@@ -330,17 +354,6 @@
             this.modifyEventPriority.Size = new System.Drawing.Size(224, 26);
             this.modifyEventPriority.TabIndex = 31;
             this.modifyEventPriority.Value = 1;
-            // 
-            // textBox7
-            // 
-            this.textBox7.BackColor = System.Drawing.SystemColors.Control;
-            this.textBox7.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox7.Location = new System.Drawing.Point(23, 129);
-            this.textBox7.Name = "textBox7";
-            this.textBox7.ReadOnly = true;
-            this.textBox7.Size = new System.Drawing.Size(100, 19);
-            this.textBox7.TabIndex = 22;
-            this.textBox7.Text = "End Time:";
             // 
             // textBox4
             // 
@@ -353,6 +366,16 @@
             this.textBox4.TabIndex = 28;
             this.textBox4.Text = "Priority: ";
             // 
+            // datePickerStart
+            // 
+            this.datePickerStart.CustomFormat = "MM/dd/yyyy hh:mm:ss";
+            this.datePickerStart.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.datePickerStart.Location = new System.Drawing.Point(88, 90);
+            this.datePickerStart.Name = "datePickerStart";
+            this.datePickerStart.Size = new System.Drawing.Size(144, 26);
+            this.datePickerStart.TabIndex = 12;
+            this.datePickerStart.Value = new System.DateTime(2020, 11, 24, 16, 51, 25, 0);
+            // 
             // textBox6
             // 
             this.textBox6.BackColor = System.Drawing.SystemColors.Control;
@@ -363,6 +386,18 @@
             this.textBox6.Size = new System.Drawing.Size(101, 19);
             this.textBox6.TabIndex = 27;
             this.textBox6.Text = "Start Time: ";
+            // 
+            // datePickerEnd
+            // 
+            this.datePickerEnd.CustomFormat = "MM/dd/yyyy hh:mm:ss";
+            this.datePickerEnd.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.datePickerEnd.Location = new System.Drawing.Point(88, 122);
+            this.datePickerEnd.MaxDate = new System.DateTime(2050, 12, 31, 0, 0, 0, 0);
+            this.datePickerEnd.MinDate = new System.DateTime(1950, 1, 1, 0, 0, 0, 0);
+            this.datePickerEnd.Name = "datePickerEnd";
+            this.datePickerEnd.Size = new System.Drawing.Size(144, 26);
+            this.datePickerEnd.TabIndex = 11;
+            this.datePickerEnd.Value = new System.DateTime(2020, 12, 6, 12, 8, 0, 0);
             // 
             // detailsEventName
             // 
@@ -407,51 +442,16 @@
             this.eventDetailsBackBut.UseVisualStyleBackColor = true;
             this.eventDetailsBackBut.Click += new System.EventHandler(this.eventDetailsBackBut_Click);
             // 
-            // timePickerEnd
+            // textBox7
             // 
-            this.timePickerEnd.CustomFormat = "MM/dd/yyyy hh:mm:ss";
-            this.timePickerEnd.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.timePickerEnd.Location = new System.Drawing.Point(238, 121);
-            this.timePickerEnd.MaxDate = new System.DateTime(2050, 12, 31, 0, 0, 0, 0);
-            this.timePickerEnd.MinDate = new System.DateTime(1950, 1, 1, 0, 0, 0, 0);
-            this.timePickerEnd.Name = "timePickerEnd";
-            this.timePickerEnd.ShowUpDown = true;
-            this.timePickerEnd.Size = new System.Drawing.Size(134, 26);
-            this.timePickerEnd.TabIndex = 22;
-            this.timePickerEnd.Value = new System.DateTime(2020, 12, 6, 12, 8, 0, 0);
-            // 
-            // timePickerStart
-            // 
-            this.timePickerStart.CustomFormat = "MM/dd/yyyy hh:mm:ss";
-            this.timePickerStart.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.timePickerStart.Location = new System.Drawing.Point(238, 90);
-            this.timePickerStart.Name = "timePickerStart";
-            this.timePickerStart.ShowUpDown = true;
-            this.timePickerStart.Size = new System.Drawing.Size(134, 26);
-            this.timePickerStart.TabIndex = 21;
-            this.timePickerStart.Value = new System.DateTime(2020, 11, 24, 16, 51, 25, 0);
-            // 
-            // datePickerStart
-            // 
-            this.datePickerStart.CustomFormat = "MM/dd/yyyy hh:mm:ss";
-            this.datePickerStart.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.datePickerStart.Location = new System.Drawing.Point(88, 90);
-            this.datePickerStart.Name = "datePickerStart";
-            this.datePickerStart.Size = new System.Drawing.Size(144, 26);
-            this.datePickerStart.TabIndex = 12;
-            this.datePickerStart.Value = new System.DateTime(2020, 11, 24, 16, 51, 25, 0);
-            // 
-            // datePickerEnd
-            // 
-            this.datePickerEnd.CustomFormat = "MM/dd/yyyy hh:mm:ss";
-            this.datePickerEnd.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.datePickerEnd.Location = new System.Drawing.Point(88, 122);
-            this.datePickerEnd.MaxDate = new System.DateTime(2050, 12, 31, 0, 0, 0, 0);
-            this.datePickerEnd.MinDate = new System.DateTime(1950, 1, 1, 0, 0, 0, 0);
-            this.datePickerEnd.Name = "datePickerEnd";
-            this.datePickerEnd.Size = new System.Drawing.Size(144, 26);
-            this.datePickerEnd.TabIndex = 11;
-            this.datePickerEnd.Value = new System.DateTime(2020, 12, 6, 12, 8, 0, 0);
+            this.textBox7.BackColor = System.Drawing.SystemColors.Control;
+            this.textBox7.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox7.Location = new System.Drawing.Point(23, 129);
+            this.textBox7.Name = "textBox7";
+            this.textBox7.ReadOnly = true;
+            this.textBox7.Size = new System.Drawing.Size(100, 19);
+            this.textBox7.TabIndex = 22;
+            this.textBox7.Text = "End Time:";
             // 
             // TeamCalendarForm
             // 

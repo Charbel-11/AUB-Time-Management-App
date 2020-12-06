@@ -487,7 +487,6 @@ namespace AUBTimeManagementApp.Client
             ClientTCP.PACKET_FilterUserSchedule(username, low, medium, high);
         }
 
-
         public void FilterUserScheduleReply(int n, List<Event> eventsList)
         {
             for (int i = 0; i < n; i++)
@@ -509,20 +508,6 @@ namespace AUBTimeManagementApp.Client
                 else { mainForm.displayEvent(eventID, name, priority, start, end, isTeamEvent); }
             }
         }
-
-        /// <summary>
-        /// get the events of specified priority that are shcedled for this team from the server
-        /// </summary>
-        public void FilterTeamSchedule(int teamID, bool low, bool medium, bool high)
-        {
-            ClientTCP.PACKET_FilterTeamSchedule(teamID, low, medium, high);
-        }
-
-        public void FilterTeamScheduleReply(int n, List<Event> eventsList)
-        {
-
-        }
-
         #endregion
 
         #region Invitations

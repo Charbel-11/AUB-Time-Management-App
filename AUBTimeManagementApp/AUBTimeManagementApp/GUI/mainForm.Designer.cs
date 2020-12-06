@@ -45,7 +45,6 @@
             this.mainPanel = new System.Windows.Forms.Panel();
             this.invitationsNum = new System.Windows.Forms.Label();
             this.InvitationsButton = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
             this.Refresh = new System.Windows.Forms.Button();
             this.eventDetailsPanel = new System.Windows.Forms.Panel();
             this.eventTypeText = new System.Windows.Forms.TextBox();
@@ -86,9 +85,9 @@
             this.TeamButton.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.TeamButton.ImageIndex = 4;
             this.TeamButton.ImageList = this.imageList1;
-            this.TeamButton.Location = new System.Drawing.Point(32, 115);
+            this.TeamButton.Location = new System.Drawing.Point(32, 125);
             this.TeamButton.Name = "TeamButton";
-            this.TeamButton.Size = new System.Drawing.Size(266, 40);
+            this.TeamButton.Size = new System.Drawing.Size(266, 46);
             this.TeamButton.TabIndex = 0;
             this.TeamButton.Text = "    Teams ";
             this.TeamButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -110,9 +109,9 @@
             // 
             // addEvent
             // 
-            this.addEvent.Location = new System.Drawing.Point(32, 70);
+            this.addEvent.Location = new System.Drawing.Point(32, 71);
             this.addEvent.Name = "addEvent";
-            this.addEvent.Size = new System.Drawing.Size(266, 40);
+            this.addEvent.Size = new System.Drawing.Size(266, 46);
             this.addEvent.TabIndex = 1;
             this.addEvent.Text = "Add Event";
             this.addEvent.UseVisualStyleBackColor = true;
@@ -132,9 +131,9 @@
             this.backButton.ForeColor = System.Drawing.Color.Black;
             this.backButton.ImageIndex = 3;
             this.backButton.ImageList = this.imageList1;
-            this.backButton.Location = new System.Drawing.Point(32, 252);
+            this.backButton.Location = new System.Drawing.Point(32, 236);
             this.backButton.Name = "backButton";
-            this.backButton.Size = new System.Drawing.Size(266, 40);
+            this.backButton.Size = new System.Drawing.Size(266, 46);
             this.backButton.TabIndex = 10;
             this.backButton.Text = "     Log Out";
             this.backButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -161,7 +160,6 @@
             // 
             this.mainPanel.Controls.Add(this.invitationsNum);
             this.mainPanel.Controls.Add(this.InvitationsButton);
-            this.mainPanel.Controls.Add(this.button1);
             this.mainPanel.Controls.Add(this.backButton);
             this.mainPanel.Controls.Add(this.filterUserScheduleBut);
             this.mainPanel.Controls.Add(this.TeamButton);
@@ -177,7 +175,7 @@
             this.invitationsNum.AutoSize = true;
             this.invitationsNum.BackColor = System.Drawing.Color.Red;
             this.invitationsNum.ForeColor = System.Drawing.Color.White;
-            this.invitationsNum.Location = new System.Drawing.Point(235, 174);
+            this.invitationsNum.Location = new System.Drawing.Point(236, 195);
             this.invitationsNum.Name = "invitationsNum";
             this.invitationsNum.Size = new System.Drawing.Size(27, 20);
             this.invitationsNum.TabIndex = 24;
@@ -187,28 +185,15 @@
             // 
             this.InvitationsButton.ImageIndex = 5;
             this.InvitationsButton.ImageList = this.imageList1;
-            this.InvitationsButton.Location = new System.Drawing.Point(32, 161);
+            this.InvitationsButton.Location = new System.Drawing.Point(32, 180);
             this.InvitationsButton.Name = "InvitationsButton";
-            this.InvitationsButton.Size = new System.Drawing.Size(266, 40);
+            this.InvitationsButton.Size = new System.Drawing.Size(266, 46);
             this.InvitationsButton.TabIndex = 22;
             this.InvitationsButton.Text = "    Invitations ";
             this.InvitationsButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.InvitationsButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.InvitationsButton.UseVisualStyleBackColor = true;
             this.InvitationsButton.Click += new System.EventHandler(this.InvitationsButton_Click);
-            // 
-            // button1
-            // 
-            this.button1.ImageIndex = 0;
-            this.button1.ImageList = this.imageList1;
-            this.button1.Location = new System.Drawing.Point(32, 207);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(266, 40);
-            this.button1.TabIndex = 21;
-            this.button1.Text = "     Profile   ";
-            this.button1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.button1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.button1.UseVisualStyleBackColor = true;
             // 
             // Refresh
             // 
@@ -244,7 +229,7 @@
             this.eventDetailsPanel.Controls.Add(this.ModifyEventBut);
             this.eventDetailsPanel.Controls.Add(this.DeleteEventBut);
             this.eventDetailsPanel.Controls.Add(this.eventDetailsBackBut);
-            this.eventDetailsPanel.Location = new System.Drawing.Point(624, 250);
+            this.eventDetailsPanel.Location = new System.Drawing.Point(624, 261);
             this.eventDetailsPanel.Name = "eventDetailsPanel";
             this.eventDetailsPanel.Size = new System.Drawing.Size(377, 285);
             this.eventDetailsPanel.TabIndex = 20;
@@ -652,7 +637,6 @@
 		private System.Windows.Forms.TextBox textBox7;
         private System.Windows.Forms.Button Refresh;
 		private System.Windows.Forms.ImageList imageList1;
-		private System.Windows.Forms.Button button1;
 		private System.Windows.Forms.DateTimePicker datePickerStart;
 		private System.Windows.Forms.DateTimePicker datePickerEnd;
 		private System.Windows.Forms.TextBox textBox5;

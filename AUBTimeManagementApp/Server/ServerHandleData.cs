@@ -25,7 +25,6 @@ namespace Server {
                 { (int)ClientPackages.CGetTeamSchedule, HandleGetTeamSchedule },
                 { (int)ClientPackages.CGetMergedTeamSchedule, HandleGetMergedTeamSchedule },
                 { (int)ClientPackages.CFilterUserSchedule, HandleFilterUserSchedule },
-                { (int)ClientPackages.CFilterTeamSchedule, HandleFilterTeamSchedule },
                 { (int)ClientPackages.CCreateTeam, HandleCreateTeam },
                 { (int)ClientPackages.CChangeAdminState, HandleChangeAdminState },
                 { (int)ClientPackages.CRemoveMember, HandleRemoveMember },
@@ -303,31 +302,6 @@ namespace Server {
 
             //send reply to client
             ServerTCP.PACKET_SendGetUserScheduleReply(ConnectionID, filteredEvents);
-        }
-
-        private static void HandleFilterTeamSchedule(int ConnectionID, byte[] data)
-        {
-            BufferHelper bufferH = new BufferHelper();
-            bufferH.WriteBytes(data);
-
-            // Read userID to buffer
-            int teamID = bufferH.ReadInteger();
-            bool low = bufferH.ReadBool();
-            bool medium = bufferH.ReadBool();
-            bool high = bufferH.ReadBool();
-
-            bufferH.Dispose();
-
-            // Get list of events in the schedule
-            ITeamsHandler teamsHandler = new TeamsHandler();
-            List<int> filteredEventIDs = teamsHandler.getFilteredTeamEvents(teamID, low, medium, high);
-
-            // Get the events from eventIDs list and add them to the events list
-            var eventsHandler = new EventsHandler();
-            List<Event> eventsList = eventsHandler.GetEvents(filteredEventIDs, true, " ", teamID);
-
-            //send reply to client
-            ServerTCP.PACKET_SendGetUserScheduleReply(ConnectionID, eventsList);
         }
 
         private static void HandleCreateTeam(int ConnectionID, byte[] data) {

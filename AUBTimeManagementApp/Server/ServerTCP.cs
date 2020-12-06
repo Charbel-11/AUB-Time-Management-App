@@ -183,27 +183,6 @@ namespace Server {
             bufferH.Dispose();
         }
 
-        public static void PACKET_SendFilterTeamScheduleReply(int ConnectionID, List<Event> eventsList)
-        {
-            BufferHelper bufferH = new BufferHelper();
-            bufferH.WriteInteger((int)ServerPackages.SGetUserScheduleReply);
-            int n = eventsList.Count;
-            bufferH.WriteInteger(n);
-            for (int i = 0; i < n; i++)
-            {
-                bufferH.WriteInteger(eventsList[i].eventID);
-                bufferH.WriteString(eventsList[i].plannerUsername);
-                bufferH.WriteString(eventsList[i].eventName);
-                bufferH.WriteInteger(eventsList[i].priority);
-                bufferH.WriteString(eventsList[i].startTime.ToString());
-                bufferH.WriteString(eventsList[i].endTime.ToString());
-                bufferH.WriteBool(eventsList[i].teamEvent);
-            }
-
-            SendDataTo(ConnectionID, bufferH.ToArray());
-            bufferH.Dispose();
-        }
-
         //Used to respond to the user who created the team
         //The user will display a message accordingly, however we still send him a PACKET_NewTeamCreated 
         public static void PACKET_CreateTeamReply(int ConnectionID, bool OK, List<string> invalidUsernames) {
