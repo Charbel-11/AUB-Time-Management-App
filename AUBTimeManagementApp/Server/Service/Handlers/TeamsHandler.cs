@@ -25,6 +25,7 @@ namespace Server.Service.Handlers
                 else { invalidUsernames.Add(m); }
             }
 
+            Console.WriteLine(validUsernames.Count + " valid usernames were provided");
             int teamID = TeamsStorage.AddTeam(teamName);
             TeamsStorage.AddTeamMembers(teamID, validUsernames);
             TeamsStorage.AddTeamAdmin(teamID, admin);
@@ -88,6 +89,11 @@ namespace Server.Service.Handlers
             bool b = TeamsStorage.removeTeamMember(teamID, userToRemove);
             return b;
         }
+
+        public void RemoveTeam(int TeamID)
+		{
+            TeamsStorage.removeTeam(TeamID);
+		}
 
         /// <summary>
         /// Either sets a user to become an admin, or makes him a member again

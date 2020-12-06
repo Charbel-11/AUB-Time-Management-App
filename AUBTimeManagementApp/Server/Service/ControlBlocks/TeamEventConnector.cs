@@ -24,43 +24,68 @@ namespace Server.Service.ControlBlocks
            invitationsHandler.SendInvitations(members, _event.eventID, teamID, _event.plannerUsername);
         }
 
-        public bool RemoveTeamMember(int teamID, string userToRemove, DateTime removalDate)
+        /// <summary>
+        /// Removes a team member from the team, removes all team evnst invitations sent to him
+        /// removes all upcoming team events from his schedule and if the team becomes empty, deletes the team
+        /// </summary>
+        /// <param name="teamID"></param>
+        /// <param name="userToRemove"></param>
+        /// <param name="removalDate"></param>
+        public void RemoveTeamMember(int teamID, string userToRemove, DateTime removalDate)
 		{
 
             //Remove the member from isMemberTable
             ITeamsHandler teamsHandler = new TeamsHandler();
-            bool b = teamsHandler.RemoveMemberRequest(teamID, userToRemove);
-			if (!b) { return false; }
-
-            //If user was admin remove him from isAdmin table
-            teamsHandler.ChangeAdminState(teamID, userToRemove, false);
+            bool isEmpty = teamsHandler.RemoveMemberRequest(teamID, userToRemove);
 
             //Remove all upcoming events related to this team from his schedule
             IEventsHandler eventsHandler = new EventsHandler();
             List<int> upcomingTeamEvents = eventsHandler.GetIDsOfUpcomingTeamEvents(teamID, removalDate);
 
-            ISchedulesHandler schedulesHandler = new SchedulesHandler();
-            foreach(int eventID in upcomingTeamEvents)
-			{
-                schedulesHandler.RemoveEventFromUserSchedule(userToRemove, eventID);
-			}
-
-            //Remove all invitations related to this team sent to this user
-            IInvitationsHandler invitationsHandler = new InvitationsHandler();
-            invitationsHandler.RemoveSpecificUserInvitations(teamID, userToRemove);
-
-            //inform all online users that are members of this team
-            List<string> teamMembers = teamsHandler.GetTeamMembers(teamID);
-            foreach (string member in teamMembers)
+            //if the team becomes empry
+            if (isEmpty)
             {
-                if (ServerTCP.UsernameToConnectionID.TryGetValue(member, out int cID))
-                    ServerTCP.PACKET_MemberRemoved(cID, teamID, userToRemove);
+                //remove team from teams table, this removes all members of the team from isMember and all the team admins from isAdmin
+                teamsHandler.RemoveTeam(teamID);
+
+                //remove all events in the upcoming events list from the events table, 
+                //this removes its invitation and all invitations sent to team members related to this event, and also reamoves it from all the members' schedules 
+                //(isUSerAttendee), and also removes the eventa from isTeamAttendee
+                IEventsHandler eventsHandler1 = new EventsHandler();
+                foreach (int eventID in upcomingTeamEvents)
+                {
+                    eventsHandler1.CancelEvent(eventID);
+                }
             }
 
-            if (ServerTCP.UsernameToConnectionID.TryGetValue(userToRemove, out int ID))
-                ServerTCP.PACKET_MemberRemoved(ID, teamID, userToRemove);
+			else
+			{
+                //If user was admin remove him from isAdmin table
+                teamsHandler.ChangeAdminState(teamID, userToRemove, false);
 
-            return true;
+                ISchedulesHandler schedulesHandler = new SchedulesHandler();
+                foreach (int eventID in upcomingTeamEvents)
+                {
+                    schedulesHandler.RemoveEventFromUserSchedule(userToRemove, eventID);
+                }
+
+                //Remove all invitations related to this team sent to this user
+                IInvitationsHandler invitationsHandler = new InvitationsHandler();
+                invitationsHandler.RemoveSpecificUserInvitations(teamID, userToRemove);
+
+
+                //inform all online users that are members of this team
+                List<string> teamMembers = teamsHandler.GetTeamMembers(teamID);
+                foreach (string member in teamMembers)
+                {
+                    if (ServerTCP.UsernameToConnectionID.TryGetValue(member, out int cID))
+                        ServerTCP.PACKET_MemberRemoved(cID, teamID, userToRemove);
+                }
+
+                if (ServerTCP.UsernameToConnectionID.TryGetValue(userToRemove, out int ID))
+                    ServerTCP.PACKET_MemberRemoved(ID, teamID, userToRemove);
+
+            }
         }
 
     }
