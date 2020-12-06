@@ -20,6 +20,7 @@ namespace Server.Service.Handlers
         // Invite users to a certain event
         void SendInvitations(List<string> AttendeesUsernames, int eventID, int teamsID, string SenderUsername);
 
+        // Get invitation objects given a list of invitations IDs
         List<Invitation> getInvitations(List<int> InvitationIDs);
 
         // Remove invitations related to team with ID = teamID sent to user
