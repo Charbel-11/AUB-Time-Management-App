@@ -315,6 +315,8 @@ namespace Server {
 
                 // write sender username
                 bufferH.WriteString(invitations[i].senderUsername);
+
+                bufferH.WriteString(invitations[i].teamName);
             }
 
             SendDataTo(ConnectionID, bufferH.ToArray());

@@ -359,6 +359,7 @@ namespace AUBTimeManagementApp.Client
                 int priority = bufferH.ReadInteger();
                 DateTime startTime = DateTime.Parse(bufferH.ReadString());
                 DateTime endTime = DateTime.Parse(bufferH.ReadString());
+                //string teamName = bufferH.ReadString();
                 Event _event = new Event(eventID, priority, plannerUsername, eventName, startTime, endTime, true);
 
                 // Read team id
@@ -367,7 +368,9 @@ namespace AUBTimeManagementApp.Client
                 // Read sender username
                 string invitationSender = bufferH.ReadString();
 
-                invitations.Add(new Invitation(invitationID, _event, invitationSender, teamID));
+                string teamName = bufferH.ReadString();
+
+                invitations.Add(new Invitation(invitationID, _event, invitationSender, teamID, teamName));
             }
 
             Client.Instance.GetUserInvitationsReply(invitations);

@@ -175,8 +175,10 @@ namespace AUBTimeManagementApp.Service.Storage
                 string query = "SELECT * FROM Invitations WHERE InvitationID IN " + "(" + combinedStringInvitationIDs + ")";
                 SqlCommand command = new SqlCommand(query, sqlConnection);
                 SqlDataReader dataReader = command.ExecuteReader();
-
+                //store invitations
                 List<Invitation> invitations = new List<Invitation>();
+                //store teamIDs of the teams that issued the invitations
+                List<int> teamIDs = new List<int>();
                 while (dataReader.Read()) {
                     int invitationID = dataReader.GetInt32(0);
                     int eventID = dataReader.GetInt32(1);
@@ -185,12 +187,43 @@ namespace AUBTimeManagementApp.Service.Storage
 
                     Invitation curInvite = new Invitation(invitationID, eventID, teamID, senderUsername);
                     invitations.Add(curInvite);
+
+
+                     teamIDs.Add(teamID);
+					
                 }
+                command.Parameters.Clear(); dataReader.Close();
+
+                string CombinedTeamIDs = string.Join(",", teamIDs);
+                query = "SLECT TeamID AND TeamName FROM Teams WHERE TeamID IN " + "(" + CombinedTeamIDs + ")";
+
+                Dictionary<int, string> teamNames = new Dictionary<int, string>();
+                dataReader = command.ExecuteReader();
+                while (dataReader.Read())
+                {
+                    int teamID = dataReader.GetInt32(0);
+                    string teamName = dataReader.GetString(1);
+                    if(!teamNames.ContainsKey(teamID))
+					{
+                        teamNames.Add(teamID, teamName);
+					}
+                }
+
+                /*int n = teamNames.Count;
+                for(int i = 0;i<n;i++)
+				{
+                    invitations[i].teamName = teamNames[i];
+				}*/
+
+                foreach(Invitation invitation in invitations)
+				{
+                    invitation.teamName = teamNames[invitation.teamID];
+				}
 
                 command.Parameters.Clear(); dataReader.Close();
                 sqlConnection.Close(); return invitations;
             }
-            catch (Exception exception) { Console.WriteLine("GetEvent: " + exception.Message); throw; }
+            catch (Exception exception) { Console.WriteLine("GetInvittaions: " + exception.Message); throw; }
         }
 
         /// <summary>

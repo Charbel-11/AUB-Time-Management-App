@@ -96,7 +96,7 @@ namespace AUBTimeManagementApp.GUI
             invitationLabel.Name = "invitationLabel";
             invitationLabel.Size = new Size(36, 13);
             invitationLabel.TabIndex = 2;
-            invitationLabel.Text = "Event: " + invitation.Event.eventName + "  |  In team: " + invitation.TeamID + "  |  Sent by: " + invitation.InvitationSender
+            invitationLabel.Text = "Event: " + invitation.Event.eventName + "  |  In team: " + invitation.teamName + "  |  Sent by: " + invitation.InvitationSender
                     + "\n" + "Time: " + invitation.Event.startTime.ToString() + "  ->  " + invitation.Event.endTime.ToString();
             invitationLabel.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
 
