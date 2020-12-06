@@ -72,20 +72,19 @@ namespace Server.Service.ControlBlocks
                 //Remove all invitations related to this team sent to this user
                 IInvitationsHandler invitationsHandler = new InvitationsHandler();
                 invitationsHandler.RemoveSpecificUserInvitations(teamID, userToRemove);
-
-
-                //inform all online users that are members of this team
-                List<string> teamMembers = teamsHandler.GetTeamMembers(teamID);
-                foreach (string member in teamMembers)
-                {
-                    if (ServerTCP.UsernameToConnectionID.TryGetValue(member, out int cID))
-                        ServerTCP.PACKET_MemberRemoved(cID, teamID, userToRemove);
-                }
-
-                if (ServerTCP.UsernameToConnectionID.TryGetValue(userToRemove, out int ID))
-                    ServerTCP.PACKET_MemberRemoved(ID, teamID, userToRemove);
-
             }
+
+            //inform all online users that are members of this team
+            List<string> teamMembers = teamsHandler.GetTeamMembers(teamID);
+            foreach (string member in teamMembers)
+            {
+                if (ServerTCP.UsernameToConnectionID.TryGetValue(member, out int cID))
+                    ServerTCP.PACKET_MemberRemoved(cID, teamID, userToRemove);
+            }
+
+            if (ServerTCP.UsernameToConnectionID.TryGetValue(userToRemove, out int ID))
+                ServerTCP.PACKET_MemberRemoved(ID, teamID, userToRemove);
+
         }
 
     }
