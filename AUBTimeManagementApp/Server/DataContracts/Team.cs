@@ -7,11 +7,6 @@ namespace Server.DataContracts {
         public List<string> teamAdmin { get; set; }
         public List<string> teamMembers { get; set; }
 
-        public Team(int _teamID, string _teamName) {
-            teamID = _teamID; teamName = _teamName;
-            teamMembers = new List<string>();
-            teamAdmin = new List<string>();
-        }
         public Team(int _teamID, string _teamName, List<string> _admins, List<string> _members)
         {
             teamID = _teamID;
@@ -19,6 +14,5 @@ namespace Server.DataContracts {
             teamMembers = _members;
             teamAdmin = _admins;
         }
-
     }
 }

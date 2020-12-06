@@ -34,6 +34,9 @@ namespace AUBTimeManagementApp.GUI
             monthView.SelectionEnd = DateTime.Today.AddDays(2);
         }
 
+        /// <summary>
+        /// Displays the event on the calendar
+        /// </summary>
         public void displayEvent(int eventID, string eventName, int priority, DateTime startDate, DateTime endDate, bool teamEvent, string Link) {
             CalendarItem curEvent = new CalendarItem(calendar, startDate, endDate, eventName, eventID, priority, teamEvent, Link);
             calendar.Items.Add(curEvent);
@@ -44,12 +47,19 @@ namespace AUBTimeManagementApp.GUI
             else { curEvent.BackgroundColor = curEvent.BackgroundColorLighter = Color.PaleVioletRed; }
         }
 
+
+        /// <summary>
+        /// Opens the teams panel
+        /// </summary>
         private void TeamButton_Click(object sender, EventArgs e) {
             TeamsForm addTeamWindow = new TeamsForm();
             addTeamWindow.Show();
             Close();
         }
 
+        /// <summary>
+        /// Opens the add event panel
+        /// </summary>
         private void addEvent_MouseClick(object sender, MouseEventArgs e) {
             if (addEventForm != null && addEventForm.Visible) {
                 addEventForm.Focus();
@@ -59,6 +69,9 @@ namespace AUBTimeManagementApp.GUI
             addEventForm.Show();
         }
 
+        /// <summary>
+        /// Shows all the items that appear in the days shown 
+        /// </summary>
         private void PlaceItems() {
             foreach (CalendarItem item in _items) {
                 if (calendar.ViewIntersects(item)) {
@@ -67,14 +80,24 @@ namespace AUBTimeManagementApp.GUI
             }
         }
 
+        /// <summary>
+        /// Shows the days on the calendar according to the monthView component
+        /// </summary>
         private void monthView_SelectionChanged(object sender, EventArgs e) {
             calendar.SetViewRange(monthView.SelectionStart, monthView.SelectionEnd);
         }
 
+        /// <summary>
+        /// Loads all the items on the calendar
+        /// </summary>
         private void calendar_LoadItems(object sender, CalendarLoadEventArgs e) {
             PlaceItems();
         }
 
+        /// <summary>
+        /// When we double click on the calendar, if there is an event there we open its description
+        /// Otherwise, we open the add event panel set at the appropriate time
+        /// </summary>
         private void calendar_ItemDoubleClick(object sender, CalendarItemEventArgs e) {
             selectedItem = e.Item;
             if(selectedItem.Selected)
@@ -122,6 +145,9 @@ namespace AUBTimeManagementApp.GUI
             }
         }
 
+        /// <summary>
+        /// Go back to the sign in/up form
+        /// </summary>
         private void backButton_Click(object sender, EventArgs e) {
             Client.Client.Instance.logOut();
             SignInUpForm nF = new SignInUpForm();
@@ -129,18 +155,27 @@ namespace AUBTimeManagementApp.GUI
             Close();
         }
 
+        /// <summary>
+        /// Show the filtering panel and hides the main one
+        /// </summary>
 		private void filterUserScheduleBut_Click(object sender, EventArgs e)
 		{
             mainPanel.Hide();
             filteringPanel.Show();
         }
 
+        /// <summary>
+        /// Hides the filtering panel and shows the main one
+        /// </summary>
 		private void filterBackBut_Click(object sender, EventArgs e)
 		{
             filteringPanel.Hide();
             mainPanel.Show();
 		}
 
+        /// <summary>
+        /// Fetches the filtered calendar from the server
+        /// </summary>
 		private void filterDoneButton_Click(object sender, EventArgs e)
 		{
             filteringPanel.Hide();
@@ -150,12 +185,18 @@ namespace AUBTimeManagementApp.GUI
             Client.Client.Instance.FilterUserSchedule(Low.Checked, Medium.Checked, High.Checked );
         }
 
+        /// <summary>
+        /// Hides the event details
+        /// </summary>
 		private void eventDetailsBackBut_Click(object sender, EventArgs e)
 		{
             eventDetailsPanel.Hide();
             mainPanel.Show();
 		}
 
+        /// <summary>
+        /// Submits a request to the server to delete an event
+        /// </summary>
 		private void DeleteEventBut_Click(object sender, EventArgs e)
 		{
             //Confirm that the user wnats to delete the event.
@@ -171,6 +212,9 @@ namespace AUBTimeManagementApp.GUI
                 calendar.Items.Remove(selectedItem);
             }
         }
+        /// <summary>
+        /// Submits a request to the server to modify an event
+        /// </summary>
 		private void ModifyEventBut_Click(object sender, EventArgs e)
 		{
             //Confirm that the user wnats to delete the event.
@@ -185,10 +229,15 @@ namespace AUBTimeManagementApp.GUI
                 _items.Remove(selectedItem);
                 calendar.Items.Remove(selectedItem);
                 displayEvent(updatedEvent.ID, updatedEvent.eventName, updatedEvent.priority, updatedEvent.startTime, updatedEvent.endTime, updatedEvent.teamEvent, updatedEvent.link);
+                selectedItem = _items[_items.Count - 1];
+                monthView_SelectionChanged(null, null);
                 Client.Client.Instance.ModifyUserEvent(updatedEvent);
             }
         }
 
+        /// <summary>
+        /// Refreshes the calendar so that it displays all the events
+        /// </summary>
         private void Refresh_Click(object sender, EventArgs e)
         {
             Low.Checked = true;
@@ -199,6 +248,9 @@ namespace AUBTimeManagementApp.GUI
             monthView_SelectionChanged(null, null);
         }
 
+        /// <summary>
+        /// Opens the invitations form
+        /// </summary>
         private void InvitationsButton_Click(object sender, EventArgs e)
         {
             if (invitationsForm != null && invitationsForm.Visible)
@@ -210,6 +262,10 @@ namespace AUBTimeManagementApp.GUI
             invitationsForm.Show();
         }
 
+        /// <summary>
+        /// Updates the number representing pending invitations
+        /// </summary>
+        /// <param name="n">The number of pending invitations</param>
         public void updateInvitationNotification(int n) {
             if (n == 0) {
                 invitationsNum.Hide();

@@ -8,13 +8,6 @@ namespace AUBTimeManagementApp.DataContracts {
         public List<string> teamAdmin { get; set; }
         public List<string> teamMembers { get; set; }
 
-        public Team(int _teamID, string _teamName, List<string> _admins, List<string> _members)
-        {
-            teamID = _teamID; 
-            teamName = _teamName;
-            teamMembers = _members;
-            teamAdmin = _admins;
-        }
         public Team(int _teamID, string _teamName) {
             teamID = _teamID; teamName = _teamName;
             teamMembers = new List<string>();
@@ -32,6 +25,5 @@ namespace AUBTimeManagementApp.DataContracts {
             if (teamAdmin.Contains(username)) { teamAdmin.Remove(username); }
         }
         public bool isAdmin(string username) { return teamAdmin.Contains(username); }
-
     }
 }

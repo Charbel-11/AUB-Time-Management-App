@@ -19,11 +19,17 @@ namespace AUBTimeManagementApp.GUI
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Submits a create team request to the server
+        /// </summary>
         private void createButton_Click(object sender, EventArgs e) {
             Client.Client.Instance.createTeam(teamName.Text, members.ToArray());
             Close();
         }
 
+        /// <summary>
+        /// Adds a username to the list
+        /// </summary>
         private void addButton_Click(object sender, EventArgs e) {
             string newMember = memberName.Text;
             memberName.Text = "";
@@ -59,6 +65,9 @@ namespace AUBTimeManagementApp.GUI
             grpBoxes.Add(nGroupBox);
         }
 
+        /// <summary>
+        /// Removes a username from the list
+        /// </summary>
         private void removeButton_Click(object sender, EventArgs e) {
             int idx = removeButtons.FindIndex(a => a == sender);
 

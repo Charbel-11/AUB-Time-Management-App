@@ -68,7 +68,6 @@
     <Compile Include="Client\Packages.cs" />
     <Compile Include="DataContracts\Event.cs" />
     <Compile Include="DataContracts\Invitation.cs" />
-    <Compile Include="DataContracts\Schedule.cs" />
     <Compile Include="DataContracts\Team.cs" />
     <Compile Include="GUI\AddEvent.cs">
       <SubType>Form</SubType>
@@ -191,9 +190,6 @@
       <Project>{25649f08-3046-4891-adb8-7ea787b57063}</Project>
       <Name>System.Windows.Forms.Calendar</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\refresh-button-icon-18.jpg" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">

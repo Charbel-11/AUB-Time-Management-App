@@ -21,6 +21,10 @@ namespace AUBTimeManagementApp.GUI
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Displays the server's feedback
+        /// </summary>
+        /// <param name="OK">The state of the feedback</param>
         public void registrationReply(int OK)
         {
             if (OK == -1) {
@@ -43,21 +47,9 @@ namespace AUBTimeManagementApp.GUI
             Close();
         }
 
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox2_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
+        /// <summary>
+        /// Sends a request to the server to register according to the user input
+        /// </summary>
         private void RegisterButton_Click(object sender, EventArgs e)
         {
             string username = UsernameTextBox.Text;
@@ -71,6 +63,9 @@ namespace AUBTimeManagementApp.GUI
             Client.Client.Instance.createAccount(username, firstName, lastName, password, confirmPassword, email, dateOfBirth);
         }
 
+        /// <summary>
+        /// Go back to the sign in/up panel
+        /// </summary>
         private void GoBack_Click(object sender, EventArgs e)
         {
             Close();

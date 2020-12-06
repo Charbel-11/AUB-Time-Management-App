@@ -12,12 +12,20 @@ namespace AUBTimeManagementApp.GUI
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Submits a log in request to the server
+        /// </summary>
         private void LoginButton_Click(object sender, EventArgs e) {
             username = UsernameTextBox.Text;
             string password = PasswordTextBox.Text;
 
             Client.Client.Instance.logIn(username, password);
         }
+
+        /// <summary>
+        /// Opens the main menu if the inputs were valid, shows an error message otherwise
+        /// </summary>
+        /// <param name="OK">True if the username/password were valid; false otherwise</param>
         public void loginReply(bool OK) { 
             if (OK)
             {
@@ -35,6 +43,9 @@ namespace AUBTimeManagementApp.GUI
             }
         }
 
+        /// <summary>
+        /// Opens the registration form
+        /// </summary>
         private void SignUpButton_Click(object sender, EventArgs e)
         {
             RegistrationForm registrationForm = new RegistrationForm(this);

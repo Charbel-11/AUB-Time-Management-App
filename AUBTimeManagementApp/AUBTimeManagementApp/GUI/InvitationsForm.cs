@@ -29,6 +29,9 @@ namespace AUBTimeManagementApp.GUI
             DisplayInvitations();         
         }
 
+        /// <summary>
+        /// Resets the invitations and display them again
+        /// </summary>
         public void DisplayInvitations()
         {
             AcceptButtonToInvitation.Clear();
@@ -41,6 +44,11 @@ namespace AUBTimeManagementApp.GUI
             List<Invitation> userInvitations = Client.Client.Instance.GetInvitations();
             foreach (Invitation invitation in userInvitations) { AddInvitationEntry(invitation); }
         }
+
+        /// <summary>
+        /// Adds one invitation to the list, initializing the appropriate GUI components
+        /// </summary>
+        /// <param name="invitation"></param>
         public void AddInvitationEntry(Invitation invitation)
         {
             GroupBox groupBox1 = new GroupBox();
@@ -112,6 +120,9 @@ namespace AUBTimeManagementApp.GUI
             InvitationToGroup[invitation] = groupBox1;
         }
 
+        /// <summary>
+        /// Sends to the server that the invitation was accepted
+        /// </summary>
         private void AcceptButton_Click(object sender, EventArgs e)
         {
             int idx = AcceptButtons.FindIndex(a => a == sender);
@@ -120,6 +131,9 @@ namespace AUBTimeManagementApp.GUI
             Client.Client.Instance.AcceptInvitation(inv);
         }
 
+        /// <summary>
+        /// Sends to the server that the invitation was rejected
+        /// </summary>
         private void DeclineButton_Click(object sender, EventArgs e)
         {
             int idx = DeclineButtons.FindIndex(a => a == sender);

@@ -68,7 +68,6 @@
             this.UsernameLabel.Size = new System.Drawing.Size(73, 17);
             this.UsernameLabel.TabIndex = 1;
             this.UsernameLabel.Text = "Username";
-            this.UsernameLabel.Click += new System.EventHandler(this.label1_Click);
             // 
             // lastNameLabel
             // 
@@ -78,7 +77,6 @@
             this.lastNameLabel.Size = new System.Drawing.Size(76, 17);
             this.lastNameLabel.TabIndex = 3;
             this.lastNameLabel.Text = "Last Name";
-            this.lastNameLabel.Click += new System.EventHandler(this.label2_Click);
             // 
             // LastNameTextBox
             // 
@@ -86,7 +84,6 @@
             this.LastNameTextBox.Name = "LastNameTextBox";
             this.LastNameTextBox.Size = new System.Drawing.Size(196, 22);
             this.LastNameTextBox.TabIndex = 2;
-            this.LastNameTextBox.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
             // PasswordLabel
             // 
