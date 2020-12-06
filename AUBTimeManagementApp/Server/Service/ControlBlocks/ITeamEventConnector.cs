@@ -5,12 +5,22 @@ namespace Server.Service.ControlBlocks
 {
     public interface ITeamEventConnector
     {
-        // Create a team event
-        // (1) Add the event id to the team's schedule
-        // (2) Add the event object to the events table
+        /// <summary>
+        /// Add event and its priority to the list of events in the team's schedule
+        /// get the list of team members
+        /// send invitations to the event to all team members
+        /// </summary>
+        /// <param name="teamID"></param>
+        /// <param name="_event"></param>
         void CreateTeamEvent(int teamID, Event addedEvent);
 
-        // Remove a member from a certain team
+        /// <summary>
+        /// Removes a team member from the team, removes all team evnst invitations sent to him
+        /// removes all upcoming team events from his schedule and if the team becomes empty, deletes the team
+        /// </summary>
+        /// <param name="teamID"></param>
+        /// <param name="userToRemove"></param>
+        /// <param name="removalDate"></param>>
         void RemoveTeamMember(int teamID, string userToRemove, DateTime removalDate);
     }
 }

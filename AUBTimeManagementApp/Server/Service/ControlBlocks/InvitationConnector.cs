@@ -22,18 +22,15 @@ namespace Server.Service.ControlBlocks
             IInvitationsHandler invitationsHandler = new InvitationsHandler();
             invitationsHandler.AcceptInvitation(username, invitationID);
 
-
-            // \LATER\ teamID is an argument here in case we want to notify the invitation sender later that this user will attend
-
             return acceptedEvent;
         }
 
         public void DeclineInvitation(string username, int invitationID)
         {
+            //Remove invitations
             IInvitationsHandler invitationsHandler = new InvitationsHandler();
             invitationsHandler.DeclineInvitation(username, invitationID);
 
-            // \LATER\ teamID is an argument here in case we want to notify the invitation sender later that this user will not attend
         }
 
     }

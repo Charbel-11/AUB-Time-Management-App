@@ -201,11 +201,15 @@ namespace Server {
         private static void HandleGetUserTeams(int ConnectionID, byte[] data) {
             BufferHelper bufferH = new BufferHelper();
             bufferH.WriteBytes(data);
+            // Read username to buffer
             string username = bufferH.ReadString();
             bufferH.Dispose();
 
+            //get the teams that the user is a member of
             ITeamsHandler teamsHandler = new TeamsHandler();
             List<Team> teams = teamsHandler.GetUserTeams(username);
+
+            //send reply to client
             ServerTCP.PACKET_SendGetUserTeamsReply(ConnectionID, teams);
         }
 
@@ -214,7 +218,7 @@ namespace Server {
             BufferHelper bufferH = new BufferHelper();
             bufferH.WriteBytes(data);
 
-            // Read userID to buffer
+            // Read username to buffer
             string username = bufferH.ReadString();
 
             bufferH.Dispose();
@@ -224,6 +228,8 @@ namespace Server {
             List<Event> eventsList = _eventScheduleConnector.GetUserSchedule(username);
 
             Console.WriteLine("Will show " + eventsList.Count.ToString() + "events!");
+            
+            //send reply to client
             ServerTCP.PACKET_SendGetUserScheduleReply(ConnectionID, eventsList);
         }
 
@@ -241,6 +247,8 @@ namespace Server {
 
 
             Console.WriteLine("Will show " + eventsList.Count + "events!");
+
+            //send reply to client
             ServerTCP.PACKET_SendGetTeamScheduleReply(ConnectionID, teamID, eventsList);
         }
 
@@ -267,6 +275,8 @@ namespace Server {
             }
 
             double[,] freeTimeFreq = schedulesHandler.getMergedScheduleFreq(allMembersEvents, DateTime.Parse(startTime), DateTime.Parse(endTime), priorityThreshold);
+
+            //send reply to client
             ServerTCP.PACKET_SendMergedSchedule(ConnectionID, teamID, freeTimeFreq);
         }
 
@@ -291,6 +301,7 @@ namespace Server {
             filteredEventIDs = eventsHandler.getFilteredUserEvents(username, low, medium, high);
             filteredEvents = eventsHandler.GetEvents(filteredEventIDs, false, username, 0);
 
+            //send reply to client
             ServerTCP.PACKET_SendGetUserScheduleReply(ConnectionID, filteredEvents);
         }
 
@@ -310,9 +321,12 @@ namespace Server {
             // Get list of events in the schedule
             ITeamsHandler teamsHandler = new TeamsHandler();
             List<int> filteredEventIDs = teamsHandler.getFilteredTeamEvents(teamID, low, medium, high);
+
             // Get the events from eventIDs list and add them to the events list
             var eventsHandler = new EventsHandler();
             List<Event> eventsList = eventsHandler.GetEvents(filteredEventIDs, true, " ", teamID);
+
+            //send reply to client
             ServerTCP.PACKET_SendGetUserScheduleReply(ConnectionID, eventsList);
         }
 
@@ -330,6 +344,7 @@ namespace Server {
 
             bufferH.Dispose();
 
+            //create a new team
             ITeamAccountConnector teamAccountConnector = new TeamAccountConnector();
             teamAccountConnector.createTeam(ConnectionID, admin, teamName, members);
         }
@@ -344,6 +359,7 @@ namespace Server {
 
             bufferH.Dispose();
 
+            //change the adminState of the user
             ITeamsHandler teamsHandler = new TeamsHandler();
             teamsHandler.ChangeAdminState(teamID, username, isNowAdmin);
         }
@@ -357,6 +373,7 @@ namespace Server {
 
             bufferH.Dispose();
 
+            //remove member form the team
             ITeamEventConnector teamEventConnector = new TeamEventConnector();
             teamEventConnector.RemoveTeamMember(teamID, username, DateTime.Now);
         }
@@ -370,9 +387,11 @@ namespace Server {
 
             bufferH.Dispose();
 
+            //Add membet to the team
             ITeamAccountConnector teamAccountConnector = new TeamAccountConnector();
             teamAccountConnector.addMember(ConnectionID, teamID, username);
 
+            //send invitations to all upcoming team events to the newly added member
             //ITeamEventConnector teamEventConnector = new TeamEventConnector();
             //teamEventConnector.
         }
@@ -394,17 +413,14 @@ namespace Server {
 
             bufferH.Dispose();
 
-            // Till now we assume that all team members are invited 
-            // It's very simple to make create an event that requires the attendance of some of the members
-            // if list of attendees is not null --> only invite the members in the list
-            // Else invite all
-
             // Add the event to the schedule of the planner using the connector between the events and the schedules handlers
             IEventScheduleConnector eventScheduleConnector = new EventScheduleConnector();
             KeyValuePair<Event, List<Event>> pair = eventScheduleConnector.AddUserEvent(eventPlanner, eventPriority, eventPlanner, eventName, DateTime.Parse(eventStart), DateTime.Parse(eventEnd), isTeamEvent);
+            //Add the event to the teams schedule and send invitations to team members using the connector between team and events handlers
             ITeamEventConnector teamEventConnector = new TeamEventConnector();
             teamEventConnector.CreateTeamEvent(teamID, pair.Key);
 
+            //send reply to client
             ServerTCP.PACKET_CreateUserEventReply(ConnectionID, pair);
         }
 
@@ -424,12 +440,15 @@ namespace Server {
 
             bufferH.Dispose();
 
+            //Add an event to the user's schedule
             IEventScheduleConnector eventScheduleConnector = new EventScheduleConnector();
             KeyValuePair<Event, List<Event>> pair = eventScheduleConnector.AddUserEvent(username, eventPriority, username, eventName, DateTime.Parse(eventStart), DateTime.Parse(eventEnd), isTeamEvent);
 
+            //send reply to client
             ServerTCP.PACKET_CreateUserEventReply(ConnectionID, pair);
         }
 
+        
         private static void HandleGetUserEvent(int ConnectionID, byte[] data)
         {
 
@@ -440,11 +459,11 @@ namespace Server {
             string username = bufferH.ReadString();
             bufferH.Dispose();
 
+            //Get the details of a single event
             IEventScheduleConnector eventScheduleConnector = new EventScheduleConnector();
             eventScheduleConnector.GetUserEventInDetail(eventID, username);
-
-            //ServerTCP.PACKET_SendCreateUserEvent(ConnectionID, );
         }
+
         private static void HandleCancelUserEvent(int ConnectionID, byte[] data)
         {
             BufferHelper bufferH = new BufferHelper();
@@ -455,6 +474,7 @@ namespace Server {
             bool isTeamEvent = bufferH.ReadBool();
 
             bufferH.Dispose();
+            //Cancel the event in the user's schedule
             IEventScheduleConnector eventScheduleConnector = new EventScheduleConnector();
             eventScheduleConnector.CancelUserEvent(username, eventID, isTeamEvent);
 
@@ -479,10 +499,11 @@ namespace Server {
 
             Event updatedEvent = new Event(eventID, priority, plannerUsername, eventName, DateTime.Parse(start), DateTime.Parse(end));
 
+            //Modify the event
             IEventScheduleConnector _eventScheduleConnector= new EventScheduleConnector();
             _eventScheduleConnector.ModifyUserEvent(updatedEvent, username);
 
-            //ServerTCP.PACKET_CancelUserEvent(ConnectionID, true);
+
         }
 
         #region Invitations
@@ -513,7 +534,7 @@ namespace Server {
 
             // Get event priority from isTeamAttendee
 
-
+            //send reply to client
             ServerTCP.PACKET_SendGetUserInvitationsReply(ConnectionID, invitations, eventsList);
         }
 
@@ -528,9 +549,11 @@ namespace Server {
             int eventID = bufferH.ReadInteger();
             int teamID = bufferH.ReadInteger();
 
+            //Accept the invitation
             IInvitationsConnector invitationsConnector = new InvitationConnector();
             Event acceptedEvent = invitationsConnector.AcceptInvitation(username, invitationID, eventID, teamID);
 
+            //send reply to client
             ServerTCP.PACKET_AcceptInvitationReply(ConnectionID, acceptedEvent);
         }
 
@@ -543,6 +566,7 @@ namespace Server {
             string username = bufferH.ReadString();
             int invitationID = bufferH.ReadInteger();
 
+            //Decline the invitation
             IInvitationsConnector invitationsConnector = new InvitationConnector();
             invitationsConnector.DeclineInvitation(username, invitationID);
 
