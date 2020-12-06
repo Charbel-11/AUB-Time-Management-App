@@ -2,6 +2,7 @@
 using Server.DataContracts;
 using Server.Service.Handlers;
 using System.Collections.Generic;
+using System;
 
 namespace Server.Service.ControlBlocks
 {
@@ -31,6 +32,18 @@ namespace Server.Service.ControlBlocks
             IInvitationsHandler invitationsHandler = new InvitationsHandler();
             invitationsHandler.DeclineInvitation(username, invitationID);
 
+        }
+
+        public void InviteNewMemberToEvents(string username, int teamID)
+        {
+            //get all upcoming events related to this team in his schedule
+            IEventsHandler eventsHandler = new EventsHandler();
+            List<int> upcomingTeamEvents = eventsHandler.GetIDsOfUpcomingTeamEvents(teamID, DateTime.Now);
+
+            //Get invitationsIDs of these events
+            //Send all the invitations with ID in the invitationIDs list to the newly added member
+            IInvitationsHandler invitationsHandler = new InvitationsHandler();
+            invitationsHandler.SendInvitationsToNewMember(upcomingTeamEvents, teamID, username);
         }
 
     }

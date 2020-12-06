@@ -392,8 +392,9 @@ namespace Server {
             teamAccountConnector.addMember(ConnectionID, teamID, username);
 
             //send invitations to all upcoming team events to the newly added member
-            //ITeamEventConnector teamEventConnector = new TeamEventConnector();
-            //teamEventConnector.
+            IInvitationsConnector invitationsConnector = new InvitationConnector();
+            invitationsConnector.InviteNewMemberToEvents(username, teamID);
+
         }
 
         private static void HandleCreateTeamEvent(int ConnectionID, byte[] data)
@@ -515,7 +516,7 @@ namespace Server {
             IEventsHandler eventsHandler = new EventsHandler();
 
             // Get list of invitation IDs sent to the user
-            List<int> invitationIDs = invitationsHandler.GetInvitationsIDs(username);
+            List<int> invitationIDs = invitationsHandler.GetUserInvitationsIDs(username);
 
             // get a list of invitation objects containing the details of the invitations sent to the user
             List<Invitation> invitations = InvitationsStorage.GetInvitations(invitationIDs);
