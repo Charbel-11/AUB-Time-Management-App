@@ -155,20 +155,12 @@ namespace AUBTimeManagementApp.Client
         /// <param name="conflictingEvents">A list of conflicting events</param>
         public void CreateUserEventReply(Event _event, List<Event> conflictingEvents)
         {
-            //addedEvent.ID = eventID;
-            //ShowEvent(addedEvent);
-            mainForm.updateEventID(_event.ID);
-            if (conflictingEvents.Count != 0)
-            {
-                mainForm.informUserAboutConflicts(_event, conflictingEvents);
-            }
-
             if (teamCalendarForm != null && teamCalendarForm.Enabled) {
                 if (teamCalendarForm.mergedCalendarShown) {
                     if (teamCalendarForm.InvokeRequired)
                         teamCalendarForm.Invoke(new MethodInvoker(delegate { teamCalendarForm.SubmitButton_Click(null, null); }));
                     else
-                        teamCalendarForm.SubmitButton_Click(null, null); 
+                        teamCalendarForm.SubmitButton_Click(null, null);
                 }
                 else {
                     if (teamCalendarForm.InvokeRequired)
@@ -176,6 +168,13 @@ namespace AUBTimeManagementApp.Client
                     else
                         teamCalendarForm.teamSchedButton_Click(null, null);
                 }
+            }
+            else if (mainForm != null && mainForm.Enabled) {
+                mainForm.updateEventID(_event.ID);
+            }
+
+            if (conflictingEvents.Count != 0) {
+                mainForm.informUserAboutConflicts(_event, conflictingEvents);
             }
         }
 

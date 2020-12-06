@@ -32,6 +32,9 @@ namespace AUBTimeManagementApp.GUI
             Low.Checked = true;
             Medium.Checked = true;
             High.Checked = true;
+
+            monthView.SelectionStart = DateTime.Today;
+            monthView.SelectionEnd = DateTime.Today.AddDays(2);
         }
 
         public void displayEvent(int eventID, string eventName, int priority, DateTime startDate, DateTime endDate, bool teamEvent) {
@@ -84,26 +87,34 @@ namespace AUBTimeManagementApp.GUI
                 eventDetailsPanel.Show();
                 // Display Selected Event Details
                 detailsEventName.Text = selectedItem.Text;
-                dateTimePickerStart.Value = selectedItem.StartDate;
-                dateTimePickerEnd.Value = selectedItem.EndDate;
+                datePickerStart.Value = selectedItem.StartDate.Date;
+                timePickerStart.Value = selectedItem.StartDate.Date + selectedItem.StartDate.TimeOfDay;
+                datePickerEnd.Value = selectedItem.EndDate.Date;
+                timePickerEnd.Value = selectedItem.EndDate.Date + selectedItem.EndDate.TimeOfDay;
                 ModifyPriority.Value = selectedItem.priority;
                 selectedItemID = selectedItem.eventID;
 
                 if(selectedItem.teamEvent)
 				{
                     detailsEventName.ReadOnly = true;
-                    dateTimePickerStart.Enabled= false;
-                    dateTimePickerEnd.Enabled = false;
+                    datePickerStart.Enabled= false;
+                    timePickerStart.Enabled = false;
+                    datePickerEnd.Enabled = false;
+                    timePickerEnd.Enabled = false;
                     ModifyEventBut.Text = "Modify Priority";
+                    eventTypeText.Text = "Team Event";
 				}
 				else
 				{
                     detailsEventName.ReadOnly = false;
-                    dateTimePickerStart.Enabled = true;
-                    dateTimePickerEnd.Enabled = true;
+                    datePickerStart.Enabled = true;
+                    timePickerStart.Enabled = true;
+                    datePickerEnd.Enabled = true;
+                    timePickerEnd.Enabled = true;
                     ModifyEventBut.Text = "Modify";
+                    eventTypeText.Text = "Personal Event";
                 }
-			}
+            }
             else
             {
                 AddEvent addEventWindow = new AddEvent(this, e.Item.StartDate, e.Item.EndDate);
@@ -169,27 +180,30 @@ namespace AUBTimeManagementApp.GUI
             //If the yes button is pressed delete event
             if (result == DialogResult.Yes)
             {
-                Event updatedEvent = new Event(selectedItem.eventID,ModifyPriority.Value, _username, detailsEventName.Text, dateTimePickerStart.Value, dateTimePickerEnd.Value, selectedItem.teamEvent);
+                DateTime startDate = datePickerStart.Value.Date + timePickerStart.Value.TimeOfDay;
+                DateTime endDate = datePickerEnd.Value.Date + timePickerEnd.Value.TimeOfDay;
+                Event updatedEvent = new Event(selectedItem.eventID,ModifyPriority.Value, _username, detailsEventName.Text, startDate, endDate, selectedItem.teamEvent);
                 _items.Remove(selectedItem);
                 calendar.Items.Remove(selectedItem);
-                _items.Add(new CalendarItem(calendar, updatedEvent.startTime, updatedEvent.endTime, updatedEvent.eventName, updatedEvent.ID, updatedEvent.priority, updatedEvent.teamEvent));
-                PlaceItems();
+                displayEvent(updatedEvent.ID, updatedEvent.eventName, updatedEvent.priority, updatedEvent.startTime, updatedEvent.endTime, updatedEvent.teamEvent);
                 Client.Client.Instance.ModifyUserEvent(updatedEvent);
             }
         }
 
         private void Refresh_Click(object sender, EventArgs e)
         {
-            calendar.Items.Clear();
-            _items.Clear();
+            Low.Checked = true;
+            Medium.Checked = true;
+            High.Checked = true;
+            calendar.Items.Clear(); _items.Clear();
             Client.Client.Instance.GetUserSchedule();
+            monthView_SelectionChanged(null, null);
         }
 
         public void updateEventID(int eventID)
 		{
             CalendarItem addedItem = _items[_items.Count() - 1];
-            addedItem.eventID = eventID;
-            
+            addedItem.eventID = eventID;           
 		}
 
         private void InvitationsButton_Click(object sender, EventArgs e)
@@ -219,10 +233,6 @@ namespace AUBTimeManagementApp.GUI
             }
 
             MessageBox.Show(warning, "Conflict Warning!");
-        }
-
-        private void eventDetailsPanel_Paint(object sender, PaintEventArgs e) {
-
         }
     }
 }
