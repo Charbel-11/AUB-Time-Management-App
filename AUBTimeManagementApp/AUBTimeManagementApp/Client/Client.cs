@@ -11,9 +11,9 @@ namespace AUBTimeManagementApp.Client
         private static readonly Client instance = new Client(); //Singleton
 
         private static readonly string localIP = "127.0.0.1";
-        private static readonly string onlineIP = "37.209.255.144";
+        private static readonly string onlineIP = "37.209.253.194";
 
-        private static readonly string serverIP = localIP;
+        private static readonly string serverIP = onlineIP;
         private static readonly int serverPort = 8020;
 
         public string username;
@@ -526,16 +526,25 @@ namespace AUBTimeManagementApp.Client
 
         #region Invitations
 
+        /// <summary>
+        /// Sends a request to retrieve all the user invitations from the server
+        /// </summary>
         public void GetUserInvitations()
         {
             ClientTCP.PACKET_GetUserInvitations(username);
         }
-
+        /// <summary>
+        /// Receives all the invitations from the server and set the notifications accordingly
+        /// </summary>
         public void GetUserInvitationsReply(List<Invitation> invitations)
         {
             Invitations = invitations;
             updateInvitationNotification();
         }
+        /// <summary>
+        /// Received one new invitation; add it to the list and display it
+        /// </summary>
+        /// <param name="invitation">The new invitation</param>
         public void receivedInvitation(Invitation invitation) {
             Invitations.Add(invitation);
             updateInvitationNotification();
@@ -548,18 +557,29 @@ namespace AUBTimeManagementApp.Client
             }
         }
 
+        /// <summary>
+        /// Send to the server that one invitation was accepted and remove this invitation from the list
+        /// </summary>
+        /// <param name="invitation"></param>
         public void AcceptInvitation(Invitation invitation)
         {
             ClientTCP.PACKET_AcceptInvitation(invitation, username);
             Invitations.Remove(invitation);
             updateInvitationNotification();
         }
+        /// <summary>
+        /// Send to the server that one invitation was rejected and remove this invitation from the list
+        /// </summary>
         public void DeclineInvitation(Invitation invitation)
         {
             ClientTCP.PACKET_DeclineInvitation(invitation, username);
             Invitations.Remove(invitation);
             updateInvitationNotification();
         }
+
+        /// <summary>
+        /// Updates the number that shows how many unanswered notifications there is
+        /// </summary>
         private void updateInvitationNotification() {
             if (mainForm != null && mainForm.Enabled) {
                 if (mainForm.InvokeRequired) {

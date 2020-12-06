@@ -34,6 +34,10 @@ namespace AUBTimeManagementApp.GUI
             AcceptButtonToInvitation.Clear();
             DeclineButtonToInvitation.Clear();
             InvitationToGroup.Clear();
+            flowLayoutPanel1.Controls.Clear();
+            AcceptButtons.Clear();
+            DeclineButtons.Clear();
+            Labels.Clear();
             List<Invitation> userInvitations = Client.Client.Instance.GetInvitations();
             foreach (Invitation invitation in userInvitations) { AddInvitationEntry(invitation); }
         }
