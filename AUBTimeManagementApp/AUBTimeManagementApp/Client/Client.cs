@@ -488,7 +488,6 @@ namespace AUBTimeManagementApp.Client
             ClientTCP.PACKET_FilterUserSchedule(username, low, medium, high);
         }
 
-
         public void FilterUserScheduleReply(int n, List<Event> eventsList)
         {
             for (int i = 0; i < n; i++)

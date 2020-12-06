@@ -676,7 +676,6 @@
 		private System.Windows.Forms.TextBox textBox7;
         private System.Windows.Forms.Button Refresh;
 		private System.Windows.Forms.ImageList imageList1;
-		private System.Windows.Forms.Button button1;
 		private System.Windows.Forms.DateTimePicker datePickerStart;
 		private System.Windows.Forms.DateTimePicker datePickerEnd;
 		private System.Windows.Forms.TextBox textBox5;

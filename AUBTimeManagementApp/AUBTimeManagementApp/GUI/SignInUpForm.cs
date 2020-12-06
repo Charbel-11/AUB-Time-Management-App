@@ -40,9 +40,5 @@ namespace AUBTimeManagementApp.GUI
             RegistrationForm registrationForm = new RegistrationForm(this);
             registrationForm.Show();
         }
-        private void textBox2_TextChanged(object sender, EventArgs e)
-        {
-
-        }
     }
 }

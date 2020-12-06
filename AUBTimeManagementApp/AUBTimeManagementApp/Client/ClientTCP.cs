@@ -174,22 +174,6 @@ namespace AUBTimeManagementApp.Client {
             bufferH.Dispose();
         }
 
-        public static void PACKET_FilterTeamSchedule(int teamID, bool low, bool medium, bool high)
-        {
-            BufferHelper bufferH = new BufferHelper();
-            bufferH.WriteInteger((int)ClientPackages.CFilterTeamSchedule);
-
-            // write teamID and required priorities on buffer
-            bufferH.WriteInteger(teamID);
-            bufferH.WriteBool(low);
-            bufferH.WriteBool(medium);
-            bufferH.WriteBool(high);
-
-            //Sends it to the server
-            SendData(bufferH.ToArray());
-            bufferH.Dispose();
-        }
-
         public static void PACKET_CreateTeam(string teamName, string admin, string[] members) {
             BufferHelper bufferH = new BufferHelper();
             bufferH.WriteInteger((int)ClientPackages.CCreateTeam);
