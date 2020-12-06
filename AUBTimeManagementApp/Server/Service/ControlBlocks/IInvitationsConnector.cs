@@ -1,12 +1,16 @@
 ﻿using Server.DataContracts;
-using System;
-using System.Collections.Generic;
 
 namespace Server.Service.ControlBlocks
 {
     public interface IInvitationsConnector
     {
+        // Accept invitation
+        // (1) Add event to the user's schedule
+        // (2) Remove inviation from the DB
         Event AcceptInvitation(string username, int invitationID, int eventID, int teamID);
+
+        // Decline Invitation
+        // Only remove invitation from the DB
         void DeclineInvitation(string username, int invitationID);
     }
 }
