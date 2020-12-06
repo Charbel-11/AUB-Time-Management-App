@@ -150,7 +150,7 @@ namespace AUBTimeManagementApp.Client
                         teamCalendarForm.displayEvent(_event);
                 }
             }
-            else if (mainForm != null && mainForm.Enabled) {
+            else if (mainForm != null) {
                 showEvent(_event.ID, _event.eventName, _event.priority, _event.startTime, _event.endTime, _event.teamEvent, _event.link);
             }
 
