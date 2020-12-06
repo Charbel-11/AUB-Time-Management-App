@@ -34,8 +34,8 @@ namespace AUBTimeManagementApp.GUI
             monthView.SelectionEnd = DateTime.Today.AddDays(2);
         }
 
-        public void displayEvent(int eventID, string eventName, int priority, DateTime startDate, DateTime endDate, bool teamEvent) {
-            CalendarItem curEvent = new CalendarItem(calendar, startDate, endDate, eventName, eventID, priority, teamEvent);
+        public void displayEvent(int eventID, string eventName, int priority, DateTime startDate, DateTime endDate, bool teamEvent, string Link) {
+            CalendarItem curEvent = new CalendarItem(calendar, startDate, endDate, eventName, eventID, priority, teamEvent, Link);
             calendar.Items.Add(curEvent);
             _items.Add(curEvent);
 
@@ -88,6 +88,7 @@ namespace AUBTimeManagementApp.GUI
                 datePickerEnd.Value = selectedItem.EndDate.Date;
                 timePickerEnd.Value = selectedItem.EndDate.Date + selectedItem.EndDate.TimeOfDay;
                 ModifyPriority.Value = selectedItem.priority;
+                LinkBox.Text = selectedItem.Link;
                 selectedItemID = selectedItem.eventID;
 
                 if(selectedItem.teamEvent)
@@ -97,6 +98,7 @@ namespace AUBTimeManagementApp.GUI
                     timePickerStart.Enabled = false;
                     datePickerEnd.Enabled = false;
                     timePickerEnd.Enabled = false;
+                    LinkBox.ReadOnly = true;
                     ModifyEventBut.Text = "Modify Priority";
                     eventTypeText.Text = "Team Event";
 				}
@@ -107,6 +109,7 @@ namespace AUBTimeManagementApp.GUI
                     timePickerStart.Enabled = true;
                     datePickerEnd.Enabled = true;
                     timePickerEnd.Enabled = true;
+                    LinkBox.ReadOnly = false;
                     ModifyEventBut.Text = "Modify";
                     eventTypeText.Text = "Personal Event";
                 }
@@ -178,10 +181,10 @@ namespace AUBTimeManagementApp.GUI
             {
                 DateTime startDate = datePickerStart.Value.Date + timePickerStart.Value.TimeOfDay;
                 DateTime endDate = datePickerEnd.Value.Date + timePickerEnd.Value.TimeOfDay;
-                Event updatedEvent = new Event(selectedItem.eventID,ModifyPriority.Value, _username, detailsEventName.Text, startDate, endDate, selectedItem.teamEvent);
+                Event updatedEvent = new Event(selectedItem.eventID,ModifyPriority.Value, _username, detailsEventName.Text, startDate, endDate, selectedItem.teamEvent, LinkBox.Text);
                 _items.Remove(selectedItem);
                 calendar.Items.Remove(selectedItem);
-                displayEvent(updatedEvent.ID, updatedEvent.eventName, updatedEvent.priority, updatedEvent.startTime, updatedEvent.endTime, updatedEvent.teamEvent);
+                displayEvent(updatedEvent.ID, updatedEvent.eventName, updatedEvent.priority, updatedEvent.startTime, updatedEvent.endTime, updatedEvent.teamEvent, updatedEvent.link);
                 Client.Client.Instance.ModifyUserEvent(updatedEvent);
             }
         }

@@ -59,6 +59,7 @@ namespace System.Windows.Forms.Calendar
         public int eventID { get; set; }
         public int priority { get; set; }
         public bool teamEvent { get; set; }
+        public string Link { get; set; }
 
         #endregion
 
@@ -87,7 +88,7 @@ namespace System.Windows.Forms.Calendar
         /// <param name="startDate">Start date of the item</param>
         /// <param name="endDate">End date of the item</param>
         /// <param name="text">Text of the item</param>
-        public CalendarItem(Calendar calendar, DateTime startDate, DateTime endDate, string text, int _eventID, int _priority, bool _teamEvent)
+        public CalendarItem(Calendar calendar, DateTime startDate, DateTime endDate, string text, int _eventID, int _priority, bool _teamEvent, string _link)
             : this(calendar)
         {
             StartDate = startDate;
@@ -96,6 +97,7 @@ namespace System.Windows.Forms.Calendar
             eventID = _eventID;
             priority = _priority;
             teamEvent = _teamEvent;
+            Link = _link;
         }
 
         /// <summary>

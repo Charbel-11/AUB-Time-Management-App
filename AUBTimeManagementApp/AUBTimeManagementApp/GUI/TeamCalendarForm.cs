@@ -113,7 +113,7 @@ namespace AUBTimeManagementApp.GUI {
         /// </summary>
         /// <param name="_event">The event in question</param>
         public void displayEvent(Event _event) {
-            CalendarItem curEvent = new CalendarItem(calendar, _event.startTime, _event.endTime, _event.eventName, _event.ID, _event.priority, _event.teamEvent);
+            CalendarItem curEvent = new CalendarItem(calendar, _event.startTime, _event.endTime, _event.eventName, _event.ID, _event.priority, _event.teamEvent,_event.link);
             calendar.Items.Add(curEvent); _items.Add(curEvent);
             int priority = curEvent.priority;
             if (priority == 1) { curEvent.BackgroundColor = curEvent.BackgroundColorLighter = Color.LightBlue; }
@@ -203,6 +203,7 @@ namespace AUBTimeManagementApp.GUI {
                 timePickerStart.Value = selectedItem.StartDate.Date + selectedItem.StartDate.TimeOfDay;
                 datePickerEnd.Value = selectedItem.EndDate.Date;
                 timePickerEnd.Value = selectedItem.EndDate.Date + selectedItem.EndDate.TimeOfDay;
+                LinkBox.Text = selectedItem.Link;
                 modifyEventPriority.Value = selectedItem.priority;
 
                 if (!isAdmin) {
@@ -212,16 +213,18 @@ namespace AUBTimeManagementApp.GUI {
                     datePickerEnd.Enabled = false;
                     timePickerEnd.Enabled = false;
                     modifyEventPriority.Enabled = false;
+                    LinkBox.ReadOnly = true;
                     ModifyEventBut.Enabled = false;
                     DeleteEventBut.Enabled = false;
                 }
                 else {
-                    detailsEventName.ReadOnly = true;
+                    detailsEventName.ReadOnly = false;
                     datePickerStart.Enabled = true;
                     timePickerStart.Enabled = true;
                     datePickerEnd.Enabled = true;
                     timePickerEnd.Enabled = true;
                     modifyEventPriority.Enabled = true;
+                    LinkBox.ReadOnly = false;
                     ModifyEventBut.Enabled = true;
                     DeleteEventBut.Enabled = true;
                 }             
@@ -272,7 +275,7 @@ namespace AUBTimeManagementApp.GUI {
             { 
                 DateTime startDate = datePickerStart.Value.Date + timePickerStart.Value.TimeOfDay;
                 DateTime endDate = datePickerEnd.Value.Date + timePickerEnd.Value.TimeOfDay;
-                Event updatedEvent = new Event(selectedItem.eventID, modifyEventPriority.Value, Client.Client.Instance.username , detailsEventName.Text, startDate, endDate, selectedItem.teamEvent);
+                Event updatedEvent = new Event(selectedItem.eventID, modifyEventPriority.Value, Client.Client.Instance.username , detailsEventName.Text, startDate, endDate, selectedItem.teamEvent, LinkBox.Text);
                 _items.Remove(selectedItem);
                 calendar.Items.Remove(selectedItem);
                 displayEvent(updatedEvent);

@@ -493,10 +493,11 @@ namespace Server {
             int priority = bufferH.ReadInteger();
             string plannerUsername = bufferH.ReadString();
             string username = bufferH.ReadString();
-
+            string link = bufferH.ReadString();
+            bool isteamEvent = bufferH.ReadBool();
             bufferH.Dispose();
 
-            Event updatedEvent = new Event(eventID, priority, plannerUsername, eventName, DateTime.Parse(start), DateTime.Parse(end));
+            Event updatedEvent = new Event(eventID, priority, plannerUsername, eventName, DateTime.Parse(start), DateTime.Parse(end), isteamEvent, link);
 
             //Modify the event
             IEventScheduleConnector _eventScheduleConnector= new EventScheduleConnector();
@@ -599,10 +600,11 @@ namespace Server {
             string start = bufferH.ReadString();
             string end = bufferH.ReadString();
            string planner = bufferH.ReadString();
+            string Link = bufferH.ReadString();
 
             bufferH.Dispose();
 
-            Event updatedEvent = new Event(eventID, priority, planner, eventName, DateTime.Parse(start), DateTime.Parse(end), true);
+            Event updatedEvent = new Event(eventID, priority, planner, eventName, DateTime.Parse(start), DateTime.Parse(end), true, Link);
             Console.WriteLine("modifying event with name = " + eventName);
 
             // update team Event

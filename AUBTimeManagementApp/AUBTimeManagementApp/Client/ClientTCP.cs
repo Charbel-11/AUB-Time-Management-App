@@ -298,6 +298,8 @@ namespace AUBTimeManagementApp.Client {
             bufferH.WriteInteger(updatedEvent.priority);
             bufferH.WriteString(updatedEvent.plannerUsername);
             bufferH.WriteString(username);
+            bufferH.WriteString(updatedEvent.link);
+            bufferH.WriteBool(updatedEvent.teamEvent);
 
             SendData(bufferH.ToArray());
             bufferH.Dispose();
@@ -353,6 +355,7 @@ namespace AUBTimeManagementApp.Client {
             bufferH.WriteString(updatedEvent.startTime.ToString());
             bufferH.WriteString(updatedEvent.endTime.ToString());
             bufferH.WriteString(updatedEvent.plannerUsername);
+            bufferH.WriteString(updatedEvent.link);
 
 
             SendData(bufferH.ToArray());

@@ -20,7 +20,6 @@ namespace AUBTimeManagementApp.Client
             { (int)ServerPackages.SGetUserScheduleReply, HandleGetUserScheduleReply },
             { (int)ServerPackages.SGetTeamScheduleReply, HandleGetTeamScheduleReply },
             { (int)ServerPackages.SFilterUserScheduleReply, HandleFilterUserScheduleReply },
-            { (int)ServerPackages.SFilterTeamScheduleReply, HandleFilterTeamScheduleReply },
             { (int)ServerPackages.SCreateTeamReply, HandleCreateTeamReply },
             { (int)ServerPackages.SNewTeamCreated, HandleNewTeamCreated },
             { (int)ServerPackages.SNewAdminState, HandleNewAdminState },
@@ -141,7 +140,8 @@ namespace AUBTimeManagementApp.Client
                 string eventStart = bufferH.ReadString();
                 string eventEnd = bufferH.ReadString();
                 bool isteamEvent = bufferH.ReadBool();
-                Event curevent = new Event(eventID, eventPriority, planner, eventName, DateTime.Parse(eventStart), DateTime.Parse(eventEnd), isteamEvent);
+                string Link = bufferH.ReadString();
+                Event curevent = new Event(eventID, eventPriority, planner, eventName, DateTime.Parse(eventStart), DateTime.Parse(eventEnd), isteamEvent, Link);
                 eventsList.Add(curevent);
             }
             Client.Instance.GetUserScheduleReply(n, eventsList);
@@ -165,7 +165,8 @@ namespace AUBTimeManagementApp.Client
                 string eventStart = bufferH.ReadString();
                 string eventEnd = bufferH.ReadString();
                 bool isteamEvent = bufferH.ReadBool();
-                Event curevent = new Event(eventID, eventPriority, planner, eventName, DateTime.Parse(eventStart), DateTime.Parse(eventEnd), isteamEvent);
+                string Link = bufferH.ReadString();
+                Event curevent = new Event(eventID, eventPriority, planner, eventName, DateTime.Parse(eventStart), DateTime.Parse(eventEnd), isteamEvent, Link);
                 eventsList.Add(curevent);
             }
             Client.Instance.GetTeamScheduleReply(teamID, eventsList);
@@ -189,34 +190,11 @@ namespace AUBTimeManagementApp.Client
                 string eventStart = bufferH.ReadString();
                 string eventEnd = bufferH.ReadString();
                 bool isteamEvent = bufferH.ReadBool();
-                Event curevent = new Event(eventID, eventPriority, planner, eventName, DateTime.Parse(eventStart), DateTime.Parse(eventEnd), isteamEvent);
+                string Link = bufferH.ReadString();
+                Event curevent = new Event(eventID, eventPriority, planner, eventName, DateTime.Parse(eventStart), DateTime.Parse(eventEnd), isteamEvent, Link);
                 eventsList.Add(curevent);
             }
             Client.Instance.FilterUserScheduleReply(n, eventsList);
-
-            bufferH.Dispose();
-        }
-
-        public static void HandleFilterTeamScheduleReply(byte[] data)
-        {
-            BufferHelper bufferH = new BufferHelper();
-            bufferH.WriteBytes(data);
-
-            int n = bufferH.ReadInteger();
-            List<Event> eventsList = new List<Event>();
-            for (int i = 0; i < n; i++)
-            {
-                int eventID = bufferH.ReadInteger();
-                string planner = bufferH.ReadString();
-                string eventName = bufferH.ReadString();
-                int eventPriority = bufferH.ReadInteger();
-                string eventStart = bufferH.ReadString();
-                string eventEnd = bufferH.ReadString();
-                bool isteamEvent = bufferH.ReadBool();
-                Event curevent = new Event(eventID, eventPriority, planner, eventName, DateTime.Parse(eventStart), DateTime.Parse(eventEnd), isteamEvent);
-                eventsList.Add(curevent);
-            }
-            Client.Instance.FilterTeamScheduleReply(n, eventsList);
 
             bufferH.Dispose();
         }

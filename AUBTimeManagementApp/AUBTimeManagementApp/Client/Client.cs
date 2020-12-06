@@ -13,7 +13,7 @@ namespace AUBTimeManagementApp.Client
         private static readonly string localIP = "127.0.0.1";
         private static readonly string onlineIP = "37.209.253.194";
 
-        private static readonly string serverIP = onlineIP;
+        private static readonly string serverIP = localIP;
         private static readonly int serverPort = 8020;
 
         public string username;
@@ -151,7 +151,7 @@ namespace AUBTimeManagementApp.Client
                 }
             }
             else if (mainForm != null && mainForm.Enabled) {
-                showEvent(_event.ID, _event.eventName, _event.priority, _event.startTime, _event.endTime, _event.teamEvent);
+                showEvent(_event.ID, _event.eventName, _event.priority, _event.startTime, _event.endTime, _event.teamEvent, _event.link);
             }
 
             if (conflictingEvents.Count != 0) {
@@ -186,18 +186,18 @@ namespace AUBTimeManagementApp.Client
         /// </summary>
         public void ShowEvent(Event _event)
         {
-            showEvent(_event.ID, _event.eventName, _event.priority, _event.startTime, _event.endTime, _event.teamEvent);
+            showEvent(_event.ID, _event.eventName, _event.priority, _event.startTime, _event.endTime, _event.teamEvent, _event.link);
         }
 
         /// <summary>
         /// Displays the event on the calendar
         /// </summary
-        public void showEvent(int eventID, string eventName, int priority, DateTime startDate, DateTime endDate, bool teamEvent)
+        public void showEvent(int eventID, string eventName, int priority, DateTime startDate, DateTime endDate, bool teamEvent, string Link)
         {
             if (mainForm.InvokeRequired)
-                mainForm.Invoke(new MethodInvoker(delegate { mainForm.displayEvent(eventID, eventName, priority, startDate, endDate, teamEvent); }));
+                mainForm.Invoke(new MethodInvoker(delegate { mainForm.displayEvent(eventID, eventName, priority, startDate, endDate, teamEvent, Link); }));
             else
-                mainForm.displayEvent(eventID, eventName, priority, startDate, endDate, teamEvent);
+                mainForm.displayEvent(eventID, eventName, priority, startDate, endDate, teamEvent, Link);
         }
 
         #endregion
@@ -435,11 +435,12 @@ namespace AUBTimeManagementApp.Client
                 DateTime start = eventsList[i].startTime;
                 DateTime end = eventsList[i].endTime;
                 bool isTeamEvent = eventsList[i].teamEvent;
+                string Link = eventsList[i].link;
                 
                 if (mainForm.InvokeRequired)
-                    mainForm.Invoke(new MethodInvoker(delegate { mainForm.displayEvent(eventID, name, priority, start, end, isTeamEvent); }));
+                    mainForm.Invoke(new MethodInvoker(delegate { mainForm.displayEvent(eventID, name, priority, start, end, isTeamEvent, Link); }));
                 else
-                    mainForm.displayEvent(eventID, name, priority, start, end, isTeamEvent);
+                    mainForm.displayEvent(eventID, name, priority, start, end, isTeamEvent, Link);
             }
         }
 
@@ -498,31 +499,18 @@ namespace AUBTimeManagementApp.Client
                 DateTime start = eventsList[i].startTime;
                 DateTime end = eventsList[i].endTime;
                 bool isTeamEvent = eventsList[i].teamEvent;
+                string Link = eventsList[i].link;
 
                 if (mainForm.InvokeRequired)
                 {
                     //We are calling a method of the form from a different thread
                     //Need to use invoke to make it threadsafe
-                    mainForm.Invoke(new MethodInvoker(delegate { mainForm.displayEvent(eventID, name, priority, start, end, isTeamEvent); }));
+                    mainForm.Invoke(new MethodInvoker(delegate { mainForm.displayEvent(eventID, name, priority, start, end, isTeamEvent, Link); }));
                 }
 
-                else { mainForm.displayEvent(eventID, name, priority, start, end, isTeamEvent); }
+                else { mainForm.displayEvent(eventID, name, priority, start, end, isTeamEvent, Link); }
             }
         }
-
-        /// <summary>
-        /// get the events of specified priority that are shcedled for this team from the server
-        /// </summary>
-        public void FilterTeamSchedule(int teamID, bool low, bool medium, bool high)
-        {
-            ClientTCP.PACKET_FilterTeamSchedule(teamID, low, medium, high);
-        }
-
-        public void FilterTeamScheduleReply(int n, List<Event> eventsList)
-        {
-
-        }
-
         #endregion
 
         #region Invitations

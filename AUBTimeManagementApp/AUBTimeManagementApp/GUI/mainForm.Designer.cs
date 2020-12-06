@@ -31,11 +31,11 @@
         {
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(mainForm));
-			System.Windows.Forms.Calendar.CalendarHighlightRange calendarHighlightRange11 = new System.Windows.Forms.Calendar.CalendarHighlightRange();
-			System.Windows.Forms.Calendar.CalendarHighlightRange calendarHighlightRange12 = new System.Windows.Forms.Calendar.CalendarHighlightRange();
-			System.Windows.Forms.Calendar.CalendarHighlightRange calendarHighlightRange13 = new System.Windows.Forms.Calendar.CalendarHighlightRange();
-			System.Windows.Forms.Calendar.CalendarHighlightRange calendarHighlightRange14 = new System.Windows.Forms.Calendar.CalendarHighlightRange();
-			System.Windows.Forms.Calendar.CalendarHighlightRange calendarHighlightRange15 = new System.Windows.Forms.Calendar.CalendarHighlightRange();
+			System.Windows.Forms.Calendar.CalendarHighlightRange calendarHighlightRange1 = new System.Windows.Forms.Calendar.CalendarHighlightRange();
+			System.Windows.Forms.Calendar.CalendarHighlightRange calendarHighlightRange2 = new System.Windows.Forms.Calendar.CalendarHighlightRange();
+			System.Windows.Forms.Calendar.CalendarHighlightRange calendarHighlightRange3 = new System.Windows.Forms.Calendar.CalendarHighlightRange();
+			System.Windows.Forms.Calendar.CalendarHighlightRange calendarHighlightRange4 = new System.Windows.Forms.Calendar.CalendarHighlightRange();
+			System.Windows.Forms.Calendar.CalendarHighlightRange calendarHighlightRange5 = new System.Windows.Forms.Calendar.CalendarHighlightRange();
 			this.TeamButton = new System.Windows.Forms.Button();
 			this.imageList1 = new System.Windows.Forms.ImageList(this.components);
 			this.addEvent = new System.Windows.Forms.Button();
@@ -76,7 +76,7 @@
 			this.Low = new System.Windows.Forms.CheckBox();
 			this.monthView = new System.Windows.Forms.Calendar.MonthView();
 			this.calendar = new System.Windows.Forms.Calendar.Calendar();
-			this.textBox9 = new System.Windows.Forms.TextBox();
+			this.LinkBox = new System.Windows.Forms.TextBox();
 			this.textBox11 = new System.Windows.Forms.TextBox();
 			this.mainPanel.SuspendLayout();
 			this.eventDetailsPanel.SuspendLayout();
@@ -231,7 +231,7 @@
 			// eventDetailsPanel
 			// 
 			this.eventDetailsPanel.Controls.Add(this.textBox11);
-			this.eventDetailsPanel.Controls.Add(this.textBox9);
+			this.eventDetailsPanel.Controls.Add(this.LinkBox);
 			this.eventDetailsPanel.Controls.Add(this.eventTypeText);
 			this.eventDetailsPanel.Controls.Add(this.timePickerEnd);
 			this.eventDetailsPanel.Controls.Add(this.timePickerStart);
@@ -573,27 +573,27 @@
 			// calendar
 			// 
 			this.calendar.Font = new System.Drawing.Font("Segoe UI", 9F);
-			calendarHighlightRange11.DayOfWeek = System.DayOfWeek.Monday;
-			calendarHighlightRange11.EndTime = System.TimeSpan.Parse("17:00:00");
-			calendarHighlightRange11.StartTime = System.TimeSpan.Parse("08:00:00");
-			calendarHighlightRange12.DayOfWeek = System.DayOfWeek.Tuesday;
-			calendarHighlightRange12.EndTime = System.TimeSpan.Parse("17:00:00");
-			calendarHighlightRange12.StartTime = System.TimeSpan.Parse("08:00:00");
-			calendarHighlightRange13.DayOfWeek = System.DayOfWeek.Wednesday;
-			calendarHighlightRange13.EndTime = System.TimeSpan.Parse("17:00:00");
-			calendarHighlightRange13.StartTime = System.TimeSpan.Parse("08:00:00");
-			calendarHighlightRange14.DayOfWeek = System.DayOfWeek.Thursday;
-			calendarHighlightRange14.EndTime = System.TimeSpan.Parse("17:00:00");
-			calendarHighlightRange14.StartTime = System.TimeSpan.Parse("08:00:00");
-			calendarHighlightRange15.DayOfWeek = System.DayOfWeek.Friday;
-			calendarHighlightRange15.EndTime = System.TimeSpan.Parse("17:00:00");
-			calendarHighlightRange15.StartTime = System.TimeSpan.Parse("08:00:00");
+			calendarHighlightRange1.DayOfWeek = System.DayOfWeek.Monday;
+			calendarHighlightRange1.EndTime = System.TimeSpan.Parse("17:00:00");
+			calendarHighlightRange1.StartTime = System.TimeSpan.Parse("08:00:00");
+			calendarHighlightRange2.DayOfWeek = System.DayOfWeek.Tuesday;
+			calendarHighlightRange2.EndTime = System.TimeSpan.Parse("17:00:00");
+			calendarHighlightRange2.StartTime = System.TimeSpan.Parse("08:00:00");
+			calendarHighlightRange3.DayOfWeek = System.DayOfWeek.Wednesday;
+			calendarHighlightRange3.EndTime = System.TimeSpan.Parse("17:00:00");
+			calendarHighlightRange3.StartTime = System.TimeSpan.Parse("08:00:00");
+			calendarHighlightRange4.DayOfWeek = System.DayOfWeek.Thursday;
+			calendarHighlightRange4.EndTime = System.TimeSpan.Parse("17:00:00");
+			calendarHighlightRange4.StartTime = System.TimeSpan.Parse("08:00:00");
+			calendarHighlightRange5.DayOfWeek = System.DayOfWeek.Friday;
+			calendarHighlightRange5.EndTime = System.TimeSpan.Parse("17:00:00");
+			calendarHighlightRange5.StartTime = System.TimeSpan.Parse("08:00:00");
 			this.calendar.HighlightRanges = new System.Windows.Forms.Calendar.CalendarHighlightRange[] {
-        calendarHighlightRange11,
-        calendarHighlightRange12,
-        calendarHighlightRange13,
-        calendarHighlightRange14,
-        calendarHighlightRange15};
+        calendarHighlightRange1,
+        calendarHighlightRange2,
+        calendarHighlightRange3,
+        calendarHighlightRange4,
+        calendarHighlightRange5};
 			this.calendar.Location = new System.Drawing.Point(7, 6);
 			this.calendar.Name = "calendar";
 			this.calendar.Size = new System.Drawing.Size(611, 539);
@@ -602,18 +602,21 @@
 			this.calendar.LoadItems += new System.Windows.Forms.Calendar.Calendar.CalendarLoadEventHandler(this.calendar_LoadItems);
 			this.calendar.ItemDoubleClick += new System.Windows.Forms.Calendar.Calendar.CalendarItemEventHandler(this.calendar_ItemDoubleClick);
 			// 
-			// textBox9
+			// LinkBox
 			// 
-			this.textBox9.Location = new System.Drawing.Point(82, 201);
-			this.textBox9.Name = "textBox9";
-			this.textBox9.Size = new System.Drawing.Size(279, 20);
-			this.textBox9.TabIndex = 24;
+			this.LinkBox.BackColor = System.Drawing.SystemColors.Control;
+			this.LinkBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			this.LinkBox.Location = new System.Drawing.Point(82, 201);
+			this.LinkBox.Multiline = true;
+			this.LinkBox.Name = "LinkBox";
+			this.LinkBox.Size = new System.Drawing.Size(279, 20);
+			this.LinkBox.TabIndex = 24;
 			// 
 			// textBox11
 			// 
 			this.textBox11.BackColor = System.Drawing.SystemColors.Control;
 			this.textBox11.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			this.textBox11.Location = new System.Drawing.Point(11, 201);
+			this.textBox11.Location = new System.Drawing.Point(14, 204);
 			this.textBox11.Name = "textBox11";
 			this.textBox11.Size = new System.Drawing.Size(65, 13);
 			this.textBox11.TabIndex = 25;
@@ -684,7 +687,7 @@
         private System.Windows.Forms.DateTimePicker timePickerEnd;
         private System.Windows.Forms.TextBox eventTypeText;
         private System.Windows.Forms.Label invitationsNum;
-		private System.Windows.Forms.TextBox textBox9;
+		private System.Windows.Forms.TextBox LinkBox;
 		private System.Windows.Forms.TextBox textBox11;
 	}
 }

@@ -135,6 +135,7 @@ namespace Server {
                 bufferH.WriteString(eventsList[i].startTime.ToString());
                 bufferH.WriteString(eventsList[i].endTime.ToString());
                 bufferH.WriteBool(eventsList[i].teamEvent);
+                bufferH.WriteString(eventsList[i].Link);
             }
 
             SendDataTo(ConnectionID, bufferH.ToArray());
@@ -156,6 +157,7 @@ namespace Server {
                 bufferH.WriteString(eventsList[i].startTime.ToString());
                 bufferH.WriteString(eventsList[i].endTime.ToString());
                 bufferH.WriteBool(eventsList[i].teamEvent);
+                bufferH.WriteString(eventsList[i].Link);
             }
 
             SendDataTo(ConnectionID, bufferH.ToArray());
@@ -177,6 +179,7 @@ namespace Server {
                 bufferH.WriteString(eventsList[i].startTime.ToString());
                 bufferH.WriteString(eventsList[i].endTime.ToString());
                 bufferH.WriteBool(eventsList[i].teamEvent);
+                bufferH.WriteString(eventsList[i].Link);
             }
 
             SendDataTo(ConnectionID, bufferH.ToArray());
