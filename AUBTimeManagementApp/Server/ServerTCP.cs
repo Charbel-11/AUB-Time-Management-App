@@ -279,8 +279,6 @@ namespace Server {
             bufferH.Dispose();
         }
 
-        // Note that here we are passing the newly added event and the conflicting event to the client
-        // In case we decide later that we only need eventName, it's easy to modify
         public static void PACKET_CreateUserEventReply(int ConnectionID, KeyValuePair<Event, List<Event>> eventAndConflicts)
 		{
             BufferHelper bufferH = new BufferHelper();

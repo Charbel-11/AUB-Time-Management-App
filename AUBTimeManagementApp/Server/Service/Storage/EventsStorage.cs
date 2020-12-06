@@ -181,7 +181,7 @@ namespace AUBTimeManagementApp.Service.Storage
                 SqlCommand command = new SqlCommand(query, sqlConnection);
                 command.Parameters.Add("@eventID", SqlDbType.Int).Value = eventID;
                 SqlDataReader dataReader = command.ExecuteReader();
-                Console.WriteLine("removed event with eventID = " + eventID + "from events table");
+                Console.WriteLine("Removed event with eventID = " + eventID + "from events table");
 
                 command.Parameters.Clear(); dataReader.Close(); sqlConnection.Close();
             }
