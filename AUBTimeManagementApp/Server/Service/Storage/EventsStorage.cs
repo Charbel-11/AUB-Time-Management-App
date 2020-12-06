@@ -14,8 +14,7 @@ namespace AUBTimeManagementApp.Service.Storage
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
                 sqlConnection.Open();
 
-                string nestedQuery = "(SELECT EventID FROM isUserAttendee WHERE Username = @Username AND Priority = @Priority)";
-                string query = "SELECT EventID FROM Events WHERE EventID IN " + nestedQuery;
+                string query = "(SELECT EventID FROM isUserAttendee WHERE Username = @Username AND Priority = @Priority)";
                 SqlCommand command = new SqlCommand(query, sqlConnection);
                 command.Parameters.Add("@Priority", SqlDbType.Int).Value = priority;
                 command.Parameters.Add("@Username", SqlDbType.NVarChar).Value = username;
@@ -36,8 +35,7 @@ namespace AUBTimeManagementApp.Service.Storage
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
                 sqlConnection.Open();
 
-                string nestedQuery = "(SELECT EventID FROM isTeamAttendee WHERE TeamID = @TeamID AND Priority = @Priority)";
-                string query = "SELECT EventID FROM Events WHERE EventID IN " + nestedQuery;
+                string query = "(SELECT EventID FROM isTeamAttendee WHERE TeamID = @TeamID AND Priority = @Priority)";
                 SqlCommand command = new SqlCommand(query, sqlConnection);
                 command.Parameters.Add("@Priority", SqlDbType.Int).Value = priority;
                 command.Parameters.Add("@TeamID", SqlDbType.Int).Value = teamID;

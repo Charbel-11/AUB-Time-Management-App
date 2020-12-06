@@ -55,7 +55,7 @@ namespace AUBTimeManagementApp.Service.Storage {
 
                     command.Parameters.Clear(); dataReader.Close();
 
-                    query = "SELECT MembersNumber FROM Teams WHERE TeamID = @TeamID";
+                    query = "SELECT Count(*) FROM isMember WHERE TeamID = @TeamID";
                     command = new SqlCommand(query, sqlConnection);
                     command.Parameters.Add("@teamID", SqlDbType.Int).Value = teamID;
 
@@ -65,12 +65,13 @@ namespace AUBTimeManagementApp.Service.Storage {
 
                     query = "UPDATE Teams SET MembersNumber = @membersNumber WHERE TeamID = @teamID";
                     command = new SqlCommand(query, sqlConnection);
-                    command.Parameters.Add("@membersNumber", SqlDbType.Int).Value = membersNumber + usernames.Count;
+                    command.Parameters.Add("@membersNumber", SqlDbType.Int).Value = membersNumber;
                     command.Parameters.Add("@TeamID", SqlDbType.Int).Value = teamID;
 
                     dataReader = command.ExecuteReader();
-                    command.Parameters.Clear(); dataReader.Close(); sqlConnection.Close();
+                    command.Parameters.Clear(); dataReader.Close();
                 }
+                sqlConnection.Close();
             } catch(Exception exception) { Console.WriteLine("AddTeamMembers: " + exception.Message); throw; }
         }
 
@@ -140,23 +141,28 @@ namespace AUBTimeManagementApp.Service.Storage {
 
                 command.Parameters.Clear(); dataReader.Close();
 
-                query = "SELECT MembersNumber FROM Teams WHERE TeamID = @TeamID";
+                query = "SELECT Count(*) FROM isMember WHERE TeamID = @TeamID";
                 command = new SqlCommand(query, sqlConnection);
+                command.Parameters.Add("@teamID", SqlDbType.Int).Value = teamID;
+
+                dataReader = command.ExecuteReader();
+                int MembersNumber = dataReader.Read() ? dataReader.GetInt32(0) : 0;
+                command.Parameters.Clear(); dataReader.Close();
+
+                query = "UPDATE Teams SET MembersNumber = @membersNumber WHERE TeamID = @teamID";
+                command = new SqlCommand(query, sqlConnection);
+                command.Parameters.Add("@membersNumber", SqlDbType.Int).Value = MembersNumber;
                 command.Parameters.Add("@TeamID", SqlDbType.Int).Value = teamID;
 
                 dataReader = command.ExecuteReader();
-                int MembersNumber = dataReader.Read() ? dataReader.GetInt32(0) : 1;
                 command.Parameters.Clear(); dataReader.Close();
-
-                query = "UPDATE Teams SET MembersNumber = MembersNumber - 1 WHERE TeamID = @TeamID";
-                command = new SqlCommand(query, sqlConnection);
-                command.Parameters.Add("@TeamID", SqlDbType.Int).Value = teamID;
-
-                Console.WriteLine("removed member with username = " + username + "from team with ID = " + teamID);
-
-                command.Parameters.Clear(); dataReader.Close();
+                Console.WriteLine(" team with ID = " + teamID + " the team now has " + MembersNumber + " members left");
+                
                 sqlConnection.Close();
-                if (MembersNumber == 1) { return true; }
+
+
+                if (MembersNumber == 0) { return true; }
+
                 return false;
             }
             catch (Exception exception) { Console.WriteLine("removeTeamMember: " + exception.Message); throw; }   
