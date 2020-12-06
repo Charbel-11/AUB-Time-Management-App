@@ -82,7 +82,12 @@ namespace AUBTimeManagementApp.Service.Storage
             catch (Exception exception) { Console.WriteLine("GetPersonalSchedule: " + exception.Message); throw; }
 
         }
-
+        /// <summary>
+        /// update the priority of the event in the user's schedule by updating the entry (eventID, userame, priority) in isUserAttendee table
+        /// </summary>
+        /// <param name="eventID"></param>
+        /// <param name="username"></param>
+        /// <param name="priority"></param>
         public static void UpdateUserEventPrioriy(int eventID, string username, int priority)
         {
             try
@@ -112,7 +117,7 @@ namespace AUBTimeManagementApp.Service.Storage
         #region Team Schedule
 
         /// <summary>
-        /// add eventID to team schedule with ID = teamID
+        /// add (teamID, eventID, priority) to isTeamAttendee 
         /// </summary>
         /// <returns> return true if successful, false otherwise </returns>
         public static void AddToTeamSchedule(int teamID, int eventID, int priority) 
@@ -136,30 +141,6 @@ namespace AUBTimeManagementApp.Service.Storage
             }
             catch (Exception exception) { Console.WriteLine("AddToTeamSchedule: " + exception.Message); throw; }
         }
-
-        /// <summary>
-        /// delete eventID from team schedule with ID = teamID
-        /// </summary>
-        /// <returns> return true if successful, false otherwise </returns>
-       /* public static void DeleteFromTeamSchedule(int teamID, int eventID) {
-            try {
-                string connectionString = ConnectionUtil.connectionString;
-                SqlConnection sqlConnection = new SqlConnection(connectionString);
-                sqlConnection.Open();
-
-                string query = "DELETE FROM isTeamAttendee WHERE EventID = @EventID AND TeamID = @TeamID";
-
-                SqlCommand command = new SqlCommand(query, sqlConnection);
-
-                command.Parameters.Add("@EventID", SqlDbType.Int).Value = eventID;
-                command.Parameters.Add("@TeamID", SqlDbType.NVarChar).Value = teamID;
-                SqlDataReader dataReader = command.ExecuteReader();
-
-                Console.WriteLine("Removed event with eventID = " + eventID + " from team schedule");
-                command.Parameters.Clear(); dataReader.Close(); sqlConnection.Close();
-            }
-            catch (Exception exception) { Console.WriteLine("DeleteFromTeamSchedule: " + exception.Message); throw; }
-        }*/
 
         /// <summary>
         /// Get list of event IDs from team schedule with ID = teamID
@@ -188,6 +169,12 @@ namespace AUBTimeManagementApp.Service.Storage
             catch (Exception exception) { Console.WriteLine("GetTeamSchedule: " + exception.Message); throw; }
         }
 
+        /// <summary>
+        /// update the priority of a team event in the team schedule
+        /// </summary>
+        /// <param name="eventID"></param>
+        /// <param name="teamID"></param>
+        /// <param name="priority"></param>
         public static void UpdateTeamEventPrioriy(int eventID, int teamID, int priority)
         {
             try

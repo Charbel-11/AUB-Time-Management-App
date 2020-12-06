@@ -372,6 +372,9 @@ namespace Server {
 
             ITeamAccountConnector teamAccountConnector = new TeamAccountConnector();
             teamAccountConnector.addMember(ConnectionID, teamID, username);
+
+            //ITeamEventConnector teamEventConnector = new TeamEventConnector();
+            //teamEventConnector.
         }
 
         private static void HandleCreateTeamEvent(int ConnectionID, byte[] data)

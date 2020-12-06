@@ -8,6 +8,13 @@ namespace Server.Service.ControlBlocks
 {
     public class TeamEventConnector : ITeamEventConnector
     {
+        /// <summary>
+        /// Add event and its priority to the list of events in the team's schedule
+        /// get the list of team members
+        /// send invitations to the event to all team members
+        /// </summary>
+        /// <param name="teamID"></param>
+        /// <param name="_event"></param>
         public void CreateTeamEvent(int teamID, Event _event)
         {
           
