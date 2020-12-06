@@ -8,10 +8,10 @@ namespace Server.DataContracts
 {
     public class Invitation
     {
-        public int invitationID { get; set; }
-        public int eventID { get; set; }
-        public int teamID { get; set; }
-        public string senderUsername { get; set; }
+        public int invitationID { get; set; } //Identifies the invitations uniquely
+        public int eventID { get; set; } //Event to which users are invited
+        public int teamID { get; set; } //Team that initiated the invitation
+        public string senderUsername { get; set; } //Admin that sent the invitation
         public Invitation(int _invitationID, int _eventID, int _teamID, string _senderUsername)
         {
             invitationID = _invitationID;

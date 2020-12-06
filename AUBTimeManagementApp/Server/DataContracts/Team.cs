@@ -2,7 +2,7 @@
 
 namespace Server.DataContracts {
     public class Team {
-        public int teamID { get; set; }
+        public int teamID { get; set; } //Identifies the teams uniquely
         public string teamName { get; set; }
         public List<string> teamAdmin { get; set; }
         public List<string> teamMembers { get; set; }
@@ -19,18 +19,6 @@ namespace Server.DataContracts {
             teamMembers = _members;
             teamAdmin = _admins;
         }
-
-        public void addMember(string username) {
-            teamMembers.Add(username);
-        }
-        public void addAdmin(string username) {
-            teamAdmin.Add(username);
-        }
-        public void removeMember(string username) {
-            if (teamMembers.Contains(username)) { teamMembers.Remove(username); }
-            if (teamAdmin.Contains(username)) { teamAdmin.Remove(username); }
-        }
-        public bool isAdmin(string username) { return teamAdmin.Contains(username); }
 
     }
 }
