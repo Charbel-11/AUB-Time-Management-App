@@ -435,15 +435,14 @@ namespace Server {
             string eventStart = bufferH.ReadString();
             string eventEnd = bufferH.ReadString();
             int eventPriority = bufferH.ReadInteger();
-            bool isTeamEvent = bufferH.ReadBool();
 
             bufferH.Dispose();
 
             //Add an event to the user's schedule
             IEventScheduleConnector eventScheduleConnector = new EventScheduleConnector();
-            KeyValuePair<Event, List<Event>> pair = eventScheduleConnector.AddUserEvent(username, eventPriority, username, eventName, DateTime.Parse(eventStart), DateTime.Parse(eventEnd), isTeamEvent);
+            KeyValuePair<Event, List<Event>> pair = eventScheduleConnector.AddUserEvent(username, eventPriority, username, eventName, DateTime.Parse(eventStart), DateTime.Parse(eventEnd), false);
 
-            //send reply to client
+            //Send reply to client
             ServerTCP.PACKET_CreateUserEventReply(ConnectionID, pair);
         }
        

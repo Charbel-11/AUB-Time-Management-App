@@ -17,7 +17,7 @@ namespace AUBTimeManagementApp.Client
         private static readonly int serverPort = 8020;
 
         public string username;
-        private List<Team> teams;   //Might need to make it thread safe (consider case where members of same team add other members or delete or ..., we get asynchronous requests to change teams)
+        private List<Team> teams;   
         private List<Invitation> Invitations;
         private List<Event> events;
 
@@ -80,7 +80,6 @@ namespace AUBTimeManagementApp.Client
             }
         }
 
-
 		#region Account
 		public void createAccount(string username, string firstName, string lastName, string password, string confirmPassword, string email, DateTime dateOfBirth) {            
             this.username = username;
@@ -110,23 +109,23 @@ namespace AUBTimeManagementApp.Client
 
         public void logOut()
         {
-            teams.Clear(); events.Clear();
-        }
-
-        public void changePassword(string oldPassword, string oldPasswordCheck, string newPassword)
-        {
-
+            teams.Clear(); events.Clear(); 
+            Invitations.Clear();
         }
         #endregion
 
         #region PersonalEvents
 
-        // Make it return the number of events conflicting with the recently added event 
+        /// <summary>
+        /// Relays to the server the user's request to create a new event
+        /// </summary>
+        /// <param name="eventName">The name of thee event</param>
+        /// <param name="priority">The priority of the event</param>
+        /// <param name="start">The start time of the event</param>
+        /// <param name="end">The end time of the event</param>
         public void CreateUserEvent(string eventName, int priority, DateTime start, DateTime end)
         {
-            Console.WriteLine(eventName + " " + priority + " " + start.ToString() + " " + end.ToString());
-            //addedEvent = new Event(0, priority, " ", eventName, start, end);
-            ClientTCP.PACKET_CreateUserEvent(username, eventName, priority, start, end, false);
+            ClientTCP.PACKET_CreateUserEvent(username, eventName, priority, start, end);
 ;       }
 
         /// <summary>
@@ -181,21 +180,23 @@ namespace AUBTimeManagementApp.Client
             ClientTCP.Packet_ModifyUserEvent(updatedEvent, username);
         }
 
+        /// <summary>
+        /// Displays thee event on the calendar
+        /// </summary>
         public void ShowEvent(Event _event)
         {
             showEvent(_event.ID, _event.eventName, _event.priority, _event.startTime, _event.endTime, _event.teamEvent);
         }
 
-        /* This function displays the event details for the user */
+        /// <summary>
+        /// Displays the event on the calendar
+        /// </summary
         public void showEvent(int eventID, string eventName, int priority, DateTime startDate, DateTime endDate, bool teamEvent)
         {
-            mainForm.displayEvent(eventID, eventName, priority, startDate, endDate, teamEvent);
-        }
-
-        public void addEvent(Event newEvent)
-        {
-            events.Add(newEvent);
-            ClientTCP.PACKET_CreateEvent(newEvent);
+            if (mainForm.InvokeRequired)
+                mainForm.Invoke(new MethodInvoker(delegate { mainForm.displayEvent(eventID, eventName, priority, startDate, endDate, teamEvent); }));
+            else
+                mainForm.displayEvent(eventID, eventName, priority, startDate, endDate, teamEvent);
         }
 
         #endregion
