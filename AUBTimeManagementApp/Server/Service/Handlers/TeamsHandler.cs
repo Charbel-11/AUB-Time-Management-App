@@ -8,13 +8,7 @@ namespace Server.Service.Handlers
 {
     public class TeamsHandler: ITeamsHandler
     {
-        /// <summary>
-        /// Adds the new team's information to the database
-        /// </summary>
-        /// <param name="admin">The admin of the new team</param>
-        /// <param name="teamName">The name of the new team</param>
-        /// <param name="members">A list of the members of the new team</param>
-        /// <returns>The team ID if succesfful, -1 otherwise</returns>
+        // Create a team gievn an admin username and a list of members usernames
         public int CreateTeamRequest(string admin, string teamName, List<string> members) 
         {
             int teamID = TeamsStorage.AddTeam(teamName);
@@ -35,41 +29,26 @@ namespace Server.Service.Handlers
             List<string> admins = TeamsStorage.getTeamAdmins(teamID);
             return new Team(teamID, teamName, admins, members);
         }
-               
-        /// <summary>
-        /// Adds a member to a team
-        /// </summary>
-        /// <param name="teamID">ID of the team</param>
-        /// <param name="userToAdd">Username of the member to add</param>
+
+        // Add a member to team with teamID
         public void AddMemberRequest(int teamID, string userToAdd)
         {
             TeamsStorage.AddTeamMembers(teamID, new List<string> { userToAdd });
         }
-        
-        /// <summary>
-        /// Removes a member from a team
-        /// </summary>
-        /// No need for feedback since the username must be correct (it was taken from the GUI)
-        /// <param name="teamID">ID of the team</param>
-        /// <param name="userToRemove">Username of the member to remove</param>
-        /// <returns>True if successful, false otherwise</returns>
+
+        // Remove user with username userToRemove from team with teamID
         public bool RemoveMemberRequest(int teamID, string userToRemove)
         {
             return TeamsStorage.removeTeamMember(teamID, userToRemove);
         }
 
+        // Remove team with teamID from the teams storage
         public void RemoveTeam(int TeamID)
 		{
             TeamsStorage.removeTeam(TeamID);
 		}
 
-        /// <summary>
-        /// Either sets a user to become an admin, or makes him a member again
-        /// </summary>
-        /// <param name="teamID">ID of the team</param>
-        /// <param name="username">Username of the user which will have his admin state changed</param>
-        /// <param name="isNowAdmin">True if we want to set the user as admin, false otherwise</param>
-        /// <returns>True if successful, false otherwise</returns>
+        // Change the state of a user (admin -> member) or (member -> admin)
         public bool ChangeAdminState(int teamID, string username, bool isNowAdmin) {
             bool b = false;
             if (isNowAdmin) {
@@ -87,14 +66,8 @@ namespace Server.Service.Handlers
             return true;
         }
 
-        /// <summary>
-        /// Returns teams event with specific priorities
-        /// </summary>
-        /// <param name="teamID"></param>
-        /// <param name="low">True if we want low priority events</param>
-        /// <param name="mid">True if we want mid priority events</param>
-        /// <param name="high">True if we want high priority events</param>
-        /// <returns>A list of event IDs of the corresponding events</returns>
+
+        // Get a list of events ids for a team with teamID and filter by priority
         public List<int> getFilteredTeamEvents(int teamID, bool low, bool mid, bool high)
         {
             List<int> events = new List<int>();
@@ -104,11 +77,7 @@ namespace Server.Service.Handlers
             return events;
         }
 
-        /// <summary>
-        /// Gets all the teams that a user belongs to
-        /// </summary>
-        /// <param name="username"></param>
-        /// <returns>The list of the teams that the user belongs to</returns>
+        // Get a list of team objects where user with username is a member
         public List<Team> GetUserTeams(string username) {
             List<int> teamsID = TeamsStorage.getUserTeams(username);
             List<Team> teams = new List<Team>();
@@ -120,11 +89,7 @@ namespace Server.Service.Handlers
             return teams;
         }
 
-        /// <summary>
-        /// Gets all the members of a specific team
-        /// </summary>
-        /// <param name="teamID">The ID of the team</param>
-        /// <returns></returns>
+        // Get a list of members usernames for a given team with teamID
         public List<string> GetTeamMembers(int teamID)
         {
             return new List<string> (TeamsStorage.getTeamMembers(teamID));

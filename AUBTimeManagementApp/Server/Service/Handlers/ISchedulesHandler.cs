@@ -7,30 +7,68 @@ using System.Threading.Tasks;
 
 namespace Server.Service.Handlers {
     public interface ISchedulesHandler {
-        // Change the priority of an event
+
+        /// <summary>
+        /// change the priority of the event in isUserAttendee table
+        /// </summary>
+        /// <param name="eventID"></param>
+        /// <param name="username"></param>
+        /// <param name="priority"></param>
         void updateUserEventPriority(int eventID, string username, int priority);
 
-        // Get the user schedule as a list of events IDs
+        /// <summary>
+        /// Get a list of event IDs that the user is attending
+        /// </summary>
+        /// <returns>The list of event IDs</returns>
         List<int> GetUserSchedule(string userID);
 
-        // Add an event with eventID to a user's schedule 
-        // Note that the priority is not a property of the event only since the same event can be of high priority for some user 
-        // and of low priority to another
+        /// <summary>
+        /// Add an event with eventID and priority specified by the user to a user's schedule 
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="eventID"></param>
+        /// <param name="priority"></param>
         void AddEventToUserSchedule(string username, int eventID, int priority);
 
-        // Remove an event with eventID from a user's schedule
+        /// <summary>
+        /// Remove an event with eventID from a user's schedule
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="eventID"></param>
         void RemoveEventFromUserSchedule(string username, int eventID);
 
-        // Change the priority of a team event
+        /// <summary>
+        /// Change the priority of a team event in isTeamAttendee
+        /// </summary>
+        /// <param name="eventID"></param>
+        /// <param name="teamID"></param>
+        /// <param name="priority"></param>
         void updateTeamEventPriority(int eventID, int teamID, int priority);
 
-        // Get a team's schedule as a list of events IDs
+        /// <summary>
+        ///Get a team's schedule as a list of events IDs
+        /// </summary>
+        /// <param name="teamID"></param>
+        /// <returns>List of eventIDs of the events in the team's schedule</returns>
         List<int> GetTeamSchedule(int teamID);
 
-        // Add an event with eventID to a team's schedule
+        /// <summary>
+        /// add (teamID, eventID, priority) to isTeamAttendee 
+        /// </summary>
+        /// <param name="teamID"></param>
+        /// <param name="eventID"></param>
+        /// <param name="priority"></param>
         void AddEventToTeamSchedule(int teamID, int eventID, int priority);
 
-        // Merges schedules of team members for one week and returns an array of time slots showing the frequency of events for every slot
+        /// <summary>
+        /// Merges schedules of team members for one week, 
+        /// where the schedules of the users contain events of a specified minima priority
+        /// </summary>
+        /// <param name="events"></param>
+        /// <param name="startTime"></param>
+        /// <param name="endTime"></param>
+        /// <param name="priorityThreshold"></param>
+        /// <returns>an array of time slots showing the frequency of events for every slot</returns>
         double[,] getMergedScheduleFreq(List<List<Event>> events, DateTime startTime, DateTime endTime, int priorityThreshold);
     }
 }

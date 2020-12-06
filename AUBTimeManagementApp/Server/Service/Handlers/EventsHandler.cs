@@ -13,7 +13,7 @@ namespace Server.Service.Handlers
         {
         
         }
- 
+
         public List<int> getFilteredUserEvents(string username, bool low, bool mid, bool high)
         {
             List<int> events = new List<int>();
@@ -25,13 +25,8 @@ namespace Server.Service.Handlers
 
 
 
-        /* Incomplete ! */
-        /// <summary>
-        /// add an event to the events table and return a list of conflicting events in case of conflict
-        /// </summary>
-        /// <param name="username"></param>
-        /// <param name="newEvent"></param>
-        /// <returns></returns>
+
+        //add an event to the events table and return a list of conflicting events in case of conflict
         public int CreateEvent(Event newEvent)
         {
             return EventsStorage.AddEvent(newEvent);
@@ -50,7 +45,7 @@ namespace Server.Service.Handlers
         /// <summary>
         /// Modify an event in the events table
         /// </summary>
-        /// <returns></returns>
+        /// <param name="updatedEvent"></param>
         public void UpdateEvent(Event updatedEvent)
 		{
             // we eant to check for conflict get start and end time of odl event and
