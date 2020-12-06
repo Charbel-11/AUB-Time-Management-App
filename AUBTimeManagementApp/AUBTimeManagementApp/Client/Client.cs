@@ -10,8 +10,8 @@ namespace AUBTimeManagementApp.Client
     {
         private static readonly Client instance = new Client(); //Singleton
 
-        private static readonly string localIP = "127.0.0.1";
-        private static readonly string onlineIP = "37.209.255.144";
+        private static readonly string localIP = "37.209.253.194";
+        private static readonly string onlineIP = "37.209.253.194";
 
         private static readonly string serverIP = localIP;
         private static readonly int serverPort = 8020;
