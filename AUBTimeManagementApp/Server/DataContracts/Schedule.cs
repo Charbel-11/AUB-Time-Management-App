@@ -14,6 +14,10 @@ namespace Server.DataContracts
                         events[i, j, k] = new List<Event>();           
         }
 
+        /// <summary>
+        /// Adds an event to the schedule class in the required format
+        /// </summary>
+        /// <param name="_event"> Event to be added </param>
         public void addEvent(Event _event){
             DateTime startDate = _event.startTime, endDate = _event.endTime;
 
@@ -23,6 +27,13 @@ namespace Server.DataContracts
             }
         }
 
+        /// <summary>
+        /// Returns the events on a specific day in the schedule
+        /// </summary>
+        /// <param name="day"></param>
+        /// <param name="month"></param>
+        /// <param name="year"></param>
+        /// <returns></returns>
         public List<Event> getDailyEvent(int day, int month, int year)
         {
             Console.WriteLine((year - 2000) + " " + (month - 1) + " " + (day - 1));

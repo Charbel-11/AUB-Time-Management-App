@@ -3,8 +3,8 @@ using System.Collections.Generic;
 
 namespace AUBTimeManagementApp.DataContracts {
     public class Team {
-        public  int teamID { get; set; }
-        public string teamName { get; set; }
+        public  int teamID { get; set; } //Identifies the team uniquely
+        public string teamName { get; set; } 
         public List<string> teamAdmin { get; set; }
         public List<string> teamMembers { get; set; }
 
