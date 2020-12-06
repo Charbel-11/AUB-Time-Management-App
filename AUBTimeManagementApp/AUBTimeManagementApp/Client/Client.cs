@@ -145,13 +145,13 @@ namespace AUBTimeManagementApp.Client
                 }
                 else {
                     if (teamCalendarForm.InvokeRequired)
-                        teamCalendarForm.Invoke(new MethodInvoker(delegate { teamCalendarForm.teamSchedButton_Click(null, null); }));
+                        teamCalendarForm.Invoke(new MethodInvoker(delegate { teamCalendarForm.displayEvent(_event); }));
                     else
-                        teamCalendarForm.teamSchedButton_Click(null, null);
+                        teamCalendarForm.displayEvent(_event);
                 }
             }
             else if (mainForm != null && mainForm.Enabled) {
-                mainForm.updateEventID(_event.ID);
+                showEvent(_event.ID, _event.eventName, _event.priority, _event.startTime, _event.endTime, _event.teamEvent);
             }
 
             if (conflictingEvents.Count != 0) {
@@ -189,7 +189,6 @@ namespace AUBTimeManagementApp.Client
         /* This function displays the event details for the user */
         public void showEvent(int eventID, string eventName, int priority, DateTime startDate, DateTime endDate, bool teamEvent)
         {
-
             mainForm.displayEvent(eventID, eventName, priority, startDate, endDate, teamEvent);
         }
 
@@ -203,32 +202,32 @@ namespace AUBTimeManagementApp.Client
 
         #region TeamEvents
         /// <summary>
-        /// Create team event
+        /// Relays the request to the server to create a team event
         /// </summary>
-        /// <param name="TeamID"></param>
-        /// <param name="eventName"></param>
-        /// <param name="priority"></param>
-        /// <param name="startDate"></param>
-        /// <param name="endDate"></param>
+        /// <param name="TeamID">The ID of the team</param>
+        /// <param name="eventName">The name of the event</param>
+        /// <param name="priority">The priority of the event</param>
+        /// <param name="startDate">The start time of the event</param>
+        /// <param name="endDate">The end time of the event</param>
         public void CreateTeamEvent(int TeamID, string eventName, int priority, DateTime startDate, DateTime endDate)
         {
-            Console.WriteLine("Sending a request to create: eventName " + eventName + " " + priority.ToString() + " " + startDate.ToString() + " " + endDate.ToString());
-            ClientTCP.PACKET_CreateTeamEvent(TeamID, username, eventName, priority, startDate, endDate, true);
+            ClientTCP.PACKET_CreateTeamEvent(TeamID, username, eventName, priority, startDate, endDate);
         }
 
         /// <summary>
-        /// Cancel team event
+        /// Relays the request to the server to cancel a team event
         /// </summary>
-        /// <param name="eventID"></param>
-        public void CancelTeamEvent( int eventID)
-		{
+        /// <param name="eventID">The ID of the event to cancel</param>
+        public void CancelTeamEvent(int eventID) 
+        {
             ClientTCP.PACKET_CancelTeamEvent(eventID);
-		}
+        }
 
         /// <summary>
-        /// Modify team event
+        /// Relays the request to the server to modify a team event
         /// </summary>
-        /// <param name="eventID"></param>
+        /// <param name="updatedEvent">The updated event</param>
+        /// <param name="teamID">The ID of the team</param>
         public void ModifyTeamEvent(Event updatedEvent, int teamID)
         {
             ClientTCP.Packet_ModifyTeamEvent(updatedEvent, teamID);

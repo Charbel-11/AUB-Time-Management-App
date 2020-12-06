@@ -409,18 +409,17 @@ namespace Server {
             int eventPriority = bufferH.ReadInteger();
             string eventStart = bufferH.ReadString();
             string eventEnd = bufferH.ReadString();
-            bool isTeamEvent = bufferH.ReadBool();
 
             bufferH.Dispose();
 
-            // Add the event to the schedule of the planner using the connector between the events and the schedules handlers
+            //Add the event to the schedule of the planner using the connector between the events and the schedules handlers
             IEventScheduleConnector eventScheduleConnector = new EventScheduleConnector();
-            KeyValuePair<Event, List<Event>> pair = eventScheduleConnector.AddUserEvent(eventPlanner, eventPriority, eventPlanner, eventName, DateTime.Parse(eventStart), DateTime.Parse(eventEnd), isTeamEvent);
+            KeyValuePair<Event, List<Event>> pair = eventScheduleConnector.AddUserEvent(eventPlanner, eventPriority, eventPlanner, eventName, DateTime.Parse(eventStart), DateTime.Parse(eventEnd), true);
             //Add the event to the teams schedule and send invitations to team members using the connector between team and events handlers
             ITeamEventConnector teamEventConnector = new TeamEventConnector();
             teamEventConnector.CreateTeamEvent(teamID, pair.Key);
 
-            //send reply to client
+            //Send reply to client
             ServerTCP.PACKET_CreateUserEventReply(ConnectionID, pair);
         }
 
@@ -447,8 +446,7 @@ namespace Server {
             //send reply to client
             ServerTCP.PACKET_CreateUserEventReply(ConnectionID, pair);
         }
-
-        
+       
         private static void HandleGetUserEvent(int ConnectionID, byte[] data)
         {
 

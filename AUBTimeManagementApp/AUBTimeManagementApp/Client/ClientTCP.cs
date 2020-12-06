@@ -258,12 +258,7 @@ namespace AUBTimeManagementApp.Client {
             bufferH.Dispose();
         }
 
-        public static void CloseConnection() {
-            if (ClientSocket != null)
-                ClientSocket.Close();
-        }
-
-        public static void PACKET_CreateTeamEvent(int teamID, string eventPlanner, string eventName, int priority, DateTime startDate, DateTime endDate, bool isTeamEvent)
+        public static void PACKET_CreateTeamEvent(int teamID, string eventPlanner, string eventName, int priority, DateTime startDate, DateTime endDate)
         {
             BufferHelper bufferH = new BufferHelper();
             bufferH.WriteInteger((int)ClientPackages.CCreateTeamEvent);
@@ -274,7 +269,6 @@ namespace AUBTimeManagementApp.Client {
             bufferH.WriteInteger(priority);
             bufferH.WriteString(startDate.ToString());
             bufferH.WriteString(endDate.ToString());
-            bufferH.WriteBool(isTeamEvent);
 
             SendData(bufferH.ToArray());
             bufferH.Dispose();

@@ -25,7 +25,7 @@ namespace Server.Service.ControlBlocks
             IConflictChecker conflictChecker = new ConflictChecker();
             List<Event> conflictingEvents = conflictChecker.ConflictExists(username, addedEvent);
 
-            // Add event id to the user's schedule
+            //Add event id to the user's schedule
             ISchedulesHandler _schedulesHandler = new SchedulesHandler();
             _schedulesHandler.AddEventToUserSchedule(username, addedEvent.eventID, eventPriority);
 
@@ -39,7 +39,7 @@ namespace Server.Service.ControlBlocks
             // Add event id to the user's schedule
             ISchedulesHandler _schedulesHandler = new SchedulesHandler();
             List<int> eventsIds = _schedulesHandler.GetUserSchedule(username);
-            Console.WriteLine("Now we're gonna retrieve" + eventsIds.Count.ToString() + "events");
+            Console.WriteLine("Now we're gonna retrieve " + eventsIds.Count.ToString() + " events");
             
             //Check if List is empty before getting the events details
             List<Event> _events = new List<Event>();
@@ -48,7 +48,7 @@ namespace Server.Service.ControlBlocks
                 //Get events from the events tables
                 IEventsHandler _eventsHandler = new EventsHandler();
                 _events = _eventsHandler.GetEvents(eventsIds, false, username, 0);
-                Console.WriteLine("We retrieved" + _events.Count.ToString() + "events");
+                Console.WriteLine("We retrieved " + _events.Count.ToString() + " events");
             }
 
             return _events;
@@ -69,14 +69,15 @@ namespace Server.Service.ControlBlocks
         // Cancel an event for a given user
         public void CancelUserEvent(string username, int eventID, bool isTeamEvent)
         {
-            // if the event is a personal event, remove the event from events table and isAttendee table
+            //If the event is a personal event, remove the event from events table and isAttendee table
+            //Since eventID is a foreign key, deleting it from the events table will delete it from the isAttende table as well
 			if (!isTeamEvent)
 			{
                 IEventsHandler _eventsHandler = new EventsHandler();
                 _eventsHandler.CancelEvent(eventID);
             }
 
-            // if the Event is a team event, remove Event from the user's schedule only (isAttendee table)
+            //If the Event is a team event, remove Event from the user's schedule only (isAttendee table)
             else
             {
                 ISchedulesHandler _schedulesHandler = new SchedulesHandler();
@@ -90,7 +91,7 @@ namespace Server.Service.ControlBlocks
         {
             //Check for timr conflict if we decide to do something in case of conflict
             //if not move function to eventsHandler no need for connector.
-            Console.WriteLine("server is updating the event with ID = "+updatedEvent.eventID);
+            Console.WriteLine("The server is updating the event with ID = " + updatedEvent.eventID);
             IEventsHandler _eventsHandler = new EventsHandler();
             _eventsHandler.UpdateEvent(updatedEvent);
 

@@ -12,8 +12,7 @@ namespace Server.Service.ControlBlocks
         // (1) Add the event id to the team's schedule
         // (2) Add the event object to the events table
         public void CreateTeamEvent(int teamID, Event _event)
-        {
-          
+        {         
             //Add the team event to the team schedule 
             ISchedulesHandler schedulesHandler = new SchedulesHandler();
             schedulesHandler.AddEventToTeamSchedule(teamID, _event.eventID, _event.priority);

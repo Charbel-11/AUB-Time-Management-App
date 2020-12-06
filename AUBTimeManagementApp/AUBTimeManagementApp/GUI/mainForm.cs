@@ -196,12 +196,6 @@ namespace AUBTimeManagementApp.GUI
             monthView_SelectionChanged(null, null);
         }
 
-        public void updateEventID(int eventID)
-		{
-            CalendarItem addedItem = _items[_items.Count() - 1];
-            addedItem.eventID = eventID;           
-		}
-
         private void InvitationsButton_Click(object sender, EventArgs e)
         {
             if (invitationsForm != null && invitationsForm.Visible)
