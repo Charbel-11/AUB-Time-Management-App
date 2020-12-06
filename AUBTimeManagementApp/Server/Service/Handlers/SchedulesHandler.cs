@@ -7,32 +7,28 @@ using Server.DataContracts;
 namespace Server.Service.Handlers {
     public class SchedulesHandler : ISchedulesHandler{
         #region userSchedule
-        /// <summary>
-        /// change the priority of the event in isUserAttendee table
-        /// </summary>
-        /// <param name="eventID"></param>
-        /// <param name="username"></param>
-        /// <param name="priority"></param>
+        // Change the priority of an event
         public void updateUserEventPriority(int eventID, string username, int priority)
         {
             SchedulesStorage.UpdateUserEventPrioriy(eventID, username, priority);
         }
 
 
-        /// <summary>
-        /// Get a list of event IDs that the user is attending
-        /// </summary>
-        /// <returns>The list of event IDs</returns>
+        // Get the user schedule as a list of events IDs
         public List<int> GetUserSchedule(string username) {
             List<int> eventList = SchedulesStorage.GetUserSchedule(username);
             Console.WriteLine("Getting the user schedule!");
             return eventList;
         }
 
+        // Add an event with eventID to a user's schedule 
+        // Note that the priority is not a property of the event only since the same event can be of high priority for some user 
+        // and of low priority to another
         public void AddEventToUserSchedule(string username, int eventID, int priority) {
             SchedulesStorage.AddToUserSchedule(username, eventID, priority);          
 		}
 
+        // Remove an event with eventID from a user's schedule
         public void RemoveEventFromUserSchedule(string username, int eventID) {
             //gets username abd event ID
             //when user cancels event remove it from his schedule
@@ -42,12 +38,13 @@ namespace Server.Service.Handlers {
         #endregion
 
         #region teamSchedule
-
+        // Change the priority of a team event
         public void updateTeamEventPriority(int eventID, int teamID, int priority)
         {
             SchedulesStorage.UpdateTeamEventPrioriy(eventID, teamID, priority);
         }
 
+        // Get a team's schedule as a list of events IDs
         public List<int> GetTeamSchedule(int teamID)
         {
             //get a list of event IDs that are scheduled for this team
@@ -56,11 +53,15 @@ namespace Server.Service.Handlers {
             return eventList;
         }
 
+
+        // Add an event with eventID to a team's schedule
         public void AddEventToTeamSchedule(int teamID, int eventID, int priority)
         {
             SchedulesStorage.AddToTeamSchedule(teamID, eventID, priority);
         }
 
+
+        // Merges schedules of team members for one week and returns an array of time slots showing the frequency of events for every slot
         public double[,] getMergedScheduleFreq(List<List<Event>> events, DateTime startTime, DateTime endTime, int priorityThreshold) {
             List<Schedule> schedules = new List<Schedule>();
             foreach(List<Event> memberEvent in events) {

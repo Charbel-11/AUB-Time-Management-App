@@ -8,6 +8,13 @@ using System.Data.SqlClient;
 namespace AUBTimeManagementApp.Service.Storage
 {
     public class EventsStorage {
+
+        /// <summary>
+        /// select form isUSerAttendee the events with required priority
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="priority"></param>
+        /// <returns>returns list of user Events with the required priority</returns>
         public static List<int> getFilteredUserEvents(string username, int priority) {
             try {
                 string connectionString = ConnectionUtil.connectionString;
@@ -26,9 +33,15 @@ namespace AUBTimeManagementApp.Service.Storage
                 command.Parameters.Clear(); dataReader.Close();
                 sqlConnection.Close(); return events;
             }
-            catch (Exception exception) { Console.WriteLine("getUserEvents: " + exception.Message); throw; }
+            catch (Exception exception) { Console.WriteLine("getFilteredUserSchedule: " + exception.Message); throw; }
         }
 
+        /// <summary>
+        /// select form isTeamAttendee the events with required priority
+        /// </summary>
+        /// <param name="teamID"></param>
+        /// <param name="priority"></param>
+        /// <returns>returns list of team Events with the required priority</returns>
         public static List<int> getFilteredTeamEvents(int teamID, int priority) {
             try {
                 string connectionString = ConnectionUtil.connectionString;
@@ -46,10 +59,18 @@ namespace AUBTimeManagementApp.Service.Storage
 
                 sqlConnection.Close(); return events;
             }
-            catch (Exception exception) { Console.WriteLine("getFilteredTeamEvents: " + exception.Message); throw; }
+            catch (Exception exception) { Console.WriteLine("getFilteredTeamSchedule: " + exception.Message); throw; }
         }
 
-        // Get all events with IDs in eventIDs 
+        /// <summary>
+        /// Get all events with IDs in eventIDs from events table
+        /// get their priority in the user's schedule from isAttendee table
+        /// </summary>
+        /// <param name="eventsIDs"></param>
+        /// <param name="username"></param>
+        /// <param name="teamID"></param>
+        /// <param name="getTeamEvents"></param>
+        /// <returns></returns>
         public static List<Event> GetEvents(List<int> eventsIDs, string username, int teamID, bool getTeamEvents) {
             if(eventsIDs.Count == 0) { return new List<Event>(); }
             try {
@@ -70,7 +91,6 @@ namespace AUBTimeManagementApp.Service.Storage
                     string eventName = dataReader.GetString(1);
                     DateTime start = dataReader.GetDateTime(2);
                     DateTime end = dataReader.GetDateTime(3);
-                    // int priority = dataReader.GetInt32(4);
                     string plannerID = dataReader.GetString(4);
                     bool isTeamEvent = dataReader.GetBoolean(5);
                     Event currEvent = new Event(eventID, 0, plannerID, eventName, start, end, isTeamEvent);
@@ -111,7 +131,11 @@ namespace AUBTimeManagementApp.Service.Storage
             catch (Exception exception) { Console.WriteLine("GetEvents: " + exception.Message); throw; }
         }
 
-        // Add _event to DB
+        /// <summary>
+        /// add the event to the events table
+        /// </summary>
+        /// <param name="_event"></param>
+        /// <returns>the ID of the event</returns>
         public static int AddEvent(Event _event) {
             try {
                 string connectionString = ConnectionUtil.connectionString;
@@ -125,7 +149,6 @@ namespace AUBTimeManagementApp.Service.Storage
                 command.Parameters.Add("@EventName", SqlDbType.NVarChar).Value = _event.eventName;
                 command.Parameters.Add("@StartTime", SqlDbType.DateTime).Value = _event.startTime;
                 command.Parameters.Add("@EndTime", SqlDbType.DateTime).Value = _event.endTime;
-                //command.Parameters.Add("@Priority", SqlDbType.Int).Value = _event.priority;
                 command.Parameters.Add("@PlannerUsername", SqlDbType.NVarChar).Value = _event.plannerUsername;
                 command.Parameters.Add("@isTeamEvent", SqlDbType.Bit).Value = _event.teamEvent;
                 SqlDataReader dataReader = command.ExecuteReader();
@@ -144,7 +167,10 @@ namespace AUBTimeManagementApp.Service.Storage
         }
 
 
-        // Remove event with id eventId
+        /// <summary>
+        /// Remove event with id eventId form events table
+        /// </summary>
+        /// <param name="eventID"></param>
         public static void RemoveEvent(int eventID) {
             try {
                 string connectionString = ConnectionUtil.connectionString;
@@ -162,7 +188,10 @@ namespace AUBTimeManagementApp.Service.Storage
             catch (Exception exception) { Console.WriteLine("RemoveEvent: " + exception.Message); throw; }
         }
 
-        // Update the event with id _event->EventId
+        /// <summary>
+        /// Update the event with id _event->EventId
+        /// </summary>
+        /// <param name="_event"></param>
         public static void UpdateEvent(Event _event)
         {
             try
@@ -187,7 +216,12 @@ namespace AUBTimeManagementApp.Service.Storage
             catch (Exception exception) { Console.WriteLine("UpdateEvent: " + exception.Message); throw; }
         }
 
-        //Get all upcoming events related to team with ID = teamID
+        /// <summary>
+        /// Get all upcoming events related to team with ID = teamID
+        /// </summary>
+        /// <param name="teamID"></param>
+        /// <param name="minStartDate"></param>
+        /// <returns></returns>
         public static List<int> getIDsOfUpcomingTeamEvents(int teamID, DateTime minStartDate)
         {
             try
