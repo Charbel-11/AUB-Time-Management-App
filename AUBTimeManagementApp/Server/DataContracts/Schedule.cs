@@ -25,7 +25,6 @@ namespace Server.DataContracts
 
         public List<Event> getDailyEvent(int day, int month, int year)
         {
-            Console.WriteLine((year - 2000) + " " + (month - 1) + " " + (day - 1));
             return events[year - 2000, month - 1, day - 1];
         }
     }

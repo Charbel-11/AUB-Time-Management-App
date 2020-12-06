@@ -30,15 +30,13 @@ namespace Server.Service.Handlers
         }
 
         // This function asks the invitation storage to add invitations for invitees to an event
-        public void SendInvitations(List<string> AttendeesUsernames, int eventID, int teamID, string senderUsername) {
+        public int SendInvitations(List<string> AttendeesUsernames, int eventID, int teamID, string senderUsername) {
             int invitationID = InvitationsStorage.AddInvitation(eventID, teamID, senderUsername);
-            foreach (string username in AttendeesUsernames)
-            {
-                if (username != senderUsername)
-                {
-                    InvitationsStorage.AddUserInvitation(username, invitationID);
-                }
-            }       
+            foreach (string username in AttendeesUsernames) {
+                if (username == senderUsername) { continue; }
+                InvitationsStorage.AddUserInvitation(username, invitationID);
+            }
+            return invitationID;
         }
         
         public List<Invitation> getInvitations(List<int> InvitationIDs) {
@@ -58,24 +56,22 @@ namespace Server.Service.Handlers
 
         }
 
-        
-        public void SendInvitationsToNewMember(List<int> eventIDs, int teamID, string username)
-		{
-            //get the list of invitationIDs of team events that are in the list 
+        public void SendInvitationsToNewMember(List<Event> events, int teamID, string username) {
+            //Get the list of invitationIDs of team events that are in the list 
             List<int> invitationIDs = new List<int>();
-            foreach(int eventID in eventIDs)
-			{
-                int invitationID = InvitationsStorage.getInvitationID(eventID, teamID);
+            foreach (Event _event in events) {
+                int invitationID = InvitationsStorage.getInvitationID(_event.eventID, teamID);
                 invitationIDs.Add(invitationID);
-			}
 
-            //Send all the invitations with ID in the invitationIDs list to the newly added member
-            foreach(int invitationID in invitationIDs)
-			{
+                Invitation invitation = new Invitation(invitationID, _event.eventID, teamID, _event.plannerUsername);
+                if (ServerTCP.UsernameToConnectionID.TryGetValue(username, out int cID))
+                    ServerTCP.PACKET_SendInvitation(cID, invitation, _event);
+            }
+
+            //Add all the invitations with ID in the invitationIDs list to the newly added member's table
+            foreach (int invitationID in invitationIDs) {
                 InvitationsStorage.AddUserInvitation(username, invitationID);
-			}
+            }            
         }
-
-
     }
 }

@@ -387,14 +387,13 @@ namespace Server {
 
             bufferH.Dispose();
 
-            //Add membet to the team
+            //Add member to the team
             ITeamAccountConnector teamAccountConnector = new TeamAccountConnector();
             teamAccountConnector.addMember(ConnectionID, teamID, username);
 
             //send invitations to all upcoming team events to the newly added member
             IInvitationsConnector invitationsConnector = new InvitationConnector();
             invitationsConnector.InviteNewMemberToEvents(username, teamID);
-
         }
 
         private static void HandleCreateTeamEvent(int ConnectionID, byte[] data)
@@ -567,7 +566,6 @@ namespace Server {
             //Decline the invitation
             IInvitationsConnector invitationsConnector = new InvitationConnector();
             invitationsConnector.DeclineInvitation(username, invitationID);
-
         }
         #endregion
 

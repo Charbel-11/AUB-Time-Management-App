@@ -21,11 +21,18 @@ namespace Server.Service.ControlBlocks
             ITeamsHandler teamsHandler = new TeamsHandler();
             List<string> members = teamsHandler.GetTeamMembers(teamID);
 
-           // Add invitations to the team members using the Invitation 
-           IInvitationsHandler invitationsHandler = new InvitationsHandler();
-           invitationsHandler.SendInvitations(members, _event.eventID, teamID, _event.plannerUsername);
-        }
+            // Add invitations to the team members using the Invitation 
+            IInvitationsHandler invitationsHandler = new InvitationsHandler();
+            int invitationID = invitationsHandler.SendInvitations(members, _event.eventID, teamID, _event.plannerUsername);
+            Invitation invitation = new Invitation(invitationID, _event.eventID, teamID, _event.plannerUsername);
 
+            //Send the team details to online users         
+            foreach (string user in members) {
+                if (user == _event.plannerUsername) { continue; }
+                if (ServerTCP.UsernameToConnectionID.TryGetValue(user, out int cID))
+                    ServerTCP.PACKET_SendInvitation(cID, invitation, _event);
+            }          
+        }
 
         // Remove a member from a certain team
         public void RemoveTeamMember(int teamID, string userToRemove, DateTime removalDate)

@@ -18,6 +18,7 @@ namespace AUBTimeManagementApp.GUI
         public InvitationsForm(mainForm parent)
         {
             _parent = parent;
+            Client.Client.Instance.setForm(this);
             AcceptButtonToInvitation = new Dictionary<Button, Invitation>();
             DeclineButtonToInvitation = new Dictionary<Button, Invitation>();
             InvitationToGroup = new Dictionary<Invitation, GroupBox>();
@@ -25,8 +26,7 @@ namespace AUBTimeManagementApp.GUI
             DeclineButtons = new List<Button>();
             Labels = new List<Label>();
             InitializeComponent();
-            DisplayInvitations();
-            
+            DisplayInvitations();         
         }
 
         public void DisplayInvitations()

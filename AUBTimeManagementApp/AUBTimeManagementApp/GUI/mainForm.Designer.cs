@@ -43,10 +43,12 @@
             this.backButton = new System.Windows.Forms.Button();
             this.filterUserScheduleBut = new System.Windows.Forms.Button();
             this.mainPanel = new System.Windows.Forms.Panel();
+            this.invitationsNum = new System.Windows.Forms.Label();
             this.InvitationsButton = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.Refresh = new System.Windows.Forms.Button();
             this.eventDetailsPanel = new System.Windows.Forms.Panel();
+            this.eventTypeText = new System.Windows.Forms.TextBox();
             this.timePickerEnd = new System.Windows.Forms.DateTimePicker();
             this.timePickerStart = new System.Windows.Forms.DateTimePicker();
             this.textBox5 = new System.Windows.Forms.TextBox();
@@ -74,7 +76,6 @@
             this.Low = new System.Windows.Forms.CheckBox();
             this.monthView = new System.Windows.Forms.Calendar.MonthView();
             this.calendar = new System.Windows.Forms.Calendar.Calendar();
-            this.eventTypeText = new System.Windows.Forms.TextBox();
             this.mainPanel.SuspendLayout();
             this.eventDetailsPanel.SuspendLayout();
             this.filteringPanel.SuspendLayout();
@@ -158,6 +159,7 @@
             // 
             // mainPanel
             // 
+            this.mainPanel.Controls.Add(this.invitationsNum);
             this.mainPanel.Controls.Add(this.InvitationsButton);
             this.mainPanel.Controls.Add(this.button1);
             this.mainPanel.Controls.Add(this.backButton);
@@ -169,6 +171,17 @@
             this.mainPanel.Name = "mainPanel";
             this.mainPanel.Size = new System.Drawing.Size(328, 301);
             this.mainPanel.TabIndex = 19;
+            // 
+            // invitationsNum
+            // 
+            this.invitationsNum.AutoSize = true;
+            this.invitationsNum.BackColor = System.Drawing.Color.Red;
+            this.invitationsNum.ForeColor = System.Drawing.Color.White;
+            this.invitationsNum.Location = new System.Drawing.Point(235, 174);
+            this.invitationsNum.Name = "invitationsNum";
+            this.invitationsNum.Size = new System.Drawing.Size(27, 20);
+            this.invitationsNum.TabIndex = 24;
+            this.invitationsNum.Text = "10";
             // 
             // InvitationsButton
             // 
@@ -231,10 +244,23 @@
             this.eventDetailsPanel.Controls.Add(this.ModifyEventBut);
             this.eventDetailsPanel.Controls.Add(this.DeleteEventBut);
             this.eventDetailsPanel.Controls.Add(this.eventDetailsBackBut);
-            this.eventDetailsPanel.Location = new System.Drawing.Point(635, 257);
+            this.eventDetailsPanel.Location = new System.Drawing.Point(624, 250);
             this.eventDetailsPanel.Name = "eventDetailsPanel";
             this.eventDetailsPanel.Size = new System.Drawing.Size(377, 285);
             this.eventDetailsPanel.TabIndex = 20;
+            // 
+            // eventTypeText
+            // 
+            this.eventTypeText.BackColor = System.Drawing.SystemColors.Control;
+            this.eventTypeText.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.eventTypeText.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.eventTypeText.Location = new System.Drawing.Point(232, 13);
+            this.eventTypeText.Multiline = true;
+            this.eventTypeText.Name = "eventTypeText";
+            this.eventTypeText.Size = new System.Drawing.Size(142, 30);
+            this.eventTypeText.TabIndex = 23;
+            this.eventTypeText.Text = "Personal Event";
+            this.eventTypeText.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // timePickerEnd
             // 
@@ -572,19 +598,6 @@
             this.calendar.LoadItems += new System.Windows.Forms.Calendar.Calendar.CalendarLoadEventHandler(this.calendar_LoadItems);
             this.calendar.ItemDoubleClick += new System.Windows.Forms.Calendar.Calendar.CalendarItemEventHandler(this.calendar_ItemDoubleClick);
             // 
-            // eventTypeText
-            // 
-            this.eventTypeText.BackColor = System.Drawing.SystemColors.Control;
-            this.eventTypeText.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.eventTypeText.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.eventTypeText.Location = new System.Drawing.Point(232, 13);
-            this.eventTypeText.Multiline = true;
-            this.eventTypeText.Name = "eventTypeText";
-            this.eventTypeText.Size = new System.Drawing.Size(142, 30);
-            this.eventTypeText.TabIndex = 23;
-            this.eventTypeText.Text = "Personal Event";
-            this.eventTypeText.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
             // mainForm
             // 
             this.ClientSize = new System.Drawing.Size(1013, 557);
@@ -598,6 +611,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Time Management App";
             this.mainPanel.ResumeLayout(false);
+            this.mainPanel.PerformLayout();
             this.eventDetailsPanel.ResumeLayout(false);
             this.eventDetailsPanel.PerformLayout();
             this.filteringPanel.ResumeLayout(false);
@@ -648,5 +662,6 @@
         private System.Windows.Forms.DateTimePicker timePickerStart;
         private System.Windows.Forms.DateTimePicker timePickerEnd;
         private System.Windows.Forms.TextBox eventTypeText;
+        private System.Windows.Forms.Label invitationsNum;
     }
 }

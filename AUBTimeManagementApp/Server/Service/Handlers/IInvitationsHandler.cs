@@ -18,7 +18,7 @@ namespace Server.Service.Handlers
         void DeclineInvitation(string username, int invitationID);
 
         // Invite users to a certain event
-        void SendInvitations(List<string> AttendeesUsernames, int eventID, int teamsID, string SenderUsername);
+        int SendInvitations(List<string> AttendeesUsernames, int eventID, int teamsID, string SenderUsername);
 
         // Get invitation objects given a list of invitations IDs
         List<Invitation> getInvitations(List<int> InvitationIDs);
@@ -27,6 +27,6 @@ namespace Server.Service.Handlers
         void RemoveSpecificUserInvitations(int teamID, string username);
 
         // send invitations to upcoming team events to a newly added team member
-        void SendInvitationsToNewMember(List<int> eventIDs, int teamID, string username);
+        void SendInvitationsToNewMember(List<Event> events, int teamID, string username);
     }
 }

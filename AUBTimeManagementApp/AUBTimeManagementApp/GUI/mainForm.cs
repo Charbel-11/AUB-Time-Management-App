@@ -9,7 +9,7 @@ using System.Windows.Forms.Calendar;
 namespace AUBTimeManagementApp.GUI
 {
     public partial class mainForm : Form {
-        List<CalendarItem> _items = new List<CalendarItem>();   //Maybe we should put this in the client code (took it from the demo)
+        List<CalendarItem> _items = new List<CalendarItem>();
         string _username;
         int selectedItemID;
         CalendarItem selectedItem;
@@ -28,6 +28,7 @@ namespace AUBTimeManagementApp.GUI
             Low.Checked = true;
             Medium.Checked = true;
             High.Checked = true;
+            updateInvitationNotification(Client.Client.Instance.GetInvitations().Count);
 
             monthView.SelectionStart = DateTime.Today;
             monthView.SelectionEnd = DateTime.Today.AddDays(2);
@@ -205,6 +206,16 @@ namespace AUBTimeManagementApp.GUI
             }
             invitationsForm = new InvitationsForm(this);
             invitationsForm.Show();
+        }
+
+        public void updateInvitationNotification(int n) {
+            if (n == 0) {
+                invitationsNum.Hide();
+            }
+            else {
+                invitationsNum.Show();
+                invitationsNum.Text = n.ToString();
+            }
         }
 
         /// <summary>

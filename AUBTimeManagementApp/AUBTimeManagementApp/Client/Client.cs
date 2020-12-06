@@ -19,7 +19,6 @@ namespace AUBTimeManagementApp.Client
         public string username;
         private List<Team> teams;   
         private List<Invitation> Invitations;
-        private List<Event> events;
 
         //Connects the users to the active open form
         public RegistrationForm registrationForm { get; private set; }
@@ -28,6 +27,7 @@ namespace AUBTimeManagementApp.Client
         public TeamsForm teamsForm { get; private set; }
         public TeamDetailsForm teamDetailsForm { get; private set; }
         public TeamCalendarForm teamCalendarForm { get; private set; }
+        public InvitationsForm invitationsForm { get; private set; }
 
         // Explicit static constructor to tell C# compiler not to mark type as beforefieldinit
         static Client()
@@ -39,7 +39,6 @@ namespace AUBTimeManagementApp.Client
         private Client()
         {
             teams = new List<Team>();
-            events = new List<Event>();
             Invitations = new List<Invitation>();
         }
         public static Client Instance
@@ -59,7 +58,7 @@ namespace AUBTimeManagementApp.Client
         /// Stores a pointer to the currently opened form in Client
         /// </summary>
         /// <param name="form">The form to connect</param>
-        public void setForm(Form form) { 
+        public void setForm(Form form) {
             if (form.GetType() == typeof(RegistrationForm)) {
                 registrationForm = (RegistrationForm)form;
             }
@@ -78,6 +77,8 @@ namespace AUBTimeManagementApp.Client
             else if (form.GetType() == typeof(TeamCalendarForm)) {
                 teamCalendarForm = (TeamCalendarForm)form;
             }
+            else if (form.GetType() == typeof(InvitationsForm))
+                invitationsForm = (InvitationsForm)form;
         }
 
 		#region Account
@@ -109,8 +110,7 @@ namespace AUBTimeManagementApp.Client
 
         public void logOut()
         {
-            teams.Clear(); events.Clear(); 
-            Invitations.Clear();
+            teams.Clear(); Invitations.Clear();
         }
         #endregion
 
@@ -332,6 +332,20 @@ namespace AUBTimeManagementApp.Client
                     }
                     else { teamDetailsForm.goBack(); }
                 }
+
+                //Remove related invitations
+                List<Invitation> newInvitations = new List<Invitation>();
+                foreach (Invitation inv in Invitations) {
+                    if (inv.TeamID != teamID) { newInvitations.Add(inv); }
+                }
+                Invitations = newInvitations;
+                updateInvitationNotification();
+                if (invitationsForm != null && invitationsForm.Enabled) {
+                    if (invitationsForm.InvokeRequired) {
+                        invitationsForm.Invoke(new MethodInvoker(delegate { invitationsForm.DisplayInvitations(); }));
+                    }
+                    else { invitationsForm.DisplayInvitations(); }
+                }
             }
             else {
                 teams[idx].removeMember(username);
@@ -520,16 +534,39 @@ namespace AUBTimeManagementApp.Client
         public void GetUserInvitationsReply(List<Invitation> invitations)
         {
             Invitations = invitations;
+            updateInvitationNotification();
+        }
+        public void receivedInvitation(Invitation invitation) {
+            Invitations.Add(invitation);
+            updateInvitationNotification();
+
+            if (invitationsForm != null && invitationsForm.Enabled) {
+                if (invitationsForm.InvokeRequired) {
+                    invitationsForm.Invoke(new MethodInvoker(delegate { invitationsForm.AddInvitationEntry(invitation); }));
+                }
+                else { invitationsForm.AddInvitationEntry(invitation); }
+            }
         }
 
         public void AcceptInvitation(Invitation invitation)
         {
             ClientTCP.PACKET_AcceptInvitation(invitation, username);
+            Invitations.Remove(invitation);
+            updateInvitationNotification();
         }
-
         public void DeclineInvitation(Invitation invitation)
         {
             ClientTCP.PACKET_DeclineInvitation(invitation, username);
+            Invitations.Remove(invitation);
+            updateInvitationNotification();
+        }
+        private void updateInvitationNotification() {
+            if (mainForm != null && mainForm.Enabled) {
+                if (mainForm.InvokeRequired) {
+                    mainForm.Invoke(new MethodInvoker(delegate { mainForm.updateInvitationNotification(Invitations.Count); }));
+                }
+                else { mainForm.updateInvitationNotification(Invitations.Count); }
+            }
         }
 
         public List<Invitation> GetInvitations() { return Invitations; }
