@@ -13,10 +13,10 @@ namespace Server.Service.ControlBlocks
         // Add a user event
         // This function returns a pair containing the added event and a list of event objects
         // conflicting with the newly added event
-        public KeyValuePair<Event, List<Event>> AddUserEvent(string username, int eventPriority, string plannerUsername, string eventName, DateTime eventStart, DateTime eventEnd, bool isTeamEvent)
+        public KeyValuePair<Event, List<Event>> AddUserEvent(string username, int eventPriority, string plannerUsername, string eventName, DateTime eventStart, DateTime eventEnd, bool isTeamEvent, string Link)
         {
             // Add event to the events tables
-            Event addedEvent = new Event(0, eventPriority, plannerUsername, eventName, eventStart, eventEnd, isTeamEvent);
+            Event addedEvent = new Event(0, eventPriority, plannerUsername, eventName, eventStart, eventEnd, isTeamEvent, Link);
             IEventsHandler _eventsHandler = new EventsHandler();
             int eventID = _eventsHandler.CreateEvent(addedEvent);
             addedEvent.eventID = eventID;

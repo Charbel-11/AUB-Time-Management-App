@@ -79,7 +79,7 @@ namespace AUBTimeManagementApp.Service.Storage
                 sqlConnection.Open();
 
                 string combinedStringEventIDs = string.Join(",", eventsIDs);
-                string query = "SELECT EventID, EventName, StartTime, EndTime, PlannerUsername, isTeamEvent FROM Events WHERE EventID IN " 
+                string query = "SELECT EventID, EventName, StartTime, EndTime, PlannerUsername, isTeamEvent, Link FROM Events WHERE EventID IN " 
                                 + "(" + combinedStringEventIDs +")";
                 SqlCommand command = new SqlCommand(query, sqlConnection);
                 SqlDataReader dataReader = command.ExecuteReader();
@@ -93,9 +93,11 @@ namespace AUBTimeManagementApp.Service.Storage
                     DateTime end = dataReader.GetDateTime(3);
                     string plannerID = dataReader.GetString(4);
                     bool isTeamEvent = dataReader.GetBoolean(5);
-                    Event currEvent = new Event(eventID, 0, plannerID, eventName, start, end, isTeamEvent);
+                    string Link = dataReader.GetString(6);
+                    Event currEvent = new Event(eventID, 0, plannerID, eventName, start, end, isTeamEvent, Link);
                     events.Add(currEvent);
                 }
+
                 dataReader.Close();
                 // if getting a user's schedule get the events priorities form isUserAttendee
                 if (!getTeamEvents)
@@ -124,7 +126,6 @@ namespace AUBTimeManagementApp.Service.Storage
                     i++;
                 }
 
-                
                 command.Parameters.Clear(); dataReader.Close();
                sqlConnection.Close(); return events;
             }
@@ -142,8 +143,8 @@ namespace AUBTimeManagementApp.Service.Storage
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
                 sqlConnection.Open();
 
-                string query =  "INSERT INTO Events(EventName, StartTime, EndTime, PlannerUsername, isTeamEvent) " +
-                                "VALUES (@EventName, @StartTime, @EndTime, @PlannerUsername, @isTeamEvent)";
+                string query =  "INSERT INTO Events(EventName, StartTime, EndTime, PlannerUsername, isTeamEvent, Link) " +
+                                "VALUES (@EventName, @StartTime, @EndTime, @PlannerUsername, @isTeamEvent, @Link)";
                 
                 SqlCommand command = new SqlCommand(query, sqlConnection);
                 command.Parameters.Add("@EventName", SqlDbType.NVarChar).Value = _event.eventName;
@@ -151,6 +152,7 @@ namespace AUBTimeManagementApp.Service.Storage
                 command.Parameters.Add("@EndTime", SqlDbType.DateTime).Value = _event.endTime;
                 command.Parameters.Add("@PlannerUsername", SqlDbType.NVarChar).Value = _event.plannerUsername;
                 command.Parameters.Add("@isTeamEvent", SqlDbType.Bit).Value = _event.teamEvent;
+                command.Parameters.Add("@Link", SqlDbType.NVarChar).Value = _event.Link;
                 SqlDataReader dataReader = command.ExecuteReader();
 
                 command.Parameters.Clear(); dataReader.Close();
@@ -200,7 +202,7 @@ namespace AUBTimeManagementApp.Service.Storage
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
                 sqlConnection.Open();
 
-                string update = "EventName = @EventName, StartTime = @StartTime, EndTime = @EndTime, PlannerUsername = @PlannerUsername";
+                string update = "EventName = @EventName, StartTime = @StartTime, EndTime = @EndTime, PlannerUsername = @PlannerUsername, Link = @Link";
                 string query = "UPDATE Events SET " + update + " WHERE EventID = @EventID";
                 SqlCommand command = new SqlCommand(query, sqlConnection);
 
@@ -209,6 +211,7 @@ namespace AUBTimeManagementApp.Service.Storage
                 command.Parameters.Add("@StartTime", SqlDbType.DateTime).Value = _event.startTime;
                 command.Parameters.Add("@EndTime", SqlDbType.DateTime).Value = _event.endTime;
                 command.Parameters.Add("@PlannerUsername", SqlDbType.NVarChar).Value = _event.plannerUsername;
+                command.Parameters.Add("@Link", SqlDbType.NVarChar).Value = _event.Link;
                 SqlDataReader dataReader = command.ExecuteReader();
 
                 command.Parameters.Clear(); dataReader.Close(); sqlConnection.Close();

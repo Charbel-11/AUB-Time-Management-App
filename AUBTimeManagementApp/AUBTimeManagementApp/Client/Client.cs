@@ -123,9 +123,10 @@ namespace AUBTimeManagementApp.Client
         /// <param name="priority">The priority of the event</param>
         /// <param name="start">The start time of the event</param>
         /// <param name="end">The end time of the event</param>
-        public void CreateUserEvent(string eventName, int priority, DateTime start, DateTime end)
+        public void CreateUserEvent(string eventName, int priority, DateTime start, DateTime end, string Link)
         {
-            ClientTCP.PACKET_CreateUserEvent(username, eventName, priority, start, end);
+            Console.WriteLine(eventName + " " + priority + " " + start.ToString() + " " + end.ToString());
+            ClientTCP.PACKET_CreateUserEvent(username, eventName, priority, start, end, Link);
 ;       }
 
         /// <summary>
@@ -210,9 +211,9 @@ namespace AUBTimeManagementApp.Client
         /// <param name="priority">The priority of the event</param>
         /// <param name="startDate">The start time of the event</param>
         /// <param name="endDate">The end time of the event</param>
-        public void CreateTeamEvent(int TeamID, string eventName, int priority, DateTime startDate, DateTime endDate)
+        public void CreateTeamEvent(int TeamID, string eventName, int priority, DateTime startDate, DateTime endDate, string Link)
         {
-            ClientTCP.PACKET_CreateTeamEvent(TeamID, username, eventName, priority, startDate, endDate);
+            ClientTCP.PACKET_CreateTeamEvent(TeamID, username, eventName, priority, startDate, endDate, Link);
         }
 
         /// <summary>

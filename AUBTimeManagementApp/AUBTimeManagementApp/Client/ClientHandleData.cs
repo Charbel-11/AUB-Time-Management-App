@@ -340,8 +340,9 @@ namespace AUBTimeManagementApp.Client
             string eventStart = bufferH.ReadString();
             string eventEnd = bufferH.ReadString();
             bool isteamEvent = bufferH.ReadBool();
+            string Link = bufferH.ReadString();
 
-            Event _event = new Event(eventID, priority, planner, eventName, DateTime.Parse(eventStart), DateTime.Parse(eventEnd), isteamEvent);
+            Event _event = new Event(eventID, priority, planner, eventName, DateTime.Parse(eventStart), DateTime.Parse(eventEnd), isteamEvent, Link);
 
             int conflicts = bufferH.ReadInteger();
             List<Event> conflictingEvents = new List<Event>();
@@ -355,7 +356,8 @@ namespace AUBTimeManagementApp.Client
                 string _eventStart = bufferH.ReadString();
                 string _eventEnd = bufferH.ReadString();
                 bool _isteamEvent = bufferH.ReadBool();
-                conflictingEvents.Add(new Event(_eventID, _priority, _planner, _eventName, DateTime.Parse(_eventStart), DateTime.Parse(_eventEnd), _isteamEvent));
+                string _Link = bufferH.ReadString();
+                conflictingEvents.Add(new Event(_eventID, _priority, _planner, _eventName, DateTime.Parse(_eventStart), DateTime.Parse(_eventEnd), _isteamEvent, _Link));
             }
             Client.Instance.CreateUserEventReply(_event, conflictingEvents);
             bufferH.Dispose();

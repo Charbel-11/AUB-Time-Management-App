@@ -409,12 +409,13 @@ namespace Server {
             int eventPriority = bufferH.ReadInteger();
             string eventStart = bufferH.ReadString();
             string eventEnd = bufferH.ReadString();
+            string Link = bufferH.ReadString();
 
             bufferH.Dispose();
 
             //Add the event to the schedule of the planner using the connector between the events and the schedules handlers
             IEventScheduleConnector eventScheduleConnector = new EventScheduleConnector();
-            KeyValuePair<Event, List<Event>> pair = eventScheduleConnector.AddUserEvent(eventPlanner, eventPriority, eventPlanner, eventName, DateTime.Parse(eventStart), DateTime.Parse(eventEnd), true);
+            KeyValuePair<Event, List<Event>> pair = eventScheduleConnector.AddUserEvent(eventPlanner, eventPriority, eventPlanner, eventName, DateTime.Parse(eventStart), DateTime.Parse(eventEnd), true, Link);
             //Add the event to the teams schedule and send invitations to team members using the connector between team and events handlers
             ITeamEventConnector teamEventConnector = new TeamEventConnector();
             teamEventConnector.CreateTeamEvent(teamID, pair.Key);
@@ -435,12 +436,13 @@ namespace Server {
             string eventStart = bufferH.ReadString();
             string eventEnd = bufferH.ReadString();
             int eventPriority = bufferH.ReadInteger();
+            string Link = bufferH.ReadString();
 
             bufferH.Dispose();
 
             //Add an event to the user's schedule
             IEventScheduleConnector eventScheduleConnector = new EventScheduleConnector();
-            KeyValuePair<Event, List<Event>> pair = eventScheduleConnector.AddUserEvent(username, eventPriority, username, eventName, DateTime.Parse(eventStart), DateTime.Parse(eventEnd), false);
+            KeyValuePair<Event, List<Event>> pair = eventScheduleConnector.AddUserEvent(username, eventPriority, username, eventName, DateTime.Parse(eventStart), DateTime.Parse(eventEnd), false, Link);
 
             //Send reply to client
             ServerTCP.PACKET_CreateUserEventReply(ConnectionID, pair);
@@ -459,7 +461,7 @@ namespace Server {
             //Get the details of a single event
             IEventScheduleConnector eventScheduleConnector = new EventScheduleConnector();
             eventScheduleConnector.GetUserEventInDetail(eventID, username);
-        }
+        } 
 
         private static void HandleCancelUserEvent(int ConnectionID, byte[] data)
         {
