@@ -44,7 +44,6 @@ namespace AUBTimeManagementApp.GUI
             else { curEvent.BackgroundColor = curEvent.BackgroundColorLighter = Color.PaleVioletRed; }
         }
 
-
         private void TeamButton_Click(object sender, EventArgs e) {
             TeamsForm addTeamWindow = new TeamsForm();
             addTeamWindow.Show();
