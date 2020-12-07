@@ -187,33 +187,21 @@ namespace AUBTimeManagementApp.Service.Storage
 
                     Invitation curInvite = new Invitation(invitationID, eventID, teamID, senderUsername);
                     invitations.Add(curInvite);
-
-
-                     teamIDs.Add(teamID);
-					
+                    teamIDs.Add(teamID);					
                 }
-                command.Parameters.Clear(); dataReader.Close();
-
-                string CombinedTeamIDs = string.Join(",", teamIDs);
-                query = "SLECT TeamID AND TeamName FROM Teams WHERE TeamID IN " + "(" + CombinedTeamIDs + ")";
 
                 Dictionary<int, string> teamNames = new Dictionary<int, string>();
-                dataReader = command.ExecuteReader();
-                while (dataReader.Read())
-                {
-                    int teamID = dataReader.GetInt32(0);
-                    string teamName = dataReader.GetString(1);
-                    if(!teamNames.ContainsKey(teamID))
-					{
+                foreach (int teamID in teamIDs) {
+                    command.Parameters.Clear(); dataReader.Close();
+                    query = "SELECT TeamName FROM Teams WHERE TeamID = @TeamID";
+                    command = new SqlCommand(query, sqlConnection);
+                    command.Parameters.Add("@TeamID", SqlDbType.Int).Value = teamID;
+                    dataReader = command.ExecuteReader();
+                    while (dataReader.Read()) {                      
+                        string teamName = dataReader.GetString(0);
                         teamNames.Add(teamID, teamName);
-					}
+                    }
                 }
-
-                /*int n = teamNames.Count;
-                for(int i = 0;i<n;i++)
-				{
-                    invitations[i].teamName = teamNames[i];
-				}*/
 
                 foreach(Invitation invitation in invitations)
 				{
@@ -223,7 +211,7 @@ namespace AUBTimeManagementApp.Service.Storage
                 command.Parameters.Clear(); dataReader.Close();
                 sqlConnection.Close(); return invitations;
             }
-            catch (Exception exception) { Console.WriteLine("GetInvittaions: " + exception.Message); throw; }
+            catch (Exception exception) { Console.WriteLine("GetInvitations: " + exception.Message); throw; }
         }
 
         /// <summary>
