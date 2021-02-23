@@ -1,5 +1,5 @@
 # Time-Management-App
-A desktop application that manages the events and activities taking place at AUB.
+A desktop application that manages events and activities.
 
 To run the application:
 1) Server Project -> Service -> Storage -> ConnectionUtil -> set path = the directory in your computer where AUBTimeManagementApp\\Server\\Service\\Storage is present.
