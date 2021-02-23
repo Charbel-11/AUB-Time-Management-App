@@ -1,4 +1,4 @@
-# AUB-Time-Management-App
+# Time-Management-App
 A desktop application that manages the events and activities taking place at AUB.
 
 To run the application:
